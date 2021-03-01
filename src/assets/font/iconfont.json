@@ -1,0 +1,44 @@
+{
+  "id": "2392123",
+  "name": "paperupload",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1957050",
+      "name": "toggle",
+      "font_class": "toggle",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "15061832",
+      "name": "account",
+      "font_class": "account1",
+      "unicode": "e678",
+      "unicode_decimal": 59000
+    },
+    {
+      "icon_id": "1058101",
+      "name": "Password",
+      "font_class": "password",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "13932653",
+      "name": "account",
+      "font_class": "account",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "837117",
+      "name": "phone",
+      "font_class": "phone",
+      "unicode": "e7ae",
+      "unicode_decimal": 59310
+    }
+  ]
+}
