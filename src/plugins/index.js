@@ -1,4 +1,4 @@
-import { Input,Button,Radio,Upload,RadioGroup,Tree,Table,TableColumn } from 'element-ui'
+import { Input,Button,Radio,Upload,RadioGroup,Tree,Table,TableColumn,Loading,Card,Row,Col } from 'element-ui'
 const element = {
   install: function (Vue) {
     
@@ -10,6 +10,10 @@ const element = {
     Vue.use(Tree)
     Vue.use(Table)
     Vue.use(TableColumn)
+    Vue.use(Loading)
+    Vue.use(Card)
+    Vue.use(Row)
+    Vue.use(Col)
   }
 }
 export default element

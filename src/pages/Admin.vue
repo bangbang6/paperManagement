@@ -1,28 +1,19 @@
 <template>
-  <div class="fileManagement">
-    <div class="left-wrapper">
+  <div class="admin">
+    <admin-number></admin-number>
+    <div class="wrapper">
       <div class="title-wrapper">
         <div class="line"></div>
-        <div class="title">上传文件</div>
-      </div>
-      <div class="left">
-        <FileUpload></FileUpload>
-      </div>
-    </div>
-
-    <div class="right">
-      <div class="title-wrapper">
-        <div class="line"></div>
-        <div class="title">我的论文</div>
+        <div class="title">分类统计</div>
       </div>
       <div class="my-paper">
-        <el-tree :data="paperData" @node-click="handleNodeClick">
+        <el-tree :data="paperData">
           <div slot-scope="{node,data}" class="item-wrapper">
-            <div class="catrgory-item" v-if="node.level === 1">
+            <div class="catrgory-item" v-if="node.level === 1 || node.level === 2">
               <div class="label">{{data.label}}</div>
-              <div class="number">{{+data.children.length}}</div>
+              <div class="number">{{data.children?+data.children.length : 0}}</div>
             </div>
-            <div v-if="node.level === 2" class="paper-item">
+            <div v-if="node.level === 3" class="paper-item">
               <div class="paper-name">{{data.name}}</div>
               <div class="author-wrapper">
                 <div v-for="item in data.authors" :key="item.id" class="author">{{item.name}}</div>
@@ -41,25 +32,34 @@
 </template>
  
 <script>
-import FileUpload from './Fileupload'
+import AdminNumber from '../components/AdminNumber'
 export default {
+  components: {
+    AdminNumber
+  },
   data () {
     return {
-
       paperData: [{
         level: 1,
-        label: '一作',
+        label: '安全组',
 
         children: [{
 
           level: 2,
-          name: "数据研究概论",
-          authors: [
-            { name: '鹿晗', id: 0 }, { name: '王一博', id: 1 }
-          ]
+          label: "A类",
+
+          children: [{
+            level: 3,
+            label: "A类",
+            name: "数据研究概论",
+            authors: [
+              { name: '鹿晗', id: 0 }, { name: '王一博', id: 1 }
+            ]
+          }],
+
         }, {
 
-
+          label: "B类",
           level: 2,
           name: "数据研究概论2",
           authors: [
@@ -69,7 +69,7 @@ export default {
         }]
       }, {
         level: 1,
-        label: '二作',
+        label: '系统组',
         children: [{
 
           level: 2,
@@ -77,72 +77,24 @@ export default {
         }]
       }, {
         level: 1,
-        label: '通讯',
+        label: '分布式',
         children: [{
 
           level: 2
         }]
       }],
     }
-  },
-  methods: {
-    /*  renderContent (h, { node, data }) {
-       console.log('data', data);
-       if (node.level === 1) {
-         return (
-           <span>{node.label}</span>
-         )
-       } else if (node.level === 2) {
- 
-         return (
-           <div class='paper-item'>
- 
-             <i class="el-icon-edit"></i>
- 
- 
-           </div>
-         )
- 
-       }
-     }, */
-    handleNodeClick () {
-
-    }
-  },
-  components: {
-    FileUpload
   }
 }
 </script>
  
 <style lang="scss" scoped>
-.fileManagement {
+.admin {
   width: 60%;
   margin-left: 20%;
-  margin-top: 10px;
-  .left-wrapper {
-    width: 100%;
-    .title-wrapper {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      box-sizing: border-box;
-      padding-left: 5px;
-      .line {
-        background-color: rgb(64, 158, 255);
-        height: 20px;
-        width: 2px;
-      }
-      .title {
-        margin-left: 5px;
-      }
-    }
-    .left {
-    }
-  }
-  .right {
-    flex: 1;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  .wrapper {
+    margin-top: 20px;
     .title-wrapper {
       height: 50px;
       display: flex;
@@ -198,4 +150,3 @@ export default {
   }
 }
 </style>
-

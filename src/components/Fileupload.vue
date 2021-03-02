@@ -1,44 +1,51 @@
 <template>
   <div class="fileupload">
-    <div class="channel">
-      <el-radio-group v-model="channel">
-        <el-radio-button
-          class="channel-btn"
-          v-for="item in channels"
-          :key="item.id"
-          :label="item.channelName"
-          size="sm"
-        ></el-radio-button>
-      </el-radio-group>
-    </div>
     <div class="paper-info">
-      <div class="input">
-        <span>论文编号：</span>
-        <el-input v-model="paper.no"></el-input>
+      <div class="left">
+        <div class="input">
+          <span>论文编号:</span>
+          <el-input v-model="paper.paperNo"></el-input>
+        </div>
+        <div class="input">
+          <span>论文标题:</span>
+          <el-input v-model="paper.name"></el-input>
+        </div>
+
+        <div class="input">
+          <span>论文状态:</span>
+          <div>
+            <el-radio v-model="paper.paperStatus" label="1">已收录</el-radio>
+            <el-radio v-model="paper.paperStatus" label="2">未出版</el-radio>
+          </div>
+        </div>
       </div>
-      <div class="input">
-        论文编号：
-        <el-input v-model="paper.no"></el-input>
+      <div class="right">
+        <div class="input">
+          <span>期刊编号:</span>
+          <el-input v-model="paper.qikanNo"></el-input>
+        </div>
+        <div class="input">
+          <span>期刊等级:</span>
+          <el-input v-model="paper.qikanLevel"></el-input>
+        </div>
+        <div class="input">
+          <span>期刊页码:</span>
+          <el-input v-model="paper.page"></el-input>
+        </div>
       </div>
+    </div>
+    <div class="author">
       <div class="input">
-        论文标题
-        <el-input v-model="paper.no"></el-input>
-      </div>
-      <div class="input">
-        期刊编号
-        <el-input v-model="paper.no"></el-input>
-      </div>
-      <div class="input">
-        所属期刊
-        <el-input v-model="paper.no"></el-input>
-      </div>
-      <div class="input">
-        期刊等级
-        <el-input v-model="paper.no"></el-input>
-      </div>
-      <div class="input">
-        期刊页码
-        <el-input v-model="paper.no"></el-input>
+        <span>论文作者:</span>
+
+        <el-input
+          v-for="(item,index) in paper.authors"
+          :key="index"
+          v-model="paper.authors[index]"
+          class="authorInput"
+          :placeholder="(index+1)"
+        ></el-input>
+        <i class="iconfont" @click="addAuthor">&#xe612;</i>
       </div>
     </div>
     <el-upload
@@ -72,8 +79,15 @@ export default {
       loading: false,
       channels: [],
       channel: 'channel1',
+
       paper: {
-        no: ''
+        paperNo: '',
+        name: "",
+        page: "",
+        qikanLevel: "",
+        qikanNo: "",
+        paperStatus: '1',
+        authors: ['']
       }
     }
   },
@@ -119,6 +133,11 @@ export default {
 
       this.$refs.upload.abort(file);
     },
+    addAuthor () {
+      this.paper.authors.push('')
+    },
+
+
 
 
   },
@@ -142,24 +161,65 @@ export default {
       margin-right: 20px;
     }
   }
-  .paper-info {
-    display: flex;
-    flex-wrap: wrap;
+  .author {
     .input {
-      display: flex;
-      width: 200px;
+      width: 100%;
       font-size: 14px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
       span {
         display: inline-block;
-        width: 100px;
+        width: 80px;
+        margin-top: 10px;
       }
       .el-input {
-        height: 20px;
-        .el-input__inner {
-          height: 20px;
+        width: 100px;
+      }
+      .authorInput {
+        padding-right: 10px;
+        margin-top: 10px;
+
+        box-sizing: border-box;
+      }
+      .iconfont {
+        margin-top: 10px;
+        margin-left: 10px;
+        cursor: pointer;
+        color: rgb(64, 158, 255);
+
+        font-size: 18px;
+      }
+    }
+  }
+  .paper-info {
+    display: flex;
+
+    justify-content: space-between;
+    .left,
+    .right {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .input {
+        width: 100%;
+        font-size: 14px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        span {
+          display: inline-block;
+          width: 80px;
+        }
+        .el-input {
+          width: 200px;
         }
       }
     }
+  }
+  .upload-demo {
+    margin-top: 20px;
   }
 }
 </style>

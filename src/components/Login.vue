@@ -17,7 +17,7 @@
           <i slot="prefix" class="iconfont">&#xe663;</i>
         </el-input>
       </div>
-      <el-button type="primary" class="btn">登录</el-button>
+      <el-button type="primary" class="btn" @click="login">登录</el-button>
       <div class="register-wrapper">
         <div class="register">没有账号?去注册</div>
       </div>
@@ -44,6 +44,11 @@ export default {
   methods: {
     toggle () {
       this.role = (this.role + 1) % 2
+    },
+    login () {
+      if (this.role === 1) {
+        this.$router.push('/admin')
+      }
     }
   }
 }
