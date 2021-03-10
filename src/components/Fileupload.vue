@@ -36,16 +36,42 @@
     </div>
     <div class="author">
       <div class="input">
-        <span>论文作者:</span>
-
-        <el-input
-          v-for="(item,index) in paper.authors"
-          :key="index"
-          v-model="paper.authors[index]"
-          class="authorInput"
-          :placeholder="(index+1)"
-        ></el-input>
-        <i class="iconfont" @click="addAuthor">&#xe612;</i>
+        <span class="title">论文作者:</span>
+        <div class="writter-inner">
+          <div class="yizuo">
+            <span>一作:</span>
+            <el-input
+              v-for="(item,index) in paper.authors.yizuo"
+              :key="index"
+              v-model="paper.authors.yizuo[index]"
+              class="authorInput"
+              :placeholder="(index+1)"
+            ></el-input>
+            <i class="iconfont" @click="addAuthor(0)">&#xe612;</i>
+          </div>
+          <div class="tongxun">
+            <span>通讯:</span>
+            <el-input
+              v-for="(item,index) in paper.authors.tongxun"
+              :key="index"
+              v-model="paper.authors.tongxun[index]"
+              class="authorInput"
+              :placeholder="(index+1)"
+            ></el-input>
+            <i class="iconfont" @click="addAuthor(1)">&#xe612;</i>
+          </div>
+          <div class="yizuo">
+            <span>其他:</span>
+            <el-input
+              v-for="(item,index) in paper.authors.others"
+              :key="index"
+              v-model="paper.authors.others[index]"
+              class="authorInput"
+              :placeholder="(index+1)"
+            ></el-input>
+            <i class="iconfont" @click="addAuthor(2)">&#xe612;</i>
+          </div>
+        </div>
       </div>
     </div>
     <el-upload
@@ -87,7 +113,11 @@ export default {
         qikanLevel: "",
         qikanNo: "",
         paperStatus: '1',
-        authors: ['']
+        authors: {
+          yizuo: [''],
+          tongxun: [""],
+          others: ['']
+        }
       }
     }
   },
@@ -133,8 +163,15 @@ export default {
 
       this.$refs.upload.abort(file);
     },
-    addAuthor () {
-      this.paper.authors.push('')
+    addAuthor (index) {
+      //index 表示是哪个类的作者正在添加
+      if (index === 0) {
+        this.paper.authors.yizuo.push('')
+      } else if (index === 1) {
+        this.paper.authors.tongxun.push('')
+      } else this.paper.authors.others.push('')
+
+      console.log('authors', this.paper.authors);
     },
 
 
@@ -166,29 +203,35 @@ export default {
       width: 100%;
       font-size: 14px;
       display: flex;
-      align-items: center;
+      // align-items: center;
+
       flex-wrap: wrap;
+      .title {
+        margin-top: 15px;
+        width: 80px;
+      }
       span {
         display: inline-block;
-        width: 80px;
-        margin-top: 10px;
+        width: 50px;
       }
-      .el-input {
-        width: 100px;
-      }
-      .authorInput {
-        padding-right: 10px;
-        margin-top: 10px;
+      .writter-inner {
+        .el-input {
+          width: 100px;
+        }
+        .authorInput {
+          padding-right: 10px;
+          margin-top: 10px;
 
-        box-sizing: border-box;
-      }
-      .iconfont {
-        margin-top: 10px;
-        margin-left: 10px;
-        cursor: pointer;
-        color: rgb(64, 158, 255);
+          box-sizing: border-box;
+        }
+        .iconfont {
+          margin-top: 10px;
+          margin-left: 10px;
+          cursor: pointer;
+          color: rgb(64, 158, 255);
 
-        font-size: 18px;
+          font-size: 18px;
+        }
       }
     }
   }

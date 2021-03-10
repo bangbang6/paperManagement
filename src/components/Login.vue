@@ -48,6 +48,9 @@ export default {
     login () {
       if (this.role === 1) {
         this.$router.push('/admin')
+        localStorage.setItem('role', 1)
+      } else {
+        localStorage.setItem('role', 0)
       }
     }
   }

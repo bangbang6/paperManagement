@@ -40,8 +40,8 @@
       </div>
       <div class="paperNum">
         <div class="num-item">一作作文数:{{firstNum}}</div>
-        <div class="num-item">二作作文数:{{secondNum}}</div>
-        <div class="num-item">通讯作文数:{{ThirdNum}}</div>
+        <div class="num-item">通讯作文数:{{secondNum}}</div>
+        <div class="num-item">其他:{{ThirdNum}}</div>
       </div>
     </div>
   </div>

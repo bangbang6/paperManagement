@@ -1,7 +1,6 @@
 <template>
-  <div class="main">
-    <Head :role='0'></Head>
-
+  <div class="admin-main">
+    <Head :role='1'></Head>
     <router-view></router-view>
   </div>
 </template>
@@ -21,7 +20,7 @@ export default {
 </script>
  
 <style lang="scss" scoped>
-.main {
+.admin-main {
   width: 100%;
 }
 </style>

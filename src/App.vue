@@ -1,19 +1,15 @@
 <template>
   <div id="app">
-    <Head></Head>
-    <Main></Main>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Main from './pages/Main'
-import Head from './components/Head'
+
 
 export default {
   name: 'App',
-  components: {
-    Main, Head
-  }
+
 }
 </script>
 <style lang="scss" scoped>

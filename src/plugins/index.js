@@ -1,4 +1,4 @@
-import { Input,Button,Radio,Upload,RadioGroup,Tree,Table,TableColumn,Loading,Card,Row,Col } from 'element-ui'
+import { Input,Button,Radio,Upload,RadioGroup,Tree,Table,TableColumn,Loading,Card,Row,Col,DatePicker,Tooltip,Popover,TabPane,Tabs,Checkbox,Select,Option } from 'element-ui'
 const element = {
   install: function (Vue) {
     
@@ -14,6 +14,14 @@ const element = {
     Vue.use(Card)
     Vue.use(Row)
     Vue.use(Col)
+    Vue.use(DatePicker)
+    Vue.use(Tooltip)
+    Vue.use(Popover)
+    Vue.use(TabPane)
+    Vue.use(Tabs)
+    Vue.use(Checkbox)
+    Vue.use(Select)
+    Vue.use(Option)
   }
 }
 export default element

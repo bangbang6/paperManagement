@@ -22,15 +22,26 @@
               <div class="label">{{data.label}}</div>
               <div class="number">{{+data.children.length}}</div>
             </div>
-            <div v-if="node.level === 2" class="paper-item">
+            <div
+              v-if="node.level === 2"
+              class="paper-item"
+              @click="jumpToPaperDetail(node.data.paperId)"
+            >
               <div class="paper-name">{{data.name}}</div>
               <div class="author-wrapper">
                 <div v-for="item in data.authors" :key="item.id" class="author">{{item.name}}</div>
               </div>
 
               <div class="operation">
-                <i class="el-icon-download"></i>
-                <i class="el-icon-edit"></i>
+                <el-tooltip content="未发布" placement="bottom" effect="light" v-if="data.status">
+                  <i class="el-icon-warning-outline" style="color:red"></i>
+                </el-tooltip>
+                <el-tooltip content="下载" placement="bottom" effect="light">
+                  <i class="el-icon-download"></i>
+                </el-tooltip>
+                <el-tooltip content="编辑" placement="bottom" effect="light">
+                  <i class="el-icon-edit"></i>
+                </el-tooltip>
               </div>
             </div>
           </div>
@@ -46,46 +57,63 @@ export default {
   data () {
     return {
 
-      paperData: [{
-        level: 1,
-        label: '一作',
+      paperData: [
+        {
+          level: 1,
+          label: '一作',
 
-        children: [{
+          children: [{
+            status: 0,
+            level: 2,
+            name: "数据研究概论",
+            paperId: 1,
+            authors: [
+              { name: '鹿晗', id: 0 }, { name: '王一博', id: 1 }
+            ]
+          }, {
+            status: 1,
 
-          level: 2,
-          name: "数据研究概论",
-          authors: [
-            { name: '鹿晗', id: 0 }, { name: '王一博', id: 1 }
-          ]
+            level: 2,
+            name: "数据研究概论2",
+            authors: [
+              { name: '鹿晗2', id: 0 }, { name: '王一博2', id: 1 }
+            ]
+
+          }]
         }, {
+          level: 1,
+          label: '通讯',
+          children: [{
 
+            level: 2,
 
-          level: 2,
-          name: "数据研究概论2",
-          authors: [
-            { name: '鹿晗2', id: 0 }, { name: '王一博2', id: 1 }
-          ]
+          }]
+        }, {
+          level: 1,
+          label: '其他',
+          children: [{
 
-        }]
-      }, {
-        level: 1,
-        label: '二作',
-        children: [{
+            level: 2
+          }]
+        }, {
+          level: 1,
+          label: '未发布',
+          children: [{
 
-          level: 2,
-
-        }]
-      }, {
-        level: 1,
-        label: '通讯',
-        children: [{
-
-          level: 2
-        }]
-      }],
+            level: 2,
+            name: "数据研究概论",
+            paperId: 10,
+          }],
+        }
+      ]
     }
   },
   methods: {
+    jumpToPaperDetail (id) {
+      console.log('id', id);
+      localStorage.setItem('paperId', id)
+      this.$router.push('/paperDetail')
+    },
     /*  renderContent (h, { node, data }) {
        console.log('data', data);
        if (node.level === 1) {
@@ -119,7 +147,6 @@ export default {
 .fileManagement {
   width: 60%;
   margin-left: 20%;
-  margin-top: 10px;
   .left-wrapper {
     width: 100%;
     .title-wrapper {
