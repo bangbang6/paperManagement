@@ -200,7 +200,7 @@ export default {
           }]
         }, {
           level: 1,
-          label: '前100',
+          label: '期刊',
           children: [{
 
             level: 2,
@@ -208,7 +208,7 @@ export default {
           }]
         }, {
           level: 1,
-          label: '英文',
+          label: '普通会议',
           children: [{
 
             level: 2

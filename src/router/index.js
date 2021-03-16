@@ -1,12 +1,17 @@
 import VueRouter from 'vue-router'
 
-import User  from '../components/User'
-import Login  from '../components/Login'
-import Admin  from '../components/Admin'
-import PaperRequest  from '../components/PaperRequest'
-import EditMeeting  from '../components/EditMeeting'
-import fileManagement  from '../components/FileManagement'
+import User  from '../components/doctor/User'
+import Login  from '../components/login/Login'
+import Register  from '../components/login/Register'
+import Admin  from '../components/admin/Admin'
+import MyFile  from '../components/doctor/MyFile'
+import PaperRequest  from '../components/admin/PaperRequest'
+import EditMeeting  from '../components/admin/EditMeeting'
+import fileManagement  from '../components/doctor/FileManagement'
+import FindRepeat  from '../components/repeat/FindRepeat'
 import AdminMain  from '../pages/AdminMain'
+import repeatMain  from '../pages/RepeatMain'
+import undoPaperdetail  from '../pages/UndoPaperdetail'
 import Main  from '../pages/Main'
 
 import PaperDetail  from '../pages/PaperDetail'
@@ -34,9 +39,19 @@ const routes = [
             component:Login
           },
           {
+            path:"/register",
+            name:"register",
+            component:Register
+          },
+          {
             path:"/fileManagement",
             name:"fileManagement",
             component:fileManagement
+          },
+          {
+            path:"/myfile",
+            name:"myfile",
+            component:MyFile
           },
         ]
       },
@@ -66,12 +81,30 @@ const routes = [
         ]
       },
       
-     
+      {
+        path:"/repeat",
+        name:"repeatMain",
+        component:repeatMain,
+        children:[
+          {
+            path:"/repeat",
+            name:"findRepeat",
+            component:FindRepeat,
+
+          },
+        ]
+      },
       {
         path:"/paperDetail",
         name:"paperDetail",
         component:PaperDetail
       },
+      {
+        path:"/undoPaperdetail",
+        name:"undoPaperdetail",
+        component:undoPaperdetail
+      },
+      
 
 ]
 

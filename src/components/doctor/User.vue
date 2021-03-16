@@ -14,25 +14,60 @@
       </div>
       <div class="right">
         <div class="name">
-          <el-input v-model="name" placeholder="姓名"></el-input>
+          <span>中文名:</span>
+          <span>{{chineseName}}</span>
+        </div>
+        <div class="name">
+          <span>英文名:</span>
+          <span>{{engishName}}</span>
+        </div>
+        <div class="sex">
+          <span>性别:</span>
+          <span>{{sex}}</span>
         </div>
         <div class="tel">
-          <el-input v-model="tel" placeholder="联系方式"></el-input>
+          <span>邮箱:</span>
+          <span>{{email}}</span>
         </div>
         <div class="work">
-          <el-input v-model="work" placeholder="所在组别"></el-input>
-        </div>
-        <div class="sex-wrapper">
-          <div class="sex">性别:</div>
-          <el-radio v-model="radio" label="1">男</el-radio>
-          <el-radio v-model="radio" label="2">女</el-radio>
+          <span>所在单位:</span>
+          <span>{{work}}</span>
         </div>
 
-        <div class="save">
-          <el-button type="primary">保存修改</el-button>
+        <div class="change">
+          <el-button type="primary" @click=" dialogVisible = true">修改</el-button>
         </div>
       </div>
     </div>
+    <el-dialog title="修改信息" :visible.sync="dialogVisible" width="30%">
+      <div class="change-message">
+        <div class="name">
+          <span>中文名:</span>
+          <el-input v-model="chineseName"></el-input>
+        </div>
+        <div class="name">
+          <span>英文名:</span>
+          <el-input v-model="engishName"></el-input>
+        </div>
+        <div class="sex">
+          <span>性别:</span>
+          <el-input v-model="sex"></el-input>
+        </div>
+        <div class="tel">
+          <span>邮箱:</span>
+          <el-input v-model="email"></el-input>
+        </div>
+        <div class="work">
+          <span>所在单位:</span>
+
+          <el-input v-model="work"></el-input>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
     <div class="paper">
       <div class="title-wrapper">
         <div class="line"></div>
@@ -51,14 +86,17 @@
 export default {
   data () {
     return {
-      imgSrc: require("../../public/avatual.png"),
-      name: "",
-      tel: "",
+      imgSrc: require("../../../public/avatual.png"),
+      chineseName: "廖振邦",
+      engishName: "",
+      email: "1578015790@hust.com",
       work: "",
       radio: '1',
       firstNum: 666,
       secondNum: 666,
       ThirdNum: 666,
+      dialogVisible: false,
+      sex: ""
     }
 
   },
@@ -143,17 +181,12 @@ export default {
       .name,
       .tel,
       .work,
-      .sex-wrapper,
-      .save {
+      .sex,
+      .change {
         margin-top: 20px;
-      }
-      .sex-wrapper {
-        display: flex;
-        align-items: center;
-      }
-      .sex {
-        padding-right: 20px;
-        box-sizing: border-box;
+        span:nth-child(2) {
+          margin-left: 4px;
+        }
       }
     }
   }
@@ -181,6 +214,21 @@ export default {
         margin-right: 40px;
       }
     }
+  }
+}
+</style>
+<style scoped lang='scss'>
+.change-message {
+  .name,
+  .tel,
+  .work,
+  .sex {
+    span {
+      display: inline-block;
+      width: 80px;
+    }
+    margin-bottom: 10px;
+    display: flex;
   }
 }
 </style>

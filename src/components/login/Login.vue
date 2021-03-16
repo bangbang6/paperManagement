@@ -4,7 +4,7 @@
       <div class="info-wrapper">
         <i class="iconfont">&#xe678;</i>
         <div class="info">{{info}}</div>
-        <i class="iconfont toggle" @click="toggle">&#xe624;</i>
+        <!--  <i class="iconfont toggle" @click="toggle">&#xe624;</i> -->
       </div>
 
       <div class="account">
@@ -17,9 +17,14 @@
           <i slot="prefix" class="iconfont">&#xe663;</i>
         </el-input>
       </div>
+      <div class="role">
+        <el-radio v-model="role" label="0">老师</el-radio>
+        <el-radio v-model="role" label="1">管理员</el-radio>
+        <el-radio v-model="role" label="2">查重</el-radio>
+      </div>
       <el-button type="primary" class="btn" @click="login">登录</el-button>
       <div class="register-wrapper">
-        <div class="register">没有账号?去注册</div>
+        <div class="register" @click="$router.push('/register')">没有账号?去注册</div>
       </div>
     </div>
   </div>
@@ -30,7 +35,7 @@ export default {
   data () {
     return {
 
-      role: 0,
+      role: '0',
       account: "",
       password: "",
       name: ""
@@ -38,19 +43,26 @@ export default {
   },
   computed: {
     info () {
-      return this.role === 0 ? '用户登录' : "管理登录"
+      return this.role === '0' ? '老师登录' : this.role === '1' ? "管理登录" : "查重登录"
     }
   },
   methods: {
-    toggle () {
-      this.role = (this.role + 1) % 2
-    },
+    /*  toggle () {
+       this.role = (this.role + 1) % 2
+     }, */
     login () {
-      if (this.role === 1) {
+      if (this.role === '0') {
+        this.$router.push('/userCenter')
+        localStorage.setItem('role', '0')
+      } else if (this.role === '1') {
         this.$router.push('/admin')
-        localStorage.setItem('role', 1)
+
+        localStorage.setItem('role', '1')
       } else {
-        localStorage.setItem('role', 0)
+        this.$router.push('/repeat')
+
+        localStorage.setItem('role', '2')
+
       }
     }
   }
@@ -61,7 +73,7 @@ export default {
 .login-wrapper {
   width: 100%;
   height: 600px;
-  background: url('../assets/background.jpeg');
+  background: url('../../assets/background.jpeg');
   background-size: cover;
   justify-content: flex-end;
 
@@ -106,6 +118,14 @@ export default {
         color: black;
       }
     }
+    .role {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      height: 20px;
+      margin-top: 20px;
+      margin-left: 10px;
+    }
     .btn {
       width: 100%;
       margin-top: 20px;
@@ -118,6 +138,7 @@ export default {
       .register {
         color: red;
         font-size: 14px;
+        cursor: pointer;
       }
     }
   }

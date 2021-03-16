@@ -1,79 +1,5 @@
 <template>
   <div class="fileupload">
-    <div class="paper-info">
-      <div class="left">
-        <div class="input">
-          <span>论文编号:</span>
-          <el-input v-model="paper.paperNo"></el-input>
-        </div>
-        <div class="input">
-          <span>论文标题:</span>
-          <el-input v-model="paper.name"></el-input>
-        </div>
-
-        <div class="input">
-          <span>论文状态:</span>
-          <div>
-            <el-radio v-model="paper.paperStatus" label="1">已收录</el-radio>
-            <el-radio v-model="paper.paperStatus" label="2">未出版</el-radio>
-          </div>
-        </div>
-      </div>
-      <div class="right">
-        <div class="input">
-          <span>期刊编号:</span>
-          <el-input v-model="paper.qikanNo"></el-input>
-        </div>
-        <div class="input">
-          <span>期刊等级:</span>
-          <el-input v-model="paper.qikanLevel"></el-input>
-        </div>
-        <div class="input">
-          <span>期刊页码:</span>
-          <el-input v-model="paper.page"></el-input>
-        </div>
-      </div>
-    </div>
-    <div class="author">
-      <div class="input">
-        <span class="title">论文作者:</span>
-        <div class="writter-inner">
-          <div class="yizuo">
-            <span>一作:</span>
-            <el-input
-              v-for="(item,index) in paper.authors.yizuo"
-              :key="index"
-              v-model="paper.authors.yizuo[index]"
-              class="authorInput"
-              :placeholder="(index+1)"
-            ></el-input>
-            <i class="iconfont" @click="addAuthor(0)">&#xe612;</i>
-          </div>
-          <div class="tongxun">
-            <span>通讯:</span>
-            <el-input
-              v-for="(item,index) in paper.authors.tongxun"
-              :key="index"
-              v-model="paper.authors.tongxun[index]"
-              class="authorInput"
-              :placeholder="(index+1)"
-            ></el-input>
-            <i class="iconfont" @click="addAuthor(1)">&#xe612;</i>
-          </div>
-          <div class="yizuo">
-            <span>其他:</span>
-            <el-input
-              v-for="(item,index) in paper.authors.others"
-              :key="index"
-              v-model="paper.authors.others[index]"
-              class="authorInput"
-              :placeholder="(index+1)"
-            ></el-input>
-            <i class="iconfont" @click="addAuthor(2)">&#xe612;</i>
-          </div>
-        </div>
-      </div>
-    </div>
     <el-upload
       class="upload-demo"
       ref="upload"
@@ -106,19 +32,7 @@ export default {
       channels: [],
       channel: 'channel1',
 
-      paper: {
-        paperNo: '',
-        name: "",
-        page: "",
-        qikanLevel: "",
-        qikanNo: "",
-        paperStatus: '1',
-        authors: {
-          yizuo: [''],
-          tongxun: [""],
-          others: ['']
-        }
-      }
+
     }
   },
 
@@ -163,16 +77,7 @@ export default {
 
       this.$refs.upload.abort(file);
     },
-    addAuthor (index) {
-      //index 表示是哪个类的作者正在添加
-      if (index === 0) {
-        this.paper.authors.yizuo.push('')
-      } else if (index === 1) {
-        this.paper.authors.tongxun.push('')
-      } else this.paper.authors.others.push('')
 
-      console.log('authors', this.paper.authors);
-    },
 
 
 

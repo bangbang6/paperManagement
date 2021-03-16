@@ -1,27 +1,26 @@
 <template>
-  <div class="main">
-    <Head :role="0"></Head>
+  <div class="repeat-main">
+    <Head></Head>
     <router-view></router-view>
   </div>
 </template>
  
 <script>
-import Head from '../components/Head'
-
+import Head from '@/components/repeat/Head'
 export default {
-  components: {
-    Head
-  },
   data () {
     return {
     }
+  },
+  components: {
+    Head
   }
-
+  
 }
 </script>
  
 <style lang="scss" scoped>
-.main {
+.repeat-main {
   width: 100%;
 }
 </style>

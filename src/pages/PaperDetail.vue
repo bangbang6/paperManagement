@@ -3,99 +3,121 @@
     <el-card shadow="always">
       <div class="title">
         <el-button type="primary" size="mini" @click="back">返回</el-button>
-        <span>{{paperName}}</span>
+        <span>{{paper.name}}</span>
         <div></div>
       </div>
       <div class="paper-info">
-        <div class="input">
-          <span class="key">论文编号:</span>
+        <div class="left">
+          <div class="zaiyao">
+            <span>摘要:</span>
+            <div>{{paper.zaiyao}}</div>
+          </div>
+          <div class="authors">
+            <span>作者:</span>
+            <el-table :data="paper.authorData" size="mini">
+              <el-table-column label="中文名" prop="chineseName"></el-table-column>
+              <el-table-column label="英文名" prop="engishName"></el-table-column>
+              <el-table-column label="邮箱" prop="email"></el-table-column>
+              <el-table-column label="所在单位" prop="work"></el-table-column>
+              <el-table-column label="通讯" width="60" prop="connect"></el-table-column>
+              <el-table-column label="一作" width="60" prop="first"></el-table-column>
+            </el-table>
+          </div>
 
-          <span>{{paperNo}}</span>
-        </div>
-
-        <div class="input status">
-          <span class="key">论文状态:</span>
-
-          <span>
-            {{paperStatusWord}}
-            <el-popover placement="right" width="240" trigger="manual" v-model="visible">
-              <div class="right">
-                <div class="title-wrapper">
-                  <div class="title">期刊信息</div>
-                  <div class="delete">
-                    <i
-                      class="el-icon-circle-close"
-                      style="color:red;font-size:20px"
-                      @click="visible = !visible"
-                    ></i>
-                  </div>
-                </div>
-                <div class="input">
-                  <span>期刊编号:</span>
-                  <el-input v-model="uploadPaper.qikanNo"></el-input>
-                </div>
-                <div class="input">
-                  <span>期刊等级:</span>
-                  <el-input v-model="uploadPaper.qikanLevel"></el-input>
-                </div>
-                <div class="input">
-                  <span>期刊页码:</span>
-                  <el-input v-model="uploadPaper.page"></el-input>
-                </div>
-                <div class="btn">
-                  <el-button type="primary" size="mini" @click="upload">确定</el-button>
-                </div>
-              </div>
-              <el-tooltip content="上传" placement="bottom" effect="light" slot="reference">
-                <i class="el-icon-top" v-if="paperStatus === 1 " @click="visible = !visible"></i>
-              </el-tooltip>
-            </el-popover>
-          </span>
-        </div>
-
-        <div class="input">
-          <span class="key">期刊编号:</span>
-          <span>{{qikanNo}}</span>
-        </div>
-        <div class="input">
-          <span class="key">期刊等级:</span>
-          <span>{{qikanLevel}}</span>
-        </div>
-        <div class="input">
-          <span class="key">期刊页码:</span>
-          <span>{{page}}</span>
-        </div>
-        <div class="input">
-          <span class="key">论文作者:</span>
-          <div class="writter">
-            <div class="yizuo">
-              <span class="key">一作:</span>
-              <span
-                v-for="(author,index) in authors.yizuo"
-                :key="index"
-                class="author-name"
-              >{{author}}</span>
+          <div class="input">
+            <span>发布类型:</span>
+            <div>{{meeting.selectType}}</div>
+          </div>
+          <div class="input">
+            <span>名称:</span>
+            <div>{{meeting.name}}</div>
+          </div>
+          <div class="input">
+            <span>网址:</span>
+            <div>{{meeting.com}}</div>
+          </div>
+          <div class="input">
+            <span>论文状态:</span>
+            <div>{{paper.paperStatus}}</div>
+          </div>
+          <div
+            class="meeting2-message"
+            v-if="(meeting.selectType==='1' || meeting.selectType === '3') && (meeting.name)"
+          >
+            <div class="input">
+              <span>会议:</span>
+              <div>{{meeting2.name}}</div>
             </div>
-            <div class="tongxun">
-              <span class="key">通讯:</span>
-              <span
-                v-for="(author,index) in authors.tongxun"
-                :key="index"
-                class="author-name"
-              >{{author}}</span>
+            <div class="input">
+              <span>时间:</span>
+              <div>{{meeting.time}}</div>
             </div>
-            <div class="others">
-              <span class="key">其他:</span>
-              <span
-                v-for="(author,index) in authors.others"
-                :key="index"
-                class="author-name"
-              >{{author}}</span>
+            <div class="input">
+              <span>地点:</span>
+              <div>{{address.time}}</div>
+            </div>
+          </div>
+          <div class="meeting-message" v-if="(meeting.selectType==='2') && (qikan.name)">
+            <div class="input">
+              <span>期刊:</span>
+              <div>{{qikan.name}}</div>
+            </div>
+            <div class="input">
+              <span>issn:</span>
+              <div>{{qikan.issn}}</div>
+            </div>
+            <div class="input">
+              <span>页码:</span>
+              <div>{{qikan.page}}</div>
+            </div>
+            <div class="input">
+              <span>期刊:</span>
+              <div>{{qikan.name}}</div>
+            </div>
+            <div class="input">
+              <span>doi:</span>
+              <div>{{qikan.doi}}</div>
+            </div>
+
+            <div class="input">
+              <span>年份:</span>
+              <div>{{qikan.year}}</div>
+            </div>
+            <div class="input">
+              <span>期刊:</span>
+              <div>{{qikan.name}}</div>
+            </div>
+            <div class="input">
+              <span>卷号:</span>
+              <div>{{qikan.juanhao}}</div>
+            </div>
+            <div class="input">
+              <span>期刊号:</span>
+              <div>{{qikan.qikanhao}}</div>
+            </div>
+          </div>
+          <div class="repeat" v-if="role==='2'">
+            <div class="file-result">
+              <span class="text">查重结果:</span>
+              <input type="file" />
+            </div>
+            <div class="file-rate">
+              <span class="text">查重率:</span>
+              <el-input v-model="repeat.rate"></el-input>
+            </div>
+            <div class="result">
+              <span class="text">查重通过:</span>
+              <el-radio v-model="repeat.success" label="1">是</el-radio>
+              <el-radio v-model="repeat.success" label="2">否</el-radio>
+            </div>
+            <div class="btn" style="margin-top:20px">
+              <el-button type="primary">确定</el-button>
             </div>
           </div>
         </div>
       </div>
-      <div class="operation">
+
+      <!-- <div class="operation">
         <el-card shadow="always">
           <div class="download">
             <i class="el-icon-download"></i>
@@ -108,45 +130,79 @@
             <span>预览</span>
           </div>
         </el-card>
-      </div>
+      </div>-->
     </el-card>
   </div>
 </template>
  
 <script>
+
 export default {
+
   data () {
     return {
-      paperName: "数据库系统统计",
-      paperNo: "822",
-      paperStatus: 1,
-      qikanNo: "341",
-      qikanLevel: "top80",
-      page: "14-16",
-      visible: false,
-      authors: {
-        yizuo: ['廖振邦'],
-        tongxun: ['赵文浩'],
-        others: ['卢振辉', '夏梓翼', '寓言'],
+      paper: {
+        paperNo: '',
+        name: "数据库系统概论",
+        firstCommit: true,
+
+        paperStatus: '已发布',
+        authorData: [
+          { chineseName: 'lzb' }
+
+        ],
+        zaiyao: ""
+
       },
-      uploadPaper: {
-        qikanNo: '',
-        qikanLevel: '',
-        page: ''
-      }
+      repeat: {
+        rate: "",
+        file: "",
+        success: '1'
+      },
+      meeting: {
+        endData: "",
+
+        selectType: '2',
+        options: [{
+          value: '1',
+          label: 'Top80'
+        }, {
+          value: '2',
+          label: '期刊'
+        }, {
+          value: '3',
+          label: '普通会议'
+        }],
+      },
+
+      qikan: {
+        doi: "",
+        name: "",
+        issn: "",
+        page: "",
+        year: "",
+        juanhao: "",
+        qikanhao: "",
+        zaiyao: ""
+      },
+      meeting2: {
+        name: "",
+        address: "",
+        time: "",
+        zaiyao: ""
+      },
+
     }
   },
   methods: {
     back () {
       this.$router.back()
-    },
-    upload () {
-      this.visible = !this.visible
     }
+
   },
   computed: {
-    paperStatusWord () {
-      return this.paperStatus === 0 ? "已发布" : "未发布"
+    role () {
+      return localStorage.getItem('role')
     }
   }
 }
@@ -167,41 +223,107 @@ export default {
   }
 
   .paper-info {
-    .input {
+    display: flex;
+
+    justify-content: space-between;
+    .left,
+    .right {
+      width: 100%;
       display: flex;
-      margin-top: 20px;
-      &.status {
+      flex-direction: column;
+      align-items: center;
+      .input {
+        width: 100%;
+        font-size: 14px;
+        margin-top: 10px;
+        display: flex;
         align-items: center;
-      }
-      span {
-        font-weight: normal;
-        display: inline-block;
-        height: 100%;
-        i {
-          color: rgb(64, 158, 255);
-          font-size: 16px;
-          cursor: pointer;
+        span {
+          display: inline-block;
+          width: 80px;
+        }
+        .el-input {
+          width: 200px;
         }
       }
-
-      span.key {
-        display: inline-block;
-        color: black;
-        font-weight: bold;
-
-        width: 80px;
+      .meeting2-message,
+      .meeting-message {
+        width: 100%;
+        font-size: 14px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        span {
+          display: inline-block;
+          width: 80px;
+        }
       }
-      .writter {
-        .yizuo,
-        .others,
-        .tongxun {
-          margin-bottom: 10px;
-          .key {
-            font-weight: normal;
-            width: 50px;
+      .publish-message {
+        width: 100%;
+        font-size: 14px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        span {
+          display: inline-block;
+          width: 80px;
+        }
+        .meeting-wrapper {
+          display: flex;
+          flex-direction: column;
+
+          .el-input {
+            width: 240px;
+            margin-top: 20px;
           }
-          .author-name {
-            margin-right: 10px;
+        }
+      }
+      .authors,
+      .zaiyao {
+        width: 100%;
+        font-size: 14px;
+        margin-top: 20px;
+        display: flex;
+        span {
+          display: inline-block;
+          width: 80px;
+          margin-top: 18px;
+        }
+      }
+      .repeat {
+        width: 100%;
+        font-size: 14px;
+        margin-top: 10px;
+        .file-result {
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          .text {
+            width: 80px;
+            display: inline-block;
+          }
+          .el-input {
+            width: 140px;
+          }
+        }
+        .file-rate {
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          .text {
+            width: 80px;
+            display: inline-block;
+          }
+          .el-input {
+            width: 140px;
+          }
+        }
+        .result {
+          margin-top: 10px;
+
+          .text {
+            width: 80px;
+            display: inline-block;
           }
         }
       }
@@ -209,7 +331,7 @@ export default {
   }
   .operation {
     display: flex;
-    margin-top: 100px;
+    margin-top: 20px;
     cursor: pointer;
     .el-card {
       width: 20%;
@@ -273,6 +395,18 @@ export default {
     button {
       float: right;
     }
+  }
+}
+</style>
+<style scoped lang='scss'>
+.append {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  .add {
+    font-size: 24px;
+    color: rgb(64, 158, 255);
   }
 }
 </style>
