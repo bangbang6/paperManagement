@@ -19,7 +19,7 @@
 
           <div class="authors">
             <span>作者:</span>
-            <el-table :data="paper.authorData" border size="mini" @cell-click="click">
+            <el-table :data="paper.authorData" size="mini" @cell-click="click">
               <el-table-column type="index"></el-table-column>
               <el-table-column label="中文名" prop="chineseName">
                 <template slot-scope="scope">

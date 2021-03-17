@@ -8,12 +8,12 @@
         </div>-->
         <div class="input">
           <span>论文标题:</span>
-          <el-input v-model="paper.name"></el-input>
+          <el-input v-model="paper.title"></el-input>
         </div>
 
         <div class="authors">
           <span>作者:</span>
-          <el-table :data="paper.authorData" size="mini" @cell-click="click">
+          <el-table :data="paper.authors" size="mini" @cell-click="click">
             <el-table-column type="index"></el-table-column>
             <el-table-column label="中文名" prop="chineseName">
               <template slot-scope="scope">
@@ -21,10 +21,10 @@
                 <el-input v-model="scope.row.chineseName.label" v-else></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="英文名" prop="engishName">
+            <el-table-column label="英文名" prop="englishName">
               <template slot-scope="scope">
-                <div v-if="scope.row[scope.column.property].status">{{scope.row.engishName.label}}</div>
-                <el-input v-model="scope.row.engishName.label" v-else></el-input>
+                <div v-if="scope.row[scope.column.property].status">{{scope.row.englishName.label}}</div>
+                <el-input v-model="scope.row.englishName.label" v-else></el-input>
               </template>
             </el-table-column>
             <el-table-column label="邮箱" prop="email">
@@ -33,10 +33,10 @@
                 <el-input v-model="scope.row.email.label" v-else></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="所在单位" prop="work">
+            <el-table-column label="所在单位" prop="group">
               <template slot-scope="scope">
-                <div v-if="scope.row[scope.column.property].status">{{scope.row.work.label}}</div>
-                <el-input v-model="scope.row.work.label" v-else></el-input>
+                <div v-if="scope.row[scope.column.property].status">{{scope.row.group.label}}</div>
+                <el-input v-model="scope.row.group.label" v-else></el-input>
               </template>
             </el-table-column>
             <el-table-column label="通讯" width="60" prop="connect">
@@ -79,9 +79,9 @@
             </div>
 
             <el-input v-model="meeting.name" placeholder="名称"></el-input>
-            <el-input v-model="meeting.com" placeholder="网址"></el-input>
+            <el-input v-model="meeting.website" placeholder="网址"></el-input>
             <el-date-picker
-              v-model="meeting.endData"
+              v-model="meeting.conferenceDeadline"
               type="date"
               placeholder="截止日期"
               v-if="meeting.selectType === '1' || meeting.selectType ==='3'"
@@ -92,17 +92,17 @@
         <div class="input">
           <span>论文状态:</span>
           <div>
-            <el-radio v-model="paper.paperStatus" label="1">已收录</el-radio>
-            <el-radio v-model="paper.paperStatus" label="2">未收录</el-radio>
+            <el-radio v-model="paper.hasAccepted" :label="1">已收录</el-radio>
+            <el-radio v-model="paper.hasAccepted" :label="0">未收录</el-radio>
             <el-checkbox v-model="paper.firstCommit">是否为第一次投稿</el-checkbox>
           </div>
         </div>
         <Qikan
-          v-if="paper.paperStatus === '1' & (meeting.selectType === '2' )"
+          v-if="paper.hasAccepted === 1 && (meeting.selectType === 7 )"
           :qikan="fileMessage.qikan"
         ></Qikan>
         <Meeting2
-          v-if="paper.paperStatus === '1' & (meeting.selectType === '1' || meeting.selectType ==='3')"
+          v-if="paper.hasAccepted === 1 && (meeting.selectType === 1 || meeting.selectType ===2)"
           :meeting2="fileMessage.meeting2"
         ></Meeting2>
       </div>
@@ -139,7 +139,7 @@ export default {
 
     clear () {
 
-      this.paper.authorData.forEach(item => {
+      this.paper.authors.forEach(item => {
         for (let key in item) {
           if (key === 'connectStatus' || key === 'firstStatus') {
             continue
@@ -149,8 +149,7 @@ export default {
       })
     },
     click (row, column, cell, event) {
-      console.log('row', row, column, cell, event);
-      this.paper.authorData.forEach(item => {
+      this.paper.authors.forEach(item => {
         for (let key in item) {
           if (key === 'connectStatus' || key === 'firstStatus') {
             continue
@@ -162,8 +161,8 @@ export default {
       event.stopPropagation()
     },
     add () {
-      this.paper.authorData.push({ chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, work: { label: "", status: true }, connectStatus: false, firstStatus: false })
-      console.log('this.paper.authorData', this.paper.authorData);
+      this.paper.authors.push({ chineseName: { label: "", status: true }, englishName: { label: "", status: true }, email: { label: "", status: true }, group: { label: "", status: true }, connectStatus: false, firstStatus: false })
+      console.log('this.paper.authorData', this.paper.authors);
     }
   },
   watch: {
@@ -171,13 +170,21 @@ export default {
       handler (newV) {
         console.log('newV', newV);
         this.meeting.selectType2 = ''
-        this.meeting.options2 = [{
-          label: 'A类',
-          value: '类型2'
-        }, {
-          label: 'B类',
-          value: '类型1'
-        }]
+        this.meeting.options.forEach((item) => {
+
+          if (item.value === newV) {
+            this.meeting.options2 = item.children.map(item => {
+              return {
+                value: item.id,
+                id: item.id,
+                label: item.typeName.split('/')[1]
+              }
+            }
+            )
+
+          }
+        })
+
       }
 
     }

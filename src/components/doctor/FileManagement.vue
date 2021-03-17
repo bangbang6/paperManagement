@@ -7,7 +7,24 @@
       </div>
       <file-message :fileMessage="fileMessage"></file-message>
       <div class="left">
-        <FileUpload></FileUpload>
+        <div class="fileupload">
+          <el-upload
+            class="upload-demo"
+            ref="upload"
+            action
+            drag
+            multiple
+            :http-request="uploadFile"
+            :on-remove="handleRemove"
+          >
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">
+              将文件拖到此处，或
+              <em>点击上传</em>
+            </div>
+          </el-upload>
+          <div v-loading="loading" style="marginTop:20px"></div>
+        </div>
       </div>
     </div>
     <el-button type="primary" @click="submit">提交</el-button>
@@ -15,7 +32,8 @@
 </template>
  
 <script>
-import FileUpload from './Fileupload'
+import { uploadFile, uploadPaper } from '@/api/teacher'
+import { getTypeTree } from '@/api/meeting'
 import FileMessage from './FileMessage'
 
 export default {
@@ -23,63 +41,140 @@ export default {
     return {
       fileMessage: {
         qikan: {
-          doi: "",
-          name: "",
-          issn: "",
-          page: "",
-          year: "",
-          juanhao: "",
-          qikanhao: "",
-          zaiyao: ""
+          periodicalDoi: "",
+
+          periodicalIssn: "",
+          periodicalPage: "",
+          periodicalYear: "",
+          periodicalVolumeNum: "",
+          periodicalIssueNum: "",
+          paperAbstract: ""
         },
         meeting2: {
-          name: "",
-          address: "",
-          time: "",
-          zaiyao: ""
+
+          conferenceSite: "",
+          conferenceTime: "",
+          paperAbstract: ""
         },
         paper: {
-          paperNo: '',
-          name: "",
-          firstCommit: true,
+          id: '',
+          title: "",
+          firstPublish: true,
 
-          paperStatus: '1',
-          authorData: [
-            { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, work: { label: "", status: true }, connectStatus: false, firstStatus: false },
+          hasAccepted: 0,
+          authors: [
+            { chineseName: { label: "", status: true }, englishName: { label: "", status: true }, email: { label: "", status: true }, group: { label: "", status: true }, connectStatus: false, firstStatus: false },
 
           ],
 
         },
         meeting: {
-          endData: "",
+          conferenceDeadline: "",
           selectType: "",
           selectType2: "",
-          options: [{
-            value: '1',
-            label: 'Top80'
-          }, {
-            value: '2',
-            label: '期刊'
-          }, {
-            value: '3',
-            label: '普通会议'
-          }],
+          name: "",
+          website: "",
+          options: [],
+          options2: []
         },
-      }
+      },
+      loading: false,
+      fileId: ""
 
     }
   },
   methods: {
 
+    uploadFile: function (param) {
+      //let loadingInstance = this.$loading({ target: dom });
 
 
+      let fileObject = param.file;
+
+      let formData = new FormData();
+      formData.append("file", fileObject);
+
+      uploadFile(formData).then(res => {
+        console.log('file', res);
+        this.fileId = res.data.msg
+      })
+
+
+
+
+    },
+    handleRemove (file, fileList) {
+      console.log(file, fileList);
+      this.loading = false
+
+      this.$refs.upload.abort(file);
+    },
+    parse (authors) {
+      authors.forEach(author => {
+        if (author.connectStatus === true) {
+          author.authorType = 0
+        } else if (author.firstStatus === true) {
+          author.authorType = 1
+
+        } else {
+          author.authorType = 2
+        }
+      })
+      console.log('authors', authors);
+      return authors.map(author => {
+        return {
+
+          chineseName: author.chineseName.label,
+          englishName: author.englishName.label,
+          email: author.email.label,
+          group: author.group.label,
+          authorType: author.authorType
+        }
+      })
+    },
     submit () {
-      console.log(this.fileMessage.qikan);
+      /* let formData = new FormData() //通过formdata拼接数据 */
+      if (!this.fileId) {
+        return
+      }
+      console.log(this.file);
+
+      const { qikan, meeting2, paper, meeting } = this.fileMessage
+      let obj = {
+        ...qikan,
+        ...meeting2,
+        ...paper,
+        ...meeting,
+        firstPublish: paper.firstPublish ? 1 : 0,
+        authors: this.parse(paper.authors),
+        publicTypeId: 1,
+        fileId: this.fileId
+      }
+
+
+      console.log('obj', obj);
+
+      uploadPaper(obj).then(res => {
+        console.log('res', res);
+      })
     }
 
   },
   components: {
-    FileUpload, FileMessage
+    FileMessage
+  },
+  mounted () {
+    getTypeTree().then(res => {
+      console.log('res', res);
+      this.fileMessage.meeting.options = res.data.map(item => {
+        return {
+          id: item.id,
+          children: item.children ? item.children : [],
+          label: item.typeName,
+          value: item.id
+        }
+      })
+    })
   }
 }
 </script>
@@ -106,8 +201,94 @@ export default {
       }
     }
     .left {
+      .fileupload {
+        .channel {
+          width: 100%;
+          margin: 40px 0;
+          .channel-btn {
+            margin-right: 20px;
+          }
+        }
+        .author {
+          .input {
+            width: 100%;
+            font-size: 14px;
+            display: flex;
+            // align-items: center;
+
+            flex-wrap: wrap;
+            .title {
+              margin-top: 15px;
+              width: 80px;
+            }
+            span {
+              display: inline-block;
+              width: 50px;
+            }
+            .writter-inner {
+              .el-input {
+                width: 100px;
+              }
+              .authorInput {
+                padding-right: 10px;
+                margin-top: 10px;
+
+                box-sizing: border-box;
+              }
+              .iconfont {
+                margin-top: 10px;
+                margin-left: 10px;
+                cursor: pointer;
+                color: rgb(64, 158, 255);
+
+                font-size: 18px;
+              }
+            }
+          }
+        }
+        .paper-info {
+          display: flex;
+
+          justify-content: space-between;
+          .left,
+          .right {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .input {
+              width: 100%;
+              font-size: 14px;
+              margin-top: 10px;
+              display: flex;
+              align-items: center;
+              span {
+                display: inline-block;
+                width: 80px;
+              }
+              .el-input {
+                width: 200px;
+              }
+            }
+          }
+        }
+        .upload-demo {
+          margin-top: 20px;
+        }
+      }
     }
   }
 }
 </style>
 
+<style lang='scss'>
+.el-upload-dragger {
+  width: 300px;
+}
+.el-input {
+  height: 30px;
+  .el-input__inner {
+    height: 30px;
+  }
+}
+</style>

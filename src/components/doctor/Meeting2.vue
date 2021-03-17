@@ -1,20 +1,17 @@
 <template>
   <div class="meeting2-message">
-    <div class="input">
-      <span>会议:</span>
-      <el-input v-model="meeting2.name"></el-input>
-    </div>
+    
     <div class="input">
       <span>时间:</span>
-      <el-date-picker v-model="meeting2.time" type="date" placeholder="会议时间"></el-date-picker>
+      <el-date-picker v-model="meeting2.conferenceTime" type="date" placeholder="会议时间"></el-date-picker>
     </div>
     <div class="input">
       <span>地点:</span>
-      <el-input v-model="meeting2.address"></el-input>
+      <el-input v-model="meeting2.conferenceSite"></el-input>
     </div>
     <div class="input">
       <span>摘要:</span>
-      <el-input v-model="meeting2.zaiyao" type="textarea" :rows="6"></el-input>
+      <el-input v-model="meeting2.paperAbstract" type="textarea" :rows="6"></el-input>
     </div>
   </div>
 </template>
@@ -26,7 +23,7 @@ export default {
   },
   data () {
     return {
-     
+
     }
   }
 }

@@ -42,7 +42,7 @@
           </div>
           <div
             class="meeting2-message"
-            v-if="(meeting.selectType==='1' || meeting.selectType === '3') && (meeting.name)"
+            v-if="(meeting.selectType==='1' || meeting.selectType === '3')"
           >
             <div class="input">
               <span>会议:</span>
@@ -57,7 +57,7 @@
               <div>{{address.time}}</div>
             </div>
           </div>
-          <div class="meeting-message" v-if="(meeting.selectType==='2') && (qikan.name)">
+          <div class="meeting-message" v-if="(meeting.selectType==='2') ">
             <div class="input">
               <span>期刊:</span>
               <div>{{qikan.name}}</div>

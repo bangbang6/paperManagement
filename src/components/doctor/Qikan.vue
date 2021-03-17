@@ -1,36 +1,32 @@
 <template>
   <div class="meeting-message">
     <div class="input">
-      <span>期刊:</span>
-      <el-input v-model="qikan.name"></el-input>
-    </div>
-    <div class="input">
       <span>issn:</span>
-      <el-input v-model="qikan.issn"></el-input>
+      <el-input v-model="qikan.periodicalIssn"></el-input>
     </div>
     <div class="input">
       <span>页码:</span>
-      <el-input v-model="qikan.page"></el-input>
+      <el-input v-model="qikan.periodicalPage"></el-input>
     </div>
     <div class="input">
       <span>doi:</span>
-      <el-input v-model="qikan.doi"></el-input>
+      <el-input v-model="qikan.periodicalDoi"></el-input>
     </div>
     <div class="input">
       <span>年份:</span>
-      <el-input v-model="qikan.year"></el-input>
+      <el-input v-model="qikan.periodicalYear"></el-input>
     </div>
     <div class="input">
       <span>卷号:</span>
-      <el-input v-model="qikan.juanhao"></el-input>
+      <el-input v-model="qikan.periodicalVolumeNum"></el-input>
     </div>
     <div class="input">
       <span>期刊号:</span>
-      <el-input v-model="qikan.qikanhao"></el-input>
+      <el-input v-model="qikan.periodicalIssueNum"></el-input>
     </div>
     <div class="input">
       <span>摘要:</span>
-      <el-input v-model="qikan.zaiyao" type="textarea" :rows="6"></el-input>
+      <el-input v-model="qikan.paperAbstract" type="textarea" :rows="6"></el-input>
     </div>
   </div>
 </template>
@@ -42,7 +38,7 @@ export default {
   },
   data () {
     return {
-      
+
     }
   }
 }
