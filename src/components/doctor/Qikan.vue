@@ -12,6 +12,7 @@
       <span>doi:</span>
       <el-input v-model="qikan.periodicalDoi"></el-input>
     </div>
+
     <div class="input">
       <span>年份:</span>
       <el-input v-model="qikan.periodicalYear"></el-input>
@@ -20,14 +21,13 @@
       <span>卷号:</span>
       <el-input v-model="qikan.periodicalVolumeNum"></el-input>
     </div>
+
     <div class="input">
       <span>期刊号:</span>
       <el-input v-model="qikan.periodicalIssueNum"></el-input>
     </div>
-    <div class="input">
-      <span>摘要:</span>
-      <el-input v-model="qikan.paperAbstract" type="textarea" :rows="6"></el-input>
-    </div>
+
+    
   </div>
 </template>
  

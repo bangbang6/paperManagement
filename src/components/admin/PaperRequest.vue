@@ -11,10 +11,8 @@
           <el-table-column prop="channelName" label="截止时间"></el-table-column>
           <el-table-column prop="channelName" label="作者"></el-table-column>
           <el-table-column prop="action" label="操作" width="160">
-            <template slot-scope="scope">
-              <el-radio v-model="scope.status" label="1">同意</el-radio>
-              <el-radio v-model="scope.status" label="2">拒绝</el-radio>
-            </template>
+            <el-button type="primary" size="mini">同意</el-button>
+            <el-button type="danger" size="mini">拒绝</el-button>
           </el-table-column>
         </el-table>
       </el-tab-pane>
@@ -27,9 +25,9 @@
           <el-table-column prop="channelName" label="会议名" width="160"></el-table-column>
           <el-table-column prop="channelName" label="作者"></el-table-column>
           <el-table-column prop="action" label="操作" width="160">
-            <template slot-scope="scope">
-              <el-radio v-model="scope.status" label="1">同意</el-radio>
-              <el-radio v-model="scope.status" label="2">拒绝</el-radio>
+            <template>
+              <el-button type="primary" size="mini">同意</el-button>
+              <el-button type="danger" size="mini">拒绝</el-button>
             </template>
           </el-table-column>
         </el-table>

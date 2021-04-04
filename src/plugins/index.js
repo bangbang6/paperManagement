@@ -26,6 +26,7 @@ const element = {
     Vue.use(Dropdown)
     Vue.use(DropdownItem)
     Vue.use(DropdownMenu)
+    
   }
 }
 export default element

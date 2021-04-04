@@ -2,12 +2,12 @@
   <div class="find-repeat">
     <el-card shadow="always">
       <el-table :data="tableData1" class="table" size="mini" @row-click="clickRow">
-        <el-table-column prop="name" label="论文标题" width="160"></el-table-column>
+        <el-table-column prop="title" label="论文标题" width="160"></el-table-column>
 
         <el-table-column prop="publicTypeName" label="发布类型" width="80"></el-table-column>
         <el-table-column prop="publicTypeName" label="名称" width="80"></el-table-column>
 
-        <el-table-column prop="channelName" label="截止时间"></el-table-column>
+        <el-table-column prop="conferenceDeadline" label="截止时间"></el-table-column>
         <el-table-column prop="authors" label="作者"></el-table-column>
       </el-table>
     </el-card>
@@ -16,6 +16,8 @@
  
 <script>
 import { checkPaper } from '@/api/repeat'
+import { Message } from 'element-ui'
+
 export default {
   data () {
     return {
@@ -30,12 +32,16 @@ export default {
     }
   },
   mounted () {
-    this.tableData1 = [
-      { shareUserChannelName: "数据库系统概论", id: 1 }
-    ]
+
     checkPaper().then(res => {
-      console.log('res', res);
-      this.tableData1 = res.data.data.slice(0, 3)
+      if (res.code === 200) {
+        console.log('res', res);
+        this.tableData1 = res.data.map(data => ({
+          ...data
+        }))
+      } else {
+        Message.error(res.msg)
+      }
     })
   }
 }

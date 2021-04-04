@@ -8,7 +8,7 @@
       </div>
 
       <div class="account">
-        <el-input placeholder="账号" v-model="account">
+        <el-input placeholder="账号" v-model="username">
           <i slot="prefix" class="iconfont">&#xe627;</i>
         </el-input>
       </div>
@@ -31,6 +31,8 @@
 </template>
  
 <script>
+import { Message } from 'element-ui'
+import { login } from '@/api/user'
 export default {
   data () {
     return {
@@ -38,7 +40,7 @@ export default {
       role: '0',
       account: "",
       password: "",
-      name: ""
+      username: ""
     }
   },
   computed: {
@@ -52,16 +54,40 @@ export default {
      }, */
     login () {
       if (this.role === '0') {
-        this.$router.push('/userCenter')
-        localStorage.setItem('role', '0')
+        login(this.username, this.password).then(res => {
+          if (res.code === 200) {
+            console.log('res', res);
+            localStorage.setItem('token', res.data.token)
+            this.$router.push('/userCenter')
+            localStorage.setItem('role', '0')
+          } else {
+            Message.error(res.msg)
+          }
+        })
+
+
       } else if (this.role === '1') {
-        this.$router.push('/admin')
-
-        localStorage.setItem('role', '1')
+        login(this.username, this.password).then(res => {
+          if (res.code === 200) {
+            console.log('res', res);
+            localStorage.setItem('token', res.data.token)
+            this.$router.push('/admin')
+            localStorage.setItem('role', '1')
+          } else {
+            Message.error(res.msg)
+          }
+        })
       } else {
-        this.$router.push('/repeat')
-
-        localStorage.setItem('role', '2')
+        login(this.username, this.password).then(res => {
+          if (res.code === 200) {
+            console.log('res', res);
+            localStorage.setItem('token', res.data.token)
+            this.$router.push('/repeat')
+            localStorage.setItem('role', '2')
+          } else {
+            Message.error(res.msg)
+          }
+        })
 
       }
     }

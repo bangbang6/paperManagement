@@ -3,103 +3,101 @@
     <el-card shadow="always">
       <div class="title">
         <el-button type="primary" size="mini" @click="back">返回</el-button>
-        <span>{{paper.name}}</span>
+        <div>{{paper.title}}</div>
         <div></div>
       </div>
       <div class="paper-info">
         <div class="left">
           <div class="zaiyao">
             <span>摘要:</span>
-            <div>{{paper.zaiyao}}</div>
+            <div>{{paper.paperAbstract}}</div>
           </div>
           <div class="authors">
             <span>作者:</span>
-            <el-table :data="paper.authorData" size="mini">
+            <el-table :data="paper.authors" size="mini">
               <el-table-column label="中文名" prop="chineseName"></el-table-column>
-              <el-table-column label="英文名" prop="engishName"></el-table-column>
+              <el-table-column label="英文名" prop="englishName"></el-table-column>
               <el-table-column label="邮箱" prop="email"></el-table-column>
-              <el-table-column label="所在单位" prop="work"></el-table-column>
-              <el-table-column label="通讯" width="60" prop="connect"></el-table-column>
-              <el-table-column label="一作" width="60" prop="first"></el-table-column>
+              <el-table-column label="所在单位" prop="group"></el-table-column>
+              <el-table-column label="通讯" width="60" prop="connect">
+                <template slot-scope="scope">
+                  <i
+                    class="el-icon-check"
+                    v-if="scope.row.authorType===0"
+                    :style="{color:'rgb(64, 158, 255)'}"
+                  ></i>
+                </template>
+              </el-table-column>
+              <el-table-column label="一作" width="60" prop="first">
+                <template slot-scope="scope">
+                  <i
+                    class="el-icon-check"
+                    v-if="scope.row.authorType===1"
+                    :style="{color:'rgb(64, 158, 255)'}"
+                  ></i>
+                </template>
+              </el-table-column>
             </el-table>
           </div>
 
           <div class="input">
             <span>发布类型:</span>
-            <div>{{meeting.selectType}}</div>
+            <div>{{paper.publicTypeName}}</div>
           </div>
           <div class="input">
             <span>名称:</span>
-            <div>{{meeting.name}}</div>
+            <div>{{paper.name}}</div>
           </div>
           <div class="input">
             <span>网址:</span>
-            <div>{{meeting.com}}</div>
+            <div>{{paper.website}}</div>
           </div>
           <div class="input">
             <span>论文状态:</span>
-            <div>{{paper.paperStatus}}</div>
+            <div>{{statusWord}}</div>
           </div>
-          <div
-            class="meeting2-message"
-            v-if="(meeting.selectType==='1' || meeting.selectType === '3')"
-          >
-            <div class="input">
-              <span>会议:</span>
-              <div>{{meeting2.name}}</div>
-            </div>
+          <div class="meeting2-message" v-if="(paper.publicTypeId===1 || paper.publicTypeId === 3)">
             <div class="input">
               <span>时间:</span>
-              <div>{{meeting.time}}</div>
+              <div>{{paper.conferenceTime}}</div>
             </div>
             <div class="input">
               <span>地点:</span>
-              <div>{{address.time}}</div>
+              <div>{{paper.conferenceSite}}</div>
             </div>
           </div>
-          <div class="meeting-message" v-if="(meeting.selectType==='2') ">
-            <div class="input">
-              <span>期刊:</span>
-              <div>{{qikan.name}}</div>
-            </div>
+          <div class="meeting-message" v-if="(paper.publicTypeId===2) ">
             <div class="input">
               <span>issn:</span>
-              <div>{{qikan.issn}}</div>
+              <div>{{paper.periodicalIssn}}</div>
             </div>
             <div class="input">
               <span>页码:</span>
-              <div>{{qikan.page}}</div>
+              <div>{{paper.periodicalPage}}</div>
             </div>
             <div class="input">
-              <span>期刊:</span>
-              <div>{{qikan.name}}</div>
+              <span>期刊号:</span>
+              <div>{{paper.periodicalIssueNum}}</div>
             </div>
             <div class="input">
               <span>doi:</span>
-              <div>{{qikan.doi}}</div>
+              <div>{{paper.periodicalDoi}}</div>
             </div>
 
             <div class="input">
               <span>年份:</span>
-              <div>{{qikan.year}}</div>
+              <div>{{paper.periodicalYear}}</div>
             </div>
-            <div class="input">
-              <span>期刊:</span>
-              <div>{{qikan.name}}</div>
-            </div>
+
             <div class="input">
               <span>卷号:</span>
-              <div>{{qikan.juanhao}}</div>
-            </div>
-            <div class="input">
-              <span>期刊号:</span>
-              <div>{{qikan.qikanhao}}</div>
+              <div>{{paper.periodicalVolumeNum}}</div>
             </div>
           </div>
           <div class="repeat" v-if="role==='2'">
             <div class="file-result">
               <span class="text">查重结果:</span>
-              <input type="file" />
+              <input type="file" @change="handleChange" />
             </div>
             <div class="file-rate">
               <span class="text">查重率:</span>
@@ -108,17 +106,17 @@
             <div class="result">
               <span class="text">查重通过:</span>
               <el-radio v-model="repeat.success" label="1">是</el-radio>
-              <el-radio v-model="repeat.success" label="2">否</el-radio>
+              <el-radio v-model="repeat.success" label="0">否</el-radio>
             </div>
             <div class="btn" style="margin-top:20px">
-              <el-button type="primary">确定</el-button>
+              <el-button type="primary" @click="handleConfirm">确定</el-button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- <div class="operation">
-        <el-card shadow="always">
+      <div class="operation">
+        <!--  <el-card shadow="always">
           <div class="download">
             <i class="el-icon-download"></i>
             <span>下载</span>
@@ -129,29 +127,38 @@
             <i class="el-icon-view"></i>
             <span>预览</span>
           </div>
+        </el-card>-->
+        <el-card shadow="always" v-if="role==='1'">
+          <div class="download">
+            <i class="el-icon-circle-check"></i>
+            <span>同意</span>
+          </div>
         </el-card>
-      </div>-->
+        <el-card shadow="always" v-if="role==='1'">
+          <div class="red see">
+            <i class="el-icon-circle-close"></i>
+            <span>拒绝</span>
+          </div>
+        </el-card>
+      </div>
     </el-card>
   </div>
 </template>
  
 <script>
+import { Message } from 'element-ui'
+import { getPaperDetail } from '@/api/paper'
+
+import { uploadFile } from '@/api/teacher'
+import { submitCheckResult } from '@/api/repeat'
+import { types } from '@/api/type'
 
 export default {
 
   data () {
     return {
       paper: {
-        paperNo: '',
-        name: "数据库系统概论",
-        firstCommit: true,
 
-        paperStatus: '已发布',
-        authorData: [
-          { chineseName: 'lzb' }
-
-        ],
-        zaiyao: ""
 
       },
       repeat: {
@@ -159,50 +166,87 @@ export default {
         file: "",
         success: '1'
       },
-      meeting: {
-        endData: "",
 
-        selectType: '2',
-        options: [{
-          value: '1',
-          label: 'Top80'
-        }, {
-          value: '2',
-          label: '期刊'
-        }, {
-          value: '3',
-          label: '普通会议'
-        }],
-      },
 
-      qikan: {
-        doi: "",
-        name: "",
-        issn: "",
-        page: "",
-        year: "",
-        juanhao: "",
-        qikanhao: "",
-        zaiyao: ""
-      },
-      meeting2: {
-        name: "",
-        address: "",
-        time: "",
-        zaiyao: ""
-      },
+
+
 
     }
   },
+
   methods: {
     back () {
       this.$router.back()
+    },
+    handleChange (e) {
+      const file = e.target.files[0]
+      console.log('file', file);
+
+      let formData = new FormData();
+      formData.append("file", file);
+      uploadFile(formData).then(res => {
+        if (res.code === 200) {
+          this.fileId = res.msg
+        } else {
+          Message.error(res.msg)
+        }
+      })
+    },
+    handleConfirm () {
+      if (!this.fileId || !this.repeat.rate || !this.repeat.success) {
+        return
+      }
+      let data = {
+        paperId: this.paperId,
+        isPassed: +this.repeat.success,
+        rate: this.repeat.rate,
+        resultFileId: this.fileId
+      }
+      submitCheckResult(data).then(res => {
+        if (res.code === 200) {
+          Message.success({
+            message: res.msg,
+
+
+          })
+          this.$router.back()
+        } else {
+          Message.error(res.msg)
+        }
+      })
     }
+
+  },
+  mounted () {
+    this.paperId = localStorage.getItem('paperId')
+
+    if (!this.paperId) {
+      Message.error({
+        onClose: () => {
+          this.$router.back()
+        },
+        showClose: true,
+        message: "论文id出错"
+      })
+
+    }
+    getPaperDetail(+this.paperId).then(res => {
+      if (res.code === 200) {
+        console.log('papaer', res);
+        this.paper = res.data
+      } else {
+        Message.error(res.msg)
+      }
+    })
+
 
   },
   computed: {
     role () {
-      return localStorage.getItem('role')
+      return localStorage.getItem('role') || '1'
+    },
+    statusWord () {
+      return types[this.paper.status]
     }
   }
 }
@@ -278,16 +322,27 @@ export default {
           }
         }
       }
-      .authors,
+      .authors {
+        width: 100%;
+        font-size: 14px;
+        margin-top: 20px;
+        display: flex;
+
+        span {
+          display: inline-block;
+          width: 80px;
+          margin-top: 18px;
+        }
+      }
       .zaiyao {
         width: 100%;
         font-size: 14px;
         margin-top: 20px;
         display: flex;
+
         span {
           display: inline-block;
           width: 80px;
-          margin-top: 18px;
         }
       }
       .repeat {
@@ -341,14 +396,16 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
+        color: rgb(64, 158, 255);
+        &.red {
+          color: red;
+        }
         i {
           font-size: 32px;
-          color: rgb(64, 158, 255);
         }
         span {
           margin-top: 10px;
           font-size: 16px;
-          color: rgb(64, 158, 255);
         }
       }
     }
@@ -408,5 +465,8 @@ export default {
     font-size: 24px;
     color: rgb(64, 158, 255);
   }
+}
+span {
+  font-weight: 600;
 }
 </style>

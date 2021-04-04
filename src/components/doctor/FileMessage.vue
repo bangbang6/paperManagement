@@ -60,7 +60,7 @@
           <span>发表信息:</span>
           <div class="meeting-wrapper">
             <div class="select-wrapper">
-              <el-select v-model="meeting.selectType" placeholder="发表类别">
+              <el-select v-model="meeting.publicTypeId" placeholder="发表类别">
                 <el-option
                   v-for="item in meeting.options"
                   :key="item.value"
@@ -68,7 +68,11 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
-              <el-select v-model="meeting.selectType2" placeholder="具体类别" v-if="meeting.selectType">
+              <el-select
+                v-model="meeting.publicTypeId2"
+                placeholder="具体类别"
+                v-if="meeting.publicTypeId"
+              >
                 <el-option
                   v-for="item in meeting.options2"
                   :key="item.value"
@@ -84,7 +88,7 @@
               v-model="meeting.conferenceDeadline"
               type="date"
               placeholder="截止日期"
-              v-if="meeting.selectType === '1' || meeting.selectType ==='3'"
+              v-if="meeting.publicTypeId === 1 || meeting.publicTypeId ===3"
             ></el-date-picker>
           </div>
         </div>
@@ -166,10 +170,10 @@ export default {
     }
   },
   watch: {
-    'meeting.selectType': {
+    'meeting.publicTypeId': {
       handler (newV) {
         console.log('newV', newV);
-        this.meeting.selectType2 = ''
+        this.meeting.publicTypeId2 = ''
         this.meeting.options.forEach((item) => {
 
           if (item.value === newV) {

@@ -3,7 +3,7 @@
     <el-card shadow="always">
       <div class="title">
         <el-button type="primary" size="mini" @click="back">返回</el-button>
-        <span>{{paper.name}}</span>
+        <span>{{paper.title}}</span>
         <div></div>
       </div>
       <div class="paper-info">
@@ -14,10 +14,10 @@
           </div>-->
           <div class="input">
             <span>论文标题:</span>
-            <el-input v-model="paper.name"></el-input>
+            <el-input v-model="paper.title"></el-input>
           </div>
 
-          <div class="authors">
+          <!-- <div class="authors">
             <span>作者:</span>
             <el-table :data="paper.authorData" size="mini" @cell-click="click">
               <el-table-column type="index"></el-table-column>
@@ -29,10 +29,12 @@
                   <el-input v-model="scope.row.chineseName.label" v-else></el-input>
                 </template>
               </el-table-column>
-              <el-table-column label="英文名" prop="engishName">
+              <el-table-column label="英文名" prop="englishName">
                 <template slot-scope="scope">
-                  <div v-if="scope.row[scope.column.property].status">{{scope.row.engishName.label}}</div>
-                  <el-input v-model="scope.row.engishName.label" v-else></el-input>
+                  <div
+                    v-if="scope.row[scope.column.property].status"
+                  >{{scope.row.englishName.label}}</div>
+                  <el-input v-model="scope.row.englishName.label" v-else></el-input>
                 </template>
               </el-table-column>
               <el-table-column label="邮箱" prop="email">
@@ -41,10 +43,10 @@
                   <el-input v-model="scope.row.email.label" v-else></el-input>
                 </template>
               </el-table-column>
-              <el-table-column label="所在单位" prop="work">
+              <el-table-column label="所在单位" prop="group">
                 <template slot-scope="scope">
-                  <div v-if="scope.row[scope.column.property].status">{{scope.row.work.label}}</div>
-                  <el-input v-model="scope.row.work.label" v-else></el-input>
+                  <div v-if="scope.row[scope.column.property].status">{{scope.row.group.label}}</div>
+                  <el-input v-model="scope.row.group.label" v-else></el-input>
                 </template>
               </el-table-column>
               <el-table-column label="通讯" width="60" prop="connect">
@@ -63,47 +65,64 @@
                 </div>
               </template>
             </el-table>
-          </div>
+          </div>-->
           <div class="publish-message">
             <span>发表信息:</span>
             <div class="meeting-wrapper">
-              <el-select v-model="meeting.selectType" placeholder="发表类别">
-                <el-option
-                  v-for="item in meeting.options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-              <el-input v-model="meeting.name" placeholder="名称"></el-input>
-              <el-input v-model="meeting.com" placeholder="网址"></el-input>
-              <el-date-picker
-                v-model="meeting.endData"
-                type="date"
-                placeholder="截止日期"
-                v-if="meeting.selectType === '1' || meeting.selectType ==='3'"
-              ></el-date-picker>
+              <div class="select-wrapper">
+                <el-select v-model="meeting.publicTypeId" placeholder="发表类别">
+                  <el-option
+                    v-for="item in meeting.options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+                <el-select
+                  v-model="meeting.publicTypeId2"
+                  placeholder="具体类别"
+                  v-if="meeting.publicTypeId"
+                  :style="{marginLeft:'20px'}"
+                >
+                  <el-option
+                    v-for="item in meeting.options2"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </div>
+              <div class="input-wrapper">
+                <el-input v-model="paper.name" placeholder="名称"></el-input>
+                <el-input v-model="paper.website" placeholder="网址"></el-input>
+                <el-date-picker
+                  v-model="paper.conferenceDeadline"
+                  type="date"
+                  placeholder="截止日期"
+                  v-if="meeting.publicTypeId === 1 || meeting.publicTypeId ===2"
+                ></el-date-picker>
+              </div>
             </div>
           </div>
           <div class="input">
             <span>查重结果:</span>
-            <div>{{repeat.rate}}</div>
+            <div>{{paper.duplicateCheckResultId}}</div>
           </div>
           <div class="input">
             <span>论文状态:</span>
             <div>
-              <el-radio v-model="paper.paperStatus" label="1">已收录</el-radio>
-              <el-radio v-model="paper.paperStatus" label="2">未收录</el-radio>
+              <el-radio v-model="paper.hasAccepted" :label="1">已收录</el-radio>
+              <el-radio v-model="paper.hasAccepted" :label="0">未收录</el-radio>
             </div>
           </div>
         </div>
       </div>
-      <Qikan v-if="paper.paperStatus === '1' & (meeting.selectType === '2' )" :qikan="qikan"></Qikan>
+      <Qikan v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 7 )" :qikan="qikan"></Qikan>
       <Meeting2
-        v-if="paper.paperStatus === '1' & (meeting.selectType === '1' || meeting.selectType ==='3')"
+        v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 1 || meeting.publicTypeId ===2)"
         :meeting2="meeting2"
       ></Meeting2>
-      <el-button type="primary" style="margin-top:20px;">提交</el-button>
+      <el-button type="primary" style="margin-top:20px;" @click="submit">提交</el-button>
       <!-- <div class="operation">
         <el-card shadow="always">
           <div class="download">
@@ -123,8 +142,12 @@
 </template>
  
 <script>
+import { Message } from 'element-ui'
 import Meeting2 from '../components/doctor/Meeting2'
 import Qikan from '../components/doctor/Qikan'
+import { getPaperDetail } from '@/api/paper'
+import { getTypeTree } from '@/api/meeting'
+import { updateFile } from '@/api/user'
 export default {
   components: {
     Meeting2, Qikan
@@ -132,69 +155,107 @@ export default {
   data () {
     return {
       paper: {
-        paperNo: '',
-        name: "数据库系统概论",
-        firstCommit: true,
 
-        paperStatus: '2',
-        authorData: [
-          { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, work: { label: "", status: true }, connectStatus: false, firstStatus: false },
-
-        ],
-
-      },
-      repeat: {
-        rate: "20.0%",
-        file: ""
-      },
-      meeting: {
-        endData: "",
-        selectType: "",
-        options: [{
-          value: '1',
-          label: 'Top80'
-        }, {
-          value: '2',
-          label: '期刊'
-        }, {
-          value: '3',
-          label: '普通会议'
-        }],
-      },
-
-      qikan: {
-        doi: "",
-        name: "",
-        issn: "",
-        page: "",
-        year: "",
-        juanhao: "",
-        qikanhao: "",
-        zaiyao: ""
       },
       meeting2: {
-        name: "",
-        address: "",
-        time: "",
-        zaiyao: ""
-      },
 
+      },
+      meeting: {
+
+        options: [],
+        options2: [],
+        publicTypeId2: '',
+        publicTypeId: ''
+      },
+      qikan: {}
     }
   },
+  mounted () {
+    this.paperId = localStorage.getItem('paperId')
+    console.log(' this.paperId', this.paperId);
+    if (!this.paperId) {
+
+      Message.error("论文id出错")
+
+      return
+    }
+    getPaperDetail(+this.paperId).then(res => {
+      if (res.code === 200) {
+        console.log('res', res);
+        this.paper = res.data
+        this.qikan = {
+          periodicalIssn: res.data.periodicalIssn,
+          periodicalDol: res.data.periodicalDol,
+          periodicalIssueNum: res.data.periodicalIssueNum,
+          periodicalIssuePage: res.data.periodicalIssuePage,
+          periodicalVolumnNum: res.data.periodicalVolumnNum,
+          periodicalYear: res.data.periodicalYear
+        }
+        this.meeting2 = {
+          conferenceTime: res.data.conferenceTime,
+          conferenceSite: res.data.conferenceSite
+        }
+        if (res.data.publicTypeId === 1 || res.data.publicTypeId === 2 || res.data.publicTypeId === 7) {
+          this.meeting.publicTypeId = res.data.publicTypeId
+        } else {
+          //处理只给了二层id的问题
+          let publicTypeId = 1
+          if (res.data.publicTypeId === 3 || res.data.publicTypeId === 4 || res.data.publicTypeId === 5 || res.data.publicTypeId === 6) {
+            publicTypeId = 2
+          } else if (res.data.publicTypeId === 8 || res.data.publicTypeId === 9 || res.data.publicTypeId === 10 || res.data.publicTypeId === 11) {
+            publicTypeId = 7
+          }
+          this.meeting.publicTypeId = publicTypeId
+          this.meeting.publicTypeId2 = res.data.publicTypeId
+
+        }
+
+      } else {
+        Message.error(res.msg)
+      }
+    })
+    getTypeTree().then(res => {
+      console.log('res', res);
+      this.meeting.options = res.map(item => {
+        return {
+          id: item.id,
+          children: item.children ? item.children : [],
+          label: item.typeName,
+          value: item.id
+        }
+      })
+
+    })
+  },
   methods: {
+    submit () {
+      let obj = {
+        ...this.paper,
+        ...this.meeting2,
+        ...this.meeting,
+        ...this.qikan
+      }
+      updateFile(obj).then(res => {
+        if (res.code === 200) {
+          console.log('res', res);
+        } else {
+          Message.error(res.msg)
+        }
+      })
+    },
     back () {
       this.$router.back()
     },
     clear () {
 
-      this.paper.authorData.forEach(item => {
-        for (let key in item) {
-          if (key === 'connectStatus' || key === 'firstStatus') {
-            continue
-          }
-          else item[key].status = true
-        }
-      })
+      /*  this.paper.authors.forEach(item => {
+         for (let key in item) {
+           if (key === 'connectStatus' || key === 'firstStatus') {
+             continue
+           }
+           else item[key].status = true
+         }
+       }) */
     },
     click (row, column, cell, event) {
       console.log('row', row, column, cell, event);
@@ -218,6 +279,31 @@ export default {
     paperStatusWord () {
       return this.paperStatus === 0 ? "已发布" : "未发布"
     }
+  },
+  watch: {
+    'meeting.publicTypeId': {
+      handler (newV) {
+        console.log('newV', newV);
+        this.meeting.publicTypeId2 = ''
+        this.meeting.options.forEach((item) => {
+
+          if (item.value === newV) {
+            this.meeting.options2 = item.children.map(item => {
+              return {
+                value: item.id,
+                id: item.id,
+                label: item.typeName.split('/')[1]
+              }
+            }
+            )
+
+          }
+        })
+
+      }
+
+    }
+
   }
 }
 </script>
@@ -270,12 +356,21 @@ export default {
           width: 80px;
         }
         .meeting-wrapper {
-          display: flex;
-          flex-direction: column;
+          .select-wrapper {
+            display: flex;
+            .el-input {
+              width: 240px;
+              margin-top: 20px;
+            }
+          }
+          .input-wrapper {
+            display: flex;
+            flex-direction: column;
 
-          .el-input {
-            width: 240px;
-            margin-top: 20px;
+            .el-input {
+              width: 240px;
+              margin-top: 20px;
+            }
           }
         }
       }

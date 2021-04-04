@@ -35,7 +35,7 @@
 import { uploadFile, uploadPaper } from '@/api/teacher'
 import { getTypeTree } from '@/api/meeting'
 import FileMessage from './FileMessage'
-
+import { Message } from 'element-ui';
 export default {
   data () {
     return {
@@ -70,8 +70,8 @@ export default {
         },
         meeting: {
           conferenceDeadline: "",
-          selectType: "",
-          selectType2: "",
+          publicTypeId: "",
+          publicTypeId2: "",
           name: "",
           website: "",
           options: [],
@@ -95,8 +95,13 @@ export default {
       formData.append("file", fileObject);
 
       uploadFile(formData).then(res => {
-        console.log('file', res);
-        this.fileId = res.data.msg
+        if (res.code === 200) {
+          console.log(res);
+          this.fileId = res.msg
+
+        } else {
+          Message.error(res.msg)
+        }
       })
 
 
@@ -137,7 +142,7 @@ export default {
       if (!this.fileId) {
         return
       }
-      console.log(this.file);
+
 
       const { qikan, meeting2, paper, meeting } = this.fileMessage
       let obj = {
@@ -147,7 +152,7 @@ export default {
         ...meeting,
         firstPublish: paper.firstPublish ? 1 : 0,
         authors: this.parse(paper.authors),
-        publicTypeId: 1,
+        publicTypeId: meeting.publicTypeId2,
         fileId: this.fileId
       }
 
@@ -155,7 +160,11 @@ export default {
       console.log('obj', obj);
 
       uploadPaper(obj).then(res => {
-        console.log('res', res);
+        if (res.code === 200) {
+          Message.success(res.msg)
+        } else {
+          Message.error(res.msg)
+        }
       })
     }
 
@@ -166,7 +175,7 @@ export default {
   mounted () {
     getTypeTree().then(res => {
       console.log('res', res);
-      this.fileMessage.meeting.options = res.data.map(item => {
+      this.fileMessage.meeting.options = res.map(item => {
         return {
           id: item.id,
           children: item.children ? item.children : [],

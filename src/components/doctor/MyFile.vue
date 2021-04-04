@@ -14,16 +14,17 @@
           <div
             v-if="node.level === 2"
             class="paper-item"
-            @click="jumpToPaperDetail(node.data.paperId,data.status)"
+            @click="jumpToPaperDetail(node.data.id,data.status)"
           >
-            <span class="paper-name">{{data.name}}</span>
-            <span class="author-wrapper">{{getAuthorName(data.authors)}}</span>
-            <span class="meeting">{{data.meeting}}</span>
+            <span class="paper-name">{{data.title}}</span>
+            <span class="author-wrapper">{{data.authors}}</span>
+            <span class="meeting">{{data.name}}</span>
 
             <div class="operation">
-              <el-tooltip content="未发布" placement="bottom" effect="light" v-if="data.status">
+              <!--  <el-tooltip content="未发布" placement="bottom" effect="light" v-if="data.status">
                 <i class="el-icon-warning-outline" style="color:red"></i>
-              </el-tooltip>
+              </el-tooltip>-->
+              <span>{{data.statusWord}}</span>
               <!-- <el-tooltip content="下载" placement="bottom" effect="light">
                 <i class="el-icon-download"></i>
               </el-tooltip>-->
@@ -39,49 +40,14 @@
 </template>
  
 <script>
+import { getMyFilelist } from '@/api/user'
+import { Message } from 'element-ui';
+import { types } from '@/api/type'
 export default {
   data () {
     return {
       paperData: [
-        {
-          level: 1,
-          label: '一作',
 
-          children: [{
-            status: 0,
-            level: 2,
-            name: "数据研究概论",
-            paperId: 1,
-            authors: [
-              { name: '鹿晗', id: 0 }, { name: '王一博', id: 1 }, { name: '张艺兴', id: 2 }, { name: '黄子韬', id: 3 }, { name: '吴亦凡', id: 4 }, { name: '黄晓明', id: 4 }, { name: '黄晓明', id: 4 }
-            ],
-            meeting: 'science nature'
-          }, {
-            status: 1,
-
-            level: 2,
-            name: "数据研究概论2",
-            authors: [
-              { name: '鹿晗2', id: 0 }, { name: '王一博2', id: 1 }
-            ]
-
-          }]
-        }, {
-          level: 1,
-          label: '通讯',
-          children: [{
-
-            level: 2,
-
-          }]
-        }, {
-          level: 1,
-          label: '其他',
-          children: [{
-
-            level: 2
-          }]
-        }
       ]
     }
   },
@@ -100,6 +66,27 @@ export default {
 
       return authors && authors.map(item => item.name).join(',')
     }
+  },
+  mounted () {
+    getMyFilelist().then(res => {
+      if (res.code === 200) {
+        console.log('res', res);
+        this.paperData = res.data.map((item, index) => {
+          return {
+            level: 1,
+            label: index === 0 ? '通讯' : index === 1 ? '一作' : "其他",
+            children: item.map(item2 => ({
+              ...item2,
+              label: 2,
+              statusWord: types[item2.status]
+            }))
+          }
+        })
+        console.log('this.paperData', this.paperData);
+      } else {
+        Message.error(res.msg)
+      }
+    })
   }
 }
 </script>
@@ -171,8 +158,9 @@ export default {
           overflow: hidden;
         }
         .operation {
-          width: 3%;
+          width: 10%;
           float: right;
+          font-size: 12px;
           color: rgb(64, 158, 255);
           i {
             margin-left: 5px;
