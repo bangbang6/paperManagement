@@ -67,17 +67,19 @@ export default {
 
 
       } else if (this.role === '1') {
+        this.$router.push('/admin')
         login(this.username, this.password).then(res => {
           if (res.code === 200) {
             console.log('res', res);
             localStorage.setItem('token', res.data.token)
-            this.$router.push('/admin')
+
             localStorage.setItem('role', '1')
           } else {
             Message.error(res.msg)
           }
         })
       } else {
+        this.$router.push('/repeat')
         login(this.username, this.password).then(res => {
           if (res.code === 200) {
             console.log('res', res);

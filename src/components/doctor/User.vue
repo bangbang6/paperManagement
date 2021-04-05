@@ -31,11 +31,11 @@
         </div>
         <div class="work">
           <span>所在单位:</span>
-          <span>{{work}}</span>
+          <span>{{group}}</span>
         </div>
 
         <div class="change">
-          <el-button type="primary" @click=" dialogVisible = true">修改</el-button>
+          <el-button type="primary" @click="dialogVisible = true">修改</el-button>
         </div>
       </div>
     </div>
@@ -58,14 +58,30 @@
           <el-input v-model="email"></el-input>
         </div>
         <div class="work">
-          <span>所在单位:</span>
-
-          <el-input v-model="work"></el-input>
+          <span>单位:</span>
+          <div class="wrapper">
+            <div v-for="(group,groupIndex) in groups" :key="groupIndex" class="group">
+              <el-input v-model="group.label" type="textarea" :rows="1" :cols="50"></el-input>
+              <el-button
+                type="danger"
+                size="mini"
+                class="deleteBtn"
+                @click="deleteGroup(groupIndex)"
+              >删除</el-button>
+            </div>
+            <el-button
+              type="primary"
+              size="mini"
+              class="addGroup"
+              @click="addGroup()"
+              :style="{marginTop:'10px'}"
+            >新增</el-button>
+          </div>
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="handleUpdate">确 定</el-button>
       </span>
     </el-dialog>
     <div class="paper">
@@ -83,6 +99,7 @@
 </template>
  
 <script>
+import { updateUserInfo } from '@/api/user'
 export default {
   data () {
     return {
@@ -90,7 +107,7 @@ export default {
       chineseName: "廖振邦",
       engishName: "",
       email: "1578015790@hust.com",
-      work: "",
+      groups: [{ label: "" }],
       radio: '1',
       firstNum: 666,
       secondNum: 666,
@@ -100,6 +117,7 @@ export default {
     }
 
   },
+
   methods: {
     uploadHead (e) {
       const file = e.target.files[0]
@@ -110,7 +128,33 @@ export default {
         this.imgSrc = res.result
       }
       reader.readAsDataURL(file)
+    },
+    addGroup () {
+      this.groups.push({ label: "" })
+    },
+    deleteGroup (index) {
+      this.groups.splice(index, 1)
+    },
+    handleUpdate () {
+      this.dialogVisible = false
+      let user = {
+        chineseName: this.chineseName,
+        email: this.email,
+        engishName: this.engishName,
+        group: this.group
+      }
+      updateUserInfo(user).then(res => {
+        console.log('res', res);
+      })
+    },
+  },
+  computed: {
+    group () {
+      return this.groups.map(item => item.label).join(',')
     }
+  },
+  mounted () {
+
   }
 }
 </script>
@@ -228,6 +272,11 @@ export default {
       width: 80px;
     }
     margin-bottom: 10px;
+    display: flex;
+  }
+}
+.work {
+  .group {
     display: flex;
   }
 }

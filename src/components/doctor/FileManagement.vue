@@ -63,7 +63,7 @@ export default {
 
           hasAccepted: 0,
           authors: [
-            { chineseName: { label: "", status: true }, englishName: { label: "", status: true }, email: { label: "", status: true }, group: { label: "", status: true }, connectStatus: false, firstStatus: false },
+            { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, groups: [{ label: "", status: true }], connect: false, first: false },
 
           ],
 
@@ -116,9 +116,9 @@ export default {
     },
     parse (authors) {
       authors.forEach(author => {
-        if (author.connectStatus === true) {
+        if (author.connect === true) {
           author.authorType = 0
-        } else if (author.firstStatus === true) {
+        } else if (author.first === true) {
           author.authorType = 1
 
         } else {
@@ -130,16 +130,18 @@ export default {
         return {
 
           chineseName: author.chineseName.label,
-          englishName: author.englishName.label,
+          englishName: author.engishName.label,
           email: author.email.label,
-          group: author.group.label,
+          group: author.groups.map(group => group.label).join(','),
           authorType: author.authorType
         }
       })
     },
     submit () {
       /* let formData = new FormData() //通过formdata拼接数据 */
-      if (!this.fileId) {
+      console.log('this.fileMessage', this.fileMessage);
+      if (!this.fileId || !this.fileMessage.paper.title || !this.fileMessage.meeting.website || !this.fileMessage.meeting.name || !this.fileMessage.meeting.publicTypeId) {
+        Message.error('必要信息不能为空')
         return
       }
 
@@ -152,9 +154,11 @@ export default {
         ...meeting,
         firstPublish: paper.firstPublish ? 1 : 0,
         authors: this.parse(paper.authors),
-        publicTypeId: meeting.publicTypeId2,
+        publicTypeId: meeting.publicTypeId2 || meeting.publicTypeId,
         fileId: this.fileId
       }
+
+
 
 
       console.log('obj', obj);

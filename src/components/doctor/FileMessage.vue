@@ -1,5 +1,5 @@
 <template>
-  <div class="file-message" @click="clear">
+  <div class="file-message">
     <div class="paper-info">
       <div class="left">
         <!-- <div class="input">
@@ -11,7 +11,7 @@
           <el-input v-model="paper.title"></el-input>
         </div>
 
-        <div class="authors">
+        <!-- <div class="authors">
           <span>作者:</span>
           <el-table :data="paper.authors" size="mini" @cell-click="click">
             <el-table-column type="index"></el-table-column>
@@ -55,6 +55,55 @@
               </div>
             </template>
           </el-table>
+        </div>-->
+        <div class="authors2">
+          <span :style="{marginTop:'6px'}">作者:</span>
+          <div class="right2">
+            <div class="author" v-for="(author,authorIndex) in paper.authors" :key="authorIndex">
+              <div class="first-line">
+                <div class="chinese-name">
+                  <span>中文名:</span>
+                  <el-input v-model="author.chineseName.label"></el-input>
+                </div>
+                <div class="engish-name">
+                  <span>英文名:</span>
+                  <el-input v-model="author.engishName.label"></el-input>
+                </div>
+                <div class="email">
+                  <span>邮箱:</span>
+                  <el-input v-model="author.email.label"></el-input>
+                </div>
+                <div class="connect">
+                  <span>通讯:</span>
+                  <el-checkbox v-model="author.connect"></el-checkbox>
+                </div>
+                <div class="first">
+                  <span>一作:</span>
+                  <el-checkbox v-model="author.first"></el-checkbox>
+                </div>
+              </div>
+              <div class="group-wrapper">
+                <span>单位:</span>
+                <div class="wrapper2">
+                  <div class="group" v-for="(group,groupIndex) in author.groups" :key="groupIndex">
+                    <el-input v-model="group.label" type="textarea" :rows="1" :cols="100"></el-input>
+                    <el-button
+                      type="danger"
+                      size="mini"
+                      class="deleteBtn"
+                      @click="deleteGroup(authorIndex,groupIndex)"
+                    >删除</el-button>
+                  </div>
+                  <div :style="{marginTop:'20px'}">
+                    <el-button type="primary" size="mini" @click="addGroup(authorIndex)">新增</el-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="add-icon-wrapper" @click="addAuthor">
+              <i class="el-icon-circle-plus-outline"></i>
+            </div>
+          </div>
         </div>
         <div class="publish-message">
           <span>发表信息:</span>
@@ -102,11 +151,11 @@
           </div>
         </div>
         <Qikan
-          v-if="paper.hasAccepted === 1 && (meeting.selectType === 7 )"
+          v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 7 )"
           :qikan="fileMessage.qikan"
         ></Qikan>
         <Meeting2
-          v-if="paper.hasAccepted === 1 && (meeting.selectType === 1 || meeting.selectType ===2)"
+          v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 1 || meeting.publicTypeId ===2)"
           :meeting2="fileMessage.meeting2"
         ></Meeting2>
       </div>
@@ -140,34 +189,19 @@ export default {
     }
   },
   methods: {
-
-    clear () {
-
-      this.paper.authors.forEach(item => {
-        for (let key in item) {
-          if (key === 'connectStatus' || key === 'firstStatus') {
-            continue
-          }
-          else item[key].status = true
-        }
+    addAuthor () {
+      this.paper.authors.push({ chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, groups: [{ label: "", status: true }], connect: false, first: false },)
+    },
+    addGroup (index1) {
+      this.paper.authors[index1].groups.push({
+        label: "",
+        status: ""
       })
     },
-    click (row, column, cell, event) {
-      this.paper.authors.forEach(item => {
-        for (let key in item) {
-          if (key === 'connectStatus' || key === 'firstStatus') {
-            continue
-          }
-          else item[key].status = true
-        }
-      })
-      row[column.property] && (row[column.property].status = false)
-      event.stopPropagation()
-    },
-    add () {
-      this.paper.authors.push({ chineseName: { label: "", status: true }, englishName: { label: "", status: true }, email: { label: "", status: true }, group: { label: "", status: true }, connectStatus: false, firstStatus: false })
-      console.log('this.paper.authorData', this.paper.authors);
+    deleteGroup (index1, index2) {
+      this.paper.authors[index1].groups.splice(index2, 1)
     }
+
   },
   watch: {
     'meeting.publicTypeId': {
@@ -284,7 +318,7 @@ export default {
         }
       }
     }
-    .authors {
+    /* .authors {
       width: 100%;
       font-size: 14px;
       margin-top: 20px;
@@ -293,6 +327,70 @@ export default {
         display: inline-block;
         width: 80px;
         margin-top: 18px;
+      }
+    } */
+    .authors2 {
+      width: 100%;
+      font-size: 14px;
+      margin-top: 20px;
+      display: flex;
+      span {
+        display: inline-block;
+        width: 80px;
+      }
+      .right2 {
+        .author {
+          border: 1px solid #eee;
+          padding-left: 10px;
+          padding-right: 10px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          box-sizing: border-box;
+        }
+        .first-line {
+          display: flex;
+          .chinese-name,
+          .engish-name,
+          .email,
+          .connect,
+          .first {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            &.connect,
+            &.first {
+              span {
+                width: 40px;
+              }
+            }
+          }
+        }
+        .group-wrapper {
+          display: flex;
+          margin-top: 18px;
+          span {
+            width: 60px;
+            margin-top: 4px;
+          }
+          .group {
+            display: flex;
+            margin-bottom: 5px;
+            .deleteBtn {
+              margin-left: 20px;
+            }
+          }
+        }
+        .add-icon-wrapper {
+          display: flex;
+          width: 100%;
+          justify-content: center;
+          font-size: 20px;
+          height: 30px;
+          align-items: center;
+          border: 1px solid #eee;
+          color: rgb(64, 158, 255);
+          cursor: pointer;
+        }
       }
     }
   }

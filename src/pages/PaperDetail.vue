@@ -12,32 +12,46 @@
             <span>摘要:</span>
             <div>{{paper.paperAbstract}}</div>
           </div>
-          <div class="authors">
-            <span>作者:</span>
-            <el-table :data="paper.authors" size="mini">
-              <el-table-column label="中文名" prop="chineseName"></el-table-column>
-              <el-table-column label="英文名" prop="englishName"></el-table-column>
-              <el-table-column label="邮箱" prop="email"></el-table-column>
-              <el-table-column label="所在单位" prop="group"></el-table-column>
-              <el-table-column label="通讯" width="60" prop="connect">
-                <template slot-scope="scope">
-                  <i
-                    class="el-icon-check"
-                    v-if="scope.row.authorType===0"
-                    :style="{color:'rgb(64, 158, 255)'}"
-                  ></i>
-                </template>
-              </el-table-column>
-              <el-table-column label="一作" width="60" prop="first">
-                <template slot-scope="scope">
-                  <i
-                    class="el-icon-check"
-                    v-if="scope.row.authorType===1"
-                    :style="{color:'rgb(64, 158, 255)'}"
-                  ></i>
-                </template>
-              </el-table-column>
-            </el-table>
+          <div class="authors2">
+            <span :style="{marginTop:'6px'}">作者:</span>
+            <div class="right2">
+              <div class="author" v-for="(author,authorIndex) in paper.authors" :key="authorIndex">
+                <div class="first-line">
+                  <div class="chinese-name">
+                    <span>中文名:</span>
+                    <span>{{author.chineseName.label}}</span>
+                  </div>
+                  <div class="engish-name">
+                    <span>英文名:</span>
+                    <span>{{author.engishName.label}}</span>
+                  </div>
+                  <div class="email">
+                    <span>邮箱:</span>
+                    <span>{{author.email.label}}</span>
+                  </div>
+                  <div class="connect">
+                    <span>通讯:</span>
+                    <el-checkbox v-model="author.connect" disabled></el-checkbox>
+                  </div>
+                  <div class="first">
+                    <span>一作:</span>
+                    <el-checkbox v-model="author.first" disabled></el-checkbox>
+                  </div>
+                </div>
+                <div class="group-wrapper">
+                  <span>单位:</span>
+                  <div class="wrapper2">
+                    <div
+                      class="group"
+                      v-for="(group,groupIndex) in author.groups"
+                      :key="groupIndex"
+                    >
+                      <span>{{group.label}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="input">
@@ -322,16 +336,68 @@ export default {
           }
         }
       }
-      .authors {
+      .authors2 {
         width: 100%;
         font-size: 14px;
         margin-top: 20px;
         display: flex;
-
         span {
           display: inline-block;
           width: 80px;
-          margin-top: 18px;
+        }
+        .right2 {
+          .author {
+            border: 1px solid #eee;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            box-sizing: border-box;
+          }
+          .first-line {
+            display: flex;
+            .chinese-name,
+            .engish-name,
+            .email,
+            .connect,
+            .first {
+              display: flex;
+              align-items: center;
+              margin-right: 15px;
+              &.connect,
+              &.first {
+                span {
+                  width: 40px;
+                }
+              }
+            }
+          }
+          .group-wrapper {
+            display: flex;
+            margin-top: 18px;
+            span {
+              width: 60px;
+              margin-top: 4px;
+            }
+            .group {
+              display: flex;
+              margin-bottom: 5px;
+              .deleteBtn {
+                margin-left: 20px;
+              }
+            }
+          }
+          .add-icon-wrapper {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            font-size: 20px;
+            height: 30px;
+            align-items: center;
+            border: 1px solid #eee;
+            color: rgb(64, 158, 255);
+            cursor: pointer;
+          }
         }
       }
       .zaiyao {

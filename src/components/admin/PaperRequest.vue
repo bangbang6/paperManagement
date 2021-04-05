@@ -37,6 +37,8 @@
 </template>
  
 <script>
+import { Message } from 'element-ui';
+import { getToAcceptedReviewPapers, getToPublicReviewPapers } from '@/api/admin'
 export default {
   data () {
     return {
@@ -55,24 +57,20 @@ export default {
     }
   },
   mounted () {
-    this.tableData1 = [{
-      shareUserName: 'xxx',
-      shareUserChannelName: 'yyy',
-      id: 1
-    }]
-    this.tableData2 = [{
-      shareUserName: 'xxx',
-      shareUserChannelName: 'yyy',
-      id: 1
-    }]
-    /* getAllRequest().then(res => {
-      console.log('userRequest', res);
-      if (res.data.code === 200) {
-        this.parser(res.data.data)
+    getToPublicReviewPapers().then(res => {
+      if (res.code === 200) {
+        console.log('res', res);
       } else {
-        alert(res.data.message)
+        Message.error(res.msg)
       }
-    }) */
+    })
+    getToAcceptedReviewPapers().then(res => {
+      if (res.code === 200) {
+        console.log('res', res);
+      } else {
+        Message.error(res.msg)
+      }
+    })
   },
   /*  watch: {
      tableData1: {

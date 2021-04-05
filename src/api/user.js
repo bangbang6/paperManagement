@@ -14,15 +14,7 @@ export function login(username,password){
 }
 
 
-export function getUserInfo(){
-  return request({
 
-  })
-}
-
-export function editUserInfo(){
-  return request({})
-}
 
 //获取个人所有论文
 export function getMyFilelist(){
@@ -37,6 +29,14 @@ export function updateFile(data){
     url:"/paper/update",
     method:"POST",
     data
+  })
+}
+
+export function updateUserInfo(user){
+  return request({
+    url:"/user/updateUserInfo",
+    method:"POST",
+    data:user
   })
 }
 
