@@ -18,20 +18,21 @@
           <span>{{chineseName}}</span>
         </div>
         <div class="name">
+          <span>学号:</span>
+          <span>{{userNumber}}</span>
+        </div>
+        <div class="name">
           <span>英文名:</span>
           <span>{{engishName}}</span>
         </div>
-        <div class="sex">
-          <span>性别:</span>
-          <span>{{sex}}</span>
-        </div>
+
         <div class="tel">
           <span>邮箱:</span>
           <span>{{email}}</span>
         </div>
         <div class="work">
           <span>所在单位:</span>
-          <span>{{group}}</span>
+          <span>{{organization}}</span>
         </div>
 
         <div class="change">
@@ -49,10 +50,11 @@
           <span>英文名:</span>
           <el-input v-model="engishName"></el-input>
         </div>
-        <div class="sex">
-          <span>性别:</span>
-          <el-input v-model="sex"></el-input>
+        <div class="name">
+          <span>学号:</span>
+          <el-input v-model="userNumber"></el-input>
         </div>
+
         <div class="tel">
           <span>邮箱:</span>
           <el-input v-model="email"></el-input>
@@ -60,7 +62,7 @@
         <div class="work">
           <span>单位:</span>
           <div class="wrapper">
-            <div v-for="(group,groupIndex) in groups" :key="groupIndex" class="group">
+            <div v-for="(group,groupIndex) in organizations" :key="groupIndex" class="group">
               <el-input v-model="group.label" type="textarea" :rows="1" :cols="50"></el-input>
               <el-button
                 type="danger"
@@ -99,21 +101,24 @@
 </template>
  
 <script>
-import { updateUserInfo } from '@/api/user'
+import { updateUserInfo, getUserInfo } from '@/api/user'
+import { Message } from 'element-ui'
 export default {
   data () {
     return {
       imgSrc: require("../../../public/avatual.png"),
-      chineseName: "廖振邦",
+      chineseName: "",
       engishName: "",
-      email: "1578015790@hust.com",
-      groups: [{ label: "" }],
+      email: "",
+      userNumber: "",
+      organizations: [{ label: "" }],
       radio: '1',
       firstNum: 666,
       secondNum: 666,
       ThirdNum: 666,
       dialogVisible: false,
-      sex: ""
+      sex: "",
+      organization: ""
     }
 
   },
@@ -130,10 +135,10 @@ export default {
       reader.readAsDataURL(file)
     },
     addGroup () {
-      this.groups.push({ label: "" })
+      this.organizations.push({ label: "" })
     },
     deleteGroup (index) {
-      this.groups.splice(index, 1)
+      this.organizations.splice(index, 1)
     },
     handleUpdate () {
       this.dialogVisible = false
@@ -141,7 +146,7 @@ export default {
         chineseName: this.chineseName,
         email: this.email,
         engishName: this.engishName,
-        group: this.group
+        organization: this.organizations.map(item => item.label).join(',')
       }
       updateUserInfo(user).then(res => {
         console.log('res', res);
@@ -149,12 +154,22 @@ export default {
     },
   },
   computed: {
-    group () {
-      return this.groups.map(item => item.label).join(',')
-    }
+
   },
   mounted () {
-
+    getUserInfo().then(res => {
+      if (res.code === 200) {
+        console.log('res', res);
+        this.chineseName = res.data.chineseName
+        this.email = res.data.email
+        this.organization = res.data.organization
+        this.organizations = res.data.organization ? res.data.organization.split(',').map(item => ({ label: item })) : []
+        this.userNumber = res.data.userNumber
+        this.username = res.data.username
+      } else {
+        Message.error(res.msg)
+      }
+    })
   }
 }
 </script>

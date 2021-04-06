@@ -1,5 +1,5 @@
 <template>
-  <div class="paper-detail" @click="clear">
+  <div class="paper-detail">
     <el-card shadow="always">
       <div class="title">
         <el-button type="primary" size="mini" @click="back">返回</el-button>
@@ -16,56 +16,11 @@
             <span>论文标题:</span>
             <el-input v-model="paper.title"></el-input>
           </div>
+          <div class="input">
+            <span>摘要:</span>
+             <el-input v-model="paper.paperAbstract" type="textarea" :rows="5" :cols="60"></el-input>
+          </div>
 
-          <!-- <div class="authors">
-            <span>作者:</span>
-            <el-table :data="paper.authorData" size="mini" @cell-click="click">
-              <el-table-column type="index"></el-table-column>
-              <el-table-column label="中文名" prop="chineseName">
-                <template slot-scope="scope">
-                  <div
-                    v-if="scope.row[scope.column.property].status"
-                  >{{scope.row.chineseName.label}}</div>
-                  <el-input v-model="scope.row.chineseName.label" v-else></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column label="英文名" prop="englishName">
-                <template slot-scope="scope">
-                  <div
-                    v-if="scope.row[scope.column.property].status"
-                  >{{scope.row.englishName.label}}</div>
-                  <el-input v-model="scope.row.englishName.label" v-else></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column label="邮箱" prop="email">
-                <template slot-scope="scope">
-                  <div v-if="scope.row[scope.column.property].status">{{scope.row.email.label}}</div>
-                  <el-input v-model="scope.row.email.label" v-else></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column label="所在单位" prop="group">
-                <template slot-scope="scope">
-                  <div v-if="scope.row[scope.column.property].status">{{scope.row.group.label}}</div>
-                  <el-input v-model="scope.row.group.label" v-else></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column label="通讯" width="60" prop="connect">
-                <template slot-scope="scope">
-                  <el-checkbox v-model="scope.row.connectStatus"></el-checkbox>
-                </template>
-              </el-table-column>
-              <el-table-column label="一作" width="60" prop="first">
-                <template slot-scope="scope">
-                  <el-checkbox v-model="scope.row.firstStatus"></el-checkbox>
-                </template>
-              </el-table-column>
-              <template slot="append">
-                <div class="append" @click="add">
-                  <div class="add">+</div>
-                </div>
-              </template>
-            </el-table>
-          </div>-->
           <div class="authors2">
             <span :style="{marginTop:'6px'}">作者:</span>
             <div class="right2">
@@ -73,15 +28,15 @@
                 <div class="first-line">
                   <div class="chinese-name">
                     <span>中文名:</span>
-                    <el-input v-model="author.chineseName.label"></el-input>
+                    <el-input v-model="author.chineseName"></el-input>
                   </div>
                   <div class="engish-name">
                     <span>英文名:</span>
-                    <el-input v-model="author.engishName.label"></el-input>
+                    <el-input v-model="author.englishName"></el-input>
                   </div>
                   <div class="email">
                     <span>邮箱:</span>
-                    <el-input v-model="author.email.label"></el-input>
+                    <el-input v-model="author.email"></el-input>
                   </div>
                   <div class="connect">
                     <span>通讯:</span>
@@ -97,7 +52,7 @@
                   <div class="wrapper2">
                     <div
                       class="group"
-                      v-for="(group,groupIndex) in author.groups"
+                      v-for="(group,groupIndex) in author.organization"
                       :key="groupIndex"
                     >
                       <el-input v-model="group.label" type="textarea" :rows="1" :cols="100"></el-input>
@@ -236,6 +191,16 @@ export default {
       if (res.code === 200) {
         console.log('res', res);
         this.paper = res.data
+        let authors = res.data.authors
+        this.paper.authors = authors.map(author => {
+          return {
+            ...author,
+            organization: author.organization ? author.organization.split(',').map(item => ({ label: item, status: false })) : [{ label: "", status: false }],
+            connect: author.correspondAuthor === 0,
+            first: author.firstAuthor === 1,
+          }
+        })
+
         this.qikan = {
           periodicalIssn: res.data.periodicalIssn,
           periodicalDol: res.data.periodicalDol,
@@ -282,8 +247,17 @@ export default {
   },
   methods: {
     submit () {
+      let paper = JSON.parse(JSON.stringify(this.paper))
+      paper.authors = this.paper.authors.map(author => {
+
+        return {
+          ...author,
+          organization: author.organization.map(item => (item.label)).join(',')
+        }
+      })
+
       let obj = {
-        ...this.paper,
+        ...paper,
         ...this.meeting2,
         ...this.meeting,
         ...this.qikan,
@@ -305,16 +279,15 @@ export default {
       this.$router.back()
     },
     addAuthor () {
-      this.paper.authors.push({ chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, groups: [{ label: "", status: true }], connect: false, first: false },)
+      this.paper.authors.push({ chineseName: "", engishName: "", email: "", organization: [{ label: "", status: false }], connect: false, first: false },)
     },
     addGroup (index1) {
-      this.paper.authors[index1].groups.push({
-        label: "",
-        status: ""
+      this.paper.authors[index1].organization.push({
+        label: "", status: false
       })
     },
     deleteGroup (index1, index2) {
-      this.paper.authors[index1].groups.splice(index2, 1)
+      this.paper.authors[index1].organization.splice(index2, 1)
     }
 
   },

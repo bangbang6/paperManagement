@@ -57,13 +57,14 @@ export default {
           paperAbstract: ""
         },
         paper: {
+          paperAbstract: '',
           id: '',
           title: "",
           firstPublish: true,
 
           hasAccepted: 0,
           authors: [
-            { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, groups: [{ label: "", status: true }], connect: false, first: false },
+            { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
 
           ],
 
@@ -117,12 +118,15 @@ export default {
     parse (authors) {
       authors.forEach(author => {
         if (author.connect === true) {
-          author.authorType = 0
-        } else if (author.first === true) {
-          author.authorType = 1
+          author.correspondAuthor = 1
+        } else {
+          author.correspondAuthor = 0
+        }
+        if (author.first === true) {
+          author.firstAuthor = 1
 
         } else {
-          author.authorType = 2
+          author.firstAuthor = 0
         }
       })
       console.log('authors', authors);
@@ -132,8 +136,9 @@ export default {
           chineseName: author.chineseName.label,
           englishName: author.engishName.label,
           email: author.email.label,
-          group: author.groups.map(group => group.label).join(','),
-          authorType: author.authorType
+          organization: author.organization.map(group => group.label).join(','),
+          correspondAuthor: author.correspondAuthor,
+          firstAuthor: author.firstAuthor
         }
       })
     },

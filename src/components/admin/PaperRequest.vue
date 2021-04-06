@@ -3,31 +3,34 @@
     <el-tabs type="border-card" class="tab">
       <el-tab-pane label="发布审核">
         <el-table :data="tableData1" class="table" size="mini" @row-click="clickRow">
-          <el-table-column prop="shareUserChannelName" label="论文标题" width="80"></el-table-column>
+          <el-table-column prop="title" label="论文标题" width="80"></el-table-column>
 
-          <el-table-column prop="sharedUserName" label="发布类型" width="80"></el-table-column>
-          <el-table-column prop="sharedUserChannelName" label="名称" width="80"></el-table-column>
-          <el-table-column prop="channelName" label="查重率" width="80"></el-table-column>
-          <el-table-column prop="channelName" label="截止时间"></el-table-column>
-          <el-table-column prop="channelName" label="作者"></el-table-column>
+          <el-table-column prop="publicTypeName" label="发布类型" width="80"></el-table-column>
+          <el-table-column prop="name" label="名称" width="80"></el-table-column>
+          <el-table-column prop="website" label="网址" width="140"></el-table-column>
+          <el-table-column prop="checkRate" label="查重率" width="80"></el-table-column>
+          <el-table-column prop="conferenceDeadline" label="截止时间" width="80"></el-table-column>
+          <el-table-column prop="authors" label="作者"></el-table-column>
           <el-table-column prop="action" label="操作" width="160">
-            <el-button type="primary" size="mini">同意</el-button>
-            <el-button type="danger" size="mini">拒绝</el-button>
+            <template slot-scope="scope">
+              <el-button type="primary" size="mini" @click="reviewToPublic(scope.row.id,1)">同意</el-button>
+              <el-button type="danger" size="mini" @click="reviewToPublic(scope.row.id,0)">拒绝</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="上链审核">
         <el-table :data="tableData2" class="table" size="mini" @row-click="clickRow">
-          <el-table-column prop="shareUserChannelName" label="论文标题" width="80"></el-table-column>
+          <el-table-column prop="title" label="论文标题" width="80"></el-table-column>
 
-          <el-table-column prop="sharedUserName" label="发布类型" width="80"></el-table-column>
+          <el-table-column prop="publicTypeName" label="发布类型" width="80"></el-table-column>
 
-          <el-table-column prop="channelName" label="会议名" width="160"></el-table-column>
-          <el-table-column prop="channelName" label="作者"></el-table-column>
+          <el-table-column prop="name" label="名称" width="160"></el-table-column>
+          <el-table-column prop="authors" label="作者"></el-table-column>
           <el-table-column prop="action" label="操作" width="160">
             <template>
-              <el-button type="primary" size="mini">同意</el-button>
-              <el-button type="danger" size="mini">拒绝</el-button>
+              <el-button type="primary" size="mini" @click="reviewToUpChain(scope.row.id,1)">同意</el-button>
+              <el-button type="danger" size="mini" @click="reviewToUpChain(scope.row.id,0)">拒绝</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -38,7 +41,7 @@
  
 <script>
 import { Message } from 'element-ui';
-import { getToAcceptedReviewPapers, getToPublicReviewPapers } from '@/api/admin'
+import { getToAcceptedReviewPapers, getToPublicReviewPapers, reviewToPublic, reviewToUpChain } from '@/api/admin'
 export default {
   data () {
     return {
@@ -54,23 +57,59 @@ export default {
       if (column.property === 'action') return
       localStorage.setItem('paperId', row.id)
       this.$router.push('/paperDetail')
+    },
+    reviewToPublic (id, op) {
+      reviewToPublic({ paperId: id, op: op }).then(res => {
+        if (res.code === 200) {
+          Message.success(res.msg)
+          this.getPublic()
+        } else {
+          Message.error(res.msg)
+        }
+      })
+    },
+    reviewToUpChain (id, op) {
+      reviewToUpChain({ paperId: id, op: op }).then(res => {
+        if (res.code === 200) {
+          Message.success(res.msg)
+          this.getReview()
+        } else {
+          Message.error(res.msg)
+        }
+      })
+    },
+    getPublic () {
+      getToPublicReviewPapers().then(res => {
+        if (res.code === 200) {
+          console.log('res', res);
+          this.tableData1 = res.data.map(item => {
+            return {
+              ...item,
+              checkRate: item.checkRate + '%'
+            }
+          })
+        } else {
+          Message.error(res.msg)
+        }
+      })
+    },
+    getReview () {
+      getToAcceptedReviewPapers().then(res => {
+        if (res.code === 200) {
+          console.log('res', res);
+          this.tableData2 = res.data
+
+        } else {
+          Message.error(res.msg)
+        }
+      })
     }
   },
+
   mounted () {
-    getToPublicReviewPapers().then(res => {
-      if (res.code === 200) {
-        console.log('res', res);
-      } else {
-        Message.error(res.msg)
-      }
-    })
-    getToAcceptedReviewPapers().then(res => {
-      if (res.code === 200) {
-        console.log('res', res);
-      } else {
-        Message.error(res.msg)
-      }
-    })
+    this.getPublic()
+    this.getReview()
+
   },
   /*  watch: {
      tableData1: {

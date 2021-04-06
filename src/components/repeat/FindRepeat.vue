@@ -4,10 +4,10 @@
       <el-table :data="tableData1" class="table" size="mini" @row-click="clickRow">
         <el-table-column prop="title" label="论文标题" width="160"></el-table-column>
 
-        <el-table-column prop="publicTypeName" label="发布类型" width="80"></el-table-column>
-        <el-table-column prop="publicTypeName" label="名称" width="80"></el-table-column>
+        <el-table-column prop="publicTypeName" label="发布类型" width="160"></el-table-column>
+        <el-table-column prop="name" label="名称" width="80"></el-table-column>
 
-        <el-table-column prop="conferenceDeadline" label="截止时间"></el-table-column>
+        <el-table-column prop="conferenceDeadline" label="截止时间" width="80"></el-table-column>
         <el-table-column prop="authors" label="作者"></el-table-column>
       </el-table>
     </el-card>

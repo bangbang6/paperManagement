@@ -19,3 +19,18 @@ export function getToPublicReviewPapers(){
     method:'GET'
   })
 }
+
+export function reviewToUpChain(data){
+  return request({
+    url:`/admin/reviewToUpChain?paperId=${data.paperId}&op=${data.op}`,
+    method:'POST'
+    
+  })
+}
+export function reviewToPublic(data){
+  return request({
+    url:`/admin/reviewToPublic?paperId=${data.paperId}&op=${data.op}`,
+    method:'POST'
+  
+  })
+}

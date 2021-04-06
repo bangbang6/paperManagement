@@ -19,23 +19,24 @@
                 <div class="first-line">
                   <div class="chinese-name">
                     <span>中文名:</span>
-                    <span>{{author.chineseName.label}}</span>
+                    <div>{{author.chineseName}}</div>
                   </div>
                   <div class="engish-name">
                     <span>英文名:</span>
-                    <span>{{author.engishName.label}}</span>
+                    <div>{{author.englishName}}</div>
                   </div>
                   <div class="email">
                     <span>邮箱:</span>
-                    <span>{{author.email.label}}</span>
+                    <div>{{author.email}}</div>
                   </div>
                   <div class="connect">
                     <span>通讯:</span>
-                    <el-checkbox v-model="author.connect" disabled></el-checkbox>
+
+                    <i class="el-icon-check" v-if="author.connect"></i>
                   </div>
                   <div class="first">
                     <span>一作:</span>
-                    <el-checkbox v-model="author.first" disabled></el-checkbox>
+                    <i class="el-icon-check" v-if="author.first"></i>
                   </div>
                 </div>
                 <div class="group-wrapper">
@@ -43,10 +44,10 @@
                   <div class="wrapper2">
                     <div
                       class="group"
-                      v-for="(group,groupIndex) in author.groups"
-                      :key="groupIndex"
+                      v-for="(organization,organizationIndex) in author.organization"
+                      :key="organizationIndex"
                     >
-                      <span>{{group.label}}</span>
+                      <div>{{organization}}</div>
                     </div>
                   </div>
                 </div>
@@ -70,7 +71,7 @@
             <span>论文状态:</span>
             <div>{{statusWord}}</div>
           </div>
-          <div class="meeting2-message" v-if="(paper.publicTypeId===1 || paper.publicTypeId === 3)">
+          <div class="meeting2-message" v-if="meetingShow">
             <div class="input">
               <span>时间:</span>
               <div>{{paper.conferenceTime}}</div>
@@ -80,7 +81,7 @@
               <div>{{paper.conferenceSite}}</div>
             </div>
           </div>
-          <div class="meeting-message" v-if="(paper.publicTypeId===2) ">
+          <div class="meeting-message" v-if="qikanShow ">
             <div class="input">
               <span>issn:</span>
               <div>{{paper.periodicalIssn}}</div>
@@ -115,7 +116,9 @@
             </div>
             <div class="file-rate">
               <span class="text">查重率:</span>
-              <el-input v-model="repeat.rate"></el-input>
+              <el-input v-model="repeat.rate" placeholder="百分比">
+                <template slot="append">%</template>
+              </el-input>
             </div>
             <div class="result">
               <span class="text">查重通过:</span>
@@ -143,13 +146,13 @@
           </div>
         </el-card>-->
         <el-card shadow="always" v-if="role==='1'">
-          <div class="download">
+          <div class="download" @click="handle(1)">
             <i class="el-icon-circle-check"></i>
             <span>同意</span>
           </div>
         </el-card>
         <el-card shadow="always" v-if="role==='1'">
-          <div class="red see">
+          <div class="red see" @click="handle(0)">
             <i class="el-icon-circle-close"></i>
             <span>拒绝</span>
           </div>
@@ -165,6 +168,7 @@ import { getPaperDetail } from '@/api/paper'
 
 import { uploadFile } from '@/api/teacher'
 import { submitCheckResult } from '@/api/repeat'
+import { reviewToPublic, reviewToUpChain } from '@/api/admin'
 import { types } from '@/api/type'
 
 export default {
@@ -192,6 +196,32 @@ export default {
     back () {
       this.$router.back()
     },
+    handle (op) {
+      console.log('this.paper.status', this.paper.status);
+      let status = this.paper.status
+      if (status === 2) {
+        reviewToPublic({ paperId: this.paperId, op: op }).then(res => {
+          if (res.code === 200) {
+            Message.success(res.msg)
+            this.$router.back()
+          } else {
+            Message.error(res.msg)
+          }
+        })
+      } else if (status === 5) {
+        reviewToUpChain({ paperId: this.paperId, op: op }).then(res => {
+          if (res.code === 200) {
+            Message.success(res.msg)
+            this.$router.back()
+          } else {
+            Message.error(res.msg)
+          }
+        })
+      }
+    },
+    reject () {
+
+    },
     handleChange (e) {
       const file = e.target.files[0]
       console.log('file', file);
@@ -211,9 +241,9 @@ export default {
         return
       }
       let data = {
-        paperId: this.paperId,
+        paperId: +this.paperId,
         isPassed: +this.repeat.success,
-        rate: this.repeat.rate,
+        rate: Number(this.repeat.rate),
         resultFileId: this.fileId
       }
       submitCheckResult(data).then(res => {
@@ -246,8 +276,21 @@ export default {
     }
     getPaperDetail(+this.paperId).then(res => {
       if (res.code === 200) {
-        console.log('papaer', res);
+
+
         this.paper = res.data
+        /* this.paper.authors.group = res.data.authors.group ? res.data.authors.group.split(',') : []
+        console.log('this.paper', this.paper); */
+        let authors = res.data.authors
+        this.paper.authors = authors.map(author => {
+          return {
+            ...author,
+            organization: author.organization ? author.organization.split(',') : [],
+            connect: author.correspondAuthor === 0,
+            first: author.firstAuthor === 1,
+          }
+        })
+        console.log('this.paper', this.paper);
       } else {
         Message.error(res.msg)
       }
@@ -261,6 +304,22 @@ export default {
     },
     statusWord () {
       return types[this.paper.status]
+    },
+    /*  if (res.data.publicTypeId === 1 || res.data.publicTypeId === 2 || res.data.publicTypeId === 7) {
+        this.meeting.publicTypeId = res.data.publicTypeId
+      } else {
+        //处理只给了二层id的问题
+        let publicTypeId = 1
+        if (res.data.publicTypeId === 3 || res.data.publicTypeId === 4 || res.data.publicTypeId === 5 || res.data.publicTypeId === 6) {
+          publicTypeId = 2
+        } else if (res.data.publicTypeId === 8 || res.data.publicTypeId === 9 || res.data.publicTypeId === 10 || res.data.publicTypeId === 11) {
+          publicTypeId = 7
+        } */
+    meetingShow () {
+      return this.paper.publicTypeId === 1 || this.paper.publicTypeId === 2 || this.paper.publicTypeId === 3 || this.paper.publicTypeId === 4 || this.paper.publicTypeId === 5 || this.paper.publicTypeId === 6
+    },
+    qikanShow () {
+      return this.paper.publicTypeId === 7 || this.paper.publicTypeId === 8 || this.paper.publicTypeId === 9 || this.paper.publicTypeId === 10 || this.paper.publicTypeId === 11
     }
   }
 }
@@ -361,14 +420,20 @@ export default {
             .email,
             .connect,
             .first {
+              width: 160px;
               display: flex;
               align-items: center;
               margin-right: 15px;
+
               &.connect,
               &.first {
+                width: 80px;
                 span {
                   width: 40px;
                 }
+              }
+              &.email {
+                width: 200px;
               }
             }
           }
@@ -377,7 +442,6 @@ export default {
             margin-top: 18px;
             span {
               width: 60px;
-              margin-top: 4px;
             }
             .group {
               display: flex;

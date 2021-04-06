@@ -40,3 +40,19 @@ export function updateUserInfo(user){
   })
 }
 
+
+export function getUserInfo(){
+  return request({
+    url:"/user/getCurrentUserInfo",
+    method:'GET'
+  })
+}
+
+
+export function register(data){
+  return request({
+    url:"/user/register",
+    method:'POST',
+    data
+  })
+}

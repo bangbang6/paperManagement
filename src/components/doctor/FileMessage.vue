@@ -85,7 +85,7 @@
               <div class="group-wrapper">
                 <span>单位:</span>
                 <div class="wrapper2">
-                  <div class="group" v-for="(group,groupIndex) in author.groups" :key="groupIndex">
+                  <div class="group" v-for="(group,groupIndex) in author.organization" :key="groupIndex">
                     <el-input v-model="group.label" type="textarea" :rows="1" :cols="100"></el-input>
                     <el-button
                       type="danger"
@@ -158,6 +158,10 @@
           v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 1 || meeting.publicTypeId ===2)"
           :meeting2="fileMessage.meeting2"
         ></Meeting2>
+        <div class="paperAbstract input">
+          <span>摘要:</span>
+          <el-input v-model="paper.paperAbstract" type="textarea" :rows="5" :cols="60"></el-input>
+        </div>
       </div>
     </div>
   </div>
@@ -190,16 +194,16 @@ export default {
   },
   methods: {
     addAuthor () {
-      this.paper.authors.push({ chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, groups: [{ label: "", status: true }], connect: false, first: false },)
+      this.paper.authors.push({ chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },)
     },
     addGroup (index1) {
-      this.paper.authors[index1].groups.push({
+      this.paper.authors[index1].organization.push({
         label: "",
         status: ""
       })
     },
     deleteGroup (index1, index2) {
-      this.paper.authors[index1].groups.splice(index2, 1)
+      this.paper.authors[index1].organization.splice(index2, 1)
     }
 
   },
