@@ -4,9 +4,10 @@ const request = axios.create({
   baseURL:"http://211.69.197.138:8090",
   timeout:5000
 })
-const token1 = localStorage.getItem('token') 
+
 request.interceptors.request.use(
   request=>{
+    const token1 = localStorage.getItem('token') 
     if(token1){
       request.headers['token'] = token1
     }

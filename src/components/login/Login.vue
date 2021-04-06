@@ -13,7 +13,7 @@
         </el-input>
       </div>
       <div class="password">
-        <el-input placeholder="密码" v-model="password">
+        <el-input placeholder="密码" v-model="password" type="password">
           <i slot="prefix" class="iconfont">&#xe663;</i>
         </el-input>
       </div>
