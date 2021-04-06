@@ -74,7 +74,7 @@ export default {
         this.paperData = res.data.map((item, index) => {
           return {
             level: 1,
-            label: index === 0 ? '通讯' : index === 1 ? '一作' : "其他",
+            label: index === 0 ? '一作' : index === 1 ? '通讯' : "其他",
             children: item.map(item2 => ({
               ...item2,
               label: 2,

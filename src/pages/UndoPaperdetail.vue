@@ -18,7 +18,7 @@
           </div>
           <div class="input">
             <span>摘要:</span>
-             <el-input v-model="paper.paperAbstract" type="textarea" :rows="5" :cols="60"></el-input>
+            <el-input v-model="paper.paperAbstract" type="textarea" :rows="5" :cols="60"></el-input>
           </div>
 
           <div class="authors2">
@@ -114,7 +114,11 @@
           </div>
           <div class="input">
             <span>查重结果:</span>
-            <div>{{paper.duplicateCheckResultId}}</div>
+            <div>{{passStatus}}</div>
+          </div>
+          <div class="input">
+            <span>查重率:</span>
+            <div>{{passRate}}</div>
           </div>
           <div class="input">
             <span>论文状态:</span>
@@ -123,13 +127,23 @@
               <el-radio v-model="paper.hasAccepted" :label="0">未收录</el-radio>
             </div>
           </div>
+          <div class="input" v-if="paper.hasAccepted === 1">
+            <span>项目号:</span>
+            <el-input v-model="paper.projectNum"></el-input>
+          </div>
+          <div class="input" v-if="paper.hasAccepted === 1">
+            <span>项目基金:</span>
+            <el-input v-model="paper.projectFund"></el-input>
+          </div>
         </div>
       </div>
+
       <Qikan v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 7 )" :qikan="qikan"></Qikan>
       <Meeting2
         v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 1 || meeting.publicTypeId ===2)"
         :meeting2="meeting2"
       ></Meeting2>
+
       <el-button type="primary" style="margin-top:20px;" @click="submit">提交</el-button>
       <!-- <div class="operation">
         <el-card shadow="always">
@@ -195,8 +209,8 @@ export default {
         this.paper.authors = authors.map(author => {
           return {
             ...author,
-            organization: author.organization ? author.organization.split(',').map(item => ({ label: item, status: false })) : [{ label: "", status: false }],
-            connect: author.correspondAuthor === 0,
+            organization: author.organization ? author.organization.split('#').map(item => ({ label: item, status: false })) : [{ label: "", status: false }],
+            connect: author.correspondAuthor === 1,
             first: author.firstAuthor === 1,
           }
         })
@@ -294,6 +308,14 @@ export default {
   computed: {
     paperStatusWord () {
       return this.paperStatus === 0 ? "已发布" : "未发布"
+    },
+    passRate () {
+      if (!this.paper.duplicateCheckResult) return
+      return this.paper.duplicateCheckResult.rate + '%'
+    },
+    passStatus () {
+      if (!this.paper.duplicateCheckResult) return
+      return this.paper.duplicateCheckResult.isPassed ? '通过' : "未通过"
     }
   },
   watch: {
@@ -535,5 +557,8 @@ export default {
     font-size: 24px;
     color: rgb(64, 158, 255);
   }
+}
+.card {
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
 }
 </style>

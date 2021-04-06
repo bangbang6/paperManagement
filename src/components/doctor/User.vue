@@ -32,7 +32,13 @@
         </div>
         <div class="work">
           <span>所在单位:</span>
-          <span>{{organization}}</span>
+          <!--   <span>{{organization}}</span> -->
+          <div class="wrapper" :style="{marginLeft:'5px'}">
+            <div
+              v-for="(item,index) in organizations"
+              :key="item.label"
+            >{{`${index+1}.${item.label}`}}</div>
+          </div>
         </div>
 
         <div class="change">
@@ -146,7 +152,7 @@ export default {
         chineseName: this.chineseName,
         email: this.email,
         engishName: this.engishName,
-        organization: this.organizations.map(item => item.label).join(',')
+        organization: this.organizations.map(item => item.label).join('#')
       }
       updateUserInfo(user).then(res => {
         console.log('res', res);
@@ -163,7 +169,7 @@ export default {
         this.chineseName = res.data.chineseName
         this.email = res.data.email
         this.organization = res.data.organization
-        this.organizations = res.data.organization ? res.data.organization.split(',').map(item => ({ label: item })) : []
+        this.organizations = res.data.organization ? res.data.organization.split('#').map(item => ({ label: item })) : []
         this.userNumber = res.data.userNumber
         this.username = res.data.username
       } else {
@@ -245,6 +251,9 @@ export default {
         margin-top: 20px;
         span:nth-child(2) {
           margin-left: 4px;
+        }
+        &.work {
+          display: flex;
         }
       }
     }

@@ -26,8 +26,11 @@
       <span>期刊号:</span>
       <el-input v-model="qikan.periodicalIssueNum"></el-input>
     </div>
-
     
+    <div class="input">
+      <span>期刊号:</span>
+      <el-input v-model="qikan.periodicalIssueNum"></el-input>
+    </div>
   </div>
 </template>
  

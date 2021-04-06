@@ -26,6 +26,8 @@
           <el-table-column prop="publicTypeName" label="发布类型" width="80"></el-table-column>
 
           <el-table-column prop="name" label="名称" width="160"></el-table-column>
+          <el-table-column prop="website" label="网址" width="140"></el-table-column>
+          <el-table-column prop="checkRate" label="查重率" width="80"></el-table-column>
           <el-table-column prop="authors" label="作者"></el-table-column>
           <el-table-column prop="action" label="操作" width="160">
             <template>
@@ -85,7 +87,8 @@ export default {
           this.tableData1 = res.data.map(item => {
             return {
               ...item,
-              checkRate: item.checkRate + '%'
+              checkRate: item.checkRate + '%',
+              conferenceDeadline: item.conferenceDeadline ? new Date(item.conferenceDeadline).toLocaleDateString() : ''
             }
           })
         } else {

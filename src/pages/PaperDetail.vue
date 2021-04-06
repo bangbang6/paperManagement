@@ -29,15 +29,19 @@
                     <span>邮箱:</span>
                     <div>{{author.email}}</div>
                   </div>
-                  <div class="connect">
+                  <!-- <div class="connect">
                     <span>通讯:</span>
 
                     <i class="el-icon-check" v-if="author.connect"></i>
                   </div>
+
                   <div class="first">
                     <span>一作:</span>
                     <i class="el-icon-check" v-if="author.first"></i>
-                  </div>
+                  </div>-->
+
+                  <el-tag v-if="author.first">一作</el-tag>
+                  <el-tag type="success" v-if="author.connect">通讯</el-tag>
                 </div>
                 <div class="group-wrapper">
                   <span>单位:</span>
@@ -71,10 +75,27 @@
             <span>论文状态:</span>
             <div>{{statusWord}}</div>
           </div>
+          <div class="input" v-if="paper.hasAccepted === 1">
+            <span>项目号:</span>
+
+            <div>{{paper.projectNum}}</div>
+          </div>
+          <div class="input" v-if="paper.hasAccepted === 1">
+            <span>项目基金:</span>
+            <div>{{paper.projectFund}}</div>
+          </div>
+          <div class="input" v-if="role==='1' ">
+            <span>查重率:</span>
+            <div>{{passRate}}</div>
+          </div>
+          <div class="input" v-if="role==='1' ">
+            <span>查重结果:</span>
+            <div>{{passStatus}}</div>
+          </div>
           <div class="meeting2-message" v-if="meetingShow">
             <div class="input">
               <span>时间:</span>
-              <div>{{paper.conferenceTime}}</div>
+              <div>{{meetingTime}}</div>
             </div>
             <div class="input">
               <span>地点:</span>
@@ -285,9 +306,10 @@ export default {
         this.paper.authors = authors.map(author => {
           return {
             ...author,
-            organization: author.organization ? author.organization.split(',') : [],
-            connect: author.correspondAuthor === 0,
+            organization: author.organization ? author.organization.split('#') : [],
+            connect: author.correspondAuthor === 1,
             first: author.firstAuthor === 1,
+
           }
         })
         console.log('this.paper', this.paper);
@@ -301,6 +323,18 @@ export default {
   computed: {
     role () {
       return localStorage.getItem('role') || '1'
+    },
+    meetingTime () {
+      if (!this.paper.conferenceTime) return ''
+      return new Date(this.paper.conferenceTime).toLocaleDateString()
+    },
+    passStatus () {
+      if (!this.paper.duplicateCheckResult) return ""
+      return this.paper.duplicateCheckResult.isPassed ? '通过' : "不通过"
+    },
+    passRate () {
+      if (!this.paper.duplicateCheckResult) return ""
+      return this.paper.duplicateCheckResult.rate + '%'
     },
     statusWord () {
       return types[this.paper.status]
@@ -405,6 +439,7 @@ export default {
           width: 80px;
         }
         .right2 {
+          width: 90%;
           .author {
             border: 1px solid #eee;
             padding-left: 10px;
@@ -412,6 +447,7 @@ export default {
             padding-top: 10px;
             padding-bottom: 10px;
             box-sizing: border-box;
+            width: 100%;
           }
           .first-line {
             display: flex;
@@ -420,7 +456,7 @@ export default {
             .email,
             .connect,
             .first {
-              width: 160px;
+              width: 20%;
               display: flex;
               align-items: center;
               margin-right: 15px;
@@ -598,5 +634,17 @@ export default {
 }
 span {
   font-weight: 600;
+}
+.card {
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-right: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background: rgb(64, 158, 255);
+  color: white;
 }
 </style>

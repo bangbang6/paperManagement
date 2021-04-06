@@ -48,20 +48,23 @@ export default {
           periodicalYear: "",
           periodicalVolumeNum: "",
           periodicalIssueNum: "",
-          paperAbstract: ""
+          paperAbstract: "",
+
         },
         meeting2: {
 
           conferenceSite: "",
           conferenceTime: "",
-          paperAbstract: ""
+          paperAbstract: "",
+
         },
         paper: {
           paperAbstract: '',
           id: '',
           title: "",
           firstPublish: true,
-
+          projectNum: "",
+          projectFund: "",
           hasAccepted: 0,
           authors: [
             { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
@@ -136,7 +139,7 @@ export default {
           chineseName: author.chineseName.label,
           englishName: author.engishName.label,
           email: author.email.label,
-          organization: author.organization.map(group => group.label).join(','),
+          organization: author.organization.map(group => group.label).join('#'),
           correspondAuthor: author.correspondAuthor,
           firstAuthor: author.firstAuthor
         }

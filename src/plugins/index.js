@@ -1,4 +1,4 @@
-import { Input,Button,Radio,Upload,RadioGroup,Tree,Table,TableColumn,Loading,Card,Row,Col,DatePicker,Tooltip,Popover,TabPane,Tabs,Checkbox,Select,Option,Dialog,Dropdown,DropdownItem,DropdownMenu } from 'element-ui'
+import { Input,Button,Radio,Upload,RadioGroup,Tree,Table,TableColumn,Loading,Card,Row,Col,DatePicker,Tooltip,Popover,TabPane,Tabs,Checkbox,Select,Option,Dialog,Dropdown,DropdownItem,DropdownMenu,Tag } from 'element-ui'
 const element = {
   install: function (Vue) {
     
@@ -26,6 +26,7 @@ const element = {
     Vue.use(Dropdown)
     Vue.use(DropdownItem)
     Vue.use(DropdownMenu)
+    Vue.use(Tag)
     
   }
 }

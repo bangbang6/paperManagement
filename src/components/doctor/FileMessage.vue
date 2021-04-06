@@ -85,7 +85,11 @@
               <div class="group-wrapper">
                 <span>单位:</span>
                 <div class="wrapper2">
-                  <div class="group" v-for="(group,groupIndex) in author.organization" :key="groupIndex">
+                  <div
+                    class="group"
+                    v-for="(group,groupIndex) in author.organization"
+                    :key="groupIndex"
+                  >
                     <el-input v-model="group.label" type="textarea" :rows="1" :cols="100"></el-input>
                     <el-button
                       type="danger"
@@ -137,7 +141,7 @@
               v-model="meeting.conferenceDeadline"
               type="date"
               placeholder="截止日期"
-              v-if="meeting.publicTypeId === 1 || meeting.publicTypeId ===3"
+              v-if="meeting.publicTypeId === 1 || meeting.publicTypeId ===2"
             ></el-date-picker>
           </div>
         </div>
@@ -158,6 +162,14 @@
           v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 1 || meeting.publicTypeId ===2)"
           :meeting2="fileMessage.meeting2"
         ></Meeting2>
+        <div class="input" v-if="paper.hasAccepted === 1">
+          <span>项目号:</span>
+          <el-input v-model="paper.projectNum"></el-input>
+        </div>
+        <div class="input" v-if="paper.hasAccepted === 1">
+          <span>项目基金:</span>
+          <el-input v-model="paper.projectFund"></el-input>
+        </div>
         <div class="paperAbstract input">
           <span>摘要:</span>
           <el-input v-model="paper.paperAbstract" type="textarea" :rows="5" :cols="60"></el-input>

@@ -37,7 +37,8 @@ export default {
       if (res.code === 200) {
         console.log('res', res);
         this.tableData1 = res.data.map(data => ({
-          ...data
+          ...data,
+          conferenceDeadline: data.conferenceDeadline ? new Date(data.conferenceDeadline).toLocaleDateString() : ''
         }))
       } else {
         Message.error(res.msg)
