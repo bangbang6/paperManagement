@@ -103,6 +103,7 @@ export default {
           this.tableData2 = res.data
 
         } else {
+          console.log('res', res);
           Message.error(res.msg)
         }
       })

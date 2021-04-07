@@ -13,20 +13,20 @@
             <div>{{paper.paperAbstract}}</div>
           </div>
           <div class="authors2">
-            <span :style="{marginTop:'6px'}">作者:</span>
+            <span :style="{marginTop:'6px'}" class="span">作者:</span>
             <div class="right2">
               <div class="author" v-for="(author,authorIndex) in paper.authors" :key="authorIndex">
                 <div class="first-line">
                   <div class="chinese-name">
-                    <span>中文名:</span>
+                    <span class="span">中文名:</span>
                     <div>{{author.chineseName}}</div>
                   </div>
                   <div class="engish-name">
-                    <span>英文名:</span>
+                    <span class="span">英文名:</span>
                     <div>{{author.englishName}}</div>
                   </div>
                   <div class="email">
-                    <span>邮箱:</span>
+                    <span class="span">邮箱:</span>
                     <div>{{author.email}}</div>
                   </div>
                   <!-- <div class="connect">
@@ -40,7 +40,7 @@
                     <i class="el-icon-check" v-if="author.first"></i>
                   </div>-->
 
-                  <el-tag v-if="author.first">一作</el-tag>
+                  <el-tag v-if="author.first" :style="{marginRight:'5px'}">一作</el-tag>
                   <el-tag type="success" v-if="author.connect">通讯</el-tag>
                 </div>
                 <div class="group-wrapper">
@@ -434,12 +434,13 @@ export default {
         font-size: 14px;
         margin-top: 20px;
         display: flex;
-        span {
+        .span {
           display: inline-block;
           width: 80px;
         }
         .right2 {
           width: 90%;
+
           .author {
             border: 1px solid #eee;
             padding-left: 10px;
