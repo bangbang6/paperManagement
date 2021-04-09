@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Message } from '_element-ui@2.15.1@element-ui'
+import { Message } from 'element-ui'
 
 const request = axios.create({
   baseURL:"http://211.69.197.138:8091",
