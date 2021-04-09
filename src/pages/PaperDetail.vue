@@ -223,19 +223,35 @@ export default {
       if (status === 2) {
         reviewToPublic({ paperId: this.paperId, op: op }).then(res => {
           if (res.code === 200) {
-            Message.success(res.msg)
+            Message({
+              message: res.msg,
+              type: 'success',
+              duration: 1000
+            })
             this.$router.back()
           } else {
-            Message.error(res.msg)
+            Message({
+              message: res.msg,
+              type: 'error',
+              duration: 1000
+            })
           }
         })
       } else if (status === 5) {
         reviewToUpChain({ paperId: this.paperId, op: op }).then(res => {
           if (res.code === 200) {
-            Message.success(res.msg)
+            Message({
+              message: res.msg,
+              type: 'success',
+              duration: 1000
+            })
             this.$router.back()
           } else {
-            Message.error(res.msg)
+            Message({
+              message: res.msg,
+              type: 'error',
+              duration: 1000
+            })
           }
         })
       }
@@ -253,7 +269,11 @@ export default {
         if (res.code === 200) {
           this.fileId = res.msg
         } else {
-          Message.error(res.msg)
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
         }
       })
     },
@@ -269,14 +289,18 @@ export default {
       }
       submitCheckResult(data).then(res => {
         if (res.code === 200) {
-          Message.success({
+          Message({
             message: res.msg,
-
-
+            type: 'success',
+            duration: 1000
           })
           this.$router.back()
         } else {
-          Message.error(res.msg)
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
         }
       })
     }
@@ -286,12 +310,15 @@ export default {
     this.paperId = localStorage.getItem('paperId')
 
     if (!this.paperId) {
-      Message.error({
+      Message({
         onClose: () => {
           this.$router.back()
         },
         showClose: true,
-        message: "论文id出错"
+        message: "论文id出错",
+        duration: 1000,
+        type: "error"
+
       })
 
     }
@@ -314,7 +341,11 @@ export default {
         })
         console.log('this.paper', this.paper);
       } else {
-        Message.error(res.msg)
+        Message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
       }
     })
 

@@ -84,7 +84,11 @@ export default {
         })
         console.log('this.paperData', this.paperData);
       } else {
-        Message.error(res.msg)
+        Message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
       }
     })
   }

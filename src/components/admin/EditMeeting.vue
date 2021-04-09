@@ -53,7 +53,6 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="其他会议"></el-tab-pane>
     </el-tabs>
   </div>
 </template>

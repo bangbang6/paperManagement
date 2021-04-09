@@ -35,7 +35,7 @@ export default {
       if (command === 'loginout') {
         localStorage.removeItem('role')
         localStorage.removeItem('token')
-        this.$router.push('/')
+        this.$router.push('/login')
       }
     }
   }

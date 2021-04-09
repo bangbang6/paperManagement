@@ -63,20 +63,36 @@ export default {
     reviewToPublic (id, op) {
       reviewToPublic({ paperId: id, op: op }).then(res => {
         if (res.code === 200) {
-          Message.success(res.msg)
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 1000
+          })
           this.getPublic()
         } else {
-          Message.error(res.msg)
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
         }
       })
     },
     reviewToUpChain (id, op) {
       reviewToUpChain({ paperId: id, op: op }).then(res => {
         if (res.code === 200) {
-          Message.success(res.msg)
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 1000
+          })
           this.getReview()
         } else {
-          Message.error(res.msg)
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
         }
       })
     },
@@ -92,7 +108,11 @@ export default {
             }
           })
         } else {
-          Message.error(res.msg)
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
         }
       })
     },
@@ -104,7 +124,11 @@ export default {
 
         } else {
           console.log('res', res);
-          Message.error(res.msg)
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
         }
       })
     }

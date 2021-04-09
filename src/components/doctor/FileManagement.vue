@@ -67,7 +67,7 @@ export default {
           projectFund: "",
           hasAccepted: 0,
           authors: [
-            { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
+            { chineseName: { label: "", status: true }, englishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
 
           ],
 
@@ -102,9 +102,17 @@ export default {
         if (res.code === 200) {
           console.log(res);
           this.fileId = res.msg
-
+          Message({
+            message: '文件上传成功',
+            type: 'success',
+            duration: 1000
+          })
         } else {
-          Message.error(res.msg)
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
         }
       })
 
@@ -137,7 +145,7 @@ export default {
         return {
 
           chineseName: author.chineseName.label,
-          englishName: author.engishName.label,
+          englishName: author.englishName.label,
           email: author.email.label,
           organization: author.organization.map(group => group.label).join('#'),
           correspondAuthor: author.correspondAuthor,
@@ -149,7 +157,11 @@ export default {
       /* let formData = new FormData() //通过formdata拼接数据 */
       console.log('this.fileMessage', this.fileMessage);
       if (!this.fileId || !this.fileMessage.paper.title || !this.fileMessage.meeting.website || !this.fileMessage.meeting.name || !this.fileMessage.meeting.publicTypeId) {
-        Message.error('必要信息不能为空')
+        Message({
+          message: "必要信息不能为空",
+          type: 'error',
+          duration: 1000
+        })
         return
       }
 
@@ -173,9 +185,17 @@ export default {
 
       uploadPaper(obj).then(res => {
         if (res.code === 200) {
-          Message.success(res.msg)
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 1000
+          })
         } else {
-          Message.error(res.msg)
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
         }
       })
     }

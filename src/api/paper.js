@@ -22,3 +22,15 @@ export function editPaper(obj){
    
   })
 }
+/**
+ * 根据中文名返回用户
+ * @param {*} chineseName 
+ */
+export function getUserByChineseName(ChineseName){
+  
+  return request({
+    url:`/user/getUserByChineseName?ChineseName=${ChineseName}`,
+    method:'GET',
+    
+  })
+}

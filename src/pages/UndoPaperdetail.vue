@@ -197,7 +197,11 @@ export default {
     console.log(' this.paperId', this.paperId);
     if (!this.paperId) {
 
-      Message.error("论文id出错")
+      Message({
+        message: "论文id出错",
+        type: 'error',
+        duration: 1000
+      })
 
       return
     }
@@ -243,7 +247,11 @@ export default {
         }
 
       } else {
-        Message.error(res.msg)
+        Message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
       }
     })
     getTypeTree().then(res => {
@@ -278,14 +286,22 @@ export default {
         id: this.paperId
       }
       if (!obj.id || !obj.title || !obj.website || !obj.name || !obj.publicTypeId) {
-        Message.error('必要信息不能为空')
+        Message({
+          message: "必要信息不能为空",
+          type: 'error',
+          duration: 1000
+        })
         return
       }
       updateFile(obj).then(res => {
         if (res.code === 200) {
           console.log('res', res);
         } else {
-          Message.error(res.msg)
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
         }
       })
     },
@@ -293,7 +309,7 @@ export default {
       this.$router.back()
     },
     addAuthor () {
-      this.paper.authors.push({ chineseName: "", engishName: "", email: "", organization: [{ label: "", status: false }], connect: false, first: false },)
+      this.paper.authors.push({ chineseName: "", englishName: "", email: "", organization: [{ label: "", status: false }], connect: false, first: false },)
     },
     addGroup (index1) {
       this.paper.authors[index1].organization.push({

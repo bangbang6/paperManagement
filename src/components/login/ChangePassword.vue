@@ -3,7 +3,7 @@
     <div class="login">
       <div class="info-wrapper">
         <i class="iconfont">&#xe678;</i>
-        <div class="info">用户注册</div>
+        <div class="info">修改密码</div>
         <!--  <i class="iconfont toggle" @click="toggle">&#xe624;</i> -->
       </div>
 
@@ -18,10 +18,11 @@
         </el-input>
       </div>
       <div class="password">
-        <el-input placeholder="密码" v-model="password" type="password">
+        <el-input placeholder="新密码" v-model="password" type="password">
           <i slot="prefix" class="iconfont">&#xe663;</i>
         </el-input>
       </div>
+
       <div class="capchar">
         <el-input placeholder="验证码" v-model="capchar" type="text" class="capchar-input">
           <i slot="prefix" class="iconfont">&#xe667;</i>
@@ -34,9 +35,9 @@
         >{{btnInfo}}</el-button>
       </div>
 
-      <el-button type="primary" class="btn" @click="register">注册</el-button>
+      <el-button type="primary" class="btn" @click="handleClick">确定</el-button>
       <div class="register-wrapper">
-        <div class="register" @click="$router.push('/')">已经有账号?登录</div>
+        <div class="register" @click="$router.push('/')">已有账号?去登录</div>
       </div>
     </div>
   </div>
@@ -44,22 +45,22 @@
  
 <script>
 import { Message } from 'element-ui'
-import { register, sendEmail } from '@/api/user'
+import { toPassword, rePassword } from '@/api/user'
 export default {
   data () {
     return {
 
-      email: "",
+      role: '0',
+      account: "",
       password: "",
       username: "",
-      capchar: "",
-      btnDisabled: false,
-
-      seconds: 0
+      seconds: 0,
+      capchar: '',
+      email: '',
+      btnDisabled: false
     }
   },
   computed: {
-
     btnInfo () {
       if (this.seconds > 0) {
         return `${this.seconds}s`
@@ -70,9 +71,6 @@ export default {
     }
   },
   methods: {
-    /*  toggle () {
-       this.role = (this.role + 1) % 2
-     }, */
     submitChachar () {
       if (!this.email || !this.username) {
         Message({
@@ -82,7 +80,7 @@ export default {
         })
         return
       }
-      sendEmail(this.email, this.username).then(res => {
+      toPassword(this.email, this.username).then(res => {
         if (res.code === 200) {
           console.log('res', res);
           this.btnDisabled = true
@@ -104,29 +102,23 @@ export default {
         }
       })
     },
-    register () {
-
-      register(this.email, this.username, this.password, this.capchar).then(res => {
+    handleClick () {
+      rePassword(this.email, this.password, this.username, this.capchar).then(res => {
         if (res.code === 200) {
-          console.log('res', res);
           Message({
+            type: "success",
             message: res.msg,
-            duration: 1000,
-            type: 'success'
+            duration: 1000
           })
           this.$router.push('/login')
-
         } else {
           Message({
+            type: "error",
             message: res.msg,
-            type: 'error',
             duration: 1000
           })
         }
       })
-
-
-
     }
   }
 }
@@ -226,6 +218,6 @@ export default {
   align-items: center;
 }
 .el-input--prefix .el-input__inner {
-  padding-left: 50px;
+  padding-left: 50px !important;
 }
 </style>

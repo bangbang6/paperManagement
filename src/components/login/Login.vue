@@ -8,7 +8,7 @@
       </div>
 
       <div class="account">
-        <el-input placeholder="账号" v-model="username">
+        <el-input placeholder="邮箱" v-model="email">
           <i slot="prefix" class="iconfont">&#xe627;</i>
         </el-input>
       </div>
@@ -38,7 +38,7 @@ export default {
     return {
 
       role: '0',
-      account: "",
+      email: "",
       password: "",
       username: ""
     }
@@ -54,21 +54,25 @@ export default {
      }, */
     login () {
       if (this.role === '0') {
-        login(this.username, this.password).then(res => {
+        login(this.email, this.password).then(res => {
           if (res.code === 200) {
             console.log('res', res);
             localStorage.setItem('token', res.data.token)
-            this.$router.push('/userCenter')
+            this.$router.push('/teacher')
             localStorage.setItem('role', '0')
           } else {
-            Message.error(res.msg)
+            Message({
+              message: res.msg,
+              type: 'error',
+              duration: 1000
+            })
           }
         })
 
 
       } else if (this.role === '1') {
 
-        login(this.username, this.password).then(res => {
+        login(this.email, this.password).then(res => {
           if (res.code === 200) {
             console.log('res', res);
             localStorage.setItem('token', res.data.token)
@@ -76,19 +80,27 @@ export default {
 
             localStorage.setItem('role', '1')
           } else {
-            Message.error(res.msg)
+            Message({
+              message: res.msg,
+              type: 'error',
+              duration: 1000
+            })
           }
         })
       } else {
 
-        login(this.username, this.password).then(res => {
+        login(this.email, this.password).then(res => {
           if (res.code === 200) {
             console.log('res', res);
             localStorage.setItem('token', res.data.token)
             this.$router.push('/repeat')
             localStorage.setItem('role', '2')
           } else {
-            Message.error(res.msg)
+            Message({
+              message: res.msg,
+              type: 'error',
+              duration: 1000
+            })
           }
         })
 

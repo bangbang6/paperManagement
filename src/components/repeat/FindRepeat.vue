@@ -17,7 +17,7 @@
 <script>
 import { checkPaper } from '@/api/repeat'
 import { Message } from 'element-ui'
-
+import { getUserInfo } from '@/api/user'
 export default {
   data () {
     return {
@@ -41,10 +41,26 @@ export default {
           conferenceDeadline: data.conferenceDeadline ? new Date(data.conferenceDeadline).toLocaleDateString() : ''
         }))
       } else {
-        Message.error(res.msg)
+        Message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
+      }
+    })
+    getUserInfo().then(res => {
+      if (res.code === 200) {
+        localStorage.setItem('role', res.data.role)
+      } else {
+        Message({
+          message: res.msg,
+          duration: 1000,
+          type: 'error'
+        })
       }
     })
   }
+
 }
 </script>
  

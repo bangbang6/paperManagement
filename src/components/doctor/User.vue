@@ -23,7 +23,7 @@
         </div>
         <div class="name">
           <span>英文名:</span>
-          <span>{{engishName}}</span>
+          <span>{{englishName}}</span>
         </div>
 
         <div class="tel">
@@ -54,7 +54,7 @@
         </div>
         <div class="name">
           <span>英文名:</span>
-          <el-input v-model="engishName"></el-input>
+          <el-input v-model="englishName"></el-input>
         </div>
         <div class="name">
           <span>学号:</span>
@@ -92,7 +92,7 @@
         <el-button type="primary" @click="handleUpdate">确 定</el-button>
       </span>
     </el-dialog>
-    <div class="paper">
+    <!--  <div class="paper">
       <div class="title-wrapper">
         <div class="line"></div>
         <div class="title">论文统计</div>
@@ -102,19 +102,20 @@
         <div class="num-item">通讯作文数:{{secondNum}}</div>
         <div class="num-item">其他:{{ThirdNum}}</div>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
  
 <script>
-import { updateUserInfo, getUserInfo } from '@/api/user'
+import { updateUserInfo, getUserInfo, getAvatar, setAvatar } from '@/api/user'
 import { Message } from 'element-ui'
+import { Bus } from '../../main'
 export default {
   data () {
     return {
       imgSrc: require("../../../public/avatual.png"),
       chineseName: "",
-      engishName: "",
+      englishName: "",
       email: "",
       userNumber: "",
       organizations: [{ label: "" }],
@@ -133,12 +134,47 @@ export default {
     uploadHead (e) {
       const file = e.target.files[0]
       console.log('file', file);
-      const reader = new FileReader()
-      reader.onload = (data) => {
-        let res = data.target || data.srcElement
-        this.imgSrc = res.result
-      }
-      reader.readAsDataURL(file)
+      let formData = new FormData();
+      formData.append("avatar", file);
+      setAvatar(formData).then(res => {
+        console.log('res', res);
+        if (res.code === 200) {
+          Message({
+            message: res.msg,
+            duration: 1000,
+            type: 'success'
+          })
+          getAvatar().then(res => {
+            if (res.code === 200) {
+              console.log('res', res);
+              this.imgSrc = `data:${res.data.type};base64,${res.data.data}`
+              Bus.$emit('changeAvatual', this.imgSrc)
+            } else {
+              Message({
+                message: res.msg,
+                duration: 1000,
+                type: 'error'
+              })
+            }
+
+          })
+        } else {
+          Message({
+            message: res.msg,
+            duration: 1000,
+            type: 'error'
+          })
+        }
+
+      })
+      /*   const reader = new FileReader()
+        reader.onload = (data) => {
+          let res = data.target || data.srcElement
+          this.imgSrc = res.result
+          console.log('file', file);
+          
+        }
+        reader.readAsDataURL(file) */
     },
     addGroup () {
       this.organizations.push({ label: "" })
@@ -151,7 +187,7 @@ export default {
       let user = {
         chineseName: this.chineseName,
         email: this.email,
-        engishName: this.engishName,
+        englishName: this.englishName,
         organization: this.organizations.map(item => item.label).join('#')
       }
       updateUserInfo(user).then(res => {
@@ -165,6 +201,7 @@ export default {
   mounted () {
     getUserInfo().then(res => {
       if (res.code === 200) {
+        /* localStorage.setItem('role', res.data.role) */
         console.log('res', res);
         this.chineseName = res.data.chineseName
         this.email = res.data.email
@@ -173,7 +210,17 @@ export default {
         this.userNumber = res.data.userNumber
         this.username = res.data.username
       } else {
-        Message.error(res.msg)
+        Message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
+      }
+    })
+    getAvatar().then(res => {
+      console.log('res', res);
+      if (res.code === 200) {
+        this.imgSrc = `data:${res.data.type};base64,${res.data.data}`
       }
     })
   }
@@ -192,6 +239,8 @@ export default {
     display: flex;
     .left {
       width: 20%;
+      padding-left: 20px;
+      box-sizing: border-box;
       .title-wrapper {
         height: 50px;
         display: flex;

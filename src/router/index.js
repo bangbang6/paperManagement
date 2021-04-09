@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import User  from '../components/doctor/User'
 import Login  from '../components/login/Login'
 import Register  from '../components/login/Register'
+import ChangePassword  from '../components/login/ChangePassword'
 import Admin  from '../components/admin/Admin'
 import MyFile  from '../components/doctor/MyFile'
 import PaperRequest  from '../components/admin/PaperRequest'
@@ -13,6 +14,7 @@ import AdminMain  from '../pages/AdminMain'
 import repeatMain  from '../pages/RepeatMain'
 import undoPaperdetail  from '../pages/UndoPaperdetail'
 import Main  from '../pages/Main'
+import LoginMain  from '../pages/LoginMain'
 
 import PaperDetail  from '../pages/PaperDetail'
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
@@ -24,18 +26,13 @@ const routes = [
   
       {
         path:"/",
-        component:Main,
-        
+        component:LoginMain,
+        redirect:"/login",
         children:[
           
           {
-            path:"/userCenter",
-            name:"userCenter",
-            component:User
-          },
-          {
-            path:"/",
-            name:"Login",
+            path:"/login",
+            name:"login",
             component:Login
           },
           {
@@ -44,14 +41,34 @@ const routes = [
             component:Register
           },
           {
-            path:"/fileManagement",
-            name:"fileManagement",
-            component:fileManagement
+            path:"/changePassword",
+            name:"changePassword",
+            component:ChangePassword
+          }
+         
+        ]
+      },
+     
+      {
+        path:"/teacher",
+        name:"teacherMain",
+        redirect:'/teacher/userCenter',
+        component:Main,
+        children:[
+          {
+            path:'/teacher/userCenter',
+            name:"user",
+            component:User
           },
           {
-            path:"/myfile",
+            path:'/teacher/myfile',
             name:"myfile",
             component:MyFile
+          },
+          {
+            path:'/teacher/fileManagement',
+            name:"fileManagement",
+            component:fileManagement
           },
         ]
       },
@@ -80,7 +97,6 @@ const routes = [
           
         ]
       },
-      
       {
         path:"/repeat",
         name:"repeatMain",
@@ -104,6 +120,8 @@ const routes = [
         name:"undoPaperdetail",
         component:undoPaperdetail
       },
+    
+    
       
 
 ]

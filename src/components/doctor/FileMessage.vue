@@ -63,11 +63,14 @@
               <div class="first-line">
                 <div class="chinese-name">
                   <span>中文名:</span>
-                  <el-input v-model="author.chineseName.label"></el-input>
+                  <el-input
+                    v-model="author.chineseName.label"
+                    @change="name=>getUser(name,authorIndex)"
+                  ></el-input>
                 </div>
                 <div class="engish-name">
                   <span>英文名:</span>
-                  <el-input v-model="author.engishName.label"></el-input>
+                  <el-input v-model="author.englishName.label"></el-input>
                 </div>
                 <div class="email">
                   <span>邮箱:</span>
@@ -182,10 +185,13 @@
 <script>
 import Meeting2 from './Meeting2'
 import Qikan from './Qikan'
+import { getUserByChineseName } from '@/api/paper'
+import { Message } from 'element-ui'
 export default {
   props: {
     fileMessage: Object
   },
+
   computed: {
     paper () {
       return this.fileMessage.paper
@@ -205,8 +211,38 @@ export default {
     }
   },
   methods: {
+    getUser (name, authorIndex) {
+      getUserByChineseName(name).then(res => {
+        if (res.code === 200) {
+          if (res.data) {
+            /*  authors: [
+             { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
+ 
+           ], */
+            let author = {
+              chineseName: { label: res.data.chineseName, status: true },
+              englishName: { label: res.data.englishName, status: true },
+              email: { label: res.data.email, status: true },
+              organization: res.data.organization.split('#').map(item => ({
+                label: item,
+                status: true
+              }))
+            }
+            this.paper.authors.splice(authorIndex, 1, author)
+
+
+          }
+        } else {
+          Message({
+            type: 'error',
+            duration: 1000,
+            message: res.msg
+          })
+        }
+      })
+    },
     addAuthor () {
-      this.paper.authors.push({ chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },)
+      this.paper.authors.push({ chineseName: { label: "", status: true }, englishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },)
     },
     addGroup (index1) {
       this.paper.authors[index1].organization.push({
