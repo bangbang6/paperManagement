@@ -17,7 +17,6 @@
 <script>
 import { checkPaper } from '@/api/repeat'
 import { Message } from 'element-ui'
-import { getUserInfo } from '@/api/user'
 export default {
   data () {
     return {
@@ -48,17 +47,17 @@ export default {
         })
       }
     })
-    getUserInfo().then(res => {
-      if (res.code === 200) {
-        localStorage.setItem('role', res.data.role)
-      } else {
-        Message({
-          message: res.msg,
-          duration: 1000,
-          type: 'error'
-        })
-      }
-    })
+    /*  getUserInfo().then(res=>{
+       if(res.code === 200){
+         localStorage.setItem('role',res.data.role)
+       }else{
+         Message({
+           message:res.msg,
+           duration:1000,
+           type:'error'
+         })
+       }
+     }) */
   }
 
 }
