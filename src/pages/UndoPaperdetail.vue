@@ -295,6 +295,11 @@ export default {
       }
       updateFile(obj).then(res => {
         if (res.code === 200) {
+          Message({
+            message: res.msg,
+            type: 'success',
+            duration: 1000
+          })
           console.log('res', res);
         } else {
           Message({

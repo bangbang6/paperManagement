@@ -209,6 +209,7 @@ export default {
         this.organizations = res.data.organization ? res.data.organization.split('#').map(item => ({ label: item })) : []
         this.userNumber = res.data.userNumber
         this.username = res.data.username
+        this.englishName = res.data.englishName
       } else {
         Message({
           message: res.msg,
