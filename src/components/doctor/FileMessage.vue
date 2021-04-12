@@ -116,7 +116,7 @@
           <span>发表信息:</span>
           <div class="meeting-wrapper">
             <div class="select-wrapper">
-              <el-select v-model="meeting.publicTypeId" placeholder="发表类别">
+              <el-select v-model="meeting.publicTypeId0" placeholder="发表类别">
                 <el-option
                   v-for="item in meeting.options"
                   :key="item.value"
@@ -125,9 +125,9 @@
                 ></el-option>
               </el-select>
               <el-select
-                v-model="meeting.publicTypeId2"
+                v-model="meeting.publicTypeId"
                 placeholder="具体类别"
-                v-if="meeting.publicTypeId"
+                v-if="meeting.publicTypeId0"
               >
                 <el-option
                   v-for="item in meeting.options2"
@@ -144,25 +144,37 @@
               v-model="meeting.conferenceDeadline"
               type="date"
               placeholder="截止日期"
-              v-if="meeting.publicTypeId === 1 || meeting.publicTypeId ===2"
+              v-if="meeting.publicTypeId0 === 1 || meeting.publicTypeId0 ===7"
             ></el-date-picker>
           </div>
         </div>
 
-        <div class="input">
-          <span>论文状态:</span>
+        <div class="input2">
+          <span class="paper_status">论文状态:</span>
           <div>
             <el-radio v-model="paper.hasAccepted" :label="1">已收录</el-radio>
             <el-radio v-model="paper.hasAccepted" :label="0">未收录</el-radio>
-            <el-checkbox v-model="paper.firstCommit">是否为第一次投稿</el-checkbox>
+            <el-checkbox v-model="paper.need_check">是否需要查重(需要查重的情况:1.第一次投稿 2.距上次查重超半年)</el-checkbox>
+            <div class="repeat" v-if="!paper.need_check">
+              <div class="file-result">
+                <span class="text">上次查重结果:</span>
+                <input type="file" @change="handleChange" />
+              </div>
+              <div class="file-rate">
+                <span class="text">查重率:</span>
+                <el-input v-model="paper.rate" placeholder="百分比">
+                  <template slot="append">%</template>
+                </el-input>
+              </div>
+            </div>
           </div>
         </div>
         <Qikan
-          v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 7 )"
+          v-if="paper.hasAccepted === 1 && (meeting.publicTypeId0 === 7 )"
           :qikan="fileMessage.qikan"
         ></Qikan>
         <Meeting2
-          v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 1 || meeting.publicTypeId ===2)"
+          v-if="paper.hasAccepted === 1 && (meeting.publicTypeId0 === 1)"
           :meeting2="fileMessage.meeting2"
         ></Meeting2>
         <div class="input" v-if="paper.hasAccepted === 1">
@@ -186,6 +198,7 @@
 import Meeting2 from './Meeting2'
 import Qikan from './Qikan'
 import { getUserByChineseName } from '@/api/paper'
+import { uploadFile } from '@/api/teacher'
 import { Message } from 'element-ui'
 export default {
   props: {
@@ -211,6 +224,29 @@ export default {
     }
   },
   methods: {
+    handleChange (e) {
+      const file = e.target.files[0]
+      console.log('file', file);
+
+      let formData = new FormData();
+      formData.append("file", file);
+      uploadFile(formData).then(res => {
+        if (res.code === 200) {
+          this.paper.resultFileId = res.msg
+          Message({
+            message: "查重文件上传成功",
+            type: 'success',
+            duration: 1000
+          })
+        } else {
+          Message({
+            message: "查重文件上传失败",
+            type: 'error',
+            duration: 1000
+          })
+        }
+      })
+    },
     getUser (name, authorIndex) {
       getUserByChineseName(name).then(res => {
         if (res.code === 200) {
@@ -233,11 +269,11 @@ export default {
 
           }
         } else {
-          Message({
-            type: 'error',
-            duration: 1000,
-            message: res.msg
-          })
+          /*  Message({
+             type: 'error',
+             duration: 1000,
+             message: res.msg
+           }) */
         }
       })
     },
@@ -256,10 +292,10 @@ export default {
 
   },
   watch: {
-    'meeting.publicTypeId': {
+    'meeting.publicTypeId0': {
       handler (newV) {
         console.log('newV', newV);
-        this.meeting.publicTypeId2 = ''
+        this.meeting.publicTypeId = ''
         this.meeting.options.forEach((item) => {
 
           if (item.value === newV) {
@@ -340,6 +376,22 @@ export default {
         display: inline-block;
         width: 80px;
       }
+
+      .el-input {
+        width: 200px;
+      }
+    }
+    .input2 {
+      width: 100%;
+      font-size: 14px;
+      margin-top: 10px;
+      display: flex;
+
+      span {
+        display: inline-block;
+        width: 80px;
+      }
+
       .el-input {
         width: 200px;
       }
@@ -467,5 +519,45 @@ export default {
 }
 .el-icon-date {
   height: 40px;
+}
+</style>
+<style lang='scss' scoped>
+.repeat {
+  margin-top: 10px;
+  width: 100%;
+  font-size: 14px;
+  margin-top: 16px;
+  .file-result {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    .text {
+      width: 100px !important;
+      display: inline-block;
+    }
+    .el-input {
+      width: 140px;
+    }
+  }
+  .file-rate {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    .text {
+      width: 80px;
+      display: inline-block;
+    }
+    .el-input {
+      width: 140px;
+    }
+  }
+  .result {
+    margin-top: 10px;
+
+    .text {
+      width: 80px;
+      display: inline-block;
+    }
+  }
 }
 </style>

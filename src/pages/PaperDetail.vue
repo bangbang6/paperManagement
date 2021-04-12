@@ -91,7 +91,15 @@
           <div class="input" v-if="role==='1' ">
             <span>查重结果:</span>
             <div>{{passStatus}}</div>
+            <el-button
+              type="primary"
+              size="mini"
+              :style="{marginLeft:'10px'}"
+              v-if="paper.duplicateCheckResult.resultFileId"
+              @click="downloadResultFile"
+            >下载查重文件</el-button>
           </div>
+
           <div class="meeting2-message" v-if="meetingShow">
             <div class="input">
               <span>时间:</span>
@@ -154,18 +162,6 @@
       </div>
 
       <div class="operation">
-        <!--  <el-card shadow="always">
-          <div class="download">
-            <i class="el-icon-download"></i>
-            <span>下载</span>
-          </div>
-        </el-card>
-        <el-card shadow="always">
-          <div class="see">
-            <i class="el-icon-view"></i>
-            <span>预览</span>
-          </div>
-        </el-card>-->
         <el-card shadow="always" v-if="role==='1'">
           <div class="download" @click="handle(1)">
             <i class="el-icon-circle-check"></i>
@@ -178,6 +174,12 @@
             <span>拒绝</span>
           </div>
         </el-card>
+        <el-card shadow="always" v-if="paper.fileId">
+          <div class="download" @click="downloadFile">
+            <i class="el-icon-download"></i>
+            <span>下载</span>
+          </div>
+        </el-card>
       </div>
     </el-card>
   </div>
@@ -185,7 +187,7 @@
  
 <script>
 import { Message } from 'element-ui'
-import { getPaperDetail } from '@/api/paper'
+import { getPaperDetail, downloadFile } from '@/api/paper'
 
 import { uploadFile } from '@/api/teacher'
 import { submitCheckResult } from '@/api/repeat'
@@ -214,6 +216,12 @@ export default {
   },
 
   methods: {
+    downloadFile () {
+      downloadFile(this.paper.fileId)
+    },
+    downloadResultFile () {
+      downloadFile(this.paper.duplicateCheckResult.resultFileId)
+    },
     back () {
       this.$router.back()
     },
@@ -370,21 +378,12 @@ export default {
     statusWord () {
       return types[this.paper.status]
     },
-    /*  if (res.data.publicTypeId === 1 || res.data.publicTypeId === 2 || res.data.publicTypeId === 7) {
-        this.meeting.publicTypeId = res.data.publicTypeId
-      } else {
-        //处理只给了二层id的问题
-        let publicTypeId = 1
-        if (res.data.publicTypeId === 3 || res.data.publicTypeId === 4 || res.data.publicTypeId === 5 || res.data.publicTypeId === 6) {
-          publicTypeId = 2
-        } else if (res.data.publicTypeId === 8 || res.data.publicTypeId === 9 || res.data.publicTypeId === 10 || res.data.publicTypeId === 11) {
-          publicTypeId = 7
-        } */
+
     meetingShow () {
-      return this.paper.publicTypeId === 1 || this.paper.publicTypeId === 2 || this.paper.publicTypeId === 3 || this.paper.publicTypeId === 4 || this.paper.publicTypeId === 5 || this.paper.publicTypeId === 6
+      return this.paper.publicTypeId.parentId === 1 && this.paper.hasAccepted === 1
     },
     qikanShow () {
-      return this.paper.publicTypeId === 7 || this.paper.publicTypeId === 8 || this.paper.publicTypeId === 9 || this.paper.publicTypeId === 10 || this.paper.publicTypeId === 11
+      return this.paper.publicTypeId.parentId === 7 && this.paper.hasAccepted === 1
     }
   }
 }

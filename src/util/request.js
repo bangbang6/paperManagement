@@ -30,7 +30,7 @@ request.interceptors.response.use(
     Message({
       type:'error',
       duration:2000,
-      message:err.response.data  //err.response.data这个可以拿到报错的具体message
+      message:err.response  //err.response.data这个可以拿到报错的具体message
     })
     return Promise.reject(err)
   }

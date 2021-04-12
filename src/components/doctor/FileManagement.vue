@@ -70,12 +70,12 @@ export default {
             { chineseName: { label: "", status: true }, englishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
 
           ],
-
+          need_check: true
         },
         meeting: {
           conferenceDeadline: "",
           publicTypeId: "",
-          publicTypeId2: "",
+          publicTypeId0: "",
           name: "",
           website: "",
           options: [],
@@ -107,6 +107,9 @@ export default {
             type: 'success',
             duration: 1000
           })
+          setTimeout(() => {
+            this.$router.push('/teacher/myfile')
+          }, 1000)
         } else {
           Message({
             message: res.msg,
@@ -174,8 +177,9 @@ export default {
         ...meeting,
         firstPublish: paper.firstPublish ? 1 : 0,
         authors: this.parse(paper.authors),
-        publicTypeId: meeting.publicTypeId2 || meeting.publicTypeId,
-        fileId: this.fileId
+        publicTypeId: meeting.publicTypeId,
+        fileId: this.fileId,
+        need_check: Number(paper.need_check)
       }
 
 

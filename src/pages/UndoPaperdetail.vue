@@ -78,7 +78,7 @@
             <span>发表信息:</span>
             <div class="meeting-wrapper">
               <div class="select-wrapper">
-                <el-select v-model="meeting.publicTypeId" placeholder="发表类别">
+                <el-select v-model="meeting.publicTypeId0" placeholder="发表类别">
                   <el-option
                     v-for="item in meeting.options"
                     :key="item.value"
@@ -87,9 +87,9 @@
                   ></el-option>
                 </el-select>
                 <el-select
-                  v-model="meeting.publicTypeId2"
+                  v-model="meeting.publicTypeId"
                   placeholder="具体类别"
-                  v-if="meeting.publicTypeId"
+                  v-if="meeting.publicTypeId0"
                   :style="{marginLeft:'20px'}"
                 >
                   <el-option
@@ -107,18 +107,31 @@
                   v-model="paper.conferenceDeadline"
                   type="date"
                   placeholder="截止日期"
-                  v-if="meeting.publicTypeId === 1 || meeting.publicTypeId ===2"
+                  v-if="meeting.publicTypeId0 === 1 "
                 ></el-date-picker>
               </div>
             </div>
           </div>
-          <div class="input">
+          <div
+            class="input"
+            v-if="paper.duplicateCheckResult && paper.duplicateCheckResult.resultFileId"
+          >
             <span>查重结果:</span>
             <div>{{passStatus}}</div>
           </div>
-          <div class="input">
+          <div
+            class="input"
+            v-if="paper.duplicateCheckResult && paper.duplicateCheckResult.resultFileId"
+          >
             <span>查重率:</span>
             <div>{{passRate}}</div>
+            <el-button
+              type="primary"
+              size="mini"
+              :style="{marginLeft:'10px'}"
+              v-if="paper.duplicateCheckResult && paper.duplicateCheckResult.resultFileId"
+              @click="downloadResultFile"
+            >下载查重文件</el-button>
           </div>
           <div class="input">
             <span>论文状态:</span>
@@ -138,27 +151,21 @@
         </div>
       </div>
 
-      <Qikan v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 7 )" :qikan="qikan"></Qikan>
+      <Qikan v-if="paper.hasAccepted === 1 && (meeting.publicTypeId0 === 7 )" :qikan="qikan"></Qikan>
       <Meeting2
-        v-if="paper.hasAccepted === 1 && (meeting.publicTypeId === 1 || meeting.publicTypeId ===2)"
+        v-if="paper.hasAccepted === 1 && (meeting.publicTypeId0 === 1 )"
         :meeting2="meeting2"
       ></Meeting2>
 
       <el-button type="primary" style="margin-top:20px;" @click="submit">提交</el-button>
-      <!-- <div class="operation">
-        <el-card shadow="always">
-          <div class="download">
+      <div class="operation">
+        <el-card shadow="always" v-if="paper.fileId">
+          <div class="download" @click="downloadFile">
             <i class="el-icon-download"></i>
             <span>下载</span>
           </div>
         </el-card>
-        <el-card shadow="always">
-          <div class="see">
-            <i class="el-icon-view"></i>
-            <span>预览</span>
-          </div>
-        </el-card>
-      </div>-->
+      </div>
     </el-card>
   </div>
 </template>
@@ -167,7 +174,7 @@
 import { Message } from 'element-ui'
 import Meeting2 from '../components/doctor/Meeting2'
 import Qikan from '../components/doctor/Qikan'
-import { getPaperDetail } from '@/api/paper'
+import { getPaperDetail, downloadFile } from '@/api/paper'
 import { getTypeTree } from '@/api/meeting'
 import { updateFile } from '@/api/user'
 export default {
@@ -186,7 +193,7 @@ export default {
 
         options: [],
         options2: [],
-        publicTypeId2: '',
+        publicTypeId0: '',
         publicTypeId: ''
       },
       qikan: {}
@@ -205,55 +212,6 @@ export default {
 
       return
     }
-    getPaperDetail(+this.paperId).then(res => {
-      if (res.code === 200) {
-        console.log('res', res);
-        this.paper = res.data
-        let authors = res.data.authors
-        this.paper.authors = authors.map(author => {
-          return {
-            ...author,
-            organization: author.organization ? author.organization.split('#').map(item => ({ label: item, status: false })) : [{ label: "", status: false }],
-            connect: author.correspondAuthor === 1,
-            first: author.firstAuthor === 1,
-          }
-        })
-
-        this.qikan = {
-          periodicalIssn: res.data.periodicalIssn,
-          periodicalDol: res.data.periodicalDol,
-          periodicalIssueNum: res.data.periodicalIssueNum,
-          periodicalIssuePage: res.data.periodicalIssuePage,
-          periodicalVolumnNum: res.data.periodicalVolumnNum,
-          periodicalYear: res.data.periodicalYear
-        }
-        this.meeting2 = {
-          conferenceTime: res.data.conferenceTime,
-          conferenceSite: res.data.conferenceSite
-        }
-        if (res.data.publicTypeId === 1 || res.data.publicTypeId === 2 || res.data.publicTypeId === 7) {
-          this.meeting.publicTypeId = res.data.publicTypeId
-        } else {
-          //处理只给了二层id的问题
-          let publicTypeId = 1
-          if (res.data.publicTypeId === 3 || res.data.publicTypeId === 4 || res.data.publicTypeId === 5 || res.data.publicTypeId === 6) {
-            publicTypeId = 2
-          } else if (res.data.publicTypeId === 8 || res.data.publicTypeId === 9 || res.data.publicTypeId === 10 || res.data.publicTypeId === 11) {
-            publicTypeId = 7
-          }
-          this.meeting.publicTypeId = publicTypeId
-          this.meeting.publicTypeId2 = res.data.publicTypeId
-
-        }
-
-      } else {
-        Message({
-          message: res.msg,
-          type: 'error',
-          duration: 1000
-        })
-      }
-    })
     getTypeTree().then(res => {
       console.log('res', res);
       this.meeting.options = res.map(item => {
@@ -264,10 +222,55 @@ export default {
           value: item.id
         }
       })
+      getPaperDetail(+this.paperId).then(res2 => {
+        if (res2.code === 200) {
+          console.log('res2', res2);
+          this.paper = res2.data
+          let authors = res2.data.authors
+          this.paper.authors = authors.map(author => {
+            return {
+              ...author,
+              organization: author.organization ? author.organization.split('#').map(item => ({ label: item, status: false })) : [{ label: "", status: false }],
+              connect: author.correspondAuthor === 1,
+              first: author.firstAuthor === 1,
+            }
+          })
 
+          this.qikan = {
+            periodicalIssn: res2.data.periodicalIssn,
+            periodicalDol: res2.data.periodicalDol,
+            periodicalIssueNum: res2.data.periodicalIssueNum,
+            periodicalIssuePage: res2.data.periodicalIssuePage,
+            periodicalVolumnNum: res2.data.periodicalVolumnNum,
+            periodicalYear: res2.data.periodicalYear
+          }
+          this.meeting2 = {
+            conferenceTime: res2.data.conferenceTime,
+            conferenceSite: res2.data.conferenceSite
+          }
+          this.meeting.publicTypeId = res2.data.publicTypeId
+          this.meeting.publicTypeId0 = res2.data.publicTypeId > 7 ? 7 : 1
+
+
+        } else {
+          Message({
+            message: res2.msg,
+            type: 'error',
+            duration: 1000
+          })
+        }
+      })
     })
+
+
   },
   methods: {
+    downloadFile () {
+      downloadFile(this.paper.fileId)
+    },
+    downloadResultFile () {
+      downloadFile(this.paper.duplicateCheckResult.resultFileId)
+    },
     submit () {
       let paper = JSON.parse(JSON.stringify(this.paper))
       paper.authors = this.paper.authors.map(author => {
@@ -340,10 +343,10 @@ export default {
     }
   },
   watch: {
-    'meeting.publicTypeId': {
+    'meeting.publicTypeId0': {
       handler (newV) {
         console.log('newV', newV);
-        this.meeting.publicTypeId2 = ''
+        this.meeting.publicTypeId = ''
         this.meeting.options.forEach((item) => {
 
           if (item.value === newV) {
@@ -351,7 +354,8 @@ export default {
               return {
                 value: item.id,
                 id: item.id,
-                label: item.typeName.split('/')[1]
+                label: item.typeName.split('/')[1],
+                parentId: item.parentId
               }
             }
             )
@@ -360,7 +364,6 @@ export default {
         })
 
       }
-
     }
 
   }
@@ -501,7 +504,7 @@ export default {
   }
   .operation {
     display: flex;
-    margin-top: 100px;
+    margin-top: 20px;
     cursor: pointer;
     .el-card {
       width: 20%;
