@@ -6,6 +6,7 @@ import Register  from '../components/login/Register'
 import ChangePassword  from '../components/login/ChangePassword'
 import Admin  from '../components/admin/Admin'
 import MyFile  from '../components/doctor/MyFile'
+import Allfile  from '../components/doctor/Allfile'
 import PaperRequest  from '../components/admin/PaperRequest'
 import EditMeeting  from '../components/admin/EditMeeting'
 import fileManagement  from '../components/doctor/FileManagement'
@@ -69,6 +70,11 @@ const routes = [
             path:'/teacher/fileManagement',
             name:"fileManagement",
             component:fileManagement
+          },
+          {
+            path:'/teacher/allfile',
+            name:"allfile",
+            component:Allfile
           },
         ]
       },

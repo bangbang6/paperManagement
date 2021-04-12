@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 
 const request = axios.create({
   baseURL:"http://211.69.197.138:8091",
-  timeout:5000
+  timeout:50000
 })
 
 request.interceptors.request.use(

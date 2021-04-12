@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    
     <router-view></router-view>
   </div>
 </template>
@@ -10,14 +9,16 @@
 
 export default {
   name: 'App',
-  
+
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 html,
-body {
+body,
+#app {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 </style>
 

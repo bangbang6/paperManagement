@@ -1,25 +1,29 @@
 <template>
   <div class="head">
     <div class="title-wrapper">
-      <div class="title">华中科技大学论文管理系统</div>
-      <div class="sub-title">HUST THESIS MANAGEMENT SYSTEM</div>
+      <div class="img-wrapper">
+        <img src="../../public/avatual.png" alt class="img" />
+      </div>
+      <div class="title">论文管理系统</div>
     </div>
     <div class="nav" @click="navJump">
-      <div :class="['nav-item',navIndex === 0?'blue':'']" data-item="0" v-if="role===1">首页</div>
-      <div :class="['nav-item',navIndex === 1?'blue':'']" data-item="1" v-if="role===0">用户中心</div>
-      <div :class="['nav-item',navIndex === 1?'blue':'']" data-item="1" v-else>论文审核</div>
+      <div :class="['nav-item',navIndex === 0?'green':'']" data-item="0" v-if="role===1">首页</div>
+      <div :class="['nav-item',navIndex === 1?'green':'']" data-item="1" v-if="role===0">用户中心</div>
+      <div :class="['nav-item',navIndex === 1?'green':'']" data-item="1" v-else>论文审核</div>
 
-      <div :class="['nav-item',navIndex === 2?'blue':'']" data-item="2" v-if="role===0">上传论文</div>
-      <div :class="['nav-item',navIndex === 2?'blue':'']" data-item="2" v-else>编辑会议</div>
-      <div :class="['nav-item',navIndex === 3?'blue':'']" data-item="3" v-if="role===0">我的论文</div>
-      <div :class="['nav-item',navIndex === 4?'blue':'']" data-item="4" v-if="role===0">所有论文</div>
+      <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-if="role===0">上传论文</div>
+      <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-else>编辑会议</div>
+      <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的论文</div>
+      <div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===0">所有论文</div>
     </div>
-    <div class="tel-wrapper">
-      <i class="iconfont">&#xe7ae;</i>
-      <div class="tel">15798015790</div>
-      <div class="avaturl" style="margin-left:20px">
+    <div class="avaturl-wrapper">
+      <div class="avaturl">
         <el-dropdown trigger="click" @command="handleCommand">
-          <img :src="imgSrc" class="imgAvaturl" />
+          <div class="wrapper">
+            <img :src="imgSrc" class="imgAvaturl" />
+            <span :style="{marginLeft:'5px'}">bang</span>
+            <i class="el-icon-arrow-down down"></i>
+          </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item icon="el-icon-turn-off" command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
@@ -124,40 +128,74 @@ export default {
  
 <style lang="scss" scoped>
 .head {
-  margin-left: 15%;
-  width: 70%;
-  height: 78px;
+  width: 100%;
+  height: 40px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  background: #212121;
   .title-wrapper {
+    margin-left: 50px;
     height: 35px;
-    .title {
-      font-size: 18px;
-      font-weight: 400;
+    display: flex;
+    align-items: center;
+    .img-wrapper {
+      width: 24px;
+      height: 24px;
+      .img {
+        width: 24x;
+        height: 24px;
+        border-radius: 50%;
+      }
     }
-    .sub-title {
+    .title {
+      margin-left: 10px;
       font-size: 12px;
-      color: rgb(149, 151, 153);
+      font-weight: 600;
+      color: white;
     }
   }
   .nav {
     display: flex;
-    font-size: 16px;
+    font-size: 12px;
+    color: white;
+    height: 100%;
+
     .nav-item {
-      margin-right: 30px;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      padding-left: 10px;
+      padding-right: 10px;
+      height: 100%;
+      box-sizing: border-box;
       cursor: pointer;
-    }
-    .blue {
-      color: #409eff;
+      &.green {
+        background: #0bb976;
+      }
     }
   }
-  .tel-wrapper {
-    display: flex;
-    color: gray;
-    align-items: center;
-    .tel {
-      margin-left: 10px;
+  .avaturl-wrapper {
+    margin-right: 50px;
+    color: #412c21;
+    font-size: 12px;
+    .el-dropdown {
+      .wrapper {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        .imgAvaturl {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+        }
+        .down {
+          margin-top: 6px;
+          margin-left: 2px;
+          font-size: 12px;
+          cursor: pointer;
+        }
+      }
     }
   }
 }

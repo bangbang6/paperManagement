@@ -13,8 +13,11 @@
         </el-input>
       </div>
       <div class="password">
-        <el-input placeholder="密码" v-model="password" type="password">
+        <el-input placeholder="密码" v-model="password" :type="showPass ?'text':'password'">
           <i slot="prefix" class="iconfont">&#xe663;</i>
+
+          <i slot="suffix" @click="showPass=!showPass" v-if="showPass" class="iconfont">&#xe601;</i>
+          <i slot="suffix" @click="showPass=!showPass" v-else class="iconfont">&#xe8ff;</i>
         </el-input>
       </div>
       <div class="role">
@@ -40,7 +43,8 @@ export default {
       role: '0',
       email: "",
       password: "",
-      username: ""
+      username: "",
+      showPass: false
     }
   },
   computed: {
@@ -58,8 +62,9 @@ export default {
           if (res.code === 200) {
             console.log('res', res);
             localStorage.setItem('token', res.data.token)
-            this.$router.push('/teacher')
             localStorage.setItem('role', '0')
+            this.$router.push('/teacher')
+
           } else {
             Message({
               message: res.msg,
@@ -76,9 +81,10 @@ export default {
           if (res.code === 200) {
             console.log('res', res);
             localStorage.setItem('token', res.data.token)
+            localStorage.setItem('role', '1')
             this.$router.push('/admin')
 
-            localStorage.setItem('role', '1')
+
           } else {
             Message({
               message: res.msg,
@@ -93,8 +99,9 @@ export default {
           if (res.code === 200) {
             console.log('res', res);
             localStorage.setItem('token', res.data.token)
-            this.$router.push('/repeat')
             localStorage.setItem('role', '2')
+            this.$router.push('/repeat')
+
           } else {
             Message({
               message: res.msg,
@@ -193,5 +200,10 @@ export default {
 }
 .el-input--prefix .el-input__inner {
   padding-left: 50px;
+}
+.el-input__suffix {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 </style>

@@ -1,16 +1,16 @@
 <template>
   <div class="main">
-    <Head :role="0"></Head>
+    <newHead :role="0"></newHead>
     <router-view></router-view>
   </div>
 </template>
  
 <script>
-import Head from '../components/Head'
+import newHead from '../components/newHead'
 
 export default {
   components: {
-    Head
+    newHead
   },
   data () {
     return {
@@ -23,5 +23,6 @@ export default {
 <style lang="scss" scoped>
 .main {
   width: 100%;
+  height: 100%;
 }
 </style>

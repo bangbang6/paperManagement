@@ -1,12 +1,13 @@
 <template>
   <div class="admin-main">
-    <Head :role='1'></Head>
+    <Head :role="1"></Head>
     <router-view></router-view>
   </div>
 </template>
  
 <script>
 import Head from '../components/Head'
+/* import newHead from '../components/newHead' */
 export default {
   components: {
     Head,

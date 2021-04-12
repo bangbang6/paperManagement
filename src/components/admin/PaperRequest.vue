@@ -5,7 +5,7 @@
         <el-table :data="tableData1" class="table" size="mini" @row-click="clickRow">
           <el-table-column prop="title" label="论文标题" width="80"></el-table-column>
 
-          <el-table-column prop="publicTypeName" label="发布类型" width="80"></el-table-column>
+          <el-table-column prop="publicTypeName" label="发布类型" width="85"></el-table-column>
           <el-table-column prop="name" label="名称" width="80"></el-table-column>
           <el-table-column prop="website" label="网址" width="140"></el-table-column>
           <el-table-column prop="checkRate" label="查重率" width="80"></el-table-column>
@@ -21,7 +21,7 @@
       </el-tab-pane>
       <el-tab-pane label="上链审核">
         <el-table :data="tableData2" class="table" size="mini" @row-click="clickRow">
-          <el-table-column prop="title" label="论文标题" width="80"></el-table-column>
+          <el-table-column prop="title" label="论文标题" width="85"></el-table-column>
 
           <el-table-column prop="publicTypeName" label="发布类型" width="80"></el-table-column>
 

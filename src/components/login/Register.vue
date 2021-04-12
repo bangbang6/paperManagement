@@ -18,8 +18,11 @@
         </el-input>
       </div>
       <div class="password">
-        <el-input placeholder="密码" v-model="password" type="password">
+        <el-input placeholder="密码" v-model="password" :type="showPass ?'text':'password'">
           <i slot="prefix" class="iconfont">&#xe663;</i>
+
+          <i slot="suffix" @click="showPass=!showPass" v-if="showPass" class="iconfont">&#xe601;</i>
+          <i slot="suffix" @click="showPass=!showPass" v-else class="iconfont">&#xe8ff;</i>
         </el-input>
       </div>
       <div class="capchar">
@@ -54,8 +57,10 @@ export default {
       username: "",
       capchar: "",
       btnDisabled: false,
-
-      seconds: 0
+      showPass: false,
+      seconds: 0,
+      icon1: 'icon-eye-open',
+      icon2: 'icon-eye-close'
     }
   },
   computed: {
@@ -86,7 +91,7 @@ export default {
         if (res.code === 200) {
           console.log('res', res);
           this.btnDisabled = true
-          this.seconds = 10
+          this.seconds = 60
           let timer = setInterval(() => {
             this.seconds = this.seconds - 1
             if (this.seconds === 0) {
@@ -115,6 +120,7 @@ export default {
             type: 'success'
           })
           this.$router.push('/login')
+
 
         } else {
           Message({
@@ -176,6 +182,7 @@ export default {
 
     .password {
       margin-top: 20px;
+
       .iconfont {
         line-height: 40px;
         color: black;
@@ -227,5 +234,10 @@ export default {
 }
 .el-input--prefix .el-input__inner {
   padding-left: 50px;
+}
+.el-input__suffix {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 </style>

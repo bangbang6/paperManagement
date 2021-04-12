@@ -154,15 +154,15 @@
           <div>
             <el-radio v-model="paper.hasAccepted" :label="1">已收录</el-radio>
             <el-radio v-model="paper.hasAccepted" :label="0">未收录</el-radio>
-            <el-checkbox v-model="paper.need_check">是否需要查重(需要查重的情况:1.第一次投稿 2.距上次查重超半年)</el-checkbox>
-            <div class="repeat" v-if="!paper.need_check">
+            <el-checkbox v-model="paper.needCheck">是否需要查重(需要查重的情况:1.第一次投稿 2.距上次查重超半年)</el-checkbox>
+            <div class="repeat" v-if="!paper.needCheck">
               <div class="file-result">
                 <span class="text">上次查重结果:</span>
                 <input type="file" @change="handleChange" />
               </div>
               <div class="file-rate">
                 <span class="text">查重率:</span>
-                <el-input v-model="paper.rate" placeholder="百分比">
+                <el-input v-model="paper.duplicateCheckResult.rate" placeholder="百分比">
                   <template slot="append">%</template>
                 </el-input>
               </div>
@@ -232,7 +232,7 @@ export default {
       formData.append("file", file);
       uploadFile(formData).then(res => {
         if (res.code === 200) {
-          this.paper.resultFileId = res.msg
+          this.paper.duplicateCheckResult.resultFileId = res.msg
           Message({
             message: "查重文件上传成功",
             type: 'success',

@@ -95,7 +95,7 @@
               type="primary"
               size="mini"
               :style="{marginLeft:'10px'}"
-              v-if="paper.duplicateCheckResult.resultFileId"
+              v-if="paper.duplicateCheckResult && paper.duplicateCheckResult.resultFileId"
               @click="downloadResultFile"
             >下载查重文件</el-button>
           </div>
@@ -380,10 +380,10 @@ export default {
     },
 
     meetingShow () {
-      return this.paper.publicTypeId.parentId === 1 && this.paper.hasAccepted === 1
+      return (this.paper.publicTypeId > 1 && this.paper.publicTypeId < 7) && this.paper.hasAccepted === 1
     },
     qikanShow () {
-      return this.paper.publicTypeId.parentId === 7 && this.paper.hasAccepted === 1
+      return (this.paper.publicTypeId > 7) && this.paper.hasAccepted === 1
     }
   }
 }

@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18967164",
+      "name": "eye-open",
+      "font_class": "eye-open",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "20452214",
+      "name": "eye-close",
+      "font_class": "eye-close",
+      "unicode": "e8ff",
+      "unicode_decimal": 59647
+    },
+    {
       "icon_id": "7450652",
       "name": "验证码",
       "font_class": "yanzhengma",

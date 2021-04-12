@@ -112,6 +112,7 @@
               </div>
             </div>
           </div>
+
           <div
             class="input"
             v-if="paper.duplicateCheckResult && paper.duplicateCheckResult.resultFileId"
@@ -128,11 +129,12 @@
             <el-button
               type="primary"
               size="mini"
-              :style="{marginLeft:'10px'}"
+              :style="{marginLeft:'20px'}"
               v-if="paper.duplicateCheckResult && paper.duplicateCheckResult.resultFileId"
               @click="downloadResultFile"
             >下载查重文件</el-button>
           </div>
+
           <div class="input">
             <span>论文状态:</span>
             <div>
@@ -193,8 +195,8 @@ export default {
 
         options: [],
         options2: [],
-        publicTypeId0: '',
-        publicTypeId: ''
+        publicTypeId0: -1,
+        publicTypeId: -1
       },
       qikan: {}
     }
@@ -248,8 +250,26 @@ export default {
             conferenceTime: res2.data.conferenceTime,
             conferenceSite: res2.data.conferenceSite
           }
-          this.meeting.publicTypeId = res2.data.publicTypeId
           this.meeting.publicTypeId0 = res2.data.publicTypeId > 7 ? 7 : 1
+          //预先设置optiosn2
+          this.meeting.options.forEach((item) => {
+
+            if (item.value === this.meeting.publicTypeId0) {
+              this.meeting.options2 = item.children.map(item => {
+                return {
+                  value: item.id,
+                  id: item.id,
+                  label: item.typeName.split('/')[1],
+                  parentId: item.parentId
+                }
+              })
+
+              this.meeting.publicTypeId = res2.data.publicTypeId
+
+            }
+
+          })
+
 
 
         } else {
@@ -346,7 +366,6 @@ export default {
     'meeting.publicTypeId0': {
       handler (newV) {
         console.log('newV', newV);
-        this.meeting.publicTypeId = ''
         this.meeting.options.forEach((item) => {
 
           if (item.value === newV) {
@@ -358,9 +377,11 @@ export default {
                 parentId: item.parentId
               }
             }
+
             )
 
           }
+
         })
 
       }
