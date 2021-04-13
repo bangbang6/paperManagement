@@ -230,11 +230,13 @@ export default {
  
 <style lang="scss" scoped>
 .center {
-  width: 60%;
-  margin-top: 20px;
-  margin-left: 20%;
-  box-shadow: 0 0 2px #eaeaea;
-  height: 600px;
+  width: 80%;
+  overflow-y: auto;
+
+  margin-left: 10%;
+  background: white;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  height: calc(100% - 50px);
   .info {
     height: 400px;
     display: flex;

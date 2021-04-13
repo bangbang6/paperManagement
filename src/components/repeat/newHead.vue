@@ -2,21 +2,12 @@
   <div class="head">
     <div class="title-wrapper">
       <div class="img-wrapper">
-        <img src="../../public/avatual.png" alt class="img" />
+        <img src="../../../public/avatual.png" alt class="img" />
       </div>
       <div class="title">论文管理系统</div>
     </div>
     <div class="nav" @click="navJump">
-      <div :class="['nav-item',navIndex === 0?'green':'']" data-item="0" v-if="role===1">首页</div>
-      <div :class="['nav-item',navIndex === 1?'green':'']" data-item="1" v-if="role===0">用户中心</div>
-      <div :class="['nav-item',navIndex === 1?'green':'']" data-item="1" v-else>论文审核</div>
-
-      <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-if="role===0">上传论文</div>
-      <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-else>编辑会议</div>
-      <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的论文</div>
-      <div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===0">所有论文</div>
-      <div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===1">所有论文</div>
-      <div :class="['nav-item',navIndex === 5?'green':'']" data-item="5" v-if="role===1">异常预警</div>
+      <div class="green nav-item">首页</div>
     </div>
     <div class="avaturl-wrapper">
       <div class="avaturl">
@@ -37,7 +28,7 @@
  
 <script>
 import { getAvatar } from '@/api/user'
-import { Bus } from '../main.js'
+import { Bus } from '../../main.js'
 export default {
   props: {
     role: Number
@@ -45,7 +36,7 @@ export default {
   data () {
     return {
       navIndex: 0,
-      imgSrc: require("../../public/avatual.png")
+      imgSrc: require("../../../public/avatual.png")
     }
   },
   computed: {
@@ -54,47 +45,7 @@ export default {
     }
   },
   methods: {
-    navJump (e) {
-      if (this.role === 0) {
-        if (e.target.dataset.item === '1') {
 
-          this.$router.push('/teacher/userCenter')
-        } else if (e.target.dataset.item === '2') {
-          this.$router.push('/teacher/fileManagement')
-        }
-        else if (e.target.dataset.item === '3') {
-          console.log('e', e);
-          this.$router.push('/teacher/myfile')
-
-        }
-        else if (e.target.dataset.item === '4') {
-          console.log('e', e);
-          this.$router.push('/teacher/allfile')
-
-        }
-      } else {
-        if (e.target.dataset.item === '0') {
-
-          this.$router.push('/admin')
-        } else if (e.target.dataset.item === '1') {
-
-          this.$router.push('/admin/paperRequest')
-        } else if (e.target.dataset.item === '2') {
-          this.$router.push('/admin/editMeeting')
-
-        }
-        else if (e.target.dataset.item === '4') {
-          console.log('e', e);
-          this.$router.push('/admin/allfile')
-
-        }
-        else if (e.target.dataset.item === '5') {
-          console.log('e', e);
-          this.$router.push('/admin/errorStatus')
-
-        }
-      }
-    },
     handleCommand (command) {
       console.log('xx');
       if (command === 'loginout') {
@@ -115,31 +66,7 @@ export default {
       this.imgSrc = src
     })
   },
-  watch: {
-    $route: {
-      handler: function (newV) {
-        if (newV.name === 'user' || newV.name === 'paperRequest') {
-          this.navIndex = 1
-        }
-        else if (newV.name === 'AdminMain') {
-          this.navIndex = 0
-        }
-        else if (newV.name === 'fileManagement' || newV.name === 'editMeeting') {
-          this.navIndex = 2
-        } else if (newV.name === 'myfile') {
-          this.navIndex = 3
-        }
-        else if (newV.name === 'allfile') {
-          this.navIndex = 4
-        }
-        else if (newV.name === 'errorStatus') {
-          this.navIndex = 5
-        }
-      },
-      immediate: true
-    }
 
-  }
 }
 </script>
  

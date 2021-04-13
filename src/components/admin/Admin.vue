@@ -269,9 +269,15 @@ export default {
  
 <style lang="scss" scoped>
 .admin {
-  width: 60%;
-  margin-left: 20%;
+  width: 80%;
+  margin-left: 10%;
+  padding-left: 20px;
+  padding-right: 20px;
   box-sizing: border-box;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+
+  background: white;
+  height: calc(100% - 50px);
   .wrapper {
     margin-top: 20px;
     .title-wrapper {

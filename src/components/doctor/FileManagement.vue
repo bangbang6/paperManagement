@@ -26,8 +26,8 @@
           <div v-loading="loading" style="marginTop:20px"></div>
         </div>
       </div>
+      <el-button type="primary" @click="submit">提交</el-button>
     </div>
-    <el-button type="primary" @click="submit">提交</el-button>
   </div>
 </template>
  
@@ -236,10 +236,19 @@ export default {
  
 <style lang="scss" scoped>
 .fileManagement {
-  width: 60%;
-  margin-left: 20%;
+  width: 80%;
+  margin-left: 10%;
+  background: white;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
   .left-wrapper {
     width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 50px;
+
+    box-sizing: border-box;
     .title-wrapper {
       height: 50px;
       display: flex;

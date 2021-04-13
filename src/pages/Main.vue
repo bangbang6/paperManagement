@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <newHead :role="0"></newHead>
-    <router-view></router-view>
+    <div class="wrapper">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
  
@@ -24,5 +26,11 @@ export default {
 .main {
   width: 100%;
   height: 100%;
+  .wrapper {
+    background: rgb(242, 239, 236);
+    width: 100%;
+    height: calc(100% - 70px);
+    padding-top: 30px;
+  }
 }
 </style>

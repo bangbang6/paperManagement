@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "14418334",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "3775369",
+      "name": "论文题目",
+      "font_class": "lunwentimu",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "13479130",
+      "name": "异常",
+      "font_class": "B",
+      "unicode": "e6f9",
+      "unicode_decimal": 59129
+    },
+    {
+      "icon_id": "17029825",
+      "name": "单位 (2)",
+      "font_class": "danwei2",
+      "unicode": "e67e",
+      "unicode_decimal": 59006
+    },
+    {
       "icon_id": "18967164",
       "name": "eye-open",
       "font_class": "eye-open",

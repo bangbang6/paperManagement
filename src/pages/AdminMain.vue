@@ -1,16 +1,18 @@
 <template>
   <div class="admin-main">
-    <Head :role="1"></Head>
-    <router-view></router-view>
+    <newHead :role="1"></newHead>
+    <div class="wrapper">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
  
 <script>
-import Head from '../components/Head'
+import newHead from '../components/newHead'
 /* import newHead from '../components/newHead' */
 export default {
   components: {
-    Head,
+    newHead,
   },
   data () {
     return {
@@ -23,5 +25,12 @@ export default {
 <style lang="scss" scoped>
 .admin-main {
   width: 100%;
+  height: 100%;
+  .wrapper {
+    background: rgb(242, 239, 236);
+    width: 100%;
+    height: calc(100% - 70px);
+    padding-top: 30px;
+  }
 }
 </style>

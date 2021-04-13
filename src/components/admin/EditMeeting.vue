@@ -95,9 +95,12 @@ export default {
  
 <style lang="scss" scoped>
 .edit-meeting {
-  width: 60%;
-  margin-left: 20%;
+  width: 80%;
+  margin-left: 10%;
   margin-top: 20px;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+  overflow-x: auto;
   .title-wrapper {
     width: 100%;
     display: flex;

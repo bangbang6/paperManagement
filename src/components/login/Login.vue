@@ -60,11 +60,11 @@ export default {
       if (this.role === '0') {
         login(this.email, this.password).then(res => {
           if (res.code === 200) {
-            console.log('res', res);
+            console.log('resInfo', res);
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '0')
             this.$router.push('/teacher')
-
+            localStorage.setItem('chineseName', res.data.user.user.chineseName)
           } else {
             Message({
               message: res.msg,
@@ -79,7 +79,9 @@ export default {
 
         login(this.email, this.password).then(res => {
           if (res.code === 200) {
-            console.log('res', res);
+            console.log('resInfo', res);
+            localStorage.setItem('chineseName', res.data.user.user.chineseName)
+
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '1')
             this.$router.push('/admin')
@@ -97,7 +99,9 @@ export default {
 
         login(this.email, this.password).then(res => {
           if (res.code === 200) {
-            console.log('res', res);
+            console.log('resInfo', res);
+            localStorage.setItem('chineseName', res.data.user.user.chineseName)
+
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '2')
             this.$router.push('/repeat')

@@ -4,7 +4,8 @@ import User  from '../components/doctor/User'
 import Login  from '../components/login/Login'
 import Register  from '../components/login/Register'
 import ChangePassword  from '../components/login/ChangePassword'
-import Admin  from '../components/admin/Admin'
+import newAdmin  from '../components/admin/newAdmin'
+import ErrorStatus  from '../components/admin/ErrorStatus'
 import MyFile  from '../components/doctor/MyFile'
 import Allfile  from '../components/doctor/Allfile'
 import PaperRequest  from '../components/admin/PaperRequest'
@@ -84,8 +85,8 @@ const routes = [
         children:[
           {
             path:"/admin",
-            name:"Admin",
-            component:Admin,
+            name:"AdminMain",
+            component:newAdmin,
 
           },
           {
@@ -100,6 +101,19 @@ const routes = [
             component:EditMeeting,
 
           },
+          {
+            path:"/admin/errorStatus",
+            name:"errorStatus",
+            component:ErrorStatus,
+
+          },
+          {
+            path:"/admin/allfile",
+            name:"allfile",
+            component:Allfile,
+
+          },
+          
           
         ]
       },

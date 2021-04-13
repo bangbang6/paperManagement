@@ -65,7 +65,10 @@ export default {
  
 <style lang="scss" scoped>
 .find-repeat {
-  width: 60%;
-  margin-left: 20%;
+  width: 80%;
+  margin-left: 10%;
+  overflow-y: auto;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  height: calc(100% - 50px);
 }
 </style>

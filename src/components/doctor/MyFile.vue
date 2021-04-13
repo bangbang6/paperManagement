@@ -97,8 +97,16 @@ export default {
  
 <style lang="scss" scoped>
 .right {
-  width: 60%;
-  margin-left: 20%;
+  width: 80%;
+  margin-left: 10%;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  height: calc(100% - 50px);
+  background: white;
+  overflow-y: auto;
+
   flex: 1;
   box-sizing: border-box;
   .title-wrapper {

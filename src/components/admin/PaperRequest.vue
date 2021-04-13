@@ -152,8 +152,11 @@ export default {
  
 <style lang="scss" scoped>
 .request {
-  width: 60%;
-  margin-left: 20%;
+  width: 80%;
+  margin-left: 10%;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+  overflow-x: hidden;
   .tab {
     width: 100%;
     margin-top: 20px;
