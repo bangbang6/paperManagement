@@ -16,6 +16,7 @@ import AdminMain  from '../pages/AdminMain'
 import repeatMain  from '../pages/RepeatMain'
 import undoPaperdetail  from '../pages/UndoPaperdetail'
 import Main  from '../pages/Main'
+import Backforward  from '../pages/Backforward'
 import LoginMain  from '../pages/LoginMain'
 
 import PaperDetail  from '../pages/PaperDetail'
@@ -139,6 +140,11 @@ const routes = [
         path:"/undoPaperdetail",
         name:"undoPaperdetail",
         component:undoPaperdetail
+      },
+      {
+        path:"/backforward",
+        name:"backforward",
+        component:Backforward
       },
     
     

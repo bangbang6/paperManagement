@@ -30,7 +30,7 @@
           <el-table-column prop="checkRate" label="查重率" width="80"></el-table-column>
           <el-table-column prop="authors" label="作者"></el-table-column>
           <el-table-column prop="action" label="操作" width="160">
-            <template>
+            <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="reviewToUpChain(scope.row.id,1)">同意</el-button>
               <el-button type="danger" size="mini" @click="reviewToUpChain(scope.row.id,0)">拒绝</el-button>
             </template>
@@ -43,6 +43,7 @@
  
 <script>
 import { Message } from 'element-ui';
+import { MessageBox } from 'element-ui';
 import { getToAcceptedReviewPapers, getToPublicReviewPapers, reviewToPublic, reviewToUpChain } from '@/api/admin'
 export default {
   data () {
@@ -79,22 +80,35 @@ export default {
       })
     },
     reviewToUpChain (id, op) {
-      reviewToUpChain({ paperId: id, op: op }).then(res => {
-        if (res.code === 200) {
-          Message({
-            message: res.msg,
-            type: 'success',
-            duration: 1000
-          })
-          this.getReview()
-        } else {
-          Message({
-            message: res.msg,
-            type: 'error',
-            duration: 1000
-          })
-        }
+      MessageBox.confirm('此操作将以当前身份进行签名后上链, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        reviewToUpChain({ paperId: id, op: op }).then(res => {
+          if (res.code === 200) {
+            Message({
+              message: res.msg,
+              type: 'success',
+              duration: 1000
+            })
+            this.getReview()
+          } else {
+            Message({
+              message: res.msg,
+              type: 'error',
+              duration: 1000
+            })
+          }
+        })
+      }).catch(() => {
+        Message({
+          message: '已取消',
+          type: 'success',
+          duration: 1000
+        })
       })
+
     },
     getPublic () {
       getToPublicReviewPapers().then(res => {
@@ -155,11 +169,13 @@ export default {
   width: 80%;
   margin-left: 10%;
   height: calc(100% - 50px);
+
   overflow-y: auto;
   overflow-x: hidden;
   .tab {
     width: 100%;
     margin-top: 20px;
+
     .table {
       width: 100%;
     }

@@ -54,11 +54,18 @@
           <div class="col-line">
             <div class="con" v-for="(item,index) in histroys" :key="index">
               <i :class="`dot dot${index}`" :style="{top:(index*68)+'px'}"></i>
-              <div :class="`bar bar${index}`" :style="{top:(index*68)+8+'px'}"></div>
+              <div
+                :class="`bar bar${index}`"
+                :style="{top:(index*68)+8+'px'}"
+                v-if="index !== histroys.length-1"
+              ></div>
             </div>
             <div class="time">
               <div class="con" v-for="(item,index) in histroys" :key="index">
-                <span :class="`time-item`" :style="{top:(index*68)+'px'}">{{formatDate(item.date)}}</span>
+                <span
+                  :class="`time-item`"
+                  :style="{top:(-3+index*68)+'px'}"
+                >{{formatDate(item.date)}}</span>
               </div>
             </div>
           </div>
@@ -68,13 +75,13 @@
               <el-tag
                 type="info"
                 :class="`tag-item`"
-                :style="{top:(index*68)+'px'}"
+                :style="{top:(-1+(index*68))+'px'}"
                 size="mini"
               >{{item.user}}</el-tag>
               <el-tag
                 type="info"
                 :class="`tag-item2`"
-                :style="{top:(index*68)+'px'}"
+                :style="{top:(-1+(index*68))+'px'}"
                 size="mini"
               >{{item.operation}}</el-tag>
             </div>
@@ -87,6 +94,9 @@
  
 <script>
 export default {
+  props: {
+    paper: Object
+  },
   data () {
     return {
       title: '',
@@ -124,7 +134,8 @@ export default {
     },
   },
   mounted () {
-    this.title = 'Trustzone-based secure lightweight wallet for hyperlerdger fabric'
+
+    /* this.title = 'Trustzone-based secure lightweight wallet for hyperlerdger fabric'
     this.author = 'Weiqi Dai Qinyuan Zeli Wang Xiaobin Hai Jin'
     this.publicTypeName = '期刊'
     this.name = 'Journal of Parallel and Distributed Computing'
@@ -132,8 +143,26 @@ export default {
     this.projectNum = '0x0023104123'
     this.projectFund = '国家xx项目xx基金'
     this.uploader = '代老师'
-    this.organization = '华中科技大学计算机学院cgcl实验室',
-      this.chainDate = new Date()
+    this.organization = '华中科技大学计算机学院cgcl实验室'
+    this.chainDate = new Date() */
+  },
+  watch: {
+    paper: {
+      handler: function (newV) {
+        console.log('newV', newV);
+        this.title = newV.title
+        this.author = newV.author
+        this.publicTypeName = newV.publicTypeName
+        this.name = 'Journal of Parallel and Distributed Computing'
+        this.date = new Date()
+        this.projectNum = '0x0023104123'
+        this.projectFund = '国家xx项目xx基金'
+        this.uploader = newV.uploader
+        this.organization = '华中科技大学计算机学院cgcl实验室'
+        this.chainDate = newV.chainDate
+      }
+
+    }
   }
 }
 </script>
@@ -214,6 +243,7 @@ export default {
           margin-left: 40px;
           .time-item {
             position: absolute;
+            align-items: center;
           }
         }
         .tags {

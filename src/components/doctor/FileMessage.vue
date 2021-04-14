@@ -154,20 +154,24 @@
           <div>
             <el-radio v-model="paper.hasAccepted" :label="1">已收录</el-radio>
             <el-radio v-model="paper.hasAccepted" :label="0">未收录</el-radio>
-            <el-checkbox v-model="paper.needCheck">是否需要查重(需要查重的情况:1.第一次投稿 2.距上次查重超半年)</el-checkbox>
-            <div class="repeat" v-if="!paper.needCheck">
-              <div class="file-result">
-                <span class="text">上次查重结果:</span>
-                <input type="file" @change="handleChange" />
-              </div>
-              <div class="file-rate">
-                <span class="text">查重率:</span>
-                <el-input v-model="paper.duplicateCheckResult.rate" placeholder="百分比">
-                  <template slot="append">%</template>
-                </el-input>
-              </div>
-            </div>
+            <el-checkbox v-model="paper.needCheck">
+              需要查重
+              <!-- (需要查重的情况:1.第一次投稿 2.距上次查重超半年) -->
+            </el-checkbox>
+            <span
+              :style="{color:'#e6a23c',marginLeft:'10px',display:'inline-block',width:'400px',fontSize:'12px'}"
+            >以下情况需查重:1.第一次投稿 2.距上次查重超半年</span>
           </div>
+        </div>
+        <div class="input repeat" v-if="!paper.needCheck">
+          <span class="text">查重结果:</span>
+          <input type="file" @change="handleChange" />
+        </div>
+        <div class="input file-rate" v-if="!paper.needCheck">
+          <span class="text">查重率:</span>
+          <el-input v-model="paper.duplicateCheckResult.rate" placeholder="百分比">
+            <template slot="append">%</template>
+          </el-input>
         </div>
         <Qikan
           v-if="paper.hasAccepted === 1 && (meeting.publicTypeId0 === 7 )"
@@ -331,6 +335,7 @@ export default {
       margin-top: 15px;
       width: 80px;
     }
+
     span {
       display: inline-block;
       width: 50px;

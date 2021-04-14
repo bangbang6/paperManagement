@@ -10,8 +10,18 @@
 
           <el-button size="mini" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
         </div>
-        <el-table :data="tableData" stripe style="width: 100%" size="mini">
-          <el-table-column prop="title" label="名称" width="100"></el-table-column>
+        <el-table
+          :data="tableData"
+          stripe
+          style="width: 100%"
+          size="mini"
+          @row-click="handleRowClick"
+        >
+          <el-table-column prop="title" label="名称" width="100">
+            <template slot-scope="scope">
+              <span class="over">{{scope.row.title}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="author" label="作者" width="100"></el-table-column>
           <el-table-column prop="publicTypeName" label="发表类型" width="80"></el-table-column>
           <el-table-column prop="uploader" label="上传者" width="80"></el-table-column>
@@ -30,7 +40,7 @@
       </div>
     </div>
     <div class="paper-detail">
-      <errorpaper-detail></errorpaper-detail>
+      <errorpaper-detail :paper="paper"></errorpaper-detail>
     </div>
   </div>
 </template>
@@ -45,18 +55,19 @@ export default {
       author: '',
       files: [
         {
-          title: 'MinierFord',
-          author: 'Ethipia',
+          title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
+          author: '代老师',
           publicTypeName: 'top80',
-          uploader: 'bang',
-
+          uploader: '代老师',
+          id: 1,
           chainDate: new Date()
         },
         {
-          title: 'MinierFord',
-          author: 'Ethipia',
+          title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
+          author: 'bang',
           publicTypeName: 'top80',
           uploader: 'bang',
+          id: 2,
 
           chainDate: new Date()
         },
@@ -65,14 +76,31 @@ export default {
           author: 'Ethipia',
           publicTypeName: 'sci',
           uploader: 'user1',
+          id: 3,
+
+          chainDate: new Date()
+        },
+        {
+          title: 'Foridar',
+          author: 'chen',
+          publicTypeName: 'sci',
+          uploader: 'chen',
+          id: 4,
 
           chainDate: new Date()
         },
       ],
-      tableData: []
+      tableData: [],
+      paper: {},
     }
   },
   methods: {
+    handleRowClick (row) {
+      let id = row.id
+
+      this.paper = this.files.filter(file => file.id === id)[0]
+      console.log('this.paper', this.paper);
+    },
     formatDate (date) {
       return date.toLocaleString().slice(0, 9)
     },
@@ -90,6 +118,11 @@ export default {
   },
   mounted () {
     this.tableData = this.files
+
+    this.title = this.$route.query.title
+    this.search()
+    this.paper = this.tableData[0]
+
   }
 }
 </script>
@@ -109,6 +142,7 @@ export default {
 
     background: white;
     height: calc(100% - 20px);
+    /*  height: 100%; */
     .content-wrapper {
       padding-top: 50px;
       padding-left: 20px;
@@ -125,6 +159,11 @@ export default {
       }
       .el-table {
         margin-top: 20px;
+        .over {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
   }
@@ -138,6 +177,7 @@ export default {
 
     background: white;
     height: calc(100% - 20px);
+    /* height: 100%; */
   }
 }
 </style>

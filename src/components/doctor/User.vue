@@ -236,7 +236,8 @@ export default {
   margin-left: 10%;
   background: white;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-  height: calc(100% - 50px);
+  /*  height: calc(100% - 50px); */
+  height: 100%;
   .info {
     height: 400px;
     display: flex;

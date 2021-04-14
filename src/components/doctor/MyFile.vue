@@ -103,7 +103,8 @@ export default {
   padding-right: 20px;
   box-sizing: border-box;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-  height: calc(100% - 50px);
+  /* height: calc(100% - 50px); */
+  height: 100%;
   background: white;
   overflow-y: auto;
 

@@ -30,8 +30,14 @@
         </el-checkbox>
         <el-button type="primary" size="mini" class="btn" @click="search">搜索</el-button>
       </div>
-      <el-table :data="tableData" stripe style="width: 100%" size="mini">
-        <el-table-column prop="title" label="名称" width="180">
+      <el-table
+        :data="tableData"
+        stripe
+        style="width: 100%"
+        size="mini"
+        @row-click="handleRowClick"
+      >
+        <el-table-column prop="title" label="名称" width="480">
           <template slot-scope="scope">
             <span>{{scope.row.title}}</span>
             <el-tag
@@ -39,10 +45,11 @@
               v-if="scope.row.error"
               type="danger"
               :style="{marginLeft:'5px'}"
+              @click="errorHandler(scope.row)"
             >状态异常</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="author" label="作者" width="180"></el-table-column>
+        <el-table-column prop="author" label="作者" width="80"></el-table-column>
         <el-table-column prop="publicTypeName" label="发表类型"></el-table-column>
         <el-table-column prop="name" label="具体名称"></el-table-column>
         <el-table-column prop="projectNum" label="项目号"></el-table-column>
@@ -75,7 +82,7 @@
               <el-link
                 icon="el-icon-attract"
                 style="font-size: 18px;color: rgb(64, 158, 255)"
-                @click="back(scope.$index)"
+                @click="back(scope.row)"
               ></el-link>
             </el-tooltip>
           </template>
@@ -101,33 +108,36 @@ export default {
       tableData: [],
       files: [
         {
-          title: '数据库',
-          author: 'bang',
-          publicTypeName: '期刊/sci',
+          title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
+          author: '代老师',
+          publicTypeName: '会议/top80',
           name: '中国自然',
           projectNum: '2000',
           projectFund: 'xm2000',
+          id: 1,
           date: new Date(),
           error: true
         },
         {
-          title: '操作系统',
+          title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
           author: 'bang',
-          publicTypeName: '期刊/sci',
+          publicTypeName: '会议/top80',
           name: '中国自然',
           projectNum: '2000',
           projectFund: 'xm2000',
           date: new Date(),
+          id: 2,
           error: true
         },
         {
-          title: '数据库',
+          title: 'Foridar',
           author: 'bang',
           publicTypeName: '期刊/sci',
           name: '中国自然',
           projectNum: '2000',
           projectFund: 'xm2000',
           date: new Date(),
+          id: 3,
           error: false
         }
       ]
@@ -161,6 +171,31 @@ export default {
       if (this.error) {
         this.tableData = this.tableData.filter(file => file.error)
       }
+    },
+    errorHandler (row) {
+      let title = row.title
+      let role = localStorage.getItem('role')
+      if (role === '1') {
+        this.$router.push({
+          path: "/admin/errorStatus",
+          query: {
+            title: title
+          }
+        })
+      }
+
+    },
+    handleRowClick (row) {
+      console.log('row', row);
+    },
+    back (row) {
+      this.$router.push({
+        path: "/backforward",
+        query: {
+          id: row.id,
+          title: row.title
+        }
+      })
     }
 
 
@@ -175,7 +210,7 @@ export default {
 .inner-wrapper {
   width: 80%;
   margin: auto;
-  height: calc(100% - 50px);
+  height: 100%;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
   background: white;
   overflow-y: auto;

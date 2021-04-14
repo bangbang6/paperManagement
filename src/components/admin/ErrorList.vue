@@ -8,7 +8,12 @@
         <div class="type">发表类型</div>
         <div class="date">上链时间</div>
       </div>
-      <div class="list-item" v-for="(paper,index) in papers" :key="index">
+      <div
+        class="list-item"
+        v-for="(paper,index) in papers"
+        :key="index"
+        @click="handleClick(index)"
+      >
         <div class="paper-title">{{paper.title}}</div>
         <div class="author">{{paper.author}}</div>
         <div class="type">{{paper.publicTypeName}}</div>
@@ -29,91 +34,100 @@ export default {
     formatDate (date) {
       return date.toLocaleString().slice(0, 9)
     },
+
+    handleClick (index) {
+      let title = this.papers[index].title
+      this.$router.push({
+        path: "/admin/errorStatus",
+        query: { title: title }
+      })
+    }
+
   },
   mounted () {
     this.papers = [
 
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
 
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()
       },
       {
-        title: "小样本识别",
+        title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
         chainDate: new Date()

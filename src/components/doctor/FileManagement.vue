@@ -1,32 +1,34 @@
 <template>
-  <div class="fileManagement">
-    <div class="left-wrapper">
-      <div class="title-wrapper">
-        <div class="line"></div>
-        <div class="title">上传文件</div>
-      </div>
-      <file-message :fileMessage="fileMessage"></file-message>
-      <div class="left">
-        <div class="fileupload">
-          <el-upload
-            class="upload-demo"
-            ref="upload"
-            action
-            drag
-            multiple
-            :http-request="uploadFile"
-            :on-remove="handleRemove"
-          >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              将文件拖到此处，或
-              <em>点击上传</em>
-            </div>
-          </el-upload>
-          <div v-loading="loading" style="marginTop:20px"></div>
+  <div class="file-wrapper">
+    <div class="fileManagement">
+      <div class="left-wrapper">
+        <div class="title-wrapper">
+          <div class="line"></div>
+          <div class="title">上传文件</div>
         </div>
+        <file-message :fileMessage="fileMessage"></file-message>
+        <div class="left">
+          <div class="fileupload">
+            <el-upload
+              class="upload-demo"
+              ref="upload"
+              action
+              drag
+              multiple
+              :http-request="uploadFile"
+              :on-remove="handleRemove"
+            >
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">
+                将文件拖到此处，或
+                <em>点击上传</em>
+              </div>
+            </el-upload>
+            <div v-loading="loading" style="marginTop:20px"></div>
+          </div>
+        </div>
+        <el-button type="primary" @click="submit">提交</el-button>
       </div>
-      <el-button type="primary" @click="submit">提交</el-button>
     </div>
   </div>
 </template>
@@ -235,109 +237,115 @@ export default {
 </script>
  
 <style lang="scss" scoped>
-.fileManagement {
-  width: 80%;
-  margin-left: 10%;
-  background: white;
-  height: calc(100% - 50px);
-  overflow-y: auto;
-  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-  .left-wrapper {
-    width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 50px;
+.file-wrapper {
+  background: rgb(242, 239, 236);
 
-    box-sizing: border-box;
-    .title-wrapper {
-      height: 50px;
-      display: flex;
-      align-items: center;
+  .fileManagement {
+    width: 80%;
+    margin-left: 10%;
+    background: white;
+    /* height: calc(100% - 50px); */
+    /* height: 100%; */
+    /*   overflow-y: auto; */
+
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+    .left-wrapper {
+      width: 100%;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 50px;
+
       box-sizing: border-box;
-      padding-left: 5px;
-      .line {
-        background-color: rgb(64, 158, 255);
-        height: 20px;
-        width: 2px;
-      }
-      .title {
-        margin-left: 5px;
-      }
-    }
-    .left {
-      .fileupload {
-        .channel {
-          width: 100%;
-          margin: 40px 0;
-          .channel-btn {
-            margin-right: 20px;
-          }
+      .title-wrapper {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        padding-left: 5px;
+        .line {
+          background-color: rgb(64, 158, 255);
+          height: 20px;
+          width: 2px;
         }
-        .author {
-          .input {
+        .title {
+          margin-left: 5px;
+        }
+      }
+      .left {
+        .fileupload {
+          .channel {
             width: 100%;
-            font-size: 14px;
-            display: flex;
-            // align-items: center;
-
-            flex-wrap: wrap;
-            .title {
-              margin-top: 15px;
-              width: 80px;
-            }
-            span {
-              display: inline-block;
-              width: 50px;
-            }
-            .writter-inner {
-              .el-input {
-                width: 100px;
-              }
-              .authorInput {
-                padding-right: 10px;
-                margin-top: 10px;
-
-                box-sizing: border-box;
-              }
-              .iconfont {
-                margin-top: 10px;
-                margin-left: 10px;
-                cursor: pointer;
-                color: rgb(64, 158, 255);
-
-                font-size: 18px;
-              }
+            margin: 40px 0;
+            .channel-btn {
+              margin-right: 20px;
             }
           }
-        }
-        .paper-info {
-          display: flex;
-
-          justify-content: space-between;
-          .left,
-          .right {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+          .author {
             .input {
               width: 100%;
               font-size: 14px;
-              margin-top: 10px;
               display: flex;
-              align-items: center;
-              span {
-                display: inline-block;
+              // align-items: center;
+
+              flex-wrap: wrap;
+              .title {
+                margin-top: 15px;
                 width: 80px;
               }
-              .el-input {
-                width: 200px;
+              span {
+                display: inline-block;
+                width: 50px;
+              }
+              .writter-inner {
+                .el-input {
+                  width: 100px;
+                }
+                .authorInput {
+                  padding-right: 10px;
+                  margin-top: 10px;
+
+                  box-sizing: border-box;
+                }
+                .iconfont {
+                  margin-top: 10px;
+                  margin-left: 10px;
+                  cursor: pointer;
+                  color: rgb(64, 158, 255);
+
+                  font-size: 18px;
+                }
               }
             }
           }
-        }
-        .upload-demo {
-          margin-top: 20px;
+          .paper-info {
+            display: flex;
+
+            justify-content: space-between;
+            .left,
+            .right {
+              width: 50%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .input {
+                width: 100%;
+                font-size: 14px;
+                margin-top: 10px;
+                display: flex;
+                align-items: center;
+                span {
+                  display: inline-block;
+                  width: 80px;
+                }
+                .el-input {
+                  width: 200px;
+                }
+              }
+            }
+          }
+          .upload-demo {
+            margin-top: 20px;
+          }
         }
       }
     }
