@@ -6,7 +6,7 @@
       </div>
       <div class="title">论文管理系统</div>
     </div>
-    <div class="nav" @click="navJump">
+    <div class="nav">
       <div class="green nav-item">首页</div>
     </div>
     <div class="avaturl-wrapper">

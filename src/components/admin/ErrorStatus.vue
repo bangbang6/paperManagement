@@ -33,7 +33,7 @@
 
           <el-table-column prop="status" label="状态">
             <template>
-              <el-tag type="danger" size="mini">论文重复</el-tag>
+              <el-tag type="danger" size="mini">题目重复</el-tag>
             </template>
           </el-table-column>
         </el-table>

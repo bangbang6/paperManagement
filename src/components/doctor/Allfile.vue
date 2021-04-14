@@ -46,7 +46,7 @@
               type="danger"
               :style="{marginLeft:'5px'}"
               @click="errorHandler(scope.row)"
-            >状态异常</el-tag>
+            >题目重复</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="author" label="作者" width="80"></el-table-column>
