@@ -10,19 +10,55 @@
         <el-timeline-item timestamp="2021/4/12" placement="top">
           <div>
             <el-tag type="info">代老师</el-tag>
+            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
             <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:x4500003417800</el-tag>
+            <el-tag type="info">区块号:200462014</el-tag>
           </div>
         </el-timeline-item>
         <el-timeline-item timestamp="2021/4/3" placement="top">
           <div>
             <el-tag type="info">bang</el-tag>
+            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
             <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:x47456789138002</el-tag>
+            <el-tag type="info">区块号:750432100</el-tag>
           </div>
         </el-timeline-item>
         <el-timeline-item timestamp="2021/4/2" placement="top">
           <div>
+            <el-tag type="info">bang</el-tag>
+            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
+            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:x47456789138002</el-tag>
+            <el-tag type="info">区块号:750432100</el-tag>
+          </div>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2021/4/1" placement="top">
+          <div>
+            <el-tag type="info">bang</el-tag>
+            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
+            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:x47456789138002</el-tag>
+            <el-tag type="info">区块号:750432100</el-tag>
+          </div>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2021/3/28" placement="top">
+          <div>
+            <el-tag type="info">wenhaozhao</el-tag>
+            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
+            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:x47456789138002</el-tag>
+            <el-tag type="info">区块号:750432100</el-tag>
+          </div>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2021/3/26" placement="top">
+          <div>
             <el-tag type="info">代老师</el-tag>
-            <el-tag type="info">上传文件</el-tag>
+            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
+            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:x47456789138002</el-tag>
+            <el-tag type="info">区块号:750432100</el-tag>
           </div>
         </el-timeline-item>
       </el-timeline>
@@ -39,7 +75,7 @@ export default {
     }
   },
   mounted () {
-    this.title = this.$route.query.title + '溯源过程'
+    this.title = this.$route.query.title + '溯源信息'
   }
 }
 </script>
@@ -62,6 +98,9 @@ export default {
   }
   .time-line {
     padding-top: 100px;
+  }
+  .el-tag {
+    margin-right: 10px;
   }
 }
 </style>

@@ -43,10 +43,11 @@
             <el-tag
               size="mini"
               v-if="scope.row.error"
-              type="danger"
+              effect="dark"
+              :type="scope.row.type"
               :style="{marginLeft:'5px'}"
               @click="errorHandler(scope.row)"
-            >题目重复</el-tag>
+            >{{scope.row.errorMessage}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="author" label="作者" width="80"></el-table-column>
@@ -116,7 +117,9 @@ export default {
           projectFund: 'xm2000',
           id: 1,
           date: new Date(),
-          error: true
+          error: true,
+          type: "danger",
+          errorMessage: '题目重复'
         },
         {
           title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
@@ -127,7 +130,26 @@ export default {
           projectFund: 'xm2000',
           date: new Date(),
           id: 2,
-          error: true
+          error: true,
+          type: "danger",
+          errorMessage: '题目重复'
+
+
+        },
+        {
+          title: 'Foridar',
+          author: 'bang',
+          publicTypeName: '期刊/sci',
+          name: '中国自然',
+          projectNum: '2000',
+          projectFund: 'xm2000',
+          date: new Date(),
+          id: 3,
+          error: true,
+          type: "warning",
+          errorMessage: '多次修改'
+
+
         },
         {
           title: 'Foridar',

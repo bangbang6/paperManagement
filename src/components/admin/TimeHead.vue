@@ -1,6 +1,6 @@
 <template>
   <div class="menu-wrapper">
-    <div class="title">单位时间发表论文数</div>
+    <div class="title">单位时间的区块数</div>
     <div class="menu-right">
       <el-radio-group size="mini" v-model="text">
         <el-radio-button label="今年"></el-radio-button>

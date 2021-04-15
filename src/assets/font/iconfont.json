@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7550205",
+      "name": "交易",
+      "font_class": "jiaoyi",
+      "unicode": "e689",
+      "unicode_decimal": 59017
+    },
+    {
+      "icon_id": "14154377",
+      "name": "区块",
+      "font_class": "qukuai",
+      "unicode": "e74a",
+      "unicode_decimal": 59210
+    },
+    {
       "icon_id": "14418334",
       "name": "user",
       "font_class": "user",

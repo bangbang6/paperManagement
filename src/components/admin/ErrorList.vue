@@ -3,6 +3,7 @@
     <div class="title">异常论文</div>
     <div class="list">
       <div class="list-item bold">
+        <div class="status">状态</div>
         <div class="paper-title">论文名</div>
         <div class="author">作者</div>
         <div class="type">发表类型</div>
@@ -14,6 +15,9 @@
         :key="index"
         @click="handleClick(index)"
       >
+        <div class="paper-title">
+          <el-tag :type="paper.type" size="mini" effect="dark">{{paper.status}}</el-tag>
+        </div>
         <div class="paper-title">{{paper.title}}</div>
         <div class="author">{{paper.author}}</div>
         <div class="type">{{paper.publicTypeName}}</div>
@@ -51,86 +55,141 @@ export default {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '名字重复',
+        type: 'danger',
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '名字重复',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '多次修改',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '多次修改',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '名字重复',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '名字重复',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '名字重复',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '名字重复',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '多次修改',
+        type: 'danger',
+
+
       },
 
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '多次修改',
+        type: 'warning',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '多次修改',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '多次修改',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '名字重复',
+        type: 'danger',
+
+
       },
       {
         title: "Foridar",
         author: 'bang',
         publicTypeName: '期刊',
-        chainDate: new Date()
+        chainDate: new Date(),
+        status: '名字重复',
+        type: 'danger',
+
+
+
       }
     ]
   }
@@ -151,22 +210,25 @@ export default {
     margin-top: 20px;
     .list-item {
       display: flex;
+      border-bottom: 1px solid #eee;
       .paper-title,
       .author,
       .type,
-      .date {
+      .date,
+      .status {
         flex: 1;
         height: 20px;
         padding: 5px 0;
         text-align: center;
         font-size: 12px;
       }
-      &:nth-child(odd) {
+
+      /* &:nth-child(odd) {
         background: #f2f2f2;
       }
       &:nth-child(even) {
         background: white;
-      }
+      } */
       &.bold {
         font-weight: bold;
       }

@@ -35,6 +35,26 @@
           </div>
         </el-card>
         <el-card shadow="never">
+          <div class="wrapper block">
+            <i class="iconfont">&#xe74a;</i>
+
+            <div class="info">
+              <div class="word">区块</div>
+              <div class="word">{{blockNumber}}</div>
+            </div>
+          </div>
+        </el-card>
+        <el-card shadow="never">
+          <div class="wrapper connect">
+            <i class="iconfont">&#xe689;</i>
+
+            <div class="info">
+              <div class="word">交易</div>
+              <div class="word">{{connectNumber}}</div>
+            </div>
+          </div>
+        </el-card>
+        <el-card shadow="never">
           <div class="wrapper error">
             <i class="iconfont">&#xe6f9;</i>
 
@@ -75,10 +95,12 @@ export default {
   },
   data () {
     return {
-      paperNumber: 0,
-      organizationNumber: 0,
-      userNumber: 0,
-      errorNumber: 0,
+      paperNumber: 2400,
+      organizationNumber: 20,
+      userNumber: 80,
+      errorNumber: 6,
+      blockNumber: 24,
+      connectNumber: 56
     }
   }
 }
@@ -100,7 +122,7 @@ export default {
       width: 100%;
       height: 100px;
       .el-card {
-        width: 25%;
+        flex: 1;
         height: 100px;
         .wrapper {
           display: flex;
@@ -116,7 +138,13 @@ export default {
             color: #ae4c4a;
           }
           &.error {
+            color: #f56c6c;
+          }
+          &.block {
             color: #144bee;
+          }
+          &.connect {
+            color: #e6a23c;
           }
           .word {
             color: #62a1df;
@@ -125,7 +153,7 @@ export default {
             font-size: 50px;
           }
           .info {
-            margin-left: 40px;
+            margin-left: 10px;
             font-size: 18px;
             div:nth-child(2) {
               margin-top: 10px;

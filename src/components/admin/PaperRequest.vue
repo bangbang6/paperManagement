@@ -64,10 +64,11 @@ export default {
     reviewToPublic (id, op) {
       reviewToPublic({ paperId: id, op: op }).then(res => {
         if (res.code === 200) {
+
           Message({
-            message: res.msg,
+            message: '已发邮件通知用户文件审批完成',
             type: 'success',
-            duration: 1000
+            duration: 2000
           })
           this.getPublic()
         } else {
@@ -87,10 +88,11 @@ export default {
       }).then(() => {
         reviewToUpChain({ paperId: id, op: op }).then(res => {
           if (res.code === 200) {
+
             Message({
-              message: res.msg,
+              message: '已发邮件通知各作者文件已上链',
               type: 'success',
-              duration: 1000
+              duration: 2000
             })
             this.getReview()
           } else {

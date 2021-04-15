@@ -57,12 +57,16 @@ export default {
             }
           }
         },
-        series: {
+        series: [{
           type: 'line',
           data,
           barWidth: "30%"
-        },
-        color: '#B2EAC0',
+        }, {
+          type: 'bar',
+          data,
+          barWidth: "30%"
+        }],
+        color: ['#A3D2F6', '#B2EAC0',],
         grid: {
           top: 70,
           left: 60,

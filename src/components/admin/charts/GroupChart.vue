@@ -62,7 +62,7 @@ export default {
           data,
           barWidth: "30%"
         },
-        color: '#FF9502',
+        color: '#FF9502'/* '#A3D2F6'/* '#FF9502' */,
         grid: {
           top: 70,
           left: 60,
@@ -107,6 +107,7 @@ export default {
   .sale-chart {
     width: 100%;
     height: 100%;
+    /* background: #4e9cd8; */
   }
 }
 </style>
