@@ -32,8 +32,8 @@
           </el-table-column>
 
           <el-table-column prop="status" label="状态">
-            <template>
-              <el-tag type="danger" size="mini">题目重复</el-tag>
+            <template slot-scope="scope">
+              <el-tag :type="scope.row.type" size="mini">{{scope.row.status}}</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -60,7 +60,9 @@ export default {
           publicTypeName: 'top80',
           uploader: '代老师',
           id: 1,
-          chainDate: new Date()
+          chainDate: new Date(),
+          type: 'danger',
+          status: '题目重复'
         },
         {
           title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
@@ -69,7 +71,9 @@ export default {
           uploader: 'bang',
           id: 2,
 
-          chainDate: new Date()
+          chainDate: new Date(),
+          type: 'danger',
+          status: '题目重复'
         },
         {
           title: 'Foridar',
@@ -78,7 +82,9 @@ export default {
           uploader: 'user1',
           id: 3,
 
-          chainDate: new Date()
+          chainDate: new Date(),
+          type: 'warning',
+          status: '多次修改'
         },
         {
           title: 'Foridar',
@@ -87,7 +93,9 @@ export default {
           uploader: 'chen',
           id: 4,
 
-          chainDate: new Date()
+          chainDate: new Date(),
+          type: 'warning',
+          status: '多次修改'
         },
       ],
       tableData: [],
