@@ -112,7 +112,7 @@ export default {
       histroys: [
         {
           operation: "修改论文",
-          user: '代老师',
+          user: 'Adrain Hadopool',
           date: new Date()
         },
         {
@@ -252,13 +252,16 @@ export default {
           margin-top: 22px;
           .tag-item {
             position: absolute;
-            width: 70px;
+            width: 120px;
             text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           .tag-item2 {
             position: absolute;
-            width: 70px;
-            left: 70px;
+            width: 120px;
+            left: 120px;
             text-align: center;
           }
         }
