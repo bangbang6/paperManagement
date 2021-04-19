@@ -3,13 +3,25 @@
     <div class="find-repeat">
       <el-card shadow="always">
         <el-table :data="tableData1" class="table" size="mini" @row-click="clickRow">
-          <el-table-column prop="title" label="论文标题" width="160"></el-table-column>
+          <el-table-column prop="title" label="论文标题" width="360">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.title}}</span>
+            </template>
+          </el-table-column>
 
           <el-table-column prop="publicTypeName" label="发布类型" width="160"></el-table-column>
-          <el-table-column prop="name" label="名称" width="80"></el-table-column>
+          <el-table-column prop="name" label="名称" width="240">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.name}}</span>
+            </template>
+          </el-table-column>
 
           <el-table-column prop="conferenceDeadline" label="截止时间" width="80"></el-table-column>
-          <el-table-column prop="authors" label="作者"></el-table-column>
+          <el-table-column prop="authors" label="作者">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.authors}}</span>
+            </template>
+          </el-table-column>
         </el-table>
       </el-card>
     </div>
@@ -76,6 +88,11 @@ export default {
     /* overflow-y: auto; */
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
     height: 100%;
+    .overflow {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 </style>

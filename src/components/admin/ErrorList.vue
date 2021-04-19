@@ -18,10 +18,10 @@
         <div class="paper-title">
           <el-tag :type="paper.type" size="mini" effect="dark">{{paper.status}}</el-tag>
         </div>
-        <div class="paper-title">{{paper.title}}</div>
-        <div class="author">{{paper.author}}</div>
-        <div class="type">{{paper.publicTypeName}}</div>
-        <div class="date">{{formatDate(paper.chainDate)}}</div>
+        <div class="paper-title overflow">{{paper.title}}</div>
+        <div class="author overflow">{{paper.author}}</div>
+        <div class="type overflow">{{paper.publicTypeName}}</div>
+        <div class="date overflow">{{formatDate(paper.chainDate)}}</div>
       </div>
     </div>
   </div>
@@ -151,8 +151,8 @@ export default {
 
       },
       {
-        title: "Foridar",
-        author: 'bang',
+        title: "Foridar1111111111111",
+        author: 'bang2222222222222',
         publicTypeName: '期刊',
         chainDate: new Date(),
         status: '多次修改',
@@ -162,7 +162,7 @@ export default {
       },
       {
         title: "Foridar",
-        author: 'bang',
+        author: 'bang2222222',
         publicTypeName: '期刊',
         chainDate: new Date(),
         status: '多次修改',
@@ -218,9 +218,14 @@ export default {
       .status {
         flex: 1;
         height: 20px;
-        padding: 5px 0;
+        padding: 5px 5px;
         text-align: center;
         font-size: 12px;
+      }
+      .overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       /* &:nth-child(odd) {
