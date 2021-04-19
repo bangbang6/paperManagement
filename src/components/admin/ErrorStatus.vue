@@ -55,48 +55,35 @@ export default {
       author: '',
       files: [
         {
-          title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
-          author: '代老师',
-          publicTypeName: 'top80',
-          uploader: '代老师',
+          title: 'Interledger: Creating a Standard for Payments',
+          author: 'Adrian Hope-Bailie,Stefan Thomas',
+          publicTypeName: '会议/B类',
+          uploader: 'Adrian Hope-Bailie',
           id: 1,
-          chainDate: new Date(),
+          chainDate: '2021/4/15',
           type: 'danger',
           status: '题目重复'
         },
         {
-          title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
-          author: 'bang',
-          publicTypeName: 'top80',
-          uploader: 'bang',
+          title: 'Interledger: Creating a Standard for Payments',
+          author: 'Stefan Thomas,Adrian Hope-Bailie',
+          publicTypeName: '会议/B类',
+          uploader: 'Stefan Thomas',
           id: 2,
-
-          chainDate: new Date(),
+          chainDate: '2021/4/16',
           type: 'danger',
           status: '题目重复'
         },
         {
-          title: 'Foridar',
-          author: 'Ethipia',
-          publicTypeName: 'sci',
-          uploader: 'user1',
+          title: 'Tesseract: Real-Time Cryptocurrency Exchange',
+          author: 'Iddo Bentov,Yan Ji,Fan Zhang',
+          publicTypeName: '期刊/B类',
+          uploader: 'Iddo Bentov',
           id: 3,
-
-          chainDate: new Date(),
+          chainDate: '2019/8/12',
           type: 'warning',
           status: '多次修改'
-        },
-        {
-          title: 'Foridar',
-          author: 'chen',
-          publicTypeName: 'sci',
-          uploader: 'chen',
-          id: 4,
-
-          chainDate: new Date(),
-          type: 'warning',
-          status: '多次修改'
-        },
+        }
       ],
       tableData: [],
       paper: {},

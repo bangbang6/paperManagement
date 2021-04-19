@@ -37,7 +37,7 @@ export function getUserByChineseName(ChineseName){
 
 export function downloadFile(id){
   let a = document.createElement('a')
-  a.href =`http://211.69.197.138:8091/file/download?file_id=${id}`
+  a.href =`http://211.69.197.138:8090/file/download?file_id=${id}`
   a.click();
   
 }
