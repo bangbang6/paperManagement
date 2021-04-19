@@ -3,14 +3,29 @@
     <el-tabs type="border-card" class="tab">
       <el-tab-pane label="发布审核">
         <el-table :data="tableData1" class="table" size="mini" @row-click="clickRow">
-          <el-table-column prop="title" label="论文标题" width="80"></el-table-column>
-
+          <el-table-column prop="title" label="论文标题" width="180">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.title}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="publicTypeName" label="发布类型" width="85"></el-table-column>
-          <el-table-column prop="name" label="名称" width="80"></el-table-column>
-          <el-table-column prop="website" label="网址" width="140"></el-table-column>
+          <el-table-column prop="name" label="名称" width="160">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="website" label="网址" width="140">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.website}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="checkRate" label="查重率" width="80"></el-table-column>
           <el-table-column prop="conferenceDeadline" label="截止时间" width="80"></el-table-column>
-          <el-table-column prop="authors" label="作者"></el-table-column>
+          <el-table-column prop="authors" label="作者">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.authors}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="action" label="操作" width="160">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="reviewToPublic(scope.row.id,1)">同意</el-button>
@@ -21,14 +36,34 @@
       </el-tab-pane>
       <el-tab-pane label="上链审核">
         <el-table :data="tableData2" class="table" size="mini" @row-click="clickRow">
-          <el-table-column prop="title" label="论文标题" width="85"></el-table-column>
+          <el-table-column prop="title" label="论文标题" width="180">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.title}}</span>
+            </template>
+          </el-table-column>
 
-          <el-table-column prop="publicTypeName" label="发布类型" width="80"></el-table-column>
+          <el-table-column prop="publicTypeName" label="发布类型" width="100"></el-table-column>
 
-          <el-table-column prop="name" label="名称" width="160"></el-table-column>
-          <el-table-column prop="website" label="网址" width="140"></el-table-column>
-          <el-table-column prop="checkRate" label="查重率" width="80"></el-table-column>
-          <el-table-column prop="authors" label="作者"></el-table-column>
+          <el-table-column prop="name" label="名称" width="140">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="website" label="网址" width="140">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.website}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="checkRate" label="查重率" width="80">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.checkRate+"%"}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="authors" label="作者">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.author}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="action" label="操作" width="160">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="reviewToUpChain(scope.row.id,1)">同意</el-button>
@@ -180,6 +215,11 @@ export default {
 
     .table {
       width: 100%;
+      .overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
   }
 }

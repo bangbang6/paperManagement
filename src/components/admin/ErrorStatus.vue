@@ -19,12 +19,20 @@
         >
           <el-table-column prop="title" label="名称" width="100">
             <template slot-scope="scope">
-              <span class="over">{{scope.row.title}}</span>
+              <span class="overflow">{{scope.row.title}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="author" label="作者" width="100"></el-table-column>
+          <el-table-column prop="author" label="作者" width="100">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.author}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="publicTypeName" label="发表类型" width="80"></el-table-column>
-          <el-table-column prop="uploader" label="上传者" width="80"></el-table-column>
+          <el-table-column prop="uploader" label="上传者" width="100">
+            <template slot-scope="scope">
+              <span class="overflow">{{scope.row.uploader}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="chainDate" label="上链时间">
             <template slot-scope="scope">
               <span>{{formatDate(scope.row.chainDate)}}</span>
@@ -33,7 +41,7 @@
 
           <el-table-column prop="status" label="状态">
             <template slot-scope="scope">
-              <el-tag :type="scope.row.type" size="mini">{{scope.row.status}}</el-tag>
+              <el-tag :type="scope.row.type" size="mini" effect="dark">{{scope.row.status}}</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -154,7 +162,7 @@ export default {
       }
       .el-table {
         margin-top: 20px;
-        .over {
+        .overflow {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;

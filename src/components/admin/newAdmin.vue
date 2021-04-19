@@ -55,7 +55,7 @@
           </div>
         </el-card>
         <el-card shadow="never">
-          <div class="wrapper error">
+          <div class="wrapper error" @click="$router.push('/admin/errorStatus')">
             <i class="iconfont">&#xe6f9;</i>
 
             <div class="info">

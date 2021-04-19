@@ -50,11 +50,27 @@
             >{{scope.row.errorMessage}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="author" label="作者" width="80"></el-table-column>
+        <el-table-column prop="author" label="作者" width="80">
+          <template slot-scope="scope">
+            <span class="overflow">{{scope.row.author}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="publicTypeName" label="发表类型"></el-table-column>
-        <el-table-column prop="name" label="具体名称"></el-table-column>
-        <el-table-column prop="projectNum" label="项目号"></el-table-column>
-        <el-table-column prop="projectFund" label="项目基金"></el-table-column>
+        <el-table-column prop="name" label="具体名称">
+          <template slot-scope="scope">
+            <span class="overflow">{{scope.row.name}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="projectNum" label="项目号">
+          <template slot-scope="scope">
+            <span class="overflow">{{scope.row.projectNum}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="projectFund" label="项目基金">
+          <template slot-scope="scope">
+            <span class="overflow">{{scope.row.projectFund}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="date" label="发表时间">
           <template slot-scope="scope">
             <span>{{formatDate(scope.row.date)}}</span>
@@ -271,6 +287,11 @@ export default {
       margin-top: 20px;
       padding-right: 50px;
       box-sizing: border-box;
+      .overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
   }
 }

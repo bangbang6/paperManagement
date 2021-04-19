@@ -186,7 +186,7 @@
 </template>
  
 <script>
-import { Message } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import { getPaperDetail, downloadFile } from '@/api/paper'
 
 import { uploadFile } from '@/api/teacher'
@@ -232,9 +232,9 @@ export default {
         reviewToPublic({ paperId: this.paperId, op: op }).then(res => {
           if (res.code === 200) {
             Message({
-              message: res.msg,
+              message: '已发邮件通知用户文件审批完成',
               type: 'success',
-              duration: 1000
+              duration: 2000
             })
             this.$router.back()
           } else {
@@ -246,23 +246,40 @@ export default {
           }
         })
       } else if (status === 5) {
-        reviewToUpChain({ paperId: this.paperId, op: op }).then(res => {
-          if (res.code === 200) {
-            Message({
-              message: res.msg,
-              type: 'success',
-              duration: 1000
-            })
-            this.$router.back()
-          } else {
-            Message({
-              message: res.msg,
-              type: 'error',
-              duration: 1000
-            })
-          }
+
+        MessageBox.confirm('此操作将以当前身份进行签名后上链, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          reviewToUpChain({ paperId: this.paperId, op: op }).then(res => {
+            if (res.code === 200) {
+
+              Message({
+                message: '已发邮件通知各作者文件已上链',
+                type: 'success',
+                duration: 2000
+              })
+              this.$router.back()
+            } else {
+              Message({
+                message: res.msg,
+                type: 'error',
+                duration: 1000
+              })
+            }
+          })
+        }).catch(() => {
+          Message({
+            message: '已取消',
+            type: 'success',
+            duration: 1000
+          })
         })
+
       }
+
+
     },
     reject () {
 
@@ -540,6 +557,9 @@ export default {
         span {
           display: inline-block;
           width: 80px;
+        }
+        div {
+          flex: 1;
         }
       }
       .repeat {
