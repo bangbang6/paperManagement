@@ -72,14 +72,18 @@ export default {
       author: '',
       /* files: [
         {
-          title: 'Interledger: Creating a Standard for Payments',
+          id:1,
+          title: "Interledger: Creating a Standard for Payments",
           author: 'Adrian Hope-Bailie,Stefan Thomas',
           publicTypeName: '会议/B类',
+          name:'Journal of Parallel and Distributed Computing',
           uploader: 'Adrian Hope-Bailie',
-          id: 1,
           chainDate: '2021/4/15',
+          status: '题目重复',
           type: 'danger',
-          status: '题目重复'
+          projectNum:'0x0023104123',
+          projectFund:'国家xx项目xx基金',
+          organization:'华中科技大学计算机学院cgcl实验室'
         },
         {
           title: 'Interledger: Creating a Standard for Payments',

@@ -62,12 +62,97 @@ export default {
     /* this.papers = [
 
       {
-        title: "Foridar",
-        author: 'bang',
-        publicTypeName: '期刊',
-        chainDate: new Date(),
-        status: '名字重复',
+        id:1,
+        title: "Interledger: Creating a Standard for Payments",
+        author: 'Adrian Hope-Bailie,Stefan Thomas',
+        publicTypeName: '会议/B类',
+        name:'Journal of Parallel and Distributed Computing',
+        uploader: 'Adrian Hope-Bailie',
+        chainDate: '2021/4/15',
+        status: '题目重复',
         type: 'danger',
+        projectNum:'10.1109/TSFQ.2019.2928256',
+        projectFund:'National Natural Science Foundation of Canada',
+        organization:'300 Montgomery StSan Francisco',
+        histroys: [
+          {
+            operation: "上传论文",
+            user: 'Adrian Hope-Bailie',
+            date: new Date()
+          },
+          {
+            operation: "修改论文",
+            user: 'Stefan Thomas',
+            date: '2021/1/6'
+          },
+          {
+            operation: "上传论文",
+            user: 'Stefan Thomas',
+            date: '2021/1/3'
+          }
+        ]
+      },
+      {
+        id:2,
+        title: "Interledger: Creating a Standard for Payments",
+        author: 'Stefan Thomas,Adrian Hope-Bailie',
+        publicTypeName: '会议/B类',
+        name:'Journal of Parallel and Distributed Computing',
+        uploader: 'Stefan Thomas',
+        chainDate: '2021/4/15',
+        status: '题目重复',
+        type: 'danger',
+        projectNum:'10.1109/TSFQ.2019.2928256',
+        projectFund:'National Natural Science Foundation of Canada',
+        organization:'300 Montgomery StSan Francisco',
+        histroys: [
+          {
+            operation: "上传论文",
+            user: 'Adrian Hope-Bailie',
+            date: new Date()
+          },
+          {
+            operation: "上传论文",
+            user: 'Stefan Thomas',
+            date: '2021/1/6'
+          },
+          {
+            operation: "上传论文",
+            user: 'Stefan Thomas',
+            date: '2021/1/3'
+          }
+        ]
+      },
+      {
+        id:3,
+        title: 'GDPR-Compliant Personal Data Management: A Blockchain-Based Solution',
+        author: 'Nguyen Binh Truong,Kai Sun,Gyu Myoung Lee',
+        publicTypeName: '期刊/sci',
+        name: ' IEEE Transactions on Information Forensics and Security',
+        uploader:'Nguyen Binh Truong',
+        chainDate:'2021/4/14',
+        status: '多次修改',
+        type: 'warning',
+        projectNum: '10.1109/TIFS.2019.2948287',
+        projectFund: 'Imperial College London ',
+        organization:'ETH Z¨urich and Cornell Tech',
+        histroys: [
+          {
+            operation: "修改论文",
+            user: 'Kai Sun',
+            date: '2021/4/14'
+          },
+          {
+            operation: "修改论文",
+            user: 'Kai Sun',
+            date: '2021/1/6'
+          },
+          {
+            operation: "上传论文",
+            user: 'Nguyen Binh Truong',
+            date: '2021/1/3'
+          }
+        ]
       },
       {
         title: "Foridar",

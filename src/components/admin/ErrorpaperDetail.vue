@@ -157,11 +157,12 @@ export default {
         /* this.title = newV.title
         this.author = newV.author
         this.publicTypeName = newV.publicTypeName
-        this.name = 'Journal of Parallel and Distributed Computing'
+        this.name = newV.name
         this.date = new Date()
-        this.projectNum = '0x0023104123'
-        this.projectFund = '国家xx项目xx基金'
+        this.projectNum = newV.projectNum
+        this.projectFund = newV.projectFund
         this.uploader = newV.uploader
+<<<<<<< HEAD
         this.organization = '华中科技大学计算机学院cgcl实验室'
         this.chainDate = newV.chainDate */
 
@@ -197,6 +198,11 @@ export default {
             })
           }
         })
+=======
+        this.organization = newV.organization
+        this.chainDate = newV.chainDate
+        this.histroys = newV.histroys
+>>>>>>> d29308e (修改数据80%)
       }
 
     }
