@@ -1,6 +1,6 @@
 import request from "../util/request";
 
-
+const downloadBaseUrl = 'http://211.69.197.138:8090'
 /**
  * 获取paper详细内容
  * @param {*} id 
@@ -37,7 +37,7 @@ export function getUserByChineseName(ChineseName){
 
 export function downloadFile(id){
   let a = document.createElement('a')
-  a.href =`http://211.69.197.138:8090/file/download?file_id=${id}`
+  a.href =`${downloadBaseUrl}/file/download?file_id=${id}`
   a.click();
   
 }

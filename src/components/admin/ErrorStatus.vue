@@ -24,44 +24,52 @@
           </el-table-column>
           <el-table-column prop="author" label="作者" width="100">
             <template slot-scope="scope">
-              <span class="overflow">{{scope.row.author}}</span>
+              <span class="overflow">{{scope.row.authors}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="publicTypeName" label="发表类型" width="80"></el-table-column>
-          <el-table-column prop="uploader" label="上传者" width="100">
+          <el-table-column prop="publicTypeName" label="发表类型" width="100"></el-table-column>
+          <el-table-column prop="uploader" label="上传者" width="80">
             <template slot-scope="scope">
               <span class="overflow">{{scope.row.uploader}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="chainDate" label="上链时间">
             <template slot-scope="scope">
-              <span>{{formatDate(scope.row.chainDate)}}</span>
+              <span>{{formatDate(scope.row.uploadChainDate)}}</span>
             </template>
           </el-table-column>
 
-          <el-table-column prop="status" label="状态">
+          <el-table-column prop="exception" label="状态">
             <template slot-scope="scope">
-              <el-tag :type="scope.row.type" size="mini" effect="dark">{{scope.row.status}}</el-tag>
+              <el-tag
+                :type="item === '题目重复'?'danger':'warning'"
+                size="mini"
+                effect="dark"
+                v-for="item in scope.row.exception"
+                :key="item"
+              >{{item}}</el-tag>
             </template>
           </el-table-column>
         </el-table>
       </div>
     </div>
     <div class="paper-detail">
-      <errorpaper-detail :paper="paper"></errorpaper-detail>
+      <errorpaper-detail :paperId="paperId"></errorpaper-detail>
     </div>
   </div>
 </template>
  
 <script>
 import ErrorpaperDetail from './ErrorpaperDetail'
+import { getErrorList } from '@/api/chain'
+import { Message } from 'element-ui'
 export default {
   components: { ErrorpaperDetail },
   data () {
     return {
       title: '',
       author: '',
-      files: [
+      /* files: [
         {
           title: 'Interledger: Creating a Standard for Payments',
           author: 'Adrian Hope-Bailie,Stefan Thomas',
@@ -92,20 +100,22 @@ export default {
           type: 'warning',
           status: '多次修改'
         }
-      ],
+      ], */
+      files: [],
       tableData: [],
-      paper: {},
+      paperId: -1,
     }
   },
   methods: {
     handleRowClick (row) {
-      let id = row.id
+      this.paperId = row.id
 
-      this.paper = this.files.filter(file => file.id === id)[0]
-      console.log('this.paper', this.paper);
+
     },
     formatDate (date) {
-      return date.toLocaleString().slice(0, 9)
+      let str = new Date(date).toLocaleString()
+      let index = new Date(date).toLocaleString().indexOf('午')
+      return str.slice(0, index-1)
     },
     search () {
       this.tableData = this.files
@@ -120,11 +130,25 @@ export default {
     }
   },
   mounted () {
-    this.tableData = this.files
 
-    this.title = this.$route.query.title
-    this.search()
-    this.paper = this.tableData[0]
+
+    getErrorList().then(res => {
+      console.log('errorList', res);
+      if (res.code === 200) {
+        this.files = res.data
+        this.tableData = this.files
+
+        this.title = this.$route.query.title
+        this.search()
+        this.paperId = this.tableData[0].id
+      } else {
+        Message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
+      }
+    })
 
   }
 }

@@ -10,7 +10,7 @@
           </div>
           <div class="line">
             <span class="key">作者</span>
-            <span class="value">{{author}}</span>
+            <span class="value">{{authors}}</span>
           </div>
           <div class="line">
             <span class="key">发表类型</span>
@@ -93,14 +93,16 @@
 </template>
  
 <script>
+import { Message } from 'element-ui';
+import { getErrorDetail, getHistory } from '@/api/chain'
 export default {
   props: {
-    paper: Object
+    paperId: Number
   },
   data () {
     return {
       title: '',
-      author: '',
+      authors: '',
       publicTypeName: '',
       projectNum: '',
       projectFund: '',
@@ -110,7 +112,7 @@ export default {
       date: new Date(),
       name: '',
       histroys: [
-        {
+        /* {
           operation: "修改论文",
           user: 'Adrain Hadopool',
           date: new Date()
@@ -124,13 +126,15 @@ export default {
           operation: "上传论文",
           user: '代老师',
           date: new Date()
-        },
+        }, */
       ]
     }
   },
   methods: {
     formatDate (date) {
-      return date.toLocaleString().slice(0, 9)
+      let str = new Date(date).toLocaleString()
+      let index = new Date(date).toLocaleString().indexOf('午')
+      return str.slice(0, index - 1)
     },
   },
   mounted () {
@@ -147,10 +151,10 @@ export default {
     this.chainDate = new Date() */
   },
   watch: {
-    paper: {
+    paperId: {
       handler: function (newV) {
         console.log('newV', newV);
-        this.title = newV.title
+        /* this.title = newV.title
         this.author = newV.author
         this.publicTypeName = newV.publicTypeName
         this.name = 'Journal of Parallel and Distributed Computing'
@@ -159,7 +163,40 @@ export default {
         this.projectFund = '国家xx项目xx基金'
         this.uploader = newV.uploader
         this.organization = '华中科技大学计算机学院cgcl实验室'
-        this.chainDate = newV.chainDate
+        this.chainDate = newV.chainDate */
+
+        getErrorDetail(this.paperId).then(res => {
+          if (res.code === 200) {
+            res = res.data
+            this.authors = res.authors.join(',')
+            this.publicTypeName = res.publicTypeName
+            this.name = res.name
+            this.date = res.uploadDate
+            this.projectNum = res.projectNum
+            this.projectFund = res.projectFund
+            this.uploader = res.uploaderUsername
+            this.organization = res.uploaderOrganization
+            this.chainDate = res.uploadChainDate
+          } else {
+            Message({
+              message: res.msg,
+              status: 'error',
+              duration: 1000
+            })
+          }
+        })
+        getHistory(this.paperId).then(res => {
+          if (res.code === 200) {
+            console.log('history', res);
+            this.histroys = res.data
+          } else {
+            Message({
+              message: res.msg,
+              status: 'error',
+              duration: 1000
+            })
+          }
+        })
       }
 
     }

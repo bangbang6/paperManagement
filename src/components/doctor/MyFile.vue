@@ -55,10 +55,11 @@ export default {
     jumpToPaperDetail (id, status) {
       console.log('id', id);
       localStorage.setItem('paperId', id)
-      if (status === 0) {
-        this.$router.push(`/paperDetail`)
+
+      if (+status === 3 || +status === 4 || +status === 6 || +status === 7) {
+        this.$router.push(`/undoPaperDetail`)
       } else {
-        this.$router.push('/undoPaperdetail')
+        this.$router.push('/paperdetail')
       }
 
     },

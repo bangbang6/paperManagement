@@ -78,6 +78,11 @@ const routes = [
             name:"allfile",
             component:Allfile
           },
+          {
+            path:'/teacher/errorStatus',
+            name:"errorStatus2",
+            component:ErrorStatus
+          },
         ]
       },
       {

@@ -159,14 +159,18 @@
         :meeting2="meeting2"
       ></Meeting2>
 
-      <el-button type="primary" style="margin-top:20px;" @click="submit">提交</el-button>
       <div class="operation">
-        <el-card shadow="always" v-if="paper.fileId">
-          <div class="download" @click="downloadFile">
-            <i class="el-icon-download"></i>
-            <span>下载</span>
-          </div>
-        </el-card>
+        <div class="card-wrapper">
+          <el-card shadow="always" v-if="paper.fileId">
+            <div class="download" @click="downloadFile">
+              <i class="el-icon-download"></i>
+              <span>下载</span>
+            </div>
+          </el-card>
+        </div>
+        <div class="btn-wrapper">
+          <el-button type="primary" @click="submit">{{role === '0'?'修改':"提交"}}</el-button>
+        </div>
       </div>
     </el-card>
   </div>
@@ -360,6 +364,9 @@ export default {
     passStatus () {
       if (!this.paper.duplicateCheckResult) return
       return this.paper.duplicateCheckResult.isPassed ? '通过' : "未通过"
+    },
+    role () {
+      return localStorage.getItem('role')
     }
   },
   watch: {
@@ -525,24 +532,29 @@ export default {
   }
   .operation {
     display: flex;
+    justify-content: space-between;
     margin-top: 20px;
     cursor: pointer;
-    .el-card {
-      width: 20%;
-      margin-right: 20px;
-      .download,
-      .see {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        i {
-          font-size: 32px;
-          color: rgb(64, 158, 255);
-        }
-        span {
-          margin-top: 10px;
-          font-size: 16px;
-          color: rgb(64, 158, 255);
+    .card-wrapper {
+      width: 80%;
+      display: flex;
+      .el-card {
+        width: 20%;
+        margin-right: 20px;
+        .download,
+        .see {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          i {
+            font-size: 32px;
+            color: rgb(64, 158, 255);
+          }
+          span {
+            margin-top: 10px;
+            font-size: 16px;
+            color: rgb(64, 158, 255);
+          }
         }
       }
     }

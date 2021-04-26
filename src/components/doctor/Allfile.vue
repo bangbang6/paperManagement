@@ -37,22 +37,23 @@
         size="mini"
         @row-click="handleRowClick"
       >
-        <el-table-column prop="title" label="名称" width="480">
+        <el-table-column prop="title" label="名称" width="450">
           <template slot-scope="scope">
             <span>{{scope.row.title}}</span>
             <el-tag
+              @click="handleErrorClick(scope.row)"
+              :type="item === '题目重复'?'danger':'warning'"
               size="mini"
-              v-if="scope.row.error"
               effect="dark"
-              :type="scope.row.type"
-              :style="{marginLeft:'5px'}"
-              @click="errorHandler(scope.row)"
-            >{{scope.row.errorMessage}}</el-tag>
+              v-for="item in scope.row.exception"
+              :style="{marginLeft:'10px'}"
+              :key="item"
+            >{{item}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="author" label="作者" width="80">
+        <el-table-column prop="authors" label="作者" width="100">
           <template slot-scope="scope">
-            <span class="overflow">{{scope.row.author}}</span>
+            <span class="overflow">{{scope.row.authors}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="publicTypeName" label="发表类型"></el-table-column>
@@ -71,9 +72,9 @@
             <span class="overflow">{{scope.row.projectFund}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="date" label="发表时间">
+        <el-table-column prop="uploadChainDate" label="发表时间">
           <template slot-scope="scope">
-            <span>{{formatDate(scope.row.date)}}</span>
+            <span>{{formatDate(scope.row.uploadChainDate)}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="..." label="操作">
@@ -87,7 +88,7 @@
               <el-link
                 icon="el-icon-download"
                 style="font-size: 18px;color: rgb(64, 158, 255)"
-                @click="download(scope.$index)"
+                @click="download(scope.row.id)"
               ></el-link>
             </el-tooltip>
             <el-tooltip
@@ -110,6 +111,8 @@
 </template>
  
 <script>
+import { getChainPapers } from '@/api/chain'
+import { downloadFile } from '@/api/paper'
 export default {
   data () {
     return {
@@ -122,77 +125,83 @@ export default {
       options: [
 
       ],
-      tableData: [],
-      files: [
-        {
-          title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
-          author: 'Weiqi Dai,Qinyuan Wang,Zeli Wang,Xiaobin Lin',
-          publicTypeName: '会议/B类',
-          name: 'JPDC',
-          projectNum: '02.0129/TSFQ.2016.9831256',
-          projectFund: 'National Natural Science Foundation of China',
-          id: 1,
-          date: '2021/3/02',
-          error: false,
-          // type: "danger",
-          // errorMessage: '题目重复'
-        },
-        {
-          title: 'Interledger: Creating a Standard for Payments',
-          author: 'Adrian Hope-Bailie,Stefan Thomas',
-          publicTypeName: '会议/B类',
-          name: 'WWW’16 Companion',
-          projectNum: '10.1109/TSFQ.2019.2928256',
-          projectFund: 'National Natural Science Foundation of Canada',
-          date: '2016/4/15',
-          id: 2,
-          error: true,
-          type: "danger",
-          errorMessage: '题目重复'
-        },
-        {
-          title: 'Interledger: Creating a Standard for Payments',
-          author: 'Stefan Thomas,Adrian Hope-Bailie',
-          publicTypeName: '会议/B类',
-          name: 'WWW’16 Companion',
-          projectNum: '10.1109/TSFQ.2019.2928256',
-          projectFund: 'National Natural Science Foundation of Canada',
-          date: '2016/4/15',
-          id: 2,
-          error: true,
-          type: "danger",
-          errorMessage: '题目重复'
-        },
-        {
-          title: 'Tesseract: Real-Time Cryptocurrency Exchange',
-          author: 'Iddo Bentov,Yan Ji,Fan Zhang',
-          publicTypeName: '期刊/B类',
-          name: 'JPDC',
-          projectNum: '12.0712/WSAW.2019.9321256',
-          projectFund: 'National Natural Science Foundation of Canada',
-          date: '2019/8/12',
-          id: 3,
-          error: true,
-          type: "warning",
-          errorMessage: '多次修改'
-        },
-        {
-          title: 'GDPR-Compliant Personal Data Management: A Blockchain-Based Solution',
-          author: 'Nguyen Binh Truong,Kai Sun,Gyu Myoung Lee',
-          publicTypeName: '期刊/sci',
-          name: ' IEEE Transactions on Information Forensics and Security',
-          projectNum: '10.1109/TIFS.2019.2948287',
-          projectFund: 'Imperial College London ',
-          date: '2021/04/12',
-          id: 3,
-          error: false
-        }
+      tableData: [],//筛选过的file
+      files: [//总的file
+        /*  {
+           title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
+           author: 'Weiqi Dai,Qinyuan Wang,Zeli Wang,Xiaobin Lin',
+           publicTypeName: '会议/B类',
+           name: 'JPDC',
+           projectNum: '02.0129/TSFQ.2016.9831256',
+           projectFund: 'National Natural Science Foundation of China',
+           id: 1,
+           date: '2021/3/02',
+           error: false,
+           // type: "danger",
+           // errorMessage: '题目重复'
+         },
+         {
+           title: 'Interledger: Creating a Standard for Payments',
+           author: 'Adrian Hope-Bailie,Stefan Thomas',
+           publicTypeName: '会议/B类',
+           name: 'WWW’16 Companion',
+           projectNum: '10.1109/TSFQ.2019.2928256',
+           projectFund: 'National Natural Science Foundation of Canada',
+           date: '2016/4/15',
+           id: 2,
+           error: true,
+           type: "danger",
+           errorMessage: '题目重复'
+         },
+         {
+           title: 'Interledger: Creating a Standard for Payments',
+           author: 'Stefan Thomas,Adrian Hope-Bailie',
+           publicTypeName: '会议/B类',
+           name: 'WWW’16 Companion',
+           projectNum: '10.1109/TSFQ.2019.2928256',
+           projectFund: 'National Natural Science Foundation of Canada',
+           date: '2016/4/15',
+           id: 2,
+           error: true,
+           type: "danger",
+           errorMessage: '题目重复'
+         },
+         {
+           title: 'Tesseract: Real-Time Cryptocurrency Exchange',
+           author: 'Iddo Bentov,Yan Ji,Fan Zhang',
+           publicTypeName: '期刊/B类',
+           name: 'JPDC',
+           projectNum: '12.0712/WSAW.2019.9321256',
+           projectFund: 'National Natural Science Foundation of Canada',
+           date: '2019/8/12',
+           id: 3,
+           error: true,
+           type: "warning",
+           errorMessage: '多次修改'
+         },
+         {
+           title: 'GDPR-Compliant Personal Data Management: A Blockchain-Based Solution',
+           author: 'Nguyen Binh Truong,Kai Sun,Gyu Myoung Lee',
+           publicTypeName: '期刊/sci',
+           name: ' IEEE Transactions on Information Forensics and Security',
+           projectNum: '10.1109/TIFS.2019.2948287',
+           projectFund: 'Imperial College London ',
+           date: '2021/04/12',
+           id: 3,
+           error: false
+         } */
       ]
     }
   },
   methods: {
+    download (id) {
+      downloadFile(id)
+    },
+
     formatDate (date) {
-      return date.toLocaleString().slice(0, 9)
+      let str = new Date(date).toLocaleString()
+      let index = new Date(date).toLocaleString().indexOf('午')
+      return str.slice(0, index - 1)
     },
     search () {
       this.tableData = this.files
@@ -212,14 +221,14 @@ export default {
       if (this.date) {
         console.log('this.date', this.date);
         this.tableData = this.tableData.filter(file => {
-          return file.date.getTime() > this.date[0].getTime() && file.date.getTime() < this.date[1].getTime()
+          return file.uploadChainDate > this.date[0].getTime() && file.uploadChainDate < this.date[1].getTime()
         })
       }
       if (this.error) {
-        this.tableData = this.tableData.filter(file => file.error)
+        this.tableData = this.tableData.filter(file => file.exception.length > 0)
       }
     },
-    errorHandler (row) {
+    handleErrorClick (row) {
       let title = row.title
       let role = localStorage.getItem('role')
       if (role === '1') {
@@ -229,11 +238,24 @@ export default {
             title: title
           }
         })
+      } else {
+        this.$router.push({
+          path: '/teacher/errorStatus',
+          query: {
+            title: title
+          }
+        })
       }
 
     },
     handleRowClick (row) {
       console.log('row', row);
+      let currentUser = localStorage.getItem('chineseName')
+      if (row.uploader === currentUser) {
+        localStorage.setItem('paperId', row.id)
+        this.$router.push('/undoPaperdetail')
+      }
+
     },
     back (row) {
       this.$router.push({
@@ -248,7 +270,15 @@ export default {
 
   },
   mounted () {
-    this.tableData = this.files //files是整个文件 tableData是经过filter后的文件
+    /* this.tableData = this.files //files是整个文件 tableData是经过filter后的文件
+ */
+    getChainPapers().then(res => {
+      console.log('list', res);
+      if (res.code === 200) {
+        this.files = res.data
+        this.tableData = this.files
+      }
+    })
   }
 }
 </script>

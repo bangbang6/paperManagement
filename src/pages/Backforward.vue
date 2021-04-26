@@ -1,9 +1,9 @@
 <template>
   <div class="backforward">
     <div class="title">
-      <span></span>
+      <el-button type="primary" size="mini" @click="$router.back()" :style="{marginLeft:'40px'}">返回</el-button>
       <span>{{title}}</span>
-      <el-button type="primary" size="mini" @click="$router.back()">返回</el-button>
+      <span></span>
     </div>
     <div class="time-line">
       <el-timeline>
@@ -67,6 +67,8 @@
 </template>
  
 <script>
+import { getHistory } from '@/api/chain'
+import { Message } from 'element-ui'
 export default {
   data () {
     return {
@@ -76,6 +78,18 @@ export default {
   },
   mounted () {
     this.title = this.$route.query.title + '溯源信息'
+    getHistory(this.$route.query.id).then(res => {
+      if (res.code === 200) {
+        console.log('todo', res)
+      } else {
+        Message({
+          message: res.msg,
+          status: 'error',
+          duration: 1000
+        })
+      }
+    })
+
   }
 }
 </script>
