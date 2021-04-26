@@ -123,13 +123,21 @@ export default {
       }).then(() => {
         reviewToUpChain({ paperId: id, op: op }).then(res => {
           if (res.code === 200) {
-
+            console.log('res', res);
             Message({
               message: '已发邮件通知各作者文件已上链',
               type: 'success',
               duration: 2000
             })
             this.getReview()
+          } else if (res.code === 409) {
+            Message({
+              message: '链上有同名文件,将触发异常',
+              type: 'warning',
+              duration: 1000
+            })
+            this.getReview()
+
           } else {
             Message({
               message: res.msg,

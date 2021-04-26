@@ -3,6 +3,7 @@
     <div class="error-status">
       <div class="content-wrapper">
         <div class="selects">
+          <el-button size="mini" type="primary" @click="$router.back()" v-if="role==='0'">返回</el-button>
           <div class="input-wrapper">
             <el-input size="mini" v-model="title" placeholder="论文标题" clearable></el-input>
             <el-input size="mini" v-model="author" placeholder="论文作者" clearable></el-input>
@@ -61,7 +62,7 @@
  
 <script>
 import ErrorpaperDetail from './ErrorpaperDetail'
-import { getErrorList } from '@/api/chain'
+import { getErrorList, getExceptionListByTitle } from '@/api/chain'
 import { Message } from 'element-ui'
 export default {
   components: { ErrorpaperDetail },
@@ -106,6 +107,11 @@ export default {
       paperId: -1,
     }
   },
+  computed: {
+    role () {
+      return localStorage.getItem('role')
+    }
+  },
   methods: {
     handleRowClick (row) {
       this.paperId = row.id
@@ -115,7 +121,7 @@ export default {
     formatDate (date) {
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')
-      return str.slice(0, index-1)
+      return str.slice(0, index - 1)
     },
     search () {
       this.tableData = this.files
@@ -131,24 +137,44 @@ export default {
   },
   mounted () {
 
+    if (+this.role === 0) {
+      let title = this.$route.query.title
+      getExceptionListByTitle(title).then(res => {
+        if (res.code === 200) {
+          console.log('res', res);
+          this.files = res.data
 
-    getErrorList().then(res => {
-      console.log('errorList', res);
-      if (res.code === 200) {
-        this.files = res.data
-        this.tableData = this.files
+          this.tableData = this.files
 
-        this.title = this.$route.query.title
-        this.search()
-        this.paperId = this.tableData[0].id
-      } else {
-        Message({
-          message: res.msg,
-          type: 'error',
-          duration: 1000
-        })
-      }
-    })
+          this.paperId = this.tableData[0].id
+        } else {
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
+        }
+      })
+    } else if (+this.role === 1) {
+      getErrorList().then(res => {
+        console.log('errorList', res);
+        if (res.code === 200) {
+          this.files = res.data
+          this.tableData = this.files
+          this.title = this.$route.query.title
+
+          this.search()
+          this.paperId = this.tableData[0].id
+        } else {
+          Message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
+        }
+      })
+    }
+
 
   }
 }

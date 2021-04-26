@@ -33,10 +33,22 @@ export function getErrorDetail(paperId){
 
   })
 }
-
+/**
+ * 根据论文id获取溯源历史
+ * @param {*} paperId 
+ * @returns 
+ */
 export function  getHistory(paperId){
   return request({
     url:`/paperHis/getHistoryByPaperId/${paperId}`,
+    method:"GET",
+
+  })
+}
+
+export function  getExceptionListByTitle(title){
+  return request({
+    url:`/paperException/getExceptionListByTitle?title=${title}`,
     method:"GET",
 
   })

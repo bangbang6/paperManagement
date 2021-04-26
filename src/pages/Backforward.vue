@@ -7,58 +7,18 @@
     </div>
     <div class="time-line">
       <el-timeline>
-        <el-timeline-item timestamp="2021/4/12" placement="top">
+        <el-timeline-item
+          v-for="item in historys"
+          :timestamp="formatDate(item.updateTime)"
+          :key="item.id"
+          placement="top"
+        >
           <div>
-            <el-tag type="info">代老师</el-tag>
-            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
-            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">{{item.updateUsername}}</el-tag>
+            <el-tag type="info">{{item.updateUserOrg}}</el-tag>
+            <el-tag type="info">{{item.op}}</el-tag>
             <el-tag type="info">交易号:x4500003417800</el-tag>
             <el-tag type="info">区块号:200462014</el-tag>
-          </div>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2021/4/3" placement="top">
-          <div>
-            <el-tag type="info">bang</el-tag>
-            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
-            <el-tag type="info">修改文件</el-tag>
-            <el-tag type="info">交易号:x47456789138002</el-tag>
-            <el-tag type="info">区块号:750432100</el-tag>
-          </div>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2021/4/2" placement="top">
-          <div>
-            <el-tag type="info">bang</el-tag>
-            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
-            <el-tag type="info">修改文件</el-tag>
-            <el-tag type="info">交易号:x47456789138002</el-tag>
-            <el-tag type="info">区块号:750432100</el-tag>
-          </div>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2021/4/1" placement="top">
-          <div>
-            <el-tag type="info">bang</el-tag>
-            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
-            <el-tag type="info">修改文件</el-tag>
-            <el-tag type="info">交易号:x47456789138002</el-tag>
-            <el-tag type="info">区块号:750432100</el-tag>
-          </div>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2021/3/28" placement="top">
-          <div>
-            <el-tag type="info">wenhaozhao</el-tag>
-            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
-            <el-tag type="info">修改文件</el-tag>
-            <el-tag type="info">交易号:x47456789138002</el-tag>
-            <el-tag type="info">区块号:750432100</el-tag>
-          </div>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2021/3/26" placement="top">
-          <div>
-            <el-tag type="info">代老师</el-tag>
-            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
-            <el-tag type="info">修改文件</el-tag>
-            <el-tag type="info">交易号:x47456789138002</el-tag>
-            <el-tag type="info">区块号:750432100</el-tag>
           </div>
         </el-timeline-item>
       </el-timeline>
@@ -70,17 +30,25 @@
 import { getHistory } from '@/api/chain'
 import { Message } from 'element-ui'
 export default {
+  methods: {
+    formatDate (date) {
+      let str = new Date(date).toLocaleString()
+      let index = new Date(date).toLocaleString().indexOf('午')
+      return str.slice(0, index - 1)
+    },
+  },
   data () {
     return {
       title: '',
-      color: '#1b60ec'
+      color: '#1b60ec',
+      historys: []
     }
   },
   mounted () {
     this.title = this.$route.query.title + '溯源信息'
     getHistory(this.$route.query.id).then(res => {
       if (res.code === 200) {
-        console.log('todo', res)
+        this.historys = res.data
       } else {
         Message({
           message: res.msg,

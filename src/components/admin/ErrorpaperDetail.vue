@@ -65,7 +65,7 @@
                 <span
                   :class="`time-item`"
                   :style="{top:(-3+index*68)+'px'}"
-                >{{formatDate(item.date)}}</span>
+                >{{formatDate(item.updateTime)}}</span>
               </div>
             </div>
           </div>
@@ -77,13 +77,13 @@
                 :class="`tag-item`"
                 :style="{top:(-1+(index*68))+'px'}"
                 size="mini"
-              >{{item.user}}</el-tag>
+              >{{item.updateUsername}}</el-tag>
               <el-tag
                 type="info"
                 :class="`tag-item2`"
                 :style="{top:(-1+(index*68))+'px'}"
                 size="mini"
-              >{{item.operation}}</el-tag>
+              >{{item.op}}</el-tag>
             </div>
           </div>
         </div>
