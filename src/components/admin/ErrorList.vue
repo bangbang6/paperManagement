@@ -16,18 +16,26 @@
         @click="handleClick(index)"
       >
         <div class="paper-title">
-          <el-tag :type="paper.type" size="mini" effect="dark">{{paper.status}}</el-tag>
+          <el-tag
+            :type="item === '题目重复'?'danger':'warning'"
+            size="mini"
+            effect="dark"
+            v-for="item in paper.exception.slice(0,1)"
+            :key="item"
+          >{{item}}</el-tag>
         </div>
         <div class="paper-title overflow">{{paper.title}}</div>
-        <div class="author overflow">{{paper.author}}</div>
+        <div class="author overflow">{{paper.authors}}</div>
         <div class="type overflow">{{paper.publicTypeName}}</div>
-        <div class="date overflow">{{formatDate(paper.chainDate)}}</div>
+        <div class="date overflow">{{formatDate(paper.uploadChainDate)}}</div>
       </div>
     </div>
   </div>
 </template>
  
 <script>
+import { Message } from 'element-ui'
+import { getErrorList } from '@/api/chain'
 export default {
   data () {
     return {
@@ -38,7 +46,7 @@ export default {
     formatDate (date) {
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')
-      return str.slice(0, index-1)
+      return str.slice(0, index - 1)
     },
 
     handleClick (index) {
@@ -51,7 +59,7 @@ export default {
 
   },
   mounted () {
-    this.papers = [
+    /* this.papers = [
 
       {
         title: "Foridar",
@@ -193,7 +201,19 @@ export default {
 
 
       }
-    ]
+    ] */
+
+    getErrorList().then(res => {
+      if (res.code === 200) {
+        this.papers = res.data.slice(0, 14)
+      } else {
+        Message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
+      }
+    })
   }
 }
 </script>
