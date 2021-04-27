@@ -401,6 +401,8 @@ export default {
         .overflow {
           overflow: hidden;
           text-overflow: ellipsis;
+          display: inline-block;
+          width: 100%;
           white-space: nowrap;
         }
       }

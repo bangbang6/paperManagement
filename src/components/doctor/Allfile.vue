@@ -335,8 +335,11 @@ export default {
         display: flex;
         align-items: center;
         .overflow {
+          width:100%;
           overflow: hidden;
           text-overflow: ellipsis;
+        display: inline-block;
+
           white-space: nowrap;
         }
         .exception {
