@@ -224,8 +224,11 @@ export default {
     .table {
       width: 100%;
       .overflow {
+        width:100%;
         overflow: hidden;
         text-overflow: ellipsis;
+        display: inline-block;
+
         white-space: nowrap;
       }
     }

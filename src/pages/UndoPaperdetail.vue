@@ -168,9 +168,9 @@
             </div>
           </el-card>
         </div>
-        <div class="btn-wrapper">
-          <el-button type="primary" @click="submit">{{role === '0'?'修改':"提交"}}</el-button>
-        </div>
+      </div>
+      <div class="btn-wrapper">
+        <el-button type="primary" @click="submit">{{role === '0'?'修改':"提交"}}</el-button>
       </div>
     </el-card>
   </div>
@@ -595,13 +595,6 @@ export default {
       width: 200px;
     }
   }
-  .btn {
-    width: 100%;
-    margin-top: 10px;
-    button {
-      float: right;
-    }
-  }
 }
 </style>
 <style scoped lang='scss'>
@@ -617,5 +610,12 @@ export default {
 }
 .card {
   box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
+}
+.btn-wrapper {
+  width: 100%;
+  margin-top: 10px;
+  button {
+    float: right;
+  }
 }
 </style>

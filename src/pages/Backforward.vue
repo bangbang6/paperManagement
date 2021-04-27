@@ -105,8 +105,11 @@ export default {
 </style>
 <style>
 .overflow {
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: inline-block;
+
   white-space: nowrap;
 }
 </style>

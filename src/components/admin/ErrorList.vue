@@ -544,6 +544,7 @@ export default {
       .date,
       .status {
         flex: 1;
+        width: 20%;
         height: 20px;
         padding: 5px 5px;
         text-align: center;
@@ -553,6 +554,8 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        display: inline-block;
+        
       }
 
       /* &:nth-child(odd) {

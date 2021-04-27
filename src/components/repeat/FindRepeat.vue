@@ -89,8 +89,11 @@ export default {
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
     height: 100%;
     .overflow {
+      width:100%;
       overflow: hidden;
       text-overflow: ellipsis;
+      display: inline-block;
+
       white-space: nowrap;
     }
   }
