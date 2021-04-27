@@ -61,7 +61,7 @@
           </el-table-column>
           <el-table-column prop="authors" label="作者">
             <template slot-scope="scope">
-              <span class="overflow">{{scope.row.author}}</span>
+              <span class="overflow">{{scope.row.authors}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="action" label="操作" width="160">
