@@ -31,13 +31,10 @@
           <span>{{email}}</span>
         </div>
         <div class="work">
-          <span>所在单位:</span>
+          <span :style="{width:'80px',display:'inline-block'}">所在单位:</span>
           <!--   <span>{{organization}}</span> -->
-          <div class="wrapper" :style="{marginLeft:'5px'}">
-            <div
-              v-for="(item,index) in organizations"
-              :key="item.label"
-            >{{`${index+1}.${item.label}`}}</div>
+          <div class="wrapper" :style="{marginLeft:'5px',flex:1}">
+            <div v-for="(item) in organizations" :key="item.label">{{`${item.label}`}}</div>
           </div>
         </div>
 
