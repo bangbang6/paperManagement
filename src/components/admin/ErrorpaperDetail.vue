@@ -224,8 +224,10 @@ export default {
         width: 100%;
         margin-top: 10px;
         .line {
-          height: 30px;
           display: flex;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          box-sizing: border-box;
           align-items: center;
           border-bottom: 1px solid #bcd0f9;
           justify-content: space-between;
@@ -236,6 +238,13 @@ export default {
               font-weight: bold;
               font-size: 12px;
             }
+          }
+          .key {
+            width: 60px;
+          }
+          .value {
+            flex: 1;
+            text-align: right;
           }
         }
       }

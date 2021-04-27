@@ -39,7 +39,10 @@
       >
         <el-table-column prop="title" label="名称" width="450">
           <template slot-scope="scope">
-            <span>{{scope.row.title}}</span>
+            <span
+              :class="scope.row.exception.length>0?'exception':'normal'"
+              :style="scope.row.exception.length>0?getWidth(scope.row.exception):''"
+            >{{scope.row.title}}</span>
             <el-tag
               @click="handleErrorClick(scope.row)"
               :type="item === '题目重复'?'danger':'warning'"
@@ -228,6 +231,9 @@ export default {
         this.tableData = this.tableData.filter(file => file.exception.length > 0)
       }
     },
+    getWidth (exception) {
+      return `width:${450 - exception.length * 100}px`
+    },
     handleErrorClick (row) {
       let title = row.title
       let role = localStorage.getItem('role')
@@ -249,12 +255,19 @@ export default {
 
     },
     handleRowClick (row) {
+      let role = localStorage.getItem('role')
       console.log('row', row);
       let currentUser = localStorage.getItem('chineseName')
-      if (row.uploader === currentUser) {
+      if (role === '1') {
         localStorage.setItem('paperId', row.id)
-        this.$router.push('/undoPaperdetail')
+        this.$router.push('/paperdetail')
+      } else if (role === '0') {
+        if (row.uploader === currentUser) {
+          localStorage.setItem('paperId', row.id)
+          this.$router.push('/undoPaperdetail')
+        }
       }
+
 
     },
     back (row) {
@@ -317,10 +330,29 @@ export default {
       margin-top: 20px;
       padding-right: 50px;
       box-sizing: border-box;
-      .overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      white-space: nowrap;
+      .cell {
+        display: flex;
+        align-items: center;
+        .overflow {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .exception {
+          display: inline-block;
+          width: 350px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .normal {
+          display: inline-block;
+          width: 440px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
   }

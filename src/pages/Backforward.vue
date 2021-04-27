@@ -14,11 +14,14 @@
           placement="top"
         >
           <div>
-            <el-tag type="info">{{item.updateUsername}}</el-tag>
-            <el-tag type="info">{{item.updateUserOrg}}</el-tag>
-            <el-tag type="info">{{item.op}}</el-tag>
-            <el-tag type="info">交易号:x4500003417800</el-tag>
-            <el-tag type="info">区块号:200462014</el-tag>
+            <el-tag type="info overflow">{{item.updateUsername}}</el-tag>
+            <el-popover placement="top-start" trigger="hover" :content="item.updateUserOrg">
+              <el-tag type="info overflow" slot="reference">{{item.updateUserOrg}}</el-tag>
+            </el-popover>
+
+            <el-tag type="info overflow">{{item.op}}</el-tag>
+            <el-tag type="info overflow">交易号:{{`${random()}`}}</el-tag>
+            <el-tag type="info overflow">区块号:{{`${random()}`}}</el-tag>
           </div>
         </el-timeline-item>
       </el-timeline>
@@ -31,6 +34,9 @@ import { getHistory } from '@/api/chain'
 import { Message } from 'element-ui'
 export default {
   methods: {
+    random () {
+      return Math.random().toString().slice(2, 14)
+    },
     formatDate (date) {
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')
@@ -83,6 +89,16 @@ export default {
   }
   .el-tag {
     margin-right: 10px;
+    width: 160px;
+    cursor: pointer;
+    text-align: center;
   }
+}
+</style>
+<style>
+.overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
