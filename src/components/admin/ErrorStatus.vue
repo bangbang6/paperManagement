@@ -72,37 +72,223 @@ export default {
       author: '',
       /* files: [
         {
-          title: 'Interledger: Creating a Standard for Payments',
-          author: 'Adrian Hope-Bailie,Stefan Thomas',
-          publicTypeName: '会议/B类',
-          uploader: 'Adrian Hope-Bailie',
-          id: 1,
-          chainDate: '2021/4/15',
-          type: 'danger',
-          status: '题目重复'
-        },
-        {
-          title: 'Interledger: Creating a Standard for Payments',
-          author: 'Stefan Thomas,Adrian Hope-Bailie',
-          publicTypeName: '会议/B类',
-          uploader: 'Stefan Thomas',
-          id: 2,
-          chainDate: '2021/4/16',
-          type: 'danger',
-          status: '题目重复'
-        },
-        {
-          title: 'Tesseract: Real-Time Cryptocurrency Exchange',
-          author: 'Iddo Bentov,Yan Ji,Fan Zhang',
-          publicTypeName: '期刊/B类',
-          uploader: 'Iddo Bentov',
-          id: 3,
-          chainDate: '2019/8/12',
-          type: 'warning',
-          status: '多次修改'
-        }
-      ], */
-      files: [],
+        id:1,
+        title: "Interledger: Creating a Standard for Payments",
+        author: 'Adrian Hope-Bailie,Stefan Thomas',
+        publicTypeName: '会议/B类',
+        name:'Journal of Parallel and Distributed Computing',
+        uploader: 'Adrian Hope-Bailie',
+        chainDate: '2021/4/15',
+        status: '题目重复',
+        type: 'danger',
+        projectNum:'10.1109/TSFQ.2019.2928256',
+        projectFund:'National Natural Science Foundation of Canada',
+        organization:'300 Montgomery StSan Francisco',
+        histroys: [
+          {
+            operation: "上传论文",
+            user: 'Adrian Hope-Bailie',
+            date: new Date()
+          },
+          {
+            operation: "修改论文",
+            user: 'Stefan Thomas',
+            date: '2021/1/6'
+          },
+          {
+            operation: "上传论文",
+            user: 'Stefan Thomas',
+            date: '2021/1/3'
+          }
+        ]
+      },
+      {
+        id:2,
+        title: "Interledger: Creating a Standard for Payments",
+        author: 'Stefan Thomas,Adrian Hope-Bailie',
+        publicTypeName: '会议/B类',
+        name:'Journal of Parallel and Distributed Computing',
+        uploader: 'Stefan Thomas',
+        chainDate: '2021/4/15',
+        status: '题目重复',
+        type: 'danger',
+        projectNum:'10.1109/TSFQ.2019.2928256',
+        projectFund:'National Natural Science Foundation of Canada',
+        organization:'300 Montgomery StSan Francisco',
+        histroys: [
+          {
+            operation: "上传论文",
+            user: 'Adrian Hope-Bailie',
+            date: new Date()
+          },
+          {
+            operation: "修改论文",
+            user: 'Stefan Thomas',
+            date: '2021/1/6'
+          },
+          {
+            operation: "上传论文",
+            user: 'Stefan Thomas',
+            date: '2021/1/3'
+          }
+        ]
+      },
+      {
+        id:3,
+        title: 'GDPR-Compliant Personal Data Management: A Blockchain-Based Solution',
+        author: 'Nguyen Binh Truong,Kai Sun,Gyu Myoung Lee',
+        publicTypeName: '期刊/sci',
+        name: ' IEEE Transactions on Information Forensics and Security',
+        uploader:'Nguyen Binh Truong',
+        chainDate:'2021/4/14',
+        status: '多次修改',
+        type: 'warning',
+        projectNum: '10.1109/TIFS.2019.2948287',
+        projectFund: 'Imperial College London ',
+        organization:'ETH Z¨urich and Cornell Tech',
+        histroys: [
+          {
+            operation: "修改论文",
+            user: 'Nguyen Binh Truong',
+            date: '2021/4/18'
+          },
+          {
+            operation: "修改论文",
+            user: 'Kai Sun',
+            date: '2021/4/14'
+          },
+          {
+            operation: "修改论文",
+            user: 'Kai Sun',
+            date: '2021/1/6'
+          },
+          {
+            operation: "上传论文",
+            user: 'Nguyen Binh Truong',
+            date: '2021/1/3'
+          }
+        ]
+      },
+      {
+        id:4,
+        title: 'Innovative Technology for CPU Based Attestation and Sealing',
+        author: 'ANATI, I., GUERON, S., JOHNSON, S',
+        publicTypeName: '期刊/trans',
+        name: ' IEEE Transactions on Information Forensics and Security',
+        uploader:'ANATI',
+        chainDate:'2021/2/11',
+        status: '多次修改',
+        type: 'warning',
+        projectNum: '10.1009/TIFS.2020.7319343',
+        projectFund: 'Office of the Director of National Intelligence ',
+        organization:'IARPA Research and Development',
+        histroys: [
+          {
+            operation: "修改论文",
+            user: 'GUERON, S',
+            date: '2021/4/14'
+          },
+          {
+            operation: "修改论文",
+            user: 'ANATI, I',
+            date: '2021/2/6'
+          },
+          {
+            operation: "上传论文",
+            user: 'ANATI, I',
+            date: '2021/1/23'
+          }
+        ]
+      },
+      {
+        id:5,
+        title: 'Fingerprint Spoof Detector Generalization',
+        author: 'Tarang Chugh,Anil K. Jain',
+        publicTypeName: '期刊/trans',
+        name: ' IEEE Transactions on Information Forensics and Security',
+        uploader:'Anil K. Jain',
+        chainDate:'2021/3/21',
+        status: '题目重复',
+        type: 'danger',
+        projectNum: '10.13039/100011039',
+        projectFund: 'Intelligence Advanced Research Projects Activity',
+        organization:'IARPA Research and Development',
+        histroys: [
+          {
+            operation: "上传论文",
+            user: 'Tarang Chugh',
+            date: '2021/3/22'
+          },
+          {
+            operation: "上传论文",
+            user: 'ANATI, I',
+            date: '2021/1/23'
+          }
+        ]
+      },
+      {
+        id:6,
+        title: 'Fingerprint Spoof Detector Generalization',
+        author: 'Tarang Chugh,Anil K. Jain',
+        publicTypeName: '期刊/trans',
+        name: ' IEEE Transactions on Information Forensics and Security',
+        uploader:'Tarang Chugh',
+        chainDate:'2021/3/22',
+        status: '题目重复',
+        type: 'danger',
+        projectNum: '10.13039/100011039',
+        projectFund: 'Intelligence Advanced Research Projects Activity',
+        organization:'IARPA Research and Development',
+        histroys: [
+          {
+            operation: "上传论文",
+            user: 'Tarang Chugh',
+            date: '2021/3/22'
+          },
+          {
+            operation: "上传论文",
+            user: 'ANATI, I',
+            date: '2021/1/23'
+          }
+        ]
+      },
+      {
+        id:7,
+        title: 'Reachable Workspace and Proximal Function Measures for Quantifying Upper Limb Motion',
+        author: 'Robert P. Matthew,Sarah Seko,Gregorij Kurillo,Ruzena Bajcsy',
+        publicTypeName: '期刊/B类',
+        name: ' IEEE Journal of Biomedical and Health Informatics',
+        uploader:'Robert P. Matthew',
+        chainDate:'2020/4/23',
+        status: '多次修改',
+        type: 'warning',
+        projectNum: '10.11039/291222931',
+        projectFund: 'UCSF Department of Orthopaedic Surgery',
+        organization:'IARPA Research and Development',
+        histroys: [
+          {
+            operation: "修改论文",
+            user: 'Sarah Seko',
+            date: '2021/4/19'
+          },
+          {
+            operation: "修改论文",
+            user: 'Sarah Seko',
+            date: '2020/7/31'
+          },
+          {
+            operation: "修改论文",
+            user: 'Sarah Seko',
+            date: '2020/4/27'
+          },
+          {
+            operation: "上传论文",
+            user: 'Robert P. Matthew',
+            date: '2020/4/23'
+          }
+        ]
+      }
+      ],*/
       tableData: [],
       paperId: -1,
     }

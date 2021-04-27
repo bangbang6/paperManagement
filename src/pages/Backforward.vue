@@ -102,3 +102,57 @@ export default {
   white-space: nowrap;
 }
 </style>
+
+
+  <!--     <el-tag type="info">张老师</el-tag>
+            <el-tag type="info">北京邮电大学网络空间安全学院</el-tag>
+            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:0X8321e23a9231266</el-tag>
+            <el-tag type="info">区块号:750432105</el-tag>
+          </div>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2021/4/3" placement="top">
+          <div>
+            <el-tag type="info">王老师</el-tag>
+            <el-tag type="info">广西密码学与信息安全重点实验室</el-tag>
+            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:0Xaf323230133423</el-tag>
+            <el-tag type="info">区块号:750432104</el-tag>
+          </div>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2021/4/2" placement="top">
+          <div>
+            <el-tag type="info">张老师</el-tag>
+            <el-tag type="info">北京邮电大学网络空间安全学院</el-tag>
+            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:0X8321e23a9231265</el-tag>
+            <el-tag type="info">区块号:750432103</el-tag>
+          </div>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2021/4/1" placement="top">
+          <div>
+            <el-tag type="info">王老师</el-tag>
+            <el-tag type="info">广西密码学与信息安全重点实验室</el-tag>
+            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:0Xaf323230133422</el-tag>
+            <el-tag type="info">区块号:750432102</el-tag>
+          </div>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2021/3/28" placement="top">
+          <div>
+            <el-tag type="info">张老师</el-tag>
+            <el-tag type="info">北京邮电大学网络空间安全学院</el-tag>
+            <el-tag type="info">修改文件</el-tag>
+            <el-tag type="info">交易号:0X8321e23a9231264</el-tag>
+            <el-tag type="info">区块号:750432101</el-tag>
+          </div>
+        </el-timeline-item>
+        <el-timeline-item timestamp="2021/3/26" placement="top">
+          <div>
+            <el-tag type="info">代老师</el-tag>
+            <el-tag type="info">华中科技大学cgcl实验室</el-tag>
+            <el-tag type="info">上传文件</el-tag>
+            <el-tag type="info">交易号:0X47456789138002</el-tag>
+            <el-tag type="info">区块号:750432100</el-tag>
+          </div>
+        </el-timeline-item>-->

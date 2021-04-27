@@ -157,17 +157,19 @@ export default {
         /* this.title = newV.title
         this.author = newV.author
         this.publicTypeName = newV.publicTypeName
-        this.name = 'Journal of Parallel and Distributed Computing'
+        this.name = newV.name
         this.date = new Date()
-        this.projectNum = '0x0023104123'
-        this.projectFund = '国家xx项目xx基金'
+        this.projectNum = newV.projectNum
+        this.projectFund = newV.projectFund
         this.uploader = newV.uploader
         this.organization = '华中科技大学计算机学院cgcl实验室'
         this.chainDate = newV.chainDate */
 
         getErrorDetail(this.paperId).then(res => {
           if (res.code === 200) {
+
             res = res.data
+            this.title = res.title
             this.authors = res.authors.join(',')
             this.publicTypeName = res.publicTypeName
             this.name = res.name
