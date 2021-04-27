@@ -8,7 +8,6 @@
       <span>地点:</span>
       <el-input v-model="meeting2.conferenceSite"></el-input>
     </div>
-    
   </div>
 </template>
  
@@ -33,6 +32,7 @@ export default {
 
   .input {
     width: 100%;
+
     font-size: 14px;
     margin-top: 10px;
     display: flex;
