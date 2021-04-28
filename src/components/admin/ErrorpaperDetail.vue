@@ -78,9 +78,29 @@
                 :style="{top:(-1+(index*68))+'px'}"
                 size="mini"
               >{{item.updateUsername}}</el-tag>
-              <el-tag
+              <!--  <el-tag
                 type="info"
                 :class="`tag-item2`"
+                :style="{top:(-1+(index*68))+'px'}"
+                size="mini"
+              >{{item.updateUserOrg}}</el-tag>-->
+              <el-popover
+                placement="top-start"
+                trigger="hover"
+                :content="item.updateUserOrg"
+                width="800"
+              >
+                <el-tag
+                  type="info"
+                  :class="`tag-item2`"
+                  :style="{top:(-1+(index*68))+'px'}"
+                  size="mini"
+                  slot="reference"
+                >{{item.updateUserOrg}}</el-tag>
+              </el-popover>
+              <el-tag
+                type="info"
+                :class="`tag-item3`"
                 :style="{top:(-1+(index*68))+'px'}"
                 size="mini"
               >{{item.op}}</el-tag>
@@ -304,11 +324,23 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            display: inline-block;
           }
           .tag-item2 {
             position: absolute;
+            cursor: pointer;
             width: 120px;
             left: 120px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+          }
+          .tag-item3 {
+            position: absolute;
+            width: 120px;
+            left: 240px;
             text-align: center;
           }
         }

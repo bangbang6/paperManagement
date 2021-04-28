@@ -8,7 +8,7 @@
               <span class="overflow">{{scope.row.title}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="publicTypeName" label="发布类型" width="85"></el-table-column>
+          <el-table-column prop="publicTypeName" label="发布类型" width="100"></el-table-column>
           <el-table-column prop="name" label="名称" width="160">
             <template slot-scope="scope">
               <span class="overflow">{{scope.row.name}}</span>
@@ -224,7 +224,7 @@ export default {
     .table {
       width: 100%;
       .overflow {
-        width:100%;
+        width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         display: inline-block;
