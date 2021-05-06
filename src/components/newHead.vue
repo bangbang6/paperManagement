@@ -9,7 +9,6 @@
     <div class="nav" @click="navJump">
       <div :class="['nav-item',navIndex === 0?'green':'']" data-item="0" v-if="role===1">首页</div>
       <div :class="['nav-item',navIndex === 1?'green':'']" data-item="1" v-if="role===0">用户中心</div>
-      <div :class="['nav-item',navIndex === 1?'green':'']" data-item="1" v-else>论文审核</div>
 
       <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-if="role===0">上传论文</div>
       <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-else>编辑会议</div>

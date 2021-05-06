@@ -23,7 +23,7 @@
       <div class="role">
         <el-radio v-model="role" label="0">老师</el-radio>
         <el-radio v-model="role" label="1">管理员</el-radio>
-        <el-radio v-model="role" label="2">查重</el-radio>
+        <!-- <el-radio v-model="role" label="2">查重</el-radio> -->
       </div>
       <el-button type="primary" class="btn" @click="login">登录</el-button>
       <div class="register-wrapper">

@@ -154,13 +154,13 @@
           <div>
             <el-radio v-model="paper.hasAccepted" :label="1">已收录</el-radio>
             <el-radio v-model="paper.hasAccepted" :label="0">未收录</el-radio>
-            <el-checkbox v-model="paper.needCheck">
+            <!-- <el-checkbox v-model="paper.needCheck">
               需要查重
-              <!-- (需要查重的情况:1.第一次投稿 2.距上次查重超半年) -->
+            
             </el-checkbox>
             <span
               :style="{color:'#e6a23c',marginLeft:'10px',display:'inline-block',width:'400px',fontSize:'12px'}"
-            >以下情况需查重:1.第一次投稿 2.距上次查重超半年</span>
+            >以下情况需查重:1.第一次投稿 2.距上次查重超半年</span>-->
           </div>
         </div>
         <div class="input repeat" v-if="!paper.needCheck">
