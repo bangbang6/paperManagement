@@ -4,7 +4,7 @@
       <div class="img-wrapper">
         <img src="../../public/avatual.png" alt class="img" />
       </div>
-      <div class="title">论文管理系统</div>
+      <div class="title">成果管理系统</div>
     </div>
     <div class="nav" @click="navJump">
       <div :class="['nav-item',navIndex === 0?'green':'']" data-item="0" v-if="role===1">首页</div>
@@ -12,7 +12,7 @@
 
       <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-if="role===0">上传论文</div>
       <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-else>编辑会议</div>
-      <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的论文</div>
+      <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的成果</div>
       <div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===0">链上论文</div>
       <div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===1">链上论文</div>
       <div :class="['nav-item',navIndex === 5?'green':'']" data-item="5" v-if="role===1">异常预警</div>

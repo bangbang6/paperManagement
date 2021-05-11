@@ -9,7 +9,7 @@
             </div>
 
             <div class="info">
-              <div class="word">论文</div>
+              <div class="word">成果</div>
               <div class="word">{{paperNumber}}</div>
             </div>
           </div>

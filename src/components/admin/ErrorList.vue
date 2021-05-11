@@ -1,6 +1,6 @@
 <template>
   <div class="error-list">
-    <div class="title">异常论文</div>
+    <div class="title">异常成果</div>
     <div class="list">
       <div class="list-item bold">
         <div class="status">状态</div>
@@ -555,7 +555,6 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
         display: inline-block;
-        
       }
 
       /* &:nth-child(odd) {

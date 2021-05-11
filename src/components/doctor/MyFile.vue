@@ -36,6 +36,42 @@
         </div>
       </el-tree>
     </div>
+    <div class="title-wrapper" :style="{marginTop:'20px'}">
+      <div class="line"></div>
+      <div class="title">我的专利</div>
+    </div>
+    <div class="my-paper">
+      <el-tree :data="paperData">
+        <div slot-scope="{node,data}" class="item-wrapper">
+          <div class="catrgory-item" v-if="node.level === 1">
+            <div class="label">{{data.label}}</div>
+            <div class="number">{{+data.children.length}}</div>
+          </div>
+          <div
+            v-if="node.level === 2"
+            class="paper-item"
+            @click="jumpToPaperDetail(node.data.id,data.status)"
+          >
+            <span class="paper-name">{{data.title}}</span>
+            <span class="author-wrapper">{{data.authors}}</span>
+            <span class="meeting">{{data.name}}</span>
+
+            <div class="operation">
+              <!--  <el-tooltip content="未发布" placement="bottom" effect="light" v-if="data.status">
+                <i class="el-icon-warning-outline" style="color:red"></i>
+              </el-tooltip>-->
+              <span>{{data.statusWord}}</span>
+              <!-- <el-tooltip content="下载" placement="bottom" effect="light">
+                <i class="el-icon-download"></i>
+              </el-tooltip>-->
+              <!-- <el-tooltip content="编辑" placement="bottom" effect="light">
+                <i class="el-icon-edit"></i>
+              </el-tooltip>-->
+            </div>
+          </div>
+        </div>
+      </el-tree>
+    </div>
   </div>
 </template>
  
@@ -114,6 +150,7 @@ export default {
   .title-wrapper {
     height: 50px;
     display: flex;
+
     align-items: center;
     box-sizing: border-box;
     padding-left: 5px;

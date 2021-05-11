@@ -1,6 +1,6 @@
 <template>
   <div class="menu-wrapper">
-    <div class="title">各单位论文总数</div>
+    <div class="title">各单位成果总数</div>
     <div class="menu-right">
       <el-radio-group size="mini" v-model="text">
         <el-radio-button label="近一个月"></el-radio-button>
