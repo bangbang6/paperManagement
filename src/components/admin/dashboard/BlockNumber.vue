@@ -1,36 +1,33 @@
 <template>
-  <div class="admin-main">
-    <newHead :role="1"></newHead>
+  <div class="paper-time">
+    <time-head></time-head>
     <div class="wrapper">
-      <router-view></router-view>
+      <time-chart></time-chart>
     </div>
   </div>
 </template>
  
 <script>
-import newHead from '../components/newHead'
-/* import newHead from '../components/newHead' */
+import TimeHead from './TimeHead'
+import TimeChart from './TimeChart'
 export default {
   components: {
-    newHead,
+    TimeHead, TimeChart
   },
   data () {
     return {
     }
   }
-
 }
 </script>
  
 <style lang="scss" scoped>
-.admin-main {
+.paper-time {
   width: 100%;
   height: 100%;
   .wrapper {
-
     width: 100%;
-    height: 96%;
-    /*padding-top: 30px;*/
+    height: 80%;
   }
 }
 </style>

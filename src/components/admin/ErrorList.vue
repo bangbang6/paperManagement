@@ -534,7 +534,7 @@ export default {
     font-weight: bold;
   }
   .list {
-    margin-top: 20px;
+    top: 20px;
     .list-item {
       display: flex;
       border-bottom: 1px solid #eee;

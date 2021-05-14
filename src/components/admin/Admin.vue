@@ -276,7 +276,7 @@ export default {
   box-sizing: border-box;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 
-  background: white;
+  background-color: rgb(48, 48, 48);
   height: calc(100% - 50px);
   .wrapper {
     margin-top: 20px;

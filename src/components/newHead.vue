@@ -4,18 +4,33 @@
       <div class="img-wrapper">
         <img src="../../public/avatual.png" alt class="img" />
       </div>
-      <div class="title">论文管理系统</div>
+      <div class="title">成果管理系统</div>
     </div>
     <div class="nav" @click="navJump">
       <div :class="['nav-item',navIndex === 0?'green':'']" data-item="0" v-if="role===1">首页</div>
       <div :class="['nav-item',navIndex === 1?'green':'']" data-item="1" v-if="role===0">用户中心</div>
-      <div :class="['nav-item',navIndex === 1?'green':'']" data-item="1" v-else>论文审核</div>
-
-      <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-if="role===0">上传论文</div>
-      <div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-else>编辑会议</div>
-      <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的论文</div>
-      <div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===0">链上论文</div>
-      <div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===1">链上论文</div>
+      <!--<div :class="['nav-item',navIndex === 1?'green':'']" data-item="1" v-else>论文审核</div>-->
+      <el-dropdown  style="color: white;" trigger="click">
+      <div v-if="role===0" :class="['nav-item',navIndex === 2?'green':'']">上传成果
+          <i class="el-icon-arrow-down el-icon--right"></i>
+          <el-dropdown-menu slot="dropdown">
+              <div  @click="navJump"><el-dropdown-item  data-item="21" v-if="role===0" >上传论文</el-dropdown-item></div>
+              <div  @click="navJump"><el-dropdown-item  data-item="22" v-if="role===0">上传专利</el-dropdown-item></div>
+          </el-dropdown-menu>
+      </div>
+      </el-dropdown>
+      <!--<div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-else>编辑会议</div>-->
+      <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的成果</div>
+        <el-dropdown  style="color: white;" trigger="click">
+            <div :class="['nav-item',navIndex === 4?'green':'']" >链上成果
+                <i class="el-icon-arrow-down el-icon--right"></i>
+                <el-dropdown-menu slot="dropdown">
+                    <div  @click="navJump"><el-dropdown-item  data-item="41" v-if="role===0" >链上论文</el-dropdown-item></div>
+                    <div  @click="navJump"><el-dropdown-item  data-item="42" v-if="role===0">链上专利</el-dropdown-item></div>
+                </el-dropdown-menu>
+            </div>
+        </el-dropdown>
+      <div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===1">链上成果</div>
       <div :class="['nav-item',navIndex === 5?'green':'']" data-item="5" v-if="role===1">异常预警</div>
     </div>
     <div class="avaturl-wrapper">
@@ -44,6 +59,7 @@ export default {
   },
   data () {
     return {
+     activeIndex: '0',
       navIndex: 0,
       imgSrc: require("../../public/avatual.png")
     }
@@ -60,7 +76,12 @@ export default {
 
           this.$router.push('/teacher/userCenter')
         } else if (e.target.dataset.item === '2') {
+            this.$router.push('/teacher/fileManagement')
+        }else if (e.target.dataset.item === '21') {
           this.$router.push('/teacher/fileManagement')
+        }
+        else if (e.target.dataset.item === '22') {
+            this.$router.push('/teacher/patentManagement')
         }
         else if (e.target.dataset.item === '3') {
           console.log('e', e);
@@ -72,12 +93,16 @@ export default {
           this.$router.push('/teacher/allfile')
 
         }
+        else if (e.target.dataset.item === '41') {
+            this.$router.push('/teacher/allfile')
+        }
+        else if (e.target.dataset.item === '42') {
+            this.$router.push('/teacher/allPatentfile')
+        }
       } else {
         if (e.target.dataset.item === '0') {
-
           this.$router.push('/admin')
         } else if (e.target.dataset.item === '1') {
-
           this.$router.push('/admin/paperRequest')
         } else if (e.target.dataset.item === '2') {
           this.$router.push('/admin/editMeeting')
@@ -121,15 +146,15 @@ export default {
         if (newV.name === 'user' || newV.name === 'paperRequest') {
           this.navIndex = 1
         }
-        else if (newV.name === 'AdminMain') {
+        else if (newV.name === 'dashBoard') {
           this.navIndex = 0
         }
-        else if (newV.name === 'fileManagement' || newV.name === 'editMeeting') {
+        else if (newV.name === 'fileManagement' || newV.name === 'editMeeting'||newV.name === 'patentManagement') {
           this.navIndex = 2
         } else if (newV.name === 'myfile') {
           this.navIndex = 3
         }
-        else if (newV.name === 'allfile') {
+        else if (newV.name === 'allfile'||newV.name === 'allPatentfile') {
           this.navIndex = 4
         }
         else if (newV.name === 'errorStatus') {
@@ -146,7 +171,7 @@ export default {
 <style lang="scss" scoped>
 .head {
   width: 100%;
-  height: 40px;
+  height: 4%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -160,7 +185,7 @@ export default {
       width: 24px;
       height: 24px;
       .img {
-        width: 24x;
+        width: 24px;
         height: 24px;
         border-radius: 50%;
       }

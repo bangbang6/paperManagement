@@ -1,12 +1,12 @@
 <template>
   <div class="file-wrapper">
-    <div class="fileManagement">
+    <div class="patentManagement">
       <div class="left-wrapper">
         <div class="title-wrapper">
           <div class="line"></div>
-          <div class="title">上传论文</div>
+          <div class="title">上传专利</div>
         </div>
-        <file-message :fileMessage="fileMessage"></file-message>
+        <patent-message :patentMessage="patentMessage"></patent-message>
         <div class="left">
           <div class="fileupload">
             <el-upload
@@ -36,12 +36,12 @@
 <script>
 import { uploadFile, uploadPaper } from '@/api/teacher'
 import { getTypeTree } from '@/api/meeting'
-import FileMessage from './FileMessage'
+import PatentMessage from './PatentMessage'
 import { Message } from 'element-ui';
 export default {
   data () {
     return {
-      fileMessage: {
+      patentMessage: {
         qikan: {
           periodicalDoi: "",
 
@@ -163,8 +163,8 @@ export default {
     },
     submit () {
       /* let formData = new FormData() //通过formdata拼接数据 */
-      console.log('this.fileMessage', this.fileMessage);
-      if (!this.fileId || !this.fileMessage.paper.title || !this.fileMessage.meeting.website || !this.fileMessage.meeting.name || !this.fileMessage.meeting.publicTypeId) {
+      console.log('this.patentMessage', this.patentMessage);
+      if (!this.fileId || !this.patentMessage.paper.title || !this.patentMessage.meeting.website || !this.patentMessage.meeting.name || !this.patentMessage.meeting.publicTypeId) {
         Message({
           message: "必要信息不能为空",
           type: 'error',
@@ -174,7 +174,7 @@ export default {
       }
 
 
-      const { qikan, meeting2, paper, meeting } = this.fileMessage
+      const { qikan, meeting2, paper, meeting } = this.patentMessage
       let obj = {
         ...qikan,
         ...meeting2,
@@ -218,12 +218,12 @@ export default {
 
   },
   components: {
-    FileMessage
+    PatentMessage
   },
   mounted () {
     getTypeTree().then(res => {
       console.log('res', res);
-      this.fileMessage.meeting.options = res.map(item => {
+      this.patentMessage.meeting.options = res.map(item => {
         return {
           id: item.id,
           children: item.children ? item.children : [],
@@ -240,7 +240,7 @@ export default {
 .file-wrapper {
   background: rgb(242, 239, 236);
 
-  .fileManagement {
+  .patentManagement {
     width: 80%;
     margin-left: 10%;
     background: white;

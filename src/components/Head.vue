@@ -1,18 +1,26 @@
 <template>
   <div class="head">
     <div class="title-wrapper">
-      <div class="title">华中科技大学论文管理系统</div>
-      <div class="sub-title">HUST THESIS MANAGEMENT SYSTEM</div>
+      <div class="title">华中科技大学成果管理系统</div>
+      <div class="sub-title">HUST ACHIEVEMENT MANAGEMENT SYSTEM</div>
     </div>
     <div class="nav" @click="navJump">
       <div :class="['nav-item',navIndex === 0?'blue':'']" data-item="0" v-if="role===1">首页</div>
       <div :class="['nav-item',navIndex === 1?'blue':'']" data-item="1" v-if="role===0">用户中心</div>
-      <div :class="['nav-item',navIndex === 1?'blue':'']" data-item="1" v-else>论文审核</div>
+      <div :class="['nav-item',navIndex === 1?'blue':'']" data-item="1" v-else>成果审核</div>
 
-      <div :class="['nav-item',navIndex === 2?'blue':'']" data-item="2" v-if="role===0">上传论文</div>
+
+      <div :class="['nav-item',navIndex === 2?'blue':'']" data-item="2" v-if="role===0">
+          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+          <el-submenu index="2">
+          <template slot="title">我的工作台</template>
+          <el-menu-item index="2-1">选项1</el-menu-item>
+          <el-menu-item index="2-2">选项2</el-menu-item>
+          </el-submenu></el-menu>
+      </div>
       <div :class="['nav-item',navIndex === 2?'blue':'']" data-item="2" v-else>编辑会议</div>
-      <div :class="['nav-item',navIndex === 3?'blue':'']" data-item="3" v-if="role===0">我的论文</div>
-      <div :class="['nav-item',navIndex === 4?'blue':'']" data-item="4" v-if="role===0">所有论文</div>
+      <div :class="['nav-item',navIndex === 3?'blue':'']" data-item="3" v-if="role===0">我的成果</div>
+      <div :class="['nav-item',navIndex === 4?'blue':'']" data-item="4" v-if="role===0">所有成果</div>
     </div>
     <div class="tel-wrapper">
       <i class="iconfont">&#xe7ae;</i>

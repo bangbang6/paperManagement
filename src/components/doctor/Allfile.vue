@@ -33,7 +33,7 @@
       <el-table
         :data="tableData"
         stripe
-        style="width: 100%"
+        style="width: 100%;"
         size="mini"
         @row-click="handleRowClick"
       >
@@ -295,14 +295,15 @@ export default {
   }
 }
 </script>
- 
+
 <style lang="scss" scoped>
+
 .inner-wrapper {
   width: 80%;
   margin: auto;
   height: 100%;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-  background: white;
+
   overflow-y: auto;
 
   .inner {
@@ -358,6 +359,7 @@ export default {
         }
       }
     }
+
   }
 }
 </style>
