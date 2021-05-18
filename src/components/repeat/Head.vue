@@ -1,8 +1,8 @@
 <template>
   <div class="head">
     <div class="title-wrapper">
-      <div class="title">华中科技大学论文管理系统</div>
-      <div class="sub-title">HUST THESIS MANAGEMENT SYSTEM</div>
+        <div class="title">华中科技大学成果管理系统</div>
+        <div class="sub-title">HUST ACHIEVEMENT MANAGEMENT SYSTEM</div>
     </div>
     <div class="nav">
       <div class="blue">首页</div>

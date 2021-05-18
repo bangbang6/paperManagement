@@ -4,13 +4,15 @@ import User  from '../components/doctor/User'
 import Login  from '../components/login/Login'
 import Register  from '../components/login/Register'
 import ChangePassword  from '../components/login/ChangePassword'
-import newAdmin  from '../components/admin/newAdmin'
+// import newAdmin  from '../components/admin/newAdmin'
 import ErrorStatus  from '../components/admin/ErrorStatus'
 import MyFile  from '../components/doctor/MyFile'
 import Allfile  from '../components/doctor/Allfile'
+import AllPatentfile  from '../components/doctor/AllPatentfile'
 import PaperRequest  from '../components/admin/PaperRequest'
 import EditMeeting  from '../components/admin/EditMeeting'
 import fileManagement  from '../components/doctor/FileManagement'
+import patentManagement  from '../components/doctor/PatentManagement'
 import FindRepeat  from '../components/repeat/FindRepeat'
 import AdminMain  from '../pages/AdminMain'
 import repeatMain  from '../pages/RepeatMain'
@@ -18,15 +20,16 @@ import undoPaperdetail  from '../pages/UndoPaperdetail'
 import Main  from '../pages/Main'
 import Backforward  from '../pages/Backforward'
 import LoginMain  from '../pages/LoginMain'
-
 import PaperDetail  from '../pages/PaperDetail'
+import PatentDetail  from '../pages/PatentDetail'
+import DashBoard  from '../components/admin/dashboard/DashBoard'
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
 const routes = [
-  
+
       {
         path:"/",
         component:LoginMain,
@@ -73,11 +76,21 @@ const routes = [
             name:"fileManagement",
             component:fileManagement
           },
+            {
+                path:'/teacher/patentManagement',
+                name:"patentManagement",
+                component:patentManagement
+            },
           {
             path:'/teacher/allfile',
             name:"allfile",
             component:Allfile
           },
+            {
+                path:'/teacher/allPatentfile',
+                name:"allPatentfile",
+                component:AllPatentfile
+            },
           {
             path:'/teacher/errorStatus',
             name:"errorStatus2",
@@ -89,12 +102,17 @@ const routes = [
         path:"/admin",
         component:AdminMain,
         children:[
-          {
-            path:"/admin",
-            name:"AdminMain",
-            component:newAdmin,
-
-          },
+          // {
+          //   path:"/admin",
+          //   name:"AdminMain",
+          //   component:newAdmin,
+          //
+          // },
+            {
+                path:"/admin",
+                name:"dashBoard",
+                component:DashBoard,
+            },
           {
             path:"/admin/paperRequest",
             name:"paperRequest",
@@ -113,13 +131,21 @@ const routes = [
             component:ErrorStatus,
 
           },
-          {
-            path:"/admin/allfile",
-            name:"allfile",
-            component:Allfile,
-
-          },
-          
+            {
+                path:'/admin/allfile',
+                name:"allfile",
+                component:Allfile
+            },
+            {
+                path:'/admin/allPatentfile',
+                name:"allPatentfile",
+                component:AllPatentfile
+            },
+          // {
+          //   path:"/admin/allfile",
+          //   name:"allfile",
+          //   component:Allfile,
+          // }
           
         ]
       },
@@ -136,6 +162,11 @@ const routes = [
           },
         ]
       },
+    {
+        path:"/patentDetail",
+        name:"patentDetail",
+        component:PatentDetail
+    },
       {
         path:"/paperDetail",
         name:"paperDetail",
@@ -151,9 +182,6 @@ const routes = [
         name:"backforward",
         component:Backforward
       },
-    
-    
-      
 
 ]
 

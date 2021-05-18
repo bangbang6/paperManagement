@@ -4,7 +4,7 @@
       <div class="img-wrapper">
         <img src="../../../public/avatual.png" alt class="img" />
       </div>
-      <div class="title">论文管理系统</div>
+      <div class="title">成果管理系统</div>
     </div>
     <div class="nav">
       <div class="green nav-item">首页</div>

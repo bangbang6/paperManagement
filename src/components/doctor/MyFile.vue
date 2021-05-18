@@ -36,12 +36,12 @@
         </div>
       </el-tree>
     </div>
-    <div class="title-wrapper" :style="{marginTop:'20px'}">
+    <div class="title-wrapper">
       <div class="line"></div>
       <div class="title">我的专利</div>
     </div>
     <div class="my-paper">
-      <el-tree :data="paperData">
+      <el-tree :data="patentData">
         <div slot-scope="{node,data}" class="item-wrapper">
           <div class="catrgory-item" v-if="node.level === 1">
             <div class="label">{{data.label}}</div>
@@ -54,20 +54,7 @@
           >
             <span class="paper-name">{{data.title}}</span>
             <span class="author-wrapper">{{data.authors}}</span>
-            <span class="meeting">{{data.name}}</span>
-
-            <div class="operation">
-              <!--  <el-tooltip content="未发布" placement="bottom" effect="light" v-if="data.status">
-                <i class="el-icon-warning-outline" style="color:red"></i>
-              </el-tooltip>-->
-              <span>{{data.statusWord}}</span>
-              <!-- <el-tooltip content="下载" placement="bottom" effect="light">
-                <i class="el-icon-download"></i>
-              </el-tooltip>-->
-              <!-- <el-tooltip content="编辑" placement="bottom" effect="light">
-                <i class="el-icon-edit"></i>
-              </el-tooltip>-->
-            </div>
+            <span class="author-wrapper">{{data.num}}</span>
           </div>
         </div>
       </el-tree>
@@ -84,7 +71,64 @@ export default {
     return {
       paperData: [
 
-      ]
+      ],
+      patentData: [
+        [
+          {
+            label: "发明",
+            title: "一种区块链之间的跨链方法及主区块链",
+            num: "202110150007 .7",
+            authors: "代炜琦",
+          },
+          {
+            label: "发明",
+            title: "在区块链上签名、验证的方法及装置",
+            num: "202120350007 .8",
+            authors: "金海，代炜琦",
+          },
+          {
+            label: "发明",
+            title: "Blockchain node equipment and blockchain network system",
+            num: "202110150002 .3",
+            authors: "陆琦峰，代炜琦",
+          }
+        ],
+        [
+          {
+            label: "实用新型",
+            title: "一种基于区块链技术的数据存证系统",
+            num: "202110150345 .6",
+            authors: "代炜琦，陈婷婷",
+          },
+          {
+            label: "实用新型",
+            title: "Computer case for blockchain computing",
+            num: "202010150072 .0",
+            authors: "代炜琦，郭松",
+          },
+          {
+            label: "实用新型",
+            title: "Information processing device based on block chain payment",
+            num: "202010150223 .4",
+            authors: "代炜琦",
+          }
+        ],
+        [
+          {
+            label: "外观设计",
+            title: "区块链设备壳体",
+            num: "202110150348 .9",
+            authors: "代炜琦，王泽丽",
+          },
+          {
+            label: "外观设计",
+            title: "用于区块链浏览器图形用户界面的显示屏幕面板",
+            num: "202010150006 .7",
+            authors: "张严，代炜琦",
+          },
+        ]
+
+      ],
     }
   },
   methods: {
@@ -128,6 +172,18 @@ export default {
         })
       }
     })
+    this.patentData = this.patentData.map((item, index) => {
+      return {
+        level: 1,
+        label: index === 0 ? '发明' : index === 1 ? '实用新型' : "外观设计",
+        children: item.map(item2 => ({
+          ...item2,
+          level: 2,
+          statusWord: types[item2.status]
+        }))
+      }
+    })
+    console.log(this.patentData)
   }
 }
 </script>

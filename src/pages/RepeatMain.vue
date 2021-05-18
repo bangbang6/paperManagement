@@ -26,10 +26,10 @@ export default {
   width: 100%;
   height: 100%;
   .wrapper {
-    background: rgb(242, 239, 236);
+    /*background: rgb(242, 239, 236);*/
     width: 100%;
     height: calc(100% - 70px);
-    padding-top: 30px;
+    /*padding-top: 30px;*/
   }
 }
 </style>

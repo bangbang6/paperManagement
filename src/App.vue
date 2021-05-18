@@ -20,6 +20,14 @@ body,
   padding: 0;
   height: 100%;
 }
+.amap-logo {
+  display: none !important;
+  visibility: hidden !important;
+}
+.amap-copyright {
+  display: none !important;
+  visibility: hidden !important;
+}
 </style>
 
 

@@ -2,8 +2,8 @@
   <div class="login-main">
     <div class="head">
       <div class="title-wrapper">
-        <div class="title">科研成果管理系统</div>
-        <div class="sub-title">HUST THESIS MANAGEMENT SYSTEM</div>
+          <div class="title">华中科技大学成果管理系统</div>
+          <div class="sub-title">HUST ACHIEVEMENT MANAGEMENT SYSTEM</div>
       </div>
       <div class="nav" @click="navJump">
         <div :class="['nav-item',navIndex === 0?'blue':'']" data-item="0">登录</div>

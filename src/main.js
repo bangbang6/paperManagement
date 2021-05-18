@@ -3,6 +3,7 @@ import App from './App.vue'
 import './assets/css/main.scss'
 Vue.config.productionTip = false
 import 'element-ui/lib/theme-chalk/index.css'
+import VCharts from 'v-charts'
 import '@/util/permision.js'
 import element from './plugins/index'
 import VueRouter from 'vue-router'
@@ -15,6 +16,7 @@ Vue.component('v-chart',VueECharts)
 export const Bus = new  Vue();
 Vue.use(VueRouter)
 Vue.use(element)
+Vue.use(VCharts)
 new Vue({
   render: h => h(App),
   router
