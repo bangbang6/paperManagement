@@ -1,6 +1,7 @@
 import request from "../util/request";
 
-const downloadBaseUrl = 'http://211.69.197.138:8090'
+// const downloadBaseUrl = 'http://211.69.197.138:8090'
+const downloadBaseUrl = 'http://localhost:8090'
 /**
  * 获取paper详细内容
  * @param {*} id 

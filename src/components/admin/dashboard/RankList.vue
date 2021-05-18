@@ -1,6 +1,6 @@
 <template>
   <div class="rank-list">
-    <div class="title">成果数目</div>
+    <div class="title">各组成果</div>
     <v-chart :options="options"></v-chart>
   </div>
 </template>
@@ -10,7 +10,7 @@ export default {
   data () {
     let mockData = []
     for (let i = 0; i < 4; ++i) {
-      mockData.push(Math.round(Math.random() * 200));
+      mockData.push(Math.round(Math.random() * 10));
     }
     return {
 
@@ -42,7 +42,7 @@ export default {
             position: 'right',
             valueAnimation: true
           },
-          barWidth: '10',
+          barWidth: '60%',
           itemStyle: {
             color: (params) => {
               var colorList = ['#74fbf5', '#49a7f8', '#9c00ff', '#236fff']
@@ -78,10 +78,10 @@ export default {
 
       for (var i = 0; i < data.length; ++i) {
         if (Math.random() > 0.9) {
-          data[i] += Math.round(Math.random() * 2000);
+          data[i] += Math.round(Math.random() * 50);
         }
         else {
-          data[i] += Math.round(Math.random() * 200);
+          data[i] += Math.round(Math.random() * 10);
         }
       }
 
@@ -95,11 +95,25 @@ export default {
  
 <style lang="scss" scoped>
 .rank-list {
+
+    //margin-top: 20px;
   width: 100%;
-  height: 100%;
+  height: 80%;
   .echarts {
+      background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
+      /*设置大小*/
+      margin-top: 10px;
+      background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
+      background-color: #60626621;
     width: 100%;
-    height: calc(100% - 20px);
+    height: 100%;
   }
   .title {
     padding-left: 10px;

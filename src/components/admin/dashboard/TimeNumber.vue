@@ -1,11 +1,12 @@
 <template>
   <div class="time-number">
-    <div class="title">季度文献数目</div>
+    <div class="title">成果数量趋势</div>
     <v-chart :options="getOption()"></v-chart>
   </div>
 </template>
  
 <script>
+
 export default {
   data () {
     return {
@@ -27,7 +28,7 @@ export default {
           }
         },
         yAxis: {
-          show: false
+            show:false
         },
         tooltip: {
           show: true,
@@ -40,7 +41,7 @@ export default {
           data: [10, 40, 12, 23, 10, 22, 34, 22, 58, 47, 36, 28],
           type: 'line',
           areaStyle: {
-            color: '#49A7F8',
+            color: '#236fff91',
           },
           itemStyle: {
             show: true,
@@ -68,7 +69,9 @@ export default {
 </script>
  
 <style lang="scss" scoped>
+
 .time-number {
+
   width: 100%;
   height: 100%;
   .title {
@@ -79,8 +82,21 @@ export default {
     font-size: 18px;
   }
   .echarts {
+      background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
+      /*设置大小*/
+
+      background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
+      background-color: #60626621;
+      margin-top: 7px;
     width: 100%;
-    height: 100%;
+    height: 80%;
   }
 }
 </style>

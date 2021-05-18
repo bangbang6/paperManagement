@@ -1,15 +1,23 @@
 <template>
-    <ve-amap
-            :settings="chartSettings"
-            :tooltip="tooltip"
-            :series="series"
-            height="100%"
-            :after-set-option-once="afterSet"
-    ></ve-amap>
+    <div style="height: 100%">
+            <div class="title">成果分布地图</div>
+
+            <div class="wrapper">
+                <ve-amap
+                        :settings="chartSettings"
+                        :tooltip="tooltip"
+                        :series="series"
+                        width="100%"
+                        :style="{height:'100%'}"
+                        :after-set-option-once="afterSet"
+                ></ve-amap>
+            </div>
+
+            </div>
+
 </template>
 
 <script>
-
     export default {
         data () {
             return {
@@ -95,4 +103,47 @@
 </script>
 
 <style lang="scss" scoped>
+    .title {
+        padding-left: 10px;
+        box-sizing: border-box;
+        font-weight: 500;
+        color: white;
+        font-size: 18px;
+        height: 20px;
+
+    }
+    .wrapper{
+        width:100%;
+        height: 80%;
+        background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+        linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
+        linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
+        linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
+        linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
+        linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+        linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
+        linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
+        /*设置大小*/
+
+        background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
+        background-color: #60626621;
+        box-sizing: border-box;
+
+        padding: 0.15rem;
+        margin-top: 10px;
+    }
+    .ve-amap{
+
+        div[_echarts_instance_]{
+            height:100%;
+        }
+    }
+</style>
+<style lang="scss">
+    .ve-amap{
+
+     div[_echarts_instance_]{
+            height:100%!important;
+        }
+    }
 </style>

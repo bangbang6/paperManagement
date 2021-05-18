@@ -2,7 +2,8 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 
 const request = axios.create({
-  baseURL:"http://211.69.197.138:8090",
+  // baseURL:"http://211.69.197.138:8090",
+    baseURL:"http://localhost:8090",
   timeout:50000
 })
 

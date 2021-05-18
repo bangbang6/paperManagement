@@ -71,15 +71,6 @@
                     :key="groupIndex"
                   >
                     <el-input v-model="group.label" type="textarea" :rows="1" :cols="100"></el-input>
-                    <el-button
-                      type="danger"
-                      size="mini"
-                      class="deleteBtn"
-                      @click="deleteGroup(authorIndex,groupIndex)"
-                    >删除</el-button>
-                  </div>
-                  <div :style="{marginTop:'20px'}">
-                    <el-button type="primary" size="mini" @click="addGroup(authorIndex)">新增</el-button>
                   </div>
                 </div>
               </div>
@@ -112,9 +103,6 @@
 </template>
  
 <script>
-import { getUserByChineseName } from '@/api/paper'
-import { uploadFile } from '@/api/teacher'
-import { Message } from 'element-ui'
 export default {
   props: {
     patentMessage: Object
@@ -138,99 +126,7 @@ export default {
             patentTime: '',
             pushData: '',
         };
-    },
-  methods: {
-    handleChange (e) {
-      const file = e.target.files[0]
-      console.log('file', file);
-
-      let formData = new FormData();
-      formData.append("file", file);
-      uploadFile(formData).then(res => {
-        if (res.code === 200) {
-          this.paper.duplicateCheckResult.resultFileId = res.msg
-          Message({
-            message: "查重文件上传成功",
-            type: 'success',
-            duration: 1000
-          })
-        } else {
-          Message({
-            message: "查重文件上传失败",
-            type: 'error',
-            duration: 1000
-          })
-        }
-      })
-    },
-    getUser (name, authorIndex) {
-      getUserByChineseName(name).then(res => {
-        if (res.code === 200) {
-          if (res.data) {
-            /*  authors: [
-             { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
- 
-           ], */
-            let author = {
-              chineseName: { label: res.data.chineseName, status: true },
-              englishName: { label: res.data.englishName, status: true },
-              email: { label: res.data.email, status: true },
-              organization: res.data.organization.split('#').map(item => ({
-                label: item,
-                status: true
-              }))
-            }
-            this.paper.authors.splice(authorIndex, 1, author)
-
-
-          }
-        } else {
-          /*  Message({
-             type: 'error',
-             duration: 1000,
-             message: res.msg
-           }) */
-        }
-      })
-    },
-    addAuthor () {
-      this.paper.authors.push({ chineseName: { label: "", status: true }, englishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },)
-    },
-    addGroup (index1) {
-      this.paper.authors[index1].organization.push({
-        label: "",
-        status: ""
-      })
-    },
-    deleteGroup (index1, index2) {
-      this.paper.authors[index1].organization.splice(index2, 1)
     }
-
-  },
-  watch: {
-    'meeting.publicTypeId0': {
-      handler (newV) {
-        console.log('newV', newV);
-        this.meeting.publicTypeId = ''
-        this.meeting.options.forEach((item) => {
-
-          if (item.value === newV) {
-            this.meeting.options2 = item.children.map(item => {
-              return {
-                value: item.id,
-                id: item.id,
-                label: item.typeName.split('/')[1]
-              }
-            }
-            )
-
-          }
-        })
-
-      }
-
-    }
-  }
 }
 </script>
  

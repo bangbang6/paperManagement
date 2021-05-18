@@ -8,6 +8,9 @@
         <div class="map">
           <hust-map></hust-map>
         </div>
+          <div class="liquid">
+              <time-number></time-number>
+          </div>
       </div>
       <div class="middle">
         <div class="rank">
@@ -24,9 +27,7 @@
         <div class="category-rank">
           <rank-list></rank-list>
         </div>
-        <div class="liquid">
-          <time-number></time-number>
-        </div>
+
       </div>
     </div>
 
@@ -75,54 +76,63 @@ export default {
     height: 15%;
   }
   .content {
+
     box-sizing: border-box;
     height: 85%;
     display: flex;
     .left {
       padding-left: 40px;
-      padding-top: 5px;
-      padding-bottom: 20px;
+
       box-sizing: border-box;
       width: 40%;
 
       height: 100%;
       .map {
-        height: 100%;
+          box-sizing: border-box;
+          padding-top: 0.15rem;
+        width: 100%;
+        height: 50%;
+          overflow: hidden;
       }
+        .liquid {
+            box-sizing: border-box;
+            width: 100%;
+            height: 50%;
+        }
     }
     .middle {
+     margin-right: 5px;
       padding-left: 20px;
       box-sizing: border-box;
       width: 36%;
       height: 100%;
       .rank {
-        height: 50%;
+          margin-left: 3px;
+          height: 50%;
       }
       .error {
         height: 50%;
       }
     }
     .right {
+     margin-left: 5px;
       width: 24%;
       height: 100%;
-      padding-bottom: 20px;
+      padding-left: 20px;
+      //padding-bottom: 20px;
       padding-right: 20px;
       box-sizing: border-box;
       .category {
         width: 100%;
-        height: 33.3%;
+        height: 50%;
       }
       .category-rank {
         width: 100%;
-        height: 26%;
+        height: 50%;
       }
-      .liquid {
-        padding-top: 10px;
-        box-sizing: border-box;
-        width: 100%;
-        height: 40.3%;
-      }
+
     }
   }
 }
+
 </style>

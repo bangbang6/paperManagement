@@ -75,14 +75,14 @@
       </div>
         <div class="operation">
         <el-card shadow="always">
-          <div class="download" @click="downloadFile">
+          <div class="download">
             <i class="el-icon-download"></i>
             <span>下载</span>
           </div>
         </el-card>
         </div>
         <div class="btn-wrapper">
-            <el-button type="primary" style="float: right" @click="submit">修改</el-button>
+            <el-button type="primary" style="float: right">修改</el-button>
         </div>
     </el-card>
   </div>

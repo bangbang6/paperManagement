@@ -1,6 +1,7 @@
 <template>
   <!-- <div class="chat-wrapper-w"> -->
   <div class="chart-wrapper">
+      <div class="sales-view-title">成果类型占比</div>
     <v-chart :options="categoryOptions2" />
   </div>
   <!-- <div class="chart-wrapper">
@@ -141,7 +142,7 @@ export default {
             }
           },
           center: ["45%", "50%"],
-          radius: ['45%', '60%'],
+          radius: ['35%', '50%'],
           labelLine: {
             normal: {
               length: 5,
@@ -181,7 +182,7 @@ export default {
           y: "45%",
           textAlign: 'center',
           textStyle: {
-            fontSize: 14,
+            fontSize: 20,
             color: 'white',
             fontWeight: 'normal'
           }
@@ -200,7 +201,7 @@ export default {
             }
           },
           center: ["45%", "50%"],
-          radius: ['45%', '60%'],
+          radius: ['65%', '80%'],
           labelLine: {
             normal: {
               length: 5,
@@ -236,6 +237,11 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+    .sales-view-title {
+        font-size: 18px;
+        color: white;
+        font-weight: 500;
+    }
 /* .chat-wrapper-w {
   width: 60%;
   height: 100%;
@@ -245,10 +251,23 @@ export default {
 } */
 .chart-wrapper {
   width: 100%;
-  height: 100%;
+  height: 80%;
   background: rgb(48, 48, 48);
 
   .echarts {
+      margin-top: 10px;
+      background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
+      /*设置大小*/
+
+      background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
+      background-color: #60626621;
     width: 100%;
     height: 100%;
   }

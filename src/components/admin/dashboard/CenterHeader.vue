@@ -51,6 +51,7 @@ export default {
 
 <style lang="scss" scoped>
 .center-header {
+
   display: flex;
   align-items: center;
   width: 100%;
@@ -65,6 +66,19 @@ export default {
     padding-left: 40px;
     box-sizing: border-box;
     .center-header-item {
+        margin-left: 3px;
+        background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+        linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
+        linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
+        linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
+        linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
+        linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+        linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
+        linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
+        /*设置大小*/
+
+        background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
+        background-color: #60626621;
       flex: 1;
       width: 16%;
       display: flex;

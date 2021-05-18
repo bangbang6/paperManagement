@@ -1,12 +1,12 @@
 <template>
   <div class="error-list" style="border-color: #795da3">
-    <div class="title">异常成果</div>
+    <div class="title">异常成果列表</div>
     <div class="list">
       <div class="list-item gray" style="text-align: left">
-        <div class="status" style="width: 65px">状态</div>
-        <div class="name" style="width: 56px;padding-left: 10px">发表人</div>
-        <div class="title" style="width: 290px">成果标题</div>
-        <div class="date" style="width: 80px;padding-left: 10px">时间</div>
+        <div class="status" style="width: 15%">状态</div>
+        <div class="name" style="width: 10%;">发表人</div>
+        <div class="title" style="width: 60%">成果标题</div>
+        <div class="date" style="width: 15%;">时间</div>
       </div>
       <div
         class="list-item"
@@ -14,12 +14,12 @@
         :key="index"
         @click="handleClick(index)"
       >
-        <div class="status">
-          <el-tag :type="paper.type" size="mini" effect="dark" style="width: 65px;">{{paper.status}}</el-tag>
+        <div class="status" style="width: 15%">
+          <el-tag :type="paper.type" size="mini" effect="dark" >{{paper.status}}</el-tag>
         </div>
-        <div class="name overflow" style="width: 60px;padding-left: 10px">{{paper.name}}</div>
-        <div class="title overflow" style="width: 290px">{{paper.title}}</div>
-        <div class="date overflow" style="width: 80px;padding-left: 10px">{{formatDate(paper.date)}}</div>
+        <div class="name overflow" style="width: 10%">{{paper.name}}</div>
+        <div class="title overflow" style="width: 60%">{{paper.title}}</div>
+        <div class="date overflow" style="width: 15%">{{formatDate(paper.date)}}</div>
       </div>
     </div>
   </div>
@@ -106,7 +106,8 @@ export default {
         date: "2020/4/17",
         type: 'warning'
       }
-    ].slice(0, 6)
+    ]
+        //.slice(0, 6)
   }
 }
 </script>
@@ -124,12 +125,26 @@ export default {
     font-weight: 500;
   }
   .list {
+      background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
+      /*设置大小*/
+
+      background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
+      background-color: #60626621;
+      padding-left: 10px;
+      height: 80%;
     color: gray;
     margin-top: 10px;
     .list-item {
       display: flex;
       /* border-bottom: 1px solid gray; */
-      height: 20px;
+     // height: 12.5%;
       padding: 6px 20px 6px 0;
       align-items: center;
       .name,
@@ -137,7 +152,7 @@ export default {
       .date,
       .status {
         //flex: 1;
-        height: 20px;
+       // height: 12.5%;
         /* padding: 0 5px; */
         /*  text-align: center; */
         font-size: 12px;

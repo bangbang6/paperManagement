@@ -91,7 +91,8 @@ export default {
         fileName: "Blockchain Empowered Arbitrable Data Auditing Scheme for Network Storage as a Service",
         time: "2021/3/7"
       }
-      ].slice(0, 6)
+      ]
+          //.slice(0, 6)
     }
   }
 }
@@ -125,13 +126,26 @@ export default {
   }
 
   .list-item-wrapper {
-    margin-top: 15px;
+      background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
+      linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
+      /*设置大小*/
 
+      background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
+      background-color: #60626621;
+    margin-top: 10px;
+      padding-left: 5px;
+    height: 80%;
     .list-item {
       display: flex;
       align-items: center;
       font-size: 12px;
-      height: 20px;
+     // height: 12.5%;
       padding: 6px 20px 6px 0;
 
       .list-item-no {
@@ -139,7 +153,7 @@ export default {
         align-items: center;
         justify-content: center;
         width: 20px;
-        height: 20px;
+      //  height: 12.5%;
         box-sizing: border-box;
 
         &.top-no {
