@@ -21,6 +21,7 @@ import Main  from '../pages/Main'
 import Backforward  from '../pages/Backforward'
 import LoginMain  from '../pages/LoginMain'
 import PaperDetail  from '../pages/PaperDetail'
+import PatentDetail  from '../pages/PatentDetail'
 import DashBoard  from '../components/admin/dashboard/DashBoard'
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
@@ -28,7 +29,7 @@ VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
 const routes = [
-  
+
       {
         path:"/",
         component:LoginMain,
@@ -130,12 +131,21 @@ const routes = [
             component:ErrorStatus,
 
           },
-          {
-            path:"/admin/allfile",
-            name:"allfile",
-            component:Allfile,
-
-          }
+            {
+                path:'/admin/allfile',
+                name:"allfile",
+                component:Allfile
+            },
+            {
+                path:'/admin/allPatentfile',
+                name:"allPatentfile",
+                component:AllPatentfile
+            },
+          // {
+          //   path:"/admin/allfile",
+          //   name:"allfile",
+          //   component:Allfile,
+          // }
           
         ]
       },
@@ -152,6 +162,11 @@ const routes = [
           },
         ]
       },
+    {
+        path:"/patentDetail",
+        name:"patentDetail",
+        component:PatentDetail
+    },
       {
         path:"/paperDetail",
         name:"paperDetail",

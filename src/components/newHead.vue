@@ -21,7 +21,7 @@
       </el-dropdown>
       <!--<div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-else>编辑会议</div>-->
       <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的成果</div>
-        <el-dropdown  style="color: white;" trigger="click">
+        <el-dropdown  style="color: white;" trigger="click" v-if="role===0">
             <div :class="['nav-item',navIndex === 4?'green':'']" >链上成果
                 <i class="el-icon-arrow-down el-icon--right"></i>
                 <el-dropdown-menu slot="dropdown">
@@ -30,7 +30,16 @@
                 </el-dropdown-menu>
             </div>
         </el-dropdown>
-      <div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===1">链上成果</div>
+      <!--<div :class="['nav-item',navIndex === 4?'green':'']" data-item="4" v-if="role===1">链上成果</div>-->
+        <el-dropdown  style="color: white;" trigger="click" v-if="role===1">
+            <div :class="['nav-item',navIndex === 4?'green':'']" >链上成果
+                <i class="el-icon-arrow-down el-icon--right"></i>
+                <el-dropdown-menu slot="dropdown">
+                    <div  @click="navJump"><el-dropdown-item  data-item="41" v-if="role===1" >链上论文</el-dropdown-item></div>
+                    <div  @click="navJump"><el-dropdown-item  data-item="42" v-if="role===1">链上专利</el-dropdown-item></div>
+                </el-dropdown-menu>
+            </div>
+        </el-dropdown>
       <div :class="['nav-item',navIndex === 5?'green':'']" data-item="5" v-if="role===1">异常预警</div>
     </div>
     <div class="avaturl-wrapper">
@@ -108,10 +117,13 @@ export default {
           this.$router.push('/admin/editMeeting')
 
         }
-        else if (e.target.dataset.item === '4') {
+        else if (e.target.dataset.item === '41') {
           console.log('e', e);
           this.$router.push('/admin/allfile')
-
+        }
+        else if (e.target.dataset.item === '42') {
+            console.log('e', e);
+            this.$router.push('/admin/allPatentfile')
         }
         else if (e.target.dataset.item === '5') {
           console.log('e', e);

@@ -6,7 +6,7 @@
 
     <div class="content" style="padding-left: 0;padding-top: 0px">
       <div class="map">
-        <order-map></order-map>
+        <hust-map></hust-map>
       </div>
       <div class="rank" style="margin-left: 0">
         <auto-rank></auto-rank>
@@ -27,14 +27,15 @@
 
 <script>
 import CenterHeader from './CenterHeader.vue'
-import OrderMap from './OrderMap.vue'
+// import OrderMap from './OrderMap.vue'
+import HustMap from './HustMap.vue'
 import AutoRank from './AutoRank.vue'
 import Category from './Category.vue'
 
 import BlockNumber from './BlockNumber.vue'
 import ErrorList from './ErrorList.vue'
 export default {
-  components: { CenterHeader, OrderMap, AutoRank, Category, BlockNumber, ErrorList },
+  components: { CenterHeader, HustMap, AutoRank, Category, BlockNumber, ErrorList },
 
 }
 </script>
@@ -49,6 +50,7 @@ export default {
     height: 58%;
     display: flex;
     .map {
+        margin-right: 20px;
       height: 100%;
       width: 40%;
     }

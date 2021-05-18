@@ -318,21 +318,9 @@ export default {
 
     },
     handleRowClick (row) {
-      let role = localStorage.getItem('role')
-      console.log('row', row);
-        this.$router.push('/paperdetail')
-      let currentUser = localStorage.getItem('chineseName')
-      if (role === '1') {
-        localStorage.setItem('paperId', row.id)
-
-      } else if (role === '0') {
-        if (row.uploader === currentUser) {
-          localStorage.setItem('paperId', row.id)
-          this.$router.push('/undoPaperdetail')
-        }
-      }
-
-
+      console.log(row)
+      localStorage.setItem('info', row)
+      this.$router.push('/patentdetail')
     },
     back (row) {
       this.$router.push({
