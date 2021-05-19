@@ -133,9 +133,13 @@ export default {
   },
   methods: {
     jumpToPaperDetail (id, status) {
+        //这里专利做特殊处理
+        if(typeof(id) === "undefined"){
+            this.$router.push(`/patentdetail`)
+            return
+        }
       console.log('id', id);
       localStorage.setItem('paperId', id)
-
       if (+status === 3 || +status === 4 || +status === 6 || +status === 7) {
         this.$router.push(`/undoPaperDetail`)
       } else {
@@ -144,7 +148,6 @@ export default {
 
     },
     getAuthorName (authors) {
-
       return authors && authors.map(item => item.name).join(',')
     }
   },

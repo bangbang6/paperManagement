@@ -28,7 +28,8 @@ export default {
   .wrapper {
     /*background: rgb(242, 239, 236);*/
     width: 100%;
-    height: calc(100% - 70px);
+    //height: calc(100% - 70px);
+      height: 96%;
     /*padding-top: 30px;*/
   }
 }

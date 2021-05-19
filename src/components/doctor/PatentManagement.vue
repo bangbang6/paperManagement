@@ -238,14 +238,14 @@ export default {
  
 <style lang="scss" scoped>
 .file-wrapper {
-  background: rgb(242, 239, 236);
-
+  //background: rgb(242, 239, 236);
+    height: 100%;
   .patentManagement {
     width: 80%;
     margin-left: 10%;
     background: white;
     /* height: calc(100% - 50px); */
-    /* height: 100%; */
+    height: 100%;
     /*   overflow-y: auto; */
 
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
@@ -253,7 +253,7 @@ export default {
       width: 100%;
       padding-left: 20px;
       padding-right: 20px;
-      padding-bottom: 50px;
+      //padding-bottom: 50px;
 
       box-sizing: border-box;
       .title-wrapper {

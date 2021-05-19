@@ -27,7 +27,7 @@
                         zoom: 10,
                         center: [114.418071, 30.511844],
                         mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
-                        animateEnable: true
+                        animateEnable: true,
                     },
                 },
                 series: [],
@@ -39,7 +39,7 @@
             let littleDotData = [
                 {
                     name: '南六楼',
-                    value: [114.413633, 30.509502, 10400]
+                    value: [114.413633, 30.509502, 10400],
                 },
                 {
                     name: '东五楼',

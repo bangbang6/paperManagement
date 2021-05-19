@@ -351,6 +351,7 @@ export default {
 <style lang="scss" scoped>
 
 .inner-wrapper {
+  background: white;
   width: 80%;
   margin: auto;
   height: 100%;
