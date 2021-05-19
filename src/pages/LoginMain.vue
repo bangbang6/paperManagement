@@ -1,5 +1,5 @@
 <template>
-  <div class="login-main">
+  <div class="login-main" style="height:100%;">
     <div class="head">
       <div class="title-wrapper">
           <div class="title">华中科技大学成果管理系统</div>
@@ -110,6 +110,12 @@ export default {
 }();
 </script>
 <style lang="scss" scoped>
+    .login-main{
+       // background: url('../assets/bg1.jpg');
+    }
+    .login-wrapper{
+        height:calc(100% - 78px);
+    }
 .head {
   margin-left: 15%;
   width: 70%;

@@ -142,7 +142,8 @@ export default {
 .login-wrapper {
   width: 100%;
   height: 600px;
-  background: url('../../assets/background.jpeg');
+    background-color: #ecf5ff7a;
+  //background: url('../../assets/background.jpeg');
   background-size: cover;
   justify-content: flex-end;
 

@@ -124,11 +124,11 @@ export default {
 <style lang="scss" scoped>
 .login-wrapper {
   width: 100%;
-  height: 600px;
-    background-color: #ecf5ff7a;
+  height: 100%;
+    /*background-color: #ecf5ff7a;*/
 
- // background: url('../../assets/background.jpeg');
-  background-size: cover;
+  background: url('../../assets/bg1.jpg');
+  background-size:cover;
   justify-content: flex-end;
 
   display: flex;
