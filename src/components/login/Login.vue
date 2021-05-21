@@ -127,7 +127,7 @@ export default {
   height: 100%;
     /*background-color: #ecf5ff7a;*/
 
-  background: url('../../assets/bg1.jpg');
+  background: url('../../assets/bg1.png');
   background-size:cover;
   justify-content: flex-end;
 
