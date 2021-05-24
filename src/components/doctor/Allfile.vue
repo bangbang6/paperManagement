@@ -82,18 +82,18 @@
         </el-table-column>
         <el-table-column prop="..." label="操作">
           <template slot-scope="scope">
-            <el-tooltip
-              effect="light"
-              placement="bottom-start"
-              style="margin-right: 5px"
-              content="下载"
-            >
-              <el-link
-                icon="el-icon-download"
-                style="font-size: 18px;color: rgb(64, 158, 255)"
-                @click="download(scope.row.id)"
-              ></el-link>
-            </el-tooltip>
+            <!--<el-tooltip-->
+              <!--effect="light"-->
+              <!--placement="bottom-start"-->
+              <!--style="margin-right: 5px"-->
+              <!--content="下载"-->
+            <!--&gt;-->
+              <!--<el-link-->
+                <!--icon="el-icon-download"-->
+                <!--style="font-size: 18px;color: rgb(64, 158, 255)"-->
+                <!--@click="download(scope.row.id)"-->
+              <!--&gt;</el-link>-->
+            <!--</el-tooltip>-->
             <el-tooltip
               effect="light"
               placement="bottom-start"

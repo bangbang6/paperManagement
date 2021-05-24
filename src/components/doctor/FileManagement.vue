@@ -7,27 +7,27 @@
           <div class="title">上传论文</div>
         </div>
         <file-message :fileMessage="fileMessage"></file-message>
-        <div class="left">
-          <div class="fileupload">
-            <el-upload
-              class="upload-demo"
-              ref="upload"
-              action
-              drag
-              multiple
-              :http-request="uploadFile"
-              :on-remove="handleRemove"
-            >
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">
-                将文件拖到此处，或
-                <em>点击上传</em>
-              </div>
-            </el-upload>
-            <div v-loading="loading" style="marginTop:20px"></div>
-          </div>
-        </div>
-        <el-button type="primary" @click="submit">提交</el-button>
+        <!--<div class="left">-->
+          <!--<div class="fileupload">-->
+            <!--<el-upload-->
+              <!--class="upload-demo"-->
+              <!--ref="upload"-->
+              <!--action-->
+              <!--drag-->
+              <!--multiple-->
+              <!--:http-request="uploadFile"-->
+              <!--:on-remove="handleRemove"-->
+            <!--&gt;-->
+              <!--<i class="el-icon-upload"></i>-->
+              <!--<div class="el-upload__text">-->
+                <!--将文件拖到此处，或-->
+                <!--<em>点击上传</em>-->
+              <!--</div>-->
+            <!--</el-upload>-->
+            <!--<div v-loading="loading" style="marginTop:20px"></div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <el-button type="primary" @click="submit" style="float:right;margin-top: 20px">提交</el-button>
       </div>
     </div>
   </div>

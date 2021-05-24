@@ -63,10 +63,11 @@ export default {
   .center-header-wrapper {
     display: flex;
     width: 100%;
-    padding-left: 40px;
+    padding-left: 10px;
+    padding-right: 5px;
     box-sizing: border-box;
     .center-header-item {
-        margin-left: 3px;
+        margin-left: 10px;
         background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
         linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
         linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,

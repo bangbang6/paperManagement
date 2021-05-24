@@ -1,19 +1,27 @@
 <template>
     <div style="height: 100%">
             <div class="title">成果分布地图</div>
-
             <div class="wrapper">
-                <ve-amap
-                        :settings="chartSettings"
-                        :tooltip="tooltip"
-                        :series="series"
-                        width="100%"
-                        :style="{height:'100%'}"
-                        :after-set-option-once="afterSet"
-                ></ve-amap>
-            </div>
+                    <ve-amap
+                            :settings="chartSettings"
+                            :tooltip="tooltip"
+                            :series="series"
+                            width="100%"
+                            :style="{height:'100%',position: 'relative'}"
+                            :after-set-option-once="afterSet"
+                    >
+                            <ve-amap
+                                    :settings="chartSettings2"
+                                    :tooltip="tooltip"
+                                    :series="series2"
+                                    width="50%"
+                                    :style="{height:'20%',position: 'absolute',right: '0',bottom: '0'}"
+                                    :after-set-option-once="afterSet"
+                            ></ve-amap>
+                    </ve-amap>
 
             </div>
+     </div>
 
 </template>
 
@@ -24,13 +32,23 @@
                 chartSettings: {
                     key: "723508a3369754233a578f36a4d3cf24",
                     amap: {
+                        zoom: 16,
+                        center: [114.415399, 30.510991],
+                        mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
+                        animateEnable: true,
+                    },
+                },
+                chartSettings2: {
+                    key: "723508a3369754233a578f36a4d3cf24",
+                    amap: {
                         zoom: 10,
-                        center: [114.418071, 30.511844],
+                        center: [114.138177, 30.676737],
                         mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
                         animateEnable: true,
                     },
                 },
                 series: [],
+                series2: [],
                 tooltip: {
                 }
             }
@@ -46,6 +64,12 @@
                     value: [114.418071, 30.511844, 20300]
                 },
                 {
+                    name: '南五楼',
+                    value: [114.415502, 30.509215, 4400]
+                },
+            ]
+            let littleDotData2 = [
+                {
                     name: '网安基地',
                     value: [114.138177, 30.676737, 12300]
                 },
@@ -53,6 +77,33 @@
             this.series = [{
                 type: 'effectScatter',
                 data: littleDotData,
+                coordinateSystem: 'amap',
+                symbolSize: function (val) {
+                    return val[2] / 1000
+                },
+                rippleEffect: {
+                    brushType: "stroke", //涟漪
+                },
+                hoverAnimation: true,//移上去有动画
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'right',
+                        formatter (params) {
+                            return params.data.name
+                        }
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#74fbf5',/* colors[0][0], */
+                        shodowColor: '#74fbf5' /* colors[0][0] */
+                    }
+                }
+            }]
+            this.series2 = [{
+                type: 'effectScatter',
+                data: littleDotData2,
                 coordinateSystem: 'amap',
                 symbolSize: function (val) {
                     return val[2] / 1000
@@ -112,6 +163,9 @@
         height: 20px;
 
     }
+    .inner{
+        border-color: #9a6e3a;
+    }
     .wrapper{
         width:100%;
         height: 80%;
@@ -133,7 +187,6 @@
         margin-top: 10px;
     }
     .ve-amap{
-
         div[_echarts_instance_]{
             height:100%;
         }
@@ -141,7 +194,6 @@
 </style>
 <style lang="scss">
     .ve-amap{
-
      div[_echarts_instance_]{
             height:100%!important;
         }

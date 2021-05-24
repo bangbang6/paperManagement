@@ -1,6 +1,12 @@
 <template>
   <div class="time-number">
-    <div class="title">成果数量趋势</div>
+    <div class="title">成果数量趋势
+        <el-radio-group v-model="radio" style="margin-left: 55%" size="mini">
+            <el-radio-button label="现在"></el-radio-button>
+            <el-radio-button label="一月前"></el-radio-button>
+            <el-radio-button label="一年前"></el-radio-button>
+        </el-radio-group>
+    </div>
     <v-chart :options="getOption()"></v-chart>
   </div>
 </template>
@@ -10,7 +16,7 @@
 export default {
   data () {
     return {
-
+        radio:"现在",
     }
   },
   methods: {
@@ -75,6 +81,7 @@ export default {
   width: 100%;
   height: 100%;
   .title {
+      display: flex;
     padding-left: 10px;
     box-sizing: border-box;
     font-weight: 500;
