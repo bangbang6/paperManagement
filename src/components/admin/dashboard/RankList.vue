@@ -1,11 +1,12 @@
 <template>
   <div class="rank-list">
-    <div class="title">各组成果
-        <el-radio-group v-model="radio" style="margin-left: 35%" size="mini" @change="change">
-            <el-radio-button label="1">现在</el-radio-button>
-            <el-radio-button label="2">近一年</el-radio-button>
-            <el-radio-button label="3">近三月</el-radio-button>
-        </el-radio-group>
+    <div class="title">
+      各组成果
+      <el-radio-group v-model="radio" style="margin-left: 35%" size="mini" @change="change">
+        <el-radio-button label="1">现在</el-radio-button>
+        <el-radio-button label="12">近一年</el-radio-button>
+        <el-radio-button label="3">近三月</el-radio-button>
+      </el-radio-group>
     </div>
     <v-chart :options="options"></v-chart>
   </div>
@@ -14,10 +15,10 @@
 <script>
 export default {
   data () {
-    let mockData = [[0,0,0,0],[0,0,0,0],[0,0,0,0]]
 
     return {
-        radio:"1",
+      radio: "1",
+      nowData: [132, 85, 93, 116],
       options: {
         xAxis: {
           max: 'dataMax',
@@ -40,7 +41,7 @@ export default {
           realtimeSort: true,
           name: 'X',
           type: 'bar',
-          data: mockData,
+          data: [],
           label: {
             show: true,
             position: 'right',
@@ -72,82 +73,65 @@ export default {
     this.init()
   },
   methods: {
-      run (value) {
-          let oneData = [...this.options.series.data]
-          let data = oneData[(+value)-1]
-          // for (var j = 0; j < data.length; ++j) {
-          //     data[j] = 0;
-          // }
-          console.log("before:"+data)
+
+    run (value) {
+      let data = [...this.options.series.data]
+      for (var i = 0; i < data.length; ++i) {
+          data[i]+= +value;
+      }
+      this.options.series.data = data
+    },
+    init () {
+      console.log('nowData', this.nowData);
+      this.options.series.data = this.nowData
+
+    },
+    change (value) {
+      if (value === '1') {
+        this.timer && clearInterval(this.timer)
+        this.init()
+      } else {
+          let data = [...this.options.series.data]
           for (var i = 0; i < data.length; ++i) {
-              if (Math.random() > 0.9) {
-                  data[i] += Math.round(Math.random() * 50);
-              }
-              else {
-                  data[i] += Math.round(Math.random() * 10);
-              }
+              data[i] -= 5*+value;
           }
-          console.log("after:"+data)
-          this.options.series.data = data
-      },
-        init(){
-          let twoData = [...this.options.series.data]
-            let data = twoData[0]
-            console.log("before:"+data)
-            for (var k = 0; k < data.length; ++k) {
-                data[k] = Math.round(Math.random() * 100);
-            }
-            console.log("after:"+data)
-            twoData[0] = data
-        },
-      change(value){
-          console.log(value)
-          if(value==='1'){
-              this.timer && clearInterval(this.timer)
-               this.init()
-          }else {
-              let data = [...this.options.series.data][(+value)-1]
-              //let data = [...(this.options.series.data)[(+value)-1]]
-              for (var j = 0; j < data.length; ++j) {
-                  data[j] = 0;
-              }
-              console.log(value+":"+data)
-              let count = 0
-              this.timer = setInterval(()=>{
-                  count++
-                  this.run(value)
-                  if(count === 5) clearInterval(this.timer)
-              },1000)
-          }
-      },
+        this.options.series.data = data
+        let count = 0
+        this.timer = setInterval(() => {
+          count++
+          this.run(value)
+          if (count === 5) clearInterval(this.timer)
+        }, 1000)
+      }
+    },
   }
 }
 </script>
  
 <style lang="scss" scoped>
 .rank-list {
-
-    //margin-top: 20px;
+  //margin-top: 20px;
   width: 100%;
   height: 80%;
   .echarts {
-      background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+    background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
       linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
       linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
-      linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) left bottom no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
-      /*设置大小*/
-      margin-top: 10px;
-      background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
-      background-color: #60626621;
+    /*设置大小*/
+    margin-top: 10px;
+    background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem,
+      0.9rem 0.15rem;
+    background-color: #60626621;
     width: 100%;
     height: 100%;
   }
   .title {
-      display: flex;
+    display: flex;
     padding-left: 10px;
     box-sizing: border-box;
     font-weight: 500;
@@ -155,8 +139,8 @@ export default {
     font-size: 18px;
     height: 20px;
   }
-    .el-radio{
-        margin-right: 10px;
-    }
+  .el-radio {
+    margin-right: 10px;
+  }
 }
 </style>

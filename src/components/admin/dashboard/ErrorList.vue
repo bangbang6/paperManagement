@@ -15,7 +15,7 @@
         @click="handleClick(index)"
       >
         <div class="status" style="width: 15%">
-          <el-tag :type="paper.type" size="mini" effect="dark" >{{paper.status}}</el-tag>
+          <el-tag :type="paper.type" size="mini" effect="dark">{{paper.status}}</el-tag>
         </div>
         <div class="name overflow" style="width: 10%">{{paper.name}}</div>
         <div class="title overflow" style="width: 60%">{{paper.title}}</div>
@@ -106,8 +106,8 @@ export default {
         date: "2020/4/17",
         type: 'warning'
       }
-    ]
-        //.slice(0, 6)
+    ].slice(0, 6)
+    //.slice(0, 6)
   }
 }
 </script>
@@ -125,26 +125,27 @@ export default {
     font-weight: 500;
   }
   .list {
-      background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+    background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
       linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
       linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
-      linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) left bottom no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
-      /*设置大小*/
+    /*设置大小*/
 
-      background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
-      background-color: #60626621;
-      padding-left: 10px;
-      height: 80%;
+    background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem,
+      0.9rem 0.15rem;
+    background-color: #60626621;
+    padding-left: 10px;
+    height: 80%;
     color: gray;
     margin-top: 10px;
     .list-item {
       display: flex;
       /* border-bottom: 1px solid gray; */
-     // height: 12.5%;
+      // height: 12.5%;
       padding: 6px 20px 6px 0;
       align-items: center;
       .name,
@@ -152,7 +153,7 @@ export default {
       .date,
       .status {
         //flex: 1;
-       // height: 12.5%;
+        // height: 12.5%;
         /* padding: 0 5px; */
         /*  text-align: center; */
         font-size: 12px;

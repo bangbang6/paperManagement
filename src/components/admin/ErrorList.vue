@@ -510,7 +510,7 @@ export default {
 
     getErrorList().then(res => {
       if (res.code === 200) {
-        this.papers = res.data.slice(0, 14)
+        this.papers = res.data.slice(0, 6)
       } else {
         Message({
           message: res.msg,
