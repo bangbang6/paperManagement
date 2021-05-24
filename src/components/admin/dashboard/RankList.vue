@@ -1,11 +1,11 @@
 <template>
   <div class="rank-list">
     <div class="title">各组成果
-        <el-radio-group v-model="radio" style="margin-left: 25%" @change="change">
-            <el-radio  label="1">现在</el-radio>
-            <el-radio  label="2">近一月</el-radio>
-            <el-radio  label="3">近三月</el-radio>
-        </el-radio-group>>
+        <el-radio-group v-model="radio" style="margin-left: 35%" size="mini" @change="change">
+            <el-radio-button label="1">现在</el-radio-button>
+            <el-radio-button label="2">近一年</el-radio-button>
+            <el-radio-button label="3">近三月</el-radio-button>
+        </el-radio-group>
     </div>
     <v-chart :options="options"></v-chart>
   </div>
@@ -71,7 +71,6 @@ export default {
     }
   },
   mounted () {
-
     setTimeout(() => {
       this.run();
     }, 0);
@@ -95,19 +94,26 @@ export default {
       },
 
       change(value){
-          console.log("选中："+value);
           let data = [...this.options.series.data]
-          for (var j = 0; j < data.length; ++j) {
-              data[j] = 0;
-          }
-          for (var i = 0; i < data.length; ++i) {
-              if (Math.random() > 0.9) {
-                  data[i] += Math.round(Math.random() * 50);
+          if(value===1){
+
+              for (var k = 0; k < data.length; ++j) {
+                  data[k] = Math.round(Math.random() * 100);
               }
-              else {
-                  data[i] += Math.round(Math.random() * 10);
+          }else {
+              for (var j = 0; j < data.length; ++j) {
+                  data[j] = 0;
+              }
+              for (var i = 0; i < data.length; ++i) {
+                  if (Math.random() > 0.9) {
+                      data[i] += Math.round(Math.random() * 50);
+                  }
+                  else {
+                      data[i] += Math.round(Math.random() * 10);
+                  }
               }
           }
+
           this.options.series.data = data
       },
   }

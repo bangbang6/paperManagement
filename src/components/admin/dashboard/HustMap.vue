@@ -14,8 +14,8 @@
                                     :settings="chartSettings2"
                                     :tooltip="tooltip"
                                     :series="series2"
-                                    width="50%"
-                                    :style="{height:'20%',position: 'absolute',right: '0',bottom: '0'}"
+                                    width="30%"
+                                    :style="{height:'30%',position: 'absolute',right: '0',bottom: '0',border:'1px #74fbf5 dashed'}"
                                     :after-set-option-once="afterSet"
                             ></ve-amap>
                     </ve-amap>
@@ -188,13 +188,15 @@
     }
     .ve-amap{
         div[_echarts_instance_]{
-            height:100%;
+            width: 100%!important;
+            height:100%!important;
         }
     }
 </style>
 <style lang="scss">
     .ve-amap{
      div[_echarts_instance_]{
+            width: 100%!important;
             height:100%!important;
         }
     }
