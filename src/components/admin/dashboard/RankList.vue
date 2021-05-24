@@ -14,10 +14,8 @@
 <script>
 export default {
   data () {
-    let mockData = []
-    for (let i = 0; i < 4; ++i) {
-      mockData.push([0,0,0,0]);
-    }
+    let mockData = [[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+
     return {
         radio:"1",
       options: {
@@ -72,14 +70,15 @@ export default {
   },
   mounted () {
     this.init()
-
   },
   methods: {
       run (value) {
-          let data = [...(this.options.series.data)[(+value)-1]]
-          for (var j = 0; j < data.length; ++j) {
-              data[j] = 0;
-          }
+          let oneData = [...this.options.series.data]
+          let data = oneData[(+value)-1]
+          // for (var j = 0; j < data.length; ++j) {
+          //     data[j] = 0;
+          // }
+          console.log("before:"+data)
           for (var i = 0; i < data.length; ++i) {
               if (Math.random() > 0.9) {
                   data[i] += Math.round(Math.random() * 50);
@@ -88,36 +87,38 @@ export default {
                   data[i] += Math.round(Math.random() * 10);
               }
           }
-          (this.options.series.data)[(+value)-1] = data
+          console.log("after:"+data)
+          this.options.series.data = data
       },
         init(){
           let twoData = [...this.options.series.data]
-            console.log(twoData)
-            let data = [...twoData[0]]
+            let data = twoData[0]
+            console.log("before:"+data)
             for (var k = 0; k < data.length; ++k) {
                 data[k] = Math.round(Math.random() * 100);
             }
-            this.options.series.data = [data,twoData[1],twoData[2],twoData[3]]
+            console.log("after:"+data)
+            twoData[0] = data
         },
       change(value){
-
-
+          console.log(value)
           if(value==='1'){
               this.timer && clearInterval(this.timer)
                this.init()
-
           }else {
+              let data = [...this.options.series.data][(+value)-1]
+              //let data = [...(this.options.series.data)[(+value)-1]]
+              for (var j = 0; j < data.length; ++j) {
+                  data[j] = 0;
+              }
+              console.log(value+":"+data)
               let count = 0
               this.timer = setInterval(()=>{
                   count++
                   this.run(value)
                   if(count === 5) clearInterval(this.timer)
-
               },1000)
-
           }
-
-
       },
   }
 }

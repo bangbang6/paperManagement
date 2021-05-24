@@ -9,7 +9,8 @@
           <hust-map></hust-map>
         </div>
           <div class="liquid">
-              <time-number></time-number>
+              <!--<time-number></time-number>-->
+              <time-number2></time-number2>
           </div>
       </div>
       <div class="middle">
@@ -61,9 +62,10 @@ import Category from './Category.vue'
 
 import ErrorList from './ErrorList.vue'
 import RankList from './RankList.vue'
-import TimeNumber from './TimeNumber.vue'
+// import TimeNumber from './TimeNumber.vue'
+import TimeNumber2 from './TimeNumber2.vue'
 export default {
-  components: { CenterHeader, HustMap, AutoRank, Category, ErrorList, TimeNumber, RankList },
+  components: { CenterHeader, HustMap, AutoRank, Category, ErrorList, TimeNumber2, RankList },
 
 }
 </script>
@@ -97,7 +99,7 @@ export default {
         .liquid {
             box-sizing: border-box;
             width: 100%;
-            height: 50%;
+            height: 40%;
         }
     }
     .middle {
