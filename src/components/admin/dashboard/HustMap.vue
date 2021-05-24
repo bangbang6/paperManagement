@@ -1,24 +1,25 @@
 <template>
     <div style="height: 100%">
             <div class="title">成果分布地图</div>
-            <div class="wrapper">
+            <div class="wrapper"  :style="{position: 'relative'}">
                     <ve-amap
                             :settings="chartSettings"
                             :tooltip="tooltip"
                             :series="series"
                             width="100%"
-                            :style="{height:'100%',position: 'relative'}"
+                            :style="{height:'100%'}"
                             :after-set-option-once="afterSet"
                     >
-                            <ve-amap
-                                    :settings="chartSettings2"
-                                    :tooltip="tooltip"
-                                    :series="series2"
-                                    width="30%"
-                                    :style="{height:'30%',position: 'absolute',right: '0',bottom: '0',border:'1px #74fbf5 dashed'}"
-                                    :after-set-option-once="afterSet"
-                            ></ve-amap>
+
                     </ve-amap>
+                <ve-amap
+                        :settings="chartSettings2"
+                        :tooltip="tooltip"
+                        :series="series2"
+                        width="50%"
+                        :style="{height:'50%',position: 'absolute',right: '0',bottom: '0',border:'1px #74fbf5 dashed',zIndex:99}"
+                        :after-set-option-once="afterSet"
+                ></ve-amap>
 
             </div>
      </div>
@@ -41,7 +42,7 @@
                 chartSettings2: {
                     key: "723508a3369754233a578f36a4d3cf24",
                     amap: {
-                        zoom: 10,
+                        zoom: 16,
                         center: [114.138177, 30.676737],
                         mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
                         animateEnable: true,

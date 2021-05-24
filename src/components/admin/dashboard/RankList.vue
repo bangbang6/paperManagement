@@ -16,7 +16,7 @@ export default {
   data () {
     let mockData = []
     for (let i = 0; i < 4; ++i) {
-      mockData.push(0);
+      mockData.push([0,0,0,0]);
     }
     return {
         radio:"1",
@@ -71,17 +71,15 @@ export default {
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.run();
-    }, 0);
-    setInterval(() => {
-      this.run();
-    }, 3000);
+    this.init()
+
   },
   methods: {
-      run () {
-          let data = [...this.options.series.data]
-
+      run (value) {
+          let data = [...(this.options.series.data)[(+value)-1]]
+          for (var j = 0; j < data.length; ++j) {
+              data[j] = 0;
+          }
           for (var i = 0; i < data.length; ++i) {
               if (Math.random() > 0.9) {
                   data[i] += Math.round(Math.random() * 50);
@@ -90,31 +88,36 @@ export default {
                   data[i] += Math.round(Math.random() * 10);
               }
           }
-          this.options.series.data = data
+          (this.options.series.data)[(+value)-1] = data
       },
-
+        init(){
+          let twoData = [...this.options.series.data]
+            console.log(twoData)
+            let data = [...twoData[0]]
+            for (var k = 0; k < data.length; ++k) {
+                data[k] = Math.round(Math.random() * 100);
+            }
+            this.options.series.data = [data,twoData[1],twoData[2],twoData[3]]
+        },
       change(value){
-          let data = [...this.options.series.data]
-          if(value===1){
 
-              for (var k = 0; k < data.length; ++j) {
-                  data[k] = Math.round(Math.random() * 100);
-              }
+
+          if(value==='1'){
+              this.timer && clearInterval(this.timer)
+               this.init()
+
           }else {
-              for (var j = 0; j < data.length; ++j) {
-                  data[j] = 0;
-              }
-              for (var i = 0; i < data.length; ++i) {
-                  if (Math.random() > 0.9) {
-                      data[i] += Math.round(Math.random() * 50);
-                  }
-                  else {
-                      data[i] += Math.round(Math.random() * 10);
-                  }
-              }
+              let count = 0
+              this.timer = setInterval(()=>{
+                  count++
+                  this.run(value)
+                  if(count === 5) clearInterval(this.timer)
+
+              },1000)
+
           }
 
-          this.options.series.data = data
+
       },
   }
 }
