@@ -51,9 +51,9 @@
               </div>
 
               <div class="operation">
-                <el-tooltip content="下载" placement="bottom" effect="light">
+<!--                <el-tooltip content="下载" placement="bottom" effect="light">
                   <i class="el-icon-download"></i>
-                </el-tooltip>
+                </el-tooltip>-->
                 <el-tooltip content="编辑" placement="bottom" effect="light">
                   <i class="el-icon-edit"></i>
                 </el-tooltip>

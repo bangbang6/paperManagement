@@ -30,7 +30,7 @@
 </template>
 
 <script>
-const headerMockData = { "headerData": { "value": [{ "title": "成果总数", "subTitle": "The Achievement Number", "value": 72, "icon": "el-icon-star-off", color: 'pink' }, { "title": "用户总数", "subTitle": "The Total User Number", "value": 2465, "icon": "el-icon-user", color: "blue" }, { "title": "区块数", "subTitle": "The Block Number", "value": 6391, "icon": "el-icon-coin", color: 'block' }, { "title": "交易数", "subTitle": "The Transaction Number", "value": 17352, "icon": "el-icon-sort", color: 'connect' }, { "title": "异常数", "subTitle": "The Number Of Abnormal", "value": 341, "icon": "el-icon-warning-outline", color: 'red' }] }, "project": { "value": [{ "title": "转化率", "value": "13.16%", "img": "https://www.youbaobao.xyz/datav-res/success.png" }, { "title": "退单率", "value": "5.73%", "img": "https://www.youbaobao.xyz/datav-res/failed.png" }] } }
+const headerMockData = { "headerData": { "value": [{ "title": "成果总数", "subTitle": "The Achievement Number", "value": 786, "icon": "el-icon-star-off", color: 'pink' }, { "title": "用户总数", "subTitle": "The Total User Number", "value": 253, "icon": "el-icon-user", color: "blue" }, { "title": "区块数", "subTitle": "The Block Number", "value": 52, "icon": "el-icon-coin", color: 'block' }, { "title": "交易数", "subTitle": "The Transaction Number", "value": 876, "icon": "el-icon-sort", color: 'connect' }, { "title": "异常数", "subTitle": "The Number Of Abnormal", "value": 67, "icon": "el-icon-warning-outline", color: 'red' }] }, "project": { "value": [{ "title": "转化率", "value": "13.16%", "img": "https://www.youbaobao.xyz/datav-res/success.png" }, { "title": "退单率", "value": "5.73%", "img": "https://www.youbaobao.xyz/datav-res/failed.png" }] } }
 export default {
   data () {
     return {
@@ -63,10 +63,11 @@ export default {
   .center-header-wrapper {
     display: flex;
     width: 100%;
-    padding-left: 40px;
+    padding-left: 10px;
+    padding-right: 5px;
     box-sizing: border-box;
     .center-header-item {
-        margin-left: 3px;
+        margin-left: 10px;
         background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
         linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
         linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,

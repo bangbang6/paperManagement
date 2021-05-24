@@ -1,8 +1,7 @@
 <template>
   <div style="height: 100%">
     <div class="title">成果分布地图</div>
-
-    <div class="wrapper">
+    <div class="wrapper" :style="{position: 'relative'}">
       <ve-amap
         :settings="chartSettings"
         :tooltip="tooltip"
@@ -10,6 +9,14 @@
         width="100%"
         :style="{height:'100%'}"
         :after-set-option-once="afterSet"
+      ></ve-amap>
+      <ve-amap
+        :settings="chartSettings2"
+        :tooltip="tooltip"
+        :series="series2"
+        width="30%"
+        :style="{height:'30%',position: 'absolute',right: '0',bottom: '0',border:'1px #74fbf5 dashed',zIndex:99}"
+        :after-set-option-once="afterSet2"
       ></ve-amap>
     </div>
   </div>
@@ -22,13 +29,25 @@ export default {
       chartSettings: {
         key: "723508a3369754233a578f36a4d3cf24",
         amap: {
-          zoom: 9,
-          center: [114.418071, 30.511844],
+          zoom: 16,
+          center: [114.415399, 30.510991],
+          mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
+          animateEnable: true,
+        },
+      },
+      chartSettings2: {
+        key: "723508a3369754233a578f36a4d3cf24",
+        amap: {
+          zoom: 16,
+          center: [114.137474, 30.676715],
+          /*  center: [114.415399, 30.510991], */
+
           mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
           animateEnable: true,
         },
       },
       series: [],
+      series2: [],
       tooltip: {
       }
     }
@@ -44,8 +63,14 @@ export default {
         value: [114.418071, 30.511844, 20300]
       },
       {
+        name: '南五楼',
+        value: [114.415502, 30.509215, 4400]
+      },
+    ]
+    let littleDotData2 = [
+      {
         name: '网安基地',
-        value: [114.138177, 30.676737, 12300]
+        value: [114.137474, 30.676715, 10400]
       },
     ]
     this.series = [{
@@ -75,6 +100,34 @@ export default {
         }
       }
     }]
+    this.series2 = [{
+      type: 'effectScatter',
+      data: littleDotData2,
+      coordinateSystem: 'amap',
+      zlevel: 9,
+      symbolSize: function (val) {
+        return val[2] / 1000
+      },
+      rippleEffect: {
+        brushType: "stroke", //涟漪
+      },
+      hoverAnimation: true,//移上去有动画
+      /*  label: {
+         normal: {
+           show: true,
+           position: 'right',
+           formatter (params) {
+             return params.data.name
+           }
+         }
+       }, */
+      itemStyle: {
+        normal: {
+          color: '#74fbf5',/* colors[0][0], */
+          shodowColor: '#74fbf5' /* colors[0][0] */
+        }
+      }
+    }]
     /* let map = echarts.init(document.getElementById('map'))
     map.on('click', (params) => {
       console.log('params', params);
@@ -95,8 +148,24 @@ export default {
         // console.log('a', amap.getZoom());
         amap.setZoomAndCenter(14, [e.lnglat.R, e.lnglat.Q])
       })
+    },
+    afterSet2: function (echarts) {
+      var amap = echarts.getModel().getComponent('amap').getAMap()
+      console.log('amap', amap);
+      amap.on('click', e => {
+        console.log('e', e);
+        //  this.chartSettings.amap.center = [e.lnglat.Q, e.lnglat.R]
+        // this.chartSettings.amap = {
+        //   zoom: 16,
+        //   center: [e.lnglat.Q, e.lnglat.R],
+        //   mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
+        // }
+        // console.log('a', amap.getZoom());
+        amap.setZoomAndCenter(14, [e.lnglat.R, e.lnglat.Q])
+      })
     }
   }
+
 }
 </script>
 
@@ -108,6 +177,9 @@ export default {
   color: white;
   font-size: 18px;
   height: 20px;
+}
+.inner {
+  border-color: #9a6e3a;
 }
 .wrapper {
   width: 100%;
@@ -132,13 +204,15 @@ export default {
 }
 .ve-amap {
   div[_echarts_instance_] {
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 </style>
 <style lang="scss">
 .ve-amap {
   div[_echarts_instance_] {
+    width: 100% !important;
     height: 100% !important;
   }
 }

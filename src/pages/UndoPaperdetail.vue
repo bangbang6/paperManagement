@@ -159,16 +159,16 @@
         :meeting2="meeting2"
       ></Meeting2>
 
-      <div class="operation">
-        <div class="card-wrapper">
-          <el-card shadow="always" v-if="paper.fileId">
-            <div class="download" @click="downloadFile">
-              <i class="el-icon-download"></i>
-              <span>下载</span>
-            </div>
-          </el-card>
-        </div>
-      </div>
+      <!--<div class="operation">-->
+        <!--<div class="card-wrapper">-->
+          <!--<el-card shadow="always" v-if="paper.fileId">-->
+            <!--<div class="download" @click="downloadFile">-->
+              <!--<i class="el-icon-download"></i>-->
+              <!--<span>下载</span>-->
+            <!--</div>-->
+          <!--</el-card>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="btn-wrapper">
         <el-button type="primary" @click="submit">{{role === '0'?'修改':"提交"}}</el-button>
       </div>

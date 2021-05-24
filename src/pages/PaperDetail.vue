@@ -174,12 +174,12 @@
             <span>拒绝</span>
           </div>
         </el-card>
-        <el-card shadow="always" v-if="paper.fileId">
-          <div class="download" @click="downloadFile">
-            <i class="el-icon-download"></i>
-            <span>下载</span>
-          </div>
-        </el-card>
+        <!--<el-card shadow="always" v-if="paper.fileId">-->
+          <!--<div class="download" @click="downloadFile">-->
+            <!--<i class="el-icon-download"></i>-->
+            <!--<span>下载</span>-->
+          <!--</div>-->
+        <!--</el-card>-->
       </div>
     </el-card>
   </div>
