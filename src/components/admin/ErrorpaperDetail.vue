@@ -319,7 +319,7 @@ export default {
           margin-top: 22px;
           .tag-item {
             position: absolute;
-            width: 120px;
+            width: 100px;
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -329,8 +329,8 @@ export default {
           .tag-item2 {
             position: absolute;
             cursor: pointer;
-            width: 120px;
-            left: 120px;
+            width: 100px;
+            left: 100px;
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -339,8 +339,8 @@ export default {
           }
           .tag-item3 {
             position: absolute;
-            width: 120px;
-            left: 240px;
+            width: 100px;
+            left: 200px;
             text-align: center;
           }
         }

@@ -23,13 +23,13 @@
               <span class="overflow">{{scope.row.title}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="author" label="作者" width="100">
+          <el-table-column prop="author" label="作者" width="90">
             <template slot-scope="scope">
               <span class="overflow">{{scope.row.authors}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="publicTypeName" label="发表类型" width="100"></el-table-column>
-          <el-table-column prop="uploader" label="上传者" width="80">
+          <el-table-column prop="publicTypeName" label="发表类型" width="80"></el-table-column>
+          <el-table-column prop="uploader" label="上传者" width="60">
             <template slot-scope="scope">
               <span class="overflow">{{scope.row.uploader}}</span>
             </template>

@@ -1,5 +1,4 @@
 <template>
-
   <div style="height: 100%">
     <div class="title">成果分布地图</div>
     <div class="wrapper" :style="{position: 'relative'}">
@@ -15,7 +14,7 @@
         :settings="chartSettings2"
         :tooltip="tooltip"
         :series="series2"
-        width="30%"
+        width="32%"
         :style="{height:'30%',position: 'absolute',right: '1px',bottom: '1px',border:'1px #74fbf5 dashed'}"
         :after-set-option-once="afterSet2"
       ></ve-amap>
@@ -24,26 +23,26 @@
 </template>
 
 <script>
-    let littleDotData = [
-        {
-            name: '南六楼',
-            value: [114.413633, 30.509502, 10400],
-        },
-        {
-            name: '东五楼',
-            value: [114.418071, 30.511844, 20300]
-        },
-        {
-            name: '南五楼',
-            value: [114.415502, 30.509215, 4400]
-        },
-    ]
-    let littleDotData2 = [
-        {
-            name: '网安基地',
-            value: [114.137474, 30.676715, 10400]
-        },
-    ]
+let littleDotData = [
+  {
+    name: '南六楼',
+    value: [114.413633, 30.509502, 10400],
+  },
+  {
+    name: '东五楼',
+    value: [114.418071, 30.511844, 20300]
+  },
+  {
+    name: '南五楼',
+    value: [114.415502, 30.509215, 4400]
+  },
+]
+let littleDotData2 = [
+  {
+    name: '网安基地',
+    value: [114.137474, 30.676715, 10400]
+  },
+]
 export default {
   data () {
     return {
@@ -59,8 +58,8 @@ export default {
       chartSettings2: {
         key: "723508a3369754233a578f36a4d3cf24",
         amap: {
-          zoom: 14,
-          center: [114.146079,30.674861],
+          zoom: 13,
+          center: [114.150079, 30.673861],
           /*  center: [114.415399, 30.510991], */
 
           mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
@@ -114,15 +113,15 @@ export default {
         brushType: "stroke", //涟漪
       },
       hoverAnimation: true,//移上去有动画
-        label: {
-         normal: {
-           show: true,
-           position: 'right',
-           formatter (params) {
-             return params.data.name
-           }
-         }
-       },
+      label: {
+        normal: {
+          show: true,
+          position: 'right',
+          formatter (params) {
+            return params.data.name
+          }
+        }
+      },
       itemStyle: {
         normal: {
           color: '#74fbf5',/* colors[0][0], */
@@ -136,19 +135,19 @@ export default {
     }) */
   },
   methods: {
-      judgeNear (point,littleDotData1) {
-          let minIndex = -1
-          let minDis = Number.MAX_SAFE_INTEGER
-          littleDotData1.forEach((dot, index) => {
-              let dis = Math.pow((dot.value[0] - point[0]), 2) + Math.pow((dot.value[0] - point[0]), 2)
-              if (minDis > dis) {
-                  minDis = dis
-                  minIndex = index
-                  console.log('minIndex', minIndex);
-              }
-          })
-          return minIndex
-      },
+    judgeNear (point, littleDotData1) {
+      let minIndex = -1
+      let minDis = Number.MAX_SAFE_INTEGER
+      littleDotData1.forEach((dot, index) => {
+        let dis = Math.pow((dot.value[0] - point[0]), 2) + Math.pow((dot.value[0] - point[0]), 2)
+        if (minDis > dis) {
+          minDis = dis
+          minIndex = index
+          console.log('minIndex', minIndex);
+        }
+      })
+      return minIndex
+    },
     afterSet: function (echarts) {
       var amap = echarts.getModel().getComponent('amap').getAMap()
       console.log('amap', amap);
@@ -162,8 +161,8 @@ export default {
         // }
         // console.log('a', amap.getZoom());
         // amap.setZoomAndCenter(14, [e.lnglat.R, e.lnglat.Q])
-          let minIndex = this.judgeNear([e.lnglat.R, e.lnglat.Q],littleDotData)
-          amap.setZoomAndCenter(16, [(littleDotData[minIndex].value)[0], (littleDotData[minIndex].value)[1]])
+        let minIndex = this.judgeNear([e.lnglat.R, e.lnglat.Q], littleDotData)
+        amap.setZoomAndCenter(16, [(littleDotData[minIndex].value)[0], (littleDotData[minIndex].value)[1]])
       })
     },
     afterSet2: function (echarts) {
@@ -179,8 +178,8 @@ export default {
         // }
         // console.log('a', amap.getZoom());
         // amap.setZoomAndCenter(14, [e.lnglat.R, e.lnglat.Q])
-          let minIndex = this.judgeNear([e.lnglat.R, e.lnglat.Q],littleDotData2)
-          amap.setZoomAndCenter(16, [(littleDotData2[minIndex].value)[0], (littleDotData2[minIndex].value)[1]])
+        let minIndex = this.judgeNear([e.lnglat.R, e.lnglat.Q], littleDotData2)
+        amap.setZoomAndCenter(16, [(littleDotData2[minIndex].value)[0], (littleDotData2[minIndex].value)[1]])
       })
     }
   }
