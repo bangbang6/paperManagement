@@ -45,7 +45,7 @@ export default {
       },
       {
         no: 3,
-        groupName: "大数据组",
+        groupName: "数据组",
         name: "张宇峰",
         type: "期刊/中文期刊",
         fileName: "结合区块链和属性基的可信数据分发",
@@ -53,7 +53,7 @@ export default {
       },
       {
         no: 4,
-        groupName: "云计算组",
+        groupName: "计算组",
         name: "郭松",
         type: "会议/top80",
         fileName: "Ethereum smart contract security research: survey and future research opportunities",
