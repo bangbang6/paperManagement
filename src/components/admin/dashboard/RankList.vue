@@ -1,8 +1,8 @@
 <template>
   <div class="rank-list">
     <div class="title">
-      各组成果
-      <el-radio-group v-model="radio" style="margin-left: 35%" size="mini" @change="change">
+      <div>各组成果</div>
+      <el-radio-group v-model="radio"  size="mini" @change="change">
         <el-radio-button label="1">现在</el-radio-button>
         <el-radio-button label="12">近一年</el-radio-button>
         <el-radio-button label="3">近三月</el-radio-button>
@@ -134,6 +134,7 @@ export default {
     display: flex;
     padding-left: 10px;
     box-sizing: border-box;
+      justify-content: space-between;
     font-weight: 500;
     color: white;
     font-size: 18px;

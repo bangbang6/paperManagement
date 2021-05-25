@@ -24,6 +24,26 @@
 </template>
 
 <script>
+    let littleDotData = [
+        {
+            name: '南六楼',
+            value: [114.413633, 30.509502, 10400],
+        },
+        {
+            name: '东五楼',
+            value: [114.418071, 30.511844, 20300]
+        },
+        {
+            name: '南五楼',
+            value: [114.415502, 30.509215, 4400]
+        },
+    ]
+    let littleDotData2 = [
+        {
+            name: '网安基地',
+            value: [114.137474, 30.676715, 10400]
+        },
+    ]
 export default {
   data () {
     return {
@@ -54,26 +74,7 @@ export default {
     }
   },
   mounted () {
-    let littleDotData = [
-      {
-        name: '南六楼',
-        value: [114.413633, 30.509502, 10400],
-      },
-      {
-        name: '东五楼',
-        value: [114.418071, 30.511844, 20300]
-      },
-      {
-        name: '南五楼',
-        value: [114.415502, 30.509215, 4400]
-      },
-    ]
-    let littleDotData2 = [
-      {
-        name: '网安基地',
-        value: [114.137474, 30.676715, 10400]
-      },
-    ]
+
     this.series = [{
       type: 'effectScatter',
       data: littleDotData,
@@ -135,6 +136,19 @@ export default {
     }) */
   },
   methods: {
+      judgeNear (point,littleDotData1) {
+          let minIndex = -1
+          let minDis = Number.MAX_SAFE_INTEGER
+          littleDotData1.forEach((dot, index) => {
+              let dis = Math.pow((dot.value[0] - point[0]), 2) + Math.pow((dot.value[0] - point[0]), 2)
+              if (minDis > dis) {
+                  minDis = dis
+                  minIndex = index
+                  console.log('minIndex', minIndex);
+              }
+          })
+          return minIndex
+      },
     afterSet: function (echarts) {
       var amap = echarts.getModel().getComponent('amap').getAMap()
       console.log('amap', amap);
@@ -147,7 +161,9 @@ export default {
         //   mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
         // }
         // console.log('a', amap.getZoom());
-        amap.setZoomAndCenter(14, [e.lnglat.R, e.lnglat.Q])
+        // amap.setZoomAndCenter(14, [e.lnglat.R, e.lnglat.Q])
+          let minIndex = this.judgeNear([e.lnglat.R, e.lnglat.Q],littleDotData)
+          amap.setZoomAndCenter(16, [(littleDotData[minIndex].value)[0], (littleDotData[minIndex].value)[1]])
       })
     },
     afterSet2: function (echarts) {
@@ -162,7 +178,9 @@ export default {
         //   mapStyle: 'amap://styles/70cca3ae74038446da3e27b05ed7435a',
         // }
         // console.log('a', amap.getZoom());
-        amap.setZoomAndCenter(14, [e.lnglat.R, e.lnglat.Q])
+        // amap.setZoomAndCenter(14, [e.lnglat.R, e.lnglat.Q])
+          let minIndex = this.judgeNear([e.lnglat.R, e.lnglat.Q],littleDotData2)
+          amap.setZoomAndCenter(16, [(littleDotData2[minIndex].value)[0], (littleDotData2[minIndex].value)[1]])
       })
     }
   }

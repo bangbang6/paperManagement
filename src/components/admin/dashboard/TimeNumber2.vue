@@ -1,7 +1,8 @@
 <template>
     <div class="time-number2" style="height: 100%">
-        <div class="title">成果数量趋势
-            <el-radio-group v-model="radio" style="margin-left: 55%" size="mini" @change="change">
+        <div class="title">
+            <div>成果数量趋势</div>
+            <el-radio-group v-model="radio"  size="mini" @change="change">
                 <el-radio-button label="近一年"></el-radio-button>
                 <el-radio-button label="近半年"></el-radio-button>
                 <el-radio-button label="近三月"></el-radio-button>
@@ -148,6 +149,7 @@
             box-sizing: border-box;
             font-weight: 500;
             color: white;
+            justify-content: space-between;
             font-size: 18px;
         }
         .echarts {
