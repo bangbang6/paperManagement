@@ -10,52 +10,6 @@
           <span>论文标题:</span>
           <el-input v-model="paper.title"></el-input>
         </div>
-
-        <!-- <div class="authors">
-          <span>作者:</span>
-          <el-table :data="paper.authors" size="mini" @cell-click="click">
-            <el-table-column type="index"></el-table-column>
-            <el-table-column label="中文名" prop="chineseName">
-              <template slot-scope="scope">
-                <div v-if="scope.row[scope.column.property].status">{{scope.row.chineseName.label}}</div>
-                <el-input v-model="scope.row.chineseName.label" v-else></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column label="英文名" prop="englishName">
-              <template slot-scope="scope">
-                <div v-if="scope.row[scope.column.property].status">{{scope.row.englishName.label}}</div>
-                <el-input v-model="scope.row.englishName.label" v-else></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column label="邮箱" prop="email">
-              <template slot-scope="scope">
-                <div v-if="scope.row[scope.column.property].status">{{scope.row.email.label}}</div>
-                <el-input v-model="scope.row.email.label" v-else></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column label="所在单位" prop="group">
-              <template slot-scope="scope">
-                <div v-if="scope.row[scope.column.property].status">{{scope.row.group.label}}</div>
-                <el-input v-model="scope.row.group.label" v-else></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column label="通讯" width="60" prop="connect">
-              <template slot-scope="scope">
-                <el-checkbox v-model="scope.row.connectStatus"></el-checkbox>
-              </template>
-            </el-table-column>
-            <el-table-column label="一作" width="60" prop="first">
-              <template slot-scope="scope">
-                <el-checkbox v-model="scope.row.firstStatus"></el-checkbox>
-              </template>
-            </el-table-column>
-            <template slot="append">
-              <div class="append" @click="add">
-                <div class="add">+</div>
-              </div>
-            </template>
-          </el-table>
-        </div>-->
         <div class="authors2">
           <span :style="{marginTop:'6px'}">作者:</span>
           <div class="right2">
@@ -148,21 +102,6 @@
             ></el-date-picker>
           </div>
         </div>
-
-        <div class="input2">
-          <span class="paper_status">论文状态:</span>
-          <div>
-            <el-radio v-model="paper.hasAccepted" :label="1">已收录</el-radio>
-            <el-radio v-model="paper.hasAccepted" :label="0">未收录</el-radio>
-            <!-- <el-checkbox v-model="paper.needCheck">
-              需要查重
-            
-            </el-checkbox>
-            <span
-              :style="{color:'#e6a23c',marginLeft:'10px',display:'inline-block',width:'400px',fontSize:'12px'}"
-            >以下情况需查重:1.第一次投稿 2.距上次查重超半年</span>-->
-          </div>
-        </div>
         <div class="input repeat" v-if="!paper.needCheck">
           <span class="text">查重结果:</span>
           <input type="file" @change="handleChange" />
@@ -174,18 +113,18 @@
           </el-input>
         </div>
         <Qikan
-          v-if="paper.hasAccepted === 1 && (meeting.publicTypeId0 === 7 )"
+          v-if="meeting.publicTypeId0 === 7 "
           :qikan="fileMessage.qikan"
         ></Qikan>
         <Meeting2
-          v-if="paper.hasAccepted === 1 && (meeting.publicTypeId0 === 1)"
+          v-if="meeting.publicTypeId0 === 1"
           :meeting2="fileMessage.meeting2"
         ></Meeting2>
-        <div class="input" v-if="paper.hasAccepted === 1">
+        <div class="input">
           <span>项目号:</span>
           <el-input v-model="paper.projectNum"></el-input>
         </div>
-        <div class="input" v-if="paper.hasAccepted === 1">
+        <div class="input">
           <span>项目基金:</span>
           <el-input v-model="paper.projectFund"></el-input>
         </div>
