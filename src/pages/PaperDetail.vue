@@ -3,7 +3,7 @@
     <el-card shadow="always">
       <div class="title">
         <el-button type="primary" size="mini" @click="back">返回</el-button>
-        <div>{{paper.title}}</div>
+        <div class="content">{{paper.title}}</div>
         <div></div>
       </div>
       <div class="paper-info">
@@ -71,20 +71,20 @@
             <span>网址:</span>
             <div>{{paper.website}}</div>
           </div>
-          <div class="input">
+          <!-- <div class="input">
             <span>论文状态:</span>
             <div>{{statusWord}}</div>
-          </div>
-          <div class="input" v-if="paper.hasAccepted === 1">
+          </div>-->
+          <div class="input">
             <span>项目号:</span>
 
             <div>{{paper.projectNum}}</div>
           </div>
-          <div class="input" v-if="paper.hasAccepted === 1">
+          <div class="input">
             <span>项目基金:</span>
             <div>{{paper.projectFund}}</div>
           </div>
-          <div class="input" v-if="role==='1' ">
+          <!--  <div class="input" v-if="role==='1' ">
             <span>查重率:</span>
             <div>{{passRate}}</div>
           </div>
@@ -98,7 +98,7 @@
               v-if="paper.duplicateCheckResult && paper.duplicateCheckResult.resultFileId"
               @click="downloadResultFile"
             >下载查重文件</el-button>
-          </div>
+          </div>-->
 
           <div class="meeting2-message" v-if="meetingShow">
             <div class="input">
@@ -108,6 +108,18 @@
             <div class="input">
               <span>地点:</span>
               <div>{{paper.conferenceSite}}</div>
+            </div>
+            <div class="input">
+              <span>类别:</span>
+              <div></div>
+            </div>
+            <div class="input">
+              <span>会议缩写:</span>
+              <div></div>
+            </div>
+            <div class="input">
+              <span>会议报告人:</span>
+              <div></div>
             </div>
           </div>
           <div class="meeting-message" v-if="qikanShow ">
@@ -137,8 +149,17 @@
               <span>卷号:</span>
               <div>{{paper.periodicalVolumeNum}}</div>
             </div>
+            <div class="input">
+              <span>类别:</span>
+              <div></div>
+            </div>
+            <div class="input">
+              <span>期刊缩写:</span>
+              <div></div>
+            </div>
           </div>
-          <div class="repeat" v-if="role==='2'">
+
+          <!--  <div class="repeat" v-if="role==='2'">
             <div class="file-result">
               <span class="text">查重结果:</span>
               <input type="file" @change="handleChange" />
@@ -157,10 +178,10 @@
             <div class="btn" style="margin-top:20px">
               <el-button type="primary" @click="handleConfirm">确定</el-button>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
-
+      <!-- 
       <div class="operation">
         <el-card shadow="always" v-if="role==='1'">
           <div class="download" @click="handle(1)">
@@ -174,13 +195,15 @@
             <span>拒绝</span>
           </div>
         </el-card>
-        <!--<el-card shadow="always" v-if="paper.fileId">-->
-          <!--<div class="download" @click="downloadFile">-->
-            <!--<i class="el-icon-download"></i>-->
-            <!--<span>下载</span>-->
-          <!--</div>-->
-        <!--</el-card>-->
+      <el-card shadow="always" v-if="paper.fileId">-->
+      <!--<div class="download" @click="downloadFile">-->
+      <!--<i class="el-icon-download"></i>-->
+      <!--<span>下载</span>-->
+      <!--</div>-->
+      <!--</el-card>
       </div>
+    </el-card>
+      </div>-->
     </el-card>
   </div>
 </template>
@@ -397,10 +420,10 @@ export default {
     },
 
     meetingShow () {
-      return (this.paper.publicTypeId > 1 && this.paper.publicTypeId < 7) && this.paper.hasAccepted === 1
+      return (this.paper.publicTypeId > 1 && this.paper.publicTypeId < 7)
     },
     qikanShow () {
-      return (this.paper.publicTypeId > 7) && this.paper.hasAccepted === 1
+      return (this.paper.publicTypeId > 7)
     }
   }
 }
@@ -418,6 +441,13 @@ export default {
     justify-content: space-between;
     font-size: 24px;
     text-align: center;
+    .content {
+      flex: 1;
+      margin-left: 5px;
+    }
+    .el-button {
+      width: 60px;
+    }
   }
 
   .paper-info {

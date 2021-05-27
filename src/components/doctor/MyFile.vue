@@ -9,29 +9,30 @@
         <div slot-scope="{node,data}" class="item-wrapper">
           <div class="catrgory-item" v-if="node.level === 1">
             <div class="label">{{data.label}}</div>
-            <div class="number">{{+data.children.length}}</div>
+            <div class="number">{{data.children && +data.children.length}}</div>
           </div>
           <div
             v-if="node.level === 2"
             class="paper-item"
             @click="jumpToPaperDetail(node.data.id,data.status)"
           >
-            <span class="paper-name">{{data.title}}</span>
-            <span class="author-wrapper">{{data.authors}}</span>
-            <span class="meeting">{{data.name}}</span>
+            <div class="paper-name">{{data.title}}</div>
+            <div class="author-wrapper">{{data.authors}}</div>
+            <div class="meeting">{{data.name}}</div>
 
-            <div class="operation">
-              <!--  <el-tooltip content="未发布" placement="bottom" effect="light" v-if="data.status">
+            <!-- <div class="operation">
+               <el-tooltip content="未发布" placement="bottom" effect="light" v-if="data.status">
                 <i class="el-icon-warning-outline" style="color:red"></i>
-              </el-tooltip>-->
-              <span>{{data.statusWord}}</span>
-              <!-- <el-tooltip content="下载" placement="bottom" effect="light">
+            </el-tooltip>-->
+            <!-- <span>已上链</span> -->
+            <!-- <span>{{data.statusWord}}</span> -->
+            <!-- <el-tooltip content="下载" placement="bottom" effect="light">
                 <i class="el-icon-download"></i>
-              </el-tooltip>-->
-              <!-- <el-tooltip content="编辑" placement="bottom" effect="light">
+            </el-tooltip>-->
+            <!-- <el-tooltip content="编辑" placement="bottom" effect="light">
                 <i class="el-icon-edit"></i>
-              </el-tooltip>-->
-            </div>
+              </el-tooltip>
+            </div>-->
           </div>
         </div>
       </el-tree>
@@ -45,7 +46,7 @@
         <div slot-scope="{node,data}" class="item-wrapper">
           <div class="catrgory-item" v-if="node.level === 1">
             <div class="label">{{data.label}}</div>
-            <div class="number">{{+data.children.length}}</div>
+            <div class="number">{{data.children && +data.children.length}}</div>
           </div>
           <div
             v-if="node.level === 2"
@@ -133,11 +134,11 @@ export default {
   },
   methods: {
     jumpToPaperDetail (id, status) {
-        //这里专利做特殊处理
-        if(typeof(id) === "undefined"){
-            this.$router.push(`/patentdetail`)
-            return
-        }
+      //这里专利做特殊处理
+      if (typeof (id) === "undefined") {
+        this.$router.push(`/patentdetail`)
+        return
+      }
       console.log('id', id);
       localStorage.setItem('paperId', id)
       if (+status === 3 || +status === 4 || +status === 6 || +status === 7) {
@@ -242,6 +243,7 @@ export default {
         .paper-name {
           display: block;
           width: 30%;
+
           font-size: 14px;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -249,6 +251,7 @@ export default {
         }
         .author-wrapper {
           width: 30%;
+
           white-space: nowrap;
           overflow: hidden;
           font-size: 14px;
@@ -261,21 +264,23 @@ export default {
           text-overflow: ellipsis;
         }
         .meeting {
-          display: block;
           width: 30%;
+
           text-overflow: ellipsis;
           white-space: nowrap;
+          font-size: 14px;
+
           overflow: hidden;
         }
-        .operation {
+        /* .operation {
           width: 10%;
-          float: right;
+
           font-size: 12px;
           color: rgb(64, 158, 255);
           i {
             margin-left: 5px;
           }
-        }
+        } */
       }
     }
   }

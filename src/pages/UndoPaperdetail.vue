@@ -3,7 +3,7 @@
     <el-card shadow="always">
       <div class="title">
         <el-button type="primary" size="mini" @click="back">返回</el-button>
-        <span>{{paper.title}}</span>
+        <div class="content">{{paper.title}}</div>
         <div></div>
       </div>
       <div class="paper-info">
@@ -113,7 +113,7 @@
             </div>
           </div>
 
-          <div
+          <!-- <div
             class="input"
             v-if="paper.duplicateCheckResult && paper.duplicateCheckResult.resultFileId"
           >
@@ -133,44 +133,41 @@
               v-if="paper.duplicateCheckResult && paper.duplicateCheckResult.resultFileId"
               @click="downloadResultFile"
             >下载查重文件</el-button>
-          </div>
+          </div>-->
 
-          <div class="input">
+          <!--  <div class="input">
             <span>论文状态:</span>
             <div>
               <el-radio v-model="paper.hasAccepted" :label="1">已收录</el-radio>
               <el-radio v-model="paper.hasAccepted" :label="0">未收录</el-radio>
             </div>
-          </div>
-          <div class="input" v-if="paper.hasAccepted === 1">
+          </div>-->
+          <div class="input">
             <span>项目号:</span>
             <el-input v-model="paper.projectNum"></el-input>
           </div>
-          <div class="input" v-if="paper.hasAccepted === 1">
+          <div class="input">
             <span>项目基金:</span>
             <el-input v-model="paper.projectFund"></el-input>
           </div>
         </div>
       </div>
 
-      <Qikan v-if="paper.hasAccepted === 1 && (meeting.publicTypeId0 === 7 )" :qikan="qikan"></Qikan>
-      <Meeting2
-        v-if="paper.hasAccepted === 1 && (meeting.publicTypeId0 === 1 )"
-        :meeting2="meeting2"
-      ></Meeting2>
+      <Qikan v-if=" (meeting.publicTypeId0 === 7 )" :qikan="qikan"></Qikan>
+      <Meeting2 v-if=" (meeting.publicTypeId0 === 1 )" :meeting2="meeting2"></Meeting2>
 
       <!--<div class="operation">-->
-        <!--<div class="card-wrapper">-->
-          <!--<el-card shadow="always" v-if="paper.fileId">-->
-            <!--<div class="download" @click="downloadFile">-->
-              <!--<i class="el-icon-download"></i>-->
-              <!--<span>下载</span>-->
-            <!--</div>-->
-          <!--</el-card>-->
-        <!--</div>-->
+      <!--<div class="card-wrapper">-->
+      <!--<el-card shadow="always" v-if="paper.fileId">-->
+      <!--<div class="download" @click="downloadFile">-->
+      <!--<i class="el-icon-download"></i>-->
+      <!--<span>下载</span>-->
+      <!--</div>-->
+      <!--</el-card>-->
+      <!--</div>-->
       <!--</div>-->
       <div class="btn-wrapper">
-        <el-button type="primary" @click="submit">{{role === '0'?'修改':"提交"}}</el-button>
+        <el-button type="primary" @click="submit" size="mini">{{role === '0'?'修改':"提交"}}</el-button>
       </div>
     </el-card>
   </div>
@@ -409,7 +406,15 @@ export default {
     align-items: center;
     justify-content: space-between;
     font-size: 24px;
+    align-items: center;
     text-align: center;
+    .content {
+      flex: 1;
+      margin-left: 5px;
+    }
+    .el-button {
+      width: 60px;
+    }
   }
 
   .paper-info {
@@ -617,5 +622,10 @@ export default {
   button {
     float: right;
   }
+}
+</style>
+<style lang="scss" scoped>
+::v-deep .el-input__icon {
+  line-height: 1 !important;
 }
 </style>

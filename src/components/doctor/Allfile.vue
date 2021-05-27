@@ -1,18 +1,23 @@
 <template>
   <div class="inner-wrapper">
     <div class="inner">
+      <div class="header">
+        <el-button type="primary" size="mini" class="btn" @click="portout">导出</el-button>
+        <el-button type="primary" size="mini" class="btn" @click="portin">导入</el-button>
+      </div>
       <div class="select-items">
         <el-input placeholder="论文名" v-model="title" size="mini" clearable></el-input>
         <el-input placeholder="作者" v-model="author" size="mini" clearable></el-input>
         <el-input placeholder="项目号/项目基金" v-model="projectNum" size="mini" clearable></el-input>
-        <el-select v-model="publicTypeName" placeholder="发表类型" size="mini">
+        <el-select v-model="publicTypeName" placeholder="发表类型" size="mini" multiple>
           <el-option
             v-for="item in options"
             :key="item.value"
             :label="item.label"
-            :value="item.value"
+            :value="item.label"
           ></el-option>
         </el-select>
+        <el-input placeholder="会议/期刊名" v-model="name" size="mini" clearable></el-input>
         <div class="block">
           <el-date-picker
             v-model="date"
@@ -83,16 +88,16 @@
         <el-table-column prop="..." label="操作">
           <template slot-scope="scope">
             <!--<el-tooltip-->
-              <!--effect="light"-->
-              <!--placement="bottom-start"-->
-              <!--style="margin-right: 5px"-->
-              <!--content="下载"-->
+            <!--effect="light"-->
+            <!--placement="bottom-start"-->
+            <!--style="margin-right: 5px"-->
+            <!--content="下载"-->
             <!--&gt;-->
-              <!--<el-link-->
-                <!--icon="el-icon-download"-->
-                <!--style="font-size: 18px;color: rgb(64, 158, 255)"-->
-                <!--@click="download(scope.row.id)"-->
-              <!--&gt;</el-link>-->
+            <!--<el-link-->
+            <!--icon="el-icon-download"-->
+            <!--style="font-size: 18px;color: rgb(64, 158, 255)"-->
+            <!--@click="download(scope.row.id)"-->
+            <!--&gt;</el-link>-->
             <!--</el-tooltip>-->
             <el-tooltip
               effect="light"
@@ -125,8 +130,16 @@ export default {
       author: '',
       projectNum: '',
       publicTypeName: '',
+      name: "",
       options: [
-
+        {
+          value: 1,
+          label: "trans"
+        },
+        {
+          value: 2,
+          label: "sci"
+        },
       ],
       tableData: [],//筛选过的file
       files: [//总的file
@@ -197,6 +210,12 @@ export default {
     }
   },
   methods: {
+    portout () {
+
+    },
+    portin () {
+
+    },
     download (id) {
       downloadFile(id)
     },
@@ -218,8 +237,22 @@ export default {
       if (this.projectNum) {
         this.tableData = this.tableData.filter(file => { return file.projectNum.indexOf(this.projectNum) > -1 || file.projectFund.indexOf(this.projectNum) > -1 })
       }
-      if (this.publicTypeName) {
-        this.tableData = this.tableData.filter(file => file.publicTypeName.indexOf(this.publicTypeName) > -1)
+      if (this.publicTypeName.length !== 0) {
+        console.log('this.publicTypeName', this.publicTypeName);
+
+        this.tableData = this.tableData.filter(file => {
+          for (let i = 0; i < this.publicTypeName.length; i++) {
+            let item = this.publicTypeName[i]
+            if (file.publicTypeName.indexOf(item) > -1) {
+              return true
+            }
+          }
+          return false
+
+        })
+      }
+      if (this.name) {
+        this.tableData = this.tableData.filter(file => file.name.indexOf(this.name) > -1)
       }
       if (this.date) {
         console.log('this.date', this.date);
@@ -297,7 +330,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .inner-wrapper {
   background: white;
   width: 80%;
@@ -310,7 +342,13 @@ export default {
   .inner {
     padding-top: 50px;
     padding-left: 50px;
+    .header {
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 50px;
+    }
     .select-items {
+      margin-top: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -321,7 +359,7 @@ export default {
         width: 300px;
       }
       .el-select {
-        width: 140px;
+        width: 200px;
       }
 
       .btn {
@@ -337,10 +375,10 @@ export default {
         display: flex;
         align-items: center;
         .overflow {
-          width:100%;
+          width: 100%;
           overflow: hidden;
           text-overflow: ellipsis;
-        display: inline-block;
+          display: inline-block;
 
           white-space: nowrap;
         }
@@ -360,12 +398,14 @@ export default {
         }
       }
     }
-
   }
 }
 </style>
 <style scoped lang='scss'>
 .el-input >>> .el-input__icon {
   line-height: 32px;
+}
+::v-deep .el-select__tags span {
+  display: flex;
 }
 </style>

@@ -90,6 +90,13 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
+              <el-input
+                size="mini"
+                placeholder="请填写具体类别"
+                v-model="meeting.category"
+                :style="{marginTop:'0'}"
+                v-if="meeting.publicTypeId===6 ||meeting.publicTypeId===11 "
+              ></el-input>
             </div>
 
             <el-input v-model="meeting.name" placeholder="名称"></el-input>
@@ -112,14 +119,8 @@
             <template slot="append">%</template>
           </el-input>
         </div>
-        <Qikan
-          v-if="meeting.publicTypeId0 === 7 "
-          :qikan="fileMessage.qikan"
-        ></Qikan>
-        <Meeting2
-          v-if="meeting.publicTypeId0 === 1"
-          :meeting2="fileMessage.meeting2"
-        ></Meeting2>
+        <Qikan v-if="meeting.publicTypeId0 === 7 " :qikan="fileMessage.qikan"></Qikan>
+        <Meeting2 v-if="meeting.publicTypeId0 === 1" :meeting2="fileMessage.meeting2"></Meeting2>
         <div class="input">
           <span>项目号:</span>
           <el-input v-model="paper.projectNum"></el-input>
@@ -253,6 +254,7 @@ export default {
 
           }
         })
+        console.log('this.meeting.options2', this.meeting.options2);
 
       }
 
@@ -463,6 +465,11 @@ export default {
 }
 .el-icon-date {
   height: 40px;
+}
+</style>
+<style lang="scss" scoped>
+::v-deep .el-input__icon {
+  line-height: 1 !important;
 }
 </style>
 <style lang='scss' scoped>

@@ -125,10 +125,10 @@ export default {
 .login-wrapper {
   width: 100%;
   height: 100%;
-    /*background-color: #ecf5ff7a;*/
+  /*background-color: #ecf5ff7a;*/
 
   background: url('../../assets/bg1.png');
-  background-size:cover;
+  background-size: cover;
   justify-content: flex-end;
 
   display: flex;

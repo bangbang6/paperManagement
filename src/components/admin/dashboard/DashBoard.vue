@@ -1,5 +1,21 @@
 <template>
   <div class="dashboard">
+    <div class="radios">
+      <el-radio-group v-model="organization" size="mini">
+        <el-radio-button label="系统组"></el-radio-button>
+        <el-radio-button label="分布式组">分布式组</el-radio-button>
+        <el-radio-button label="安全组"></el-radio-button>
+        <el-radio-button label="大数据组"></el-radio-button>
+      </el-radio-group>
+      <el-select v-model="teacher" placeholder="老师名称" size="mini">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+    </div>
     <div class="header">
       <center-header></center-header>
     </div>
@@ -8,10 +24,10 @@
         <div class="map">
           <hust-map></hust-map>
         </div>
-          <div class="liquid">
-              <!--<time-number></time-number>-->
-              <time-number2></time-number2>
-          </div>
+        <div class="liquid">
+          <!--<time-number></time-number>-->
+          <time-number2></time-number2>
+        </div>
       </div>
       <div class="middle">
         <div class="rank">
@@ -28,7 +44,6 @@
         <div class="category-rank">
           <rank-list></rank-list>
         </div>
-
       </div>
     </div>
 
@@ -66,7 +81,22 @@ import RankList from './RankList.vue'
 import TimeNumber2 from './TimeNumber2.vue'
 export default {
   components: { CenterHeader, HustMap, AutoRank, Category, ErrorList, TimeNumber2, RankList },
-
+  data () {
+    return {
+      options: [
+        {
+          value: 1,
+          label: "代玮琪"
+        },
+        {
+          value: 2,
+          label: "余辰"
+        },
+      ],
+      teacher: "",
+      organization: "系统组"
+    }
+  }
 }
 </script>
 
@@ -74,13 +104,23 @@ export default {
 .dashboard {
   height: 100%;
   background: rgb(48, 48, 48);
+  .radios {
+    height: 40px;
+    padding-left: 20px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    .el-select {
+      margin-left: 20px;
+    }
+  }
   .header {
     height: 15%;
+    padding-top: 20px;
+    box-sizing: border-box;
   }
   .content {
-
     box-sizing: border-box;
-    height: 85%;
+    height: calc(85% - 40px);
     display: flex;
     .left {
       padding-left: 40px;
@@ -90,34 +130,34 @@ export default {
 
       height: 100%;
       .map {
-          box-sizing: border-box;
-          padding-top: 0.15rem;
+        box-sizing: border-box;
+        padding-top: 0.15rem;
         width: 100%;
         height: 50%;
-          overflow: hidden;
+        overflow: hidden;
       }
-        .liquid {
-            box-sizing: border-box;
-            width: 100%;
-            height: 50%;
-        }
+      .liquid {
+        box-sizing: border-box;
+        width: 100%;
+        height: 50%;
+      }
     }
     .middle {
-     margin-right: 5px;
+      margin-right: 5px;
       padding-left: 20px;
       box-sizing: border-box;
       width: 36%;
       height: 100%;
       .rank {
-          margin-left: 3px;
-          height: 50%;
+        margin-left: 3px;
+        height: 50%;
       }
       .error {
         height: 50%;
       }
     }
     .right {
-     margin-left: 5px;
+      margin-left: 5px;
       width: 24%;
       height: 100%;
       padding-left: 20px;
@@ -132,9 +172,25 @@ export default {
         width: 100%;
         height: 50%;
       }
-
     }
   }
 }
-
+</style>
+<style lang="scss" scoped>
+::v-deep .el-radio-button__inner {
+  display: inline-block;
+  background: rgb(48, 48, 48);
+  border: #c0c4cc 1px solid;
+  color: white;
+}
+::v-deep .el-input__inner {
+  display: inline-block;
+  background: rgb(48, 48, 48);
+  color: white;
+}
+::v-deep el-select-dropdown__wrap {
+  display: inline-block;
+  background: rgb(48, 48, 48);
+  color: white;
+}
 </style>

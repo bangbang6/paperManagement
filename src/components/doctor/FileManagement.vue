@@ -7,7 +7,9 @@
           <div class="title">上传论文</div>
         </div>
         <file-message :fileMessage="fileMessage"></file-message>
-        <el-button type="primary" @click="submit" style="float:right;margin-top: 20px">提交</el-button>
+        <div class="btn-wrapper">
+          <el-button type="primary" @click="submit" size="mini">提交</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -31,6 +33,10 @@ export default {
           periodicalVolumeNum: "",
           periodicalIssueNum: "",
           paperAbstract: "",
+          suoxie: "",
+          publicTypeId2: "",
+          publicTypeId3: "",
+          firstPublish: true
 
         },
         meeting2: {
@@ -38,6 +44,10 @@ export default {
           conferenceSite: "",
           conferenceTime: "",
           paperAbstract: "",
+          publicTypeId2: "",
+          isTop80: true,
+          suoxie: "",
+          reporter: ""
 
         },
         paper: {
@@ -65,6 +75,7 @@ export default {
           publicTypeId0: "",
           name: "",
           website: "",
+          category: "",
           options: [],
           options2: []
         },
@@ -219,13 +230,16 @@ export default {
 <style lang="scss" scoped>
 .file-wrapper {
   //background: rgb(242, 239, 236);
-    height: 100%;
+  /* height: 100%; */
+
   .fileManagement {
+    padding-bottom: 20px;
+    box-sizing: border-box;
     width: 80%;
     margin-left: 10%;
     background: white;
     /* height: calc(100% - 50px); */
-     height: 100%;
+    height: 100%;
     /*   overflow-y: auto; */
 
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
@@ -233,7 +247,7 @@ export default {
       width: 100%;
       padding-left: 20px;
       padding-right: 20px;
-     // padding-bottom: 50px;
+      // padding-bottom: 50px;
 
       box-sizing: border-box;
       .title-wrapper {
@@ -328,6 +342,11 @@ export default {
           }
         }
       }
+    }
+    .btn-wrapper {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
     }
   }
 }

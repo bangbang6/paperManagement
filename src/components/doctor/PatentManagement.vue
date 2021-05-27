@@ -8,26 +8,28 @@
         </div>
         <patent-message :patentMessage="patentMessage"></patent-message>
         <!--<div class="left">-->
-          <!--<div class="fileupload">-->
-            <!--<el-upload-->
-              <!--class="upload-demo"-->
-              <!--ref="upload"-->
-              <!--action-->
-              <!--drag-->
-              <!--multiple-->
-              <!--:http-request="uploadFile"-->
-              <!--:on-remove="handleRemove"-->
-            <!--&gt;-->
-              <!--<i class="el-icon-upload"></i>-->
-              <!--<div class="el-upload__text">-->
-                <!--将文件拖到此处，或-->
-                <!--<em>点击上传</em>-->
-              <!--</div>-->
-            <!--</el-upload>-->
-            <!--<div v-loading="loading" style="marginTop:20px"></div>-->
-          <!--</div>-->
+        <!--<div class="fileupload">-->
+        <!--<el-upload-->
+        <!--class="upload-demo"-->
+        <!--ref="upload"-->
+        <!--action-->
+        <!--drag-->
+        <!--multiple-->
+        <!--:http-request="uploadFile"-->
+        <!--:on-remove="handleRemove"-->
+        <!--&gt;-->
+        <!--<i class="el-icon-upload"></i>-->
+        <!--<div class="el-upload__text">-->
+        <!--将文件拖到此处，或-->
+        <!--<em>点击上传</em>-->
         <!--</div>-->
-        <el-button type="primary" @click="submit" style="float:right;margin-top: 20px">提交</el-button>
+        <!--</el-upload>-->
+        <!--<div v-loading="loading" style="marginTop:20px"></div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div class="btn-wrapper">
+          <el-button type="primary" @click="submit" size="mini">提交</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -239,11 +241,13 @@ export default {
 <style lang="scss" scoped>
 .file-wrapper {
   //background: rgb(242, 239, 236);
-    height: 100%;
+
   .patentManagement {
     width: 80%;
     margin-left: 10%;
     background: white;
+    padding-bottom: 20px;
+    box-sizing: border-box;
     /* height: calc(100% - 50px); */
     height: 100%;
     /*   overflow-y: auto; */
@@ -348,6 +352,11 @@ export default {
           }
         }
       }
+    }
+    .btn-wrapper {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
     }
   }
 }

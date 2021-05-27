@@ -6,41 +6,32 @@
           <span>专利编号:</span>
           <el-input v-model="paper.paperNo"></el-input>
         </div>-->
-          <div class="input">
-              <span>申请公布号:</span>
-              <el-input v-model="paper.pushNum" style="margin-right: 15px"></el-input>
-              <span>申请公布日:</span>
-              <div class="block">
-                  <el-date-picker
-                          v-model="pushData"
-                          type="date"
-                          placeholder="选择日期">
-                  </el-date-picker>
-              </div>
-
+        <div class="input">
+          <span>申请公布号:</span>
+          <el-input v-model="paper.pushNum" style="margin-right: 15px"></el-input>
+          <span>申请公布日:</span>
+          <div class="block">
+            <el-date-picker v-model="pushData" type="date" placeholder="选择日期"></el-date-picker>
           </div>
+        </div>
         <div class="input">
           <span>申请号:</span>
-          <el-input v-model="paper.num"  style="margin-right: 15px"></el-input>
-            <span>申请日期:</span>
-            <div class="block" style="margin-right: 15px">
-                <el-date-picker
-                        v-model="patentTime"
-                        type="date"
-                        placeholder="选择日期">
-                </el-date-picker>
-            </div>
-            <span>分类号:</span>
-            <el-input v-model="paper.patentType" style="margin-right: 15px"></el-input>
-        </div>
-          <div class="input">
-              <span>申请人:</span>
-              <el-input v-model="paper.company" type="textarea" :rows="1"></el-input>
+          <el-input v-model="paper.num" style="margin-right: 15px"></el-input>
+          <span>申请日期:</span>
+          <div class="block" style="margin-right: 15px">
+            <el-date-picker v-model="patentTime" type="date" placeholder="选择日期"></el-date-picker>
           </div>
-          <div class="input">
+          <span>分类号:</span>
+          <el-input v-model="paper.patentType" style="margin-right: 15px"></el-input>
+        </div>
+        <div class="input">
+          <span>申请人:</span>
+          <el-input v-model="paper.company" type="textarea" :rows="1"></el-input>
+        </div>
+        <div class="input">
           <span>地址:</span>
           <el-input v-model="paper.location" type="textarea" :rows="1" :cols="100"></el-input>
-          </div>
+        </div>
         <div class="authors2">
           <span :style="{marginTop:'6px'}">发明人:</span>
           <div class="right2">
@@ -80,19 +71,19 @@
             </div>
           </div>
         </div>
-          <div class="input">
-              <span>代理机构:</span>
-              <el-input v-model="paper.daili" type="textarea" :rows="1" :cols="100"></el-input>
-          </div>
-          <div class="input">
-              <span>代理人:</span>
-              <el-input v-model="paper.daliPerson"></el-input>
-          </div>
+        <div class="input">
+          <span>代理机构:</span>
+          <el-input v-model="paper.daili" type="textarea" :rows="1" :cols="100"></el-input>
+        </div>
+        <div class="input">
+          <span>代理人:</span>
+          <el-input v-model="paper.daliPerson"></el-input>
+        </div>
 
-          <div class="input">
-              <span>发明名称:</span>
-              <el-input v-model="paper.patentName" type="textarea" :rows="1" ></el-input>
-          </div>
+        <div class="input">
+          <span>发明名称:</span>
+          <el-input v-model="paper.patentName" type="textarea" :rows="1"></el-input>
+        </div>
         <div class="paperAbstract input">
           <span>摘要:</span>
           <el-input v-model="paper.paperAbstract" type="textarea" :rows="5" :cols="60"></el-input>
@@ -116,17 +107,17 @@ export default {
       return this.patentMessage.meeting
     }
   },
-    data() {
-        return {
-            pickerOptions: {
-                disabledDate(time) {
-                    return time.getTime() > Date.now();
-                },
-            },
-            patentTime: '',
-            pushData: '',
-        };
-    }
+  data () {
+    return {
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now();
+        },
+      },
+      patentTime: '',
+      pushData: '',
+    };
+  }
 }
 </script>
  
@@ -372,5 +363,10 @@ export default {
       display: inline-block;
     }
   }
+}
+</style>
+<style lang="scss" scoped>
+::v-deep .el-input__icon {
+  line-height: 1 !important;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="rank-list">
     <div class="title">
       <div>各组成果</div>
-      <el-radio-group v-model="radio"  size="mini" @change="change">
+      <el-radio-group v-model="radio" size="mini" @change="change">
         <el-radio-button label="1">现在</el-radio-button>
         <el-radio-button label="12">近一年</el-radio-button>
         <el-radio-button label="3">近三月</el-radio-button>
@@ -25,7 +25,7 @@ export default {
         },
         yAxis: {
           type: 'category',
-          data: ['安全组', '云计算组', '系统组', '大数据组'],
+          data: ['系统组', '分布式组', '安全组', '大数据组'],
           inverse: true,
           animationDuration: 300,
           animationDurationUpdate: 300,
@@ -77,7 +77,7 @@ export default {
     run (value) {
       let data = [...this.options.series.data]
       for (var i = 0; i < data.length; ++i) {
-          data[i]+= +value;
+        data[i] += +value;
       }
       this.options.series.data = data
     },
@@ -91,10 +91,10 @@ export default {
         this.timer && clearInterval(this.timer)
         this.init()
       } else {
-          let data = [...this.options.series.data]
-          for (var i = 0; i < data.length; ++i) {
-              data[i] -= 5*+value;
-          }
+        let data = [...this.options.series.data]
+        for (var i = 0; i < data.length; ++i) {
+          data[i] -= 5 * +value;
+        }
         this.options.series.data = data
         let count = 0
         this.timer = setInterval(() => {
@@ -134,7 +134,7 @@ export default {
     display: flex;
     padding-left: 10px;
     box-sizing: border-box;
-      justify-content: space-between;
+    justify-content: space-between;
     font-weight: 500;
     color: white;
     font-size: 18px;
