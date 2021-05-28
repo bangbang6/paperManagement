@@ -1,8 +1,37 @@
 <template>
   <div class="meeting-message">
+      <div class="input">
+          <span>卷号:</span>
+          <el-input v-model="qikan.periodicalVolumeNum"></el-input>
+      </div>
+
+      <div class="input">
+          <span>期刊号:</span>
+          <el-input v-model="qikan.periodicalIssueNum"></el-input>
+      </div>
+      <div class="input">
+          <span>页码:</span>
+          <el-input v-model="qikan.periodicalPage"></el-input>
+      </div>
+      <div class="input">
+          <span>发表日期:</span>
+          <el-date-picker
+                  v-model="qikan.periodicalYear"
+                  type="date"
+                  placeholder="选择日期"
+          ></el-date-picker>
+      </div>
+      <div class="input">
+          <span>ISSN/ISBN:</span>
+          <el-input v-model="qikan.periodicalIssn"></el-input>
+      </div>
+      <div class="input">
+          <span>期刊缩写:</span>
+          <el-input v-model="qikan.suoxie"></el-input>
+      </div>
     <div class="input">
       <span>分类:</span>
-      <el-select v-model="qikan.publicTypeId2" placeholder="分类信息" :style="{width:'200px'}">
+      <el-select v-model="qikan.publicTypeId2" placeholder="期刊类别1" :style="{width:'200px'}">
         <el-option
           v-for="item in qikanOptions"
           :key="item.value"
@@ -12,8 +41,7 @@
       </el-select>
       <el-select
         v-model="qikan.publicTypeId3"
-        placeholder="分类信息"
-        v-if="qikan.publicTypeId2"
+        placeholder="期刊类别2"
         :style="{marginLeft:'20px',width:'200px'}"
       >
         <el-option
@@ -23,39 +51,21 @@
           :value="item.value"
         ></el-option>
       </el-select>
-      <el-checkbox v-model="qikan.firstPublish" size="mini" :style="{marginLeft:'20px'}">是否首发</el-checkbox>
-    </div>
-    <div class="input">
-      <span>issn:</span>
-      <el-input v-model="qikan.periodicalIssn"></el-input>
-    </div>
 
-    <div class="input">
-      <span>页码:</span>
-      <el-input v-model="qikan.periodicalPage"></el-input>
+
     </div>
+      <div class="input">
+          <span></span>
+          <el-checkbox v-model="qikan.isTop" size="mini" :style="{marginLeft:'20px'}">是否TOP期刊</el-checkbox>
+          <el-checkbox v-model="qikan.firstPublish" size="mini" :style="{marginLeft:'20px'}">是否首发</el-checkbox>
+      </div>
+
     <div class="input">
       <span>doi:</span>
       <el-input v-model="qikan.periodicalDoi"></el-input>
     </div>
 
-    <div class="input">
-      <span>年份:</span>
-      <el-input v-model="qikan.periodicalYear"></el-input>
-    </div>
-    <div class="input">
-      <span>卷号:</span>
-      <el-input v-model="qikan.periodicalVolumeNum"></el-input>
-    </div>
 
-    <div class="input">
-      <span>期刊号:</span>
-      <el-input v-model="qikan.periodicalIssueNum"></el-input>
-    </div>
-    <div class="input">
-      <span>期刊缩写:</span>
-      <el-input v-model="qikan.suoxie"></el-input>
-    </div>
   </div>
 </template>
  
@@ -106,6 +116,14 @@ export default {
         value: 9,
         label: 'CCF C'
       },
+        {
+            value: 10,
+            label: '中文期刊'
+        },
+        {
+            value: 11,
+            label: '其他'
+        },
     ]
 
 

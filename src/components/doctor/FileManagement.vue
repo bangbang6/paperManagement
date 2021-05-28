@@ -36,8 +36,8 @@ export default {
           suoxie: "",
           publicTypeId2: "",
           publicTypeId3: "",
-          firstPublish: true
-
+          firstPublish: true,
+          isTop:true
         },
         meeting2: {
 
