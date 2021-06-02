@@ -230,6 +230,12 @@ export default {
   overflow-y: auto;
   width: 100%;
   height: 100%;
+    .el-table td, .el-table th.is-leaf{
+        color: black;
+    }
+    .el-tag.el-tag--info{
+        color: black;
+    }
   .detail-wrapper {
     padding: 5px 10px;
     padding-top: 20px;

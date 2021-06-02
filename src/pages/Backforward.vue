@@ -74,6 +74,7 @@ export default {
   height: 100%;
   padding: 40px;
   box-sizing: border-box;
+    color: #222222;
   .title {
     text-align: center;
     display: flex;
@@ -93,6 +94,9 @@ export default {
     cursor: pointer;
     text-align: center;
   }
+    .el-tag.el-tag--info{
+        color: #000000;
+    }
 }
 </style>
 <style>
