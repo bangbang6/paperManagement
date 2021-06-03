@@ -25,7 +25,10 @@
           <span>英文名:</span>
           <span>{{englishName}}</span>
         </div>
-
+          <div class="name">
+              <span>所属组别:</span>
+              <span>{{ofGroup}}</span>
+          </div>
         <div class="tel">
           <span>邮箱:</span>
           <span>{{email}}</span>
@@ -57,7 +60,10 @@
           <span>学号:</span>
           <el-input v-model="userNumber"></el-input>
         </div>
-
+          <div class="name">
+              <span>所属组别:</span>
+              <el-input v-model="ofGroup"></el-input>
+          </div>
         <div class="tel">
           <span>邮箱:</span>
           <el-input v-model="email"></el-input>
@@ -117,6 +123,7 @@ export default {
       userNumber: "",
       organizations: [{ label: "" }],
       radio: '1',
+      ofGroup:"",
       firstNum: 666,
       secondNum: 666,
       ThirdNum: 666,
@@ -185,6 +192,7 @@ export default {
         chineseName: this.chineseName,
         email: this.email,
         englishName: this.englishName,
+         ofGroup:this.ofGroup,
         organization: this.organizations.map(item => item.label).join('#')
       }
       updateUserInfo(user).then(res => {
@@ -206,6 +214,7 @@ export default {
         this.organizations = res.data.organization ? res.data.organization.split('#').map(item => ({ label: item })) : []
         this.userNumber = res.data.userNumber
         this.username = res.data.username
+        this.ofGroup = res.data.ofGroup
         this.englishName = res.data.englishName
       } else {
         Message({
