@@ -209,7 +209,7 @@
 </template>
  
 <script>
-import { Message, MessageBox } from 'element-ui'
+import {  MessageBox } from 'element-ui'
 import { getPaperDetail, downloadFile } from '@/api/paper'
 
 import { uploadFile } from '@/api/teacher'
@@ -254,14 +254,14 @@ export default {
       if (status === 2) {
         reviewToPublic({ paperId: this.paperId, op: op }).then(res => {
           if (res.code === 200) {
-            Message({
+            this.$message({
               message: '已发邮件通知用户文件审批完成',
               type: 'success',
               duration: 2000
             })
             this.$router.back()
           } else {
-            Message({
+            this.$message({
               message: res.msg,
               type: 'error',
               duration: 1000
@@ -278,14 +278,14 @@ export default {
           reviewToUpChain({ paperId: this.paperId, op: op }).then(res => {
             if (res.code === 200) {
 
-              Message({
+              this.$message({
                 message: '已发邮件通知各作者文件已上链',
                 type: 'success',
                 duration: 2000
               })
               this.$router.back()
             } else {
-              Message({
+              this.$message({
                 message: res.msg,
                 type: 'error',
                 duration: 1000
@@ -293,7 +293,7 @@ export default {
             }
           })
         }).catch(() => {
-          Message({
+          this.$message({
             message: '已取消',
             type: 'success',
             duration: 1000
@@ -317,7 +317,7 @@ export default {
         if (res.code === 200) {
           this.fileId = res.msg
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
@@ -337,14 +337,14 @@ export default {
       }
       submitCheckResult(data).then(res => {
         if (res.code === 200) {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'success',
             duration: 1000
           })
           this.$router.back()
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
@@ -358,7 +358,7 @@ export default {
     this.paperId = localStorage.getItem('paperId')
 
     if (!this.paperId) {
-      Message({
+      this.$message({
         onClose: () => {
           this.$router.back()
         },
@@ -389,7 +389,7 @@ export default {
         })
         console.log('this.paper', this.paper);
       } else {
-        Message({
+        this.$message({
           message: res.msg,
           type: 'error',
           duration: 1000

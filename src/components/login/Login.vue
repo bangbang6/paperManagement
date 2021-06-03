@@ -34,7 +34,6 @@
 </template>
  
 <script>
-import { Message } from 'element-ui'
 import { login } from '@/api/user'
 export default {
   data () {
@@ -66,7 +65,7 @@ export default {
             this.$router.push('/teacher')
             localStorage.setItem('chineseName', res.data.user.user.chineseName)
           } else {
-            Message({
+            this.$message({
               message: res.msg,
               type: 'error',
               duration: 1000
@@ -88,7 +87,7 @@ export default {
 
 
           } else {
-            Message({
+            this.$message({
               message: res.msg,
               type: 'error',
               duration: 1000
@@ -107,7 +106,7 @@ export default {
             this.$router.push('/repeat')
 
           } else {
-            Message({
+            this.$message({
               message: res.msg,
               type: 'error',
               duration: 1000

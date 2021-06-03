@@ -34,7 +34,6 @@
 </template>
  
 <script>
-import { Message } from 'element-ui'
 import { getErrorList } from '@/api/chain'
 export default {
   data () {
@@ -512,11 +511,12 @@ export default {
       if (res.code === 200) {
         this.papers = res.data.slice(0, 6)
       } else {
-        Message({
+        this.$message({
           message: res.msg,
           type: 'error',
           duration: 1000
         })
+
       }
     })
   }

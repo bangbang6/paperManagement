@@ -115,33 +115,24 @@
         </el-table-column>
       </el-table>
     </div>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :total="tableData.length+100"
+      @current-change="handlePageChange"
+      :current-page="page"
+    >></el-pagination>
   </div>
 </template>
  
 <script>
-import { getChainPapers } from '@/api/chain'
+import { findPapersByQuery, getChainPapers } from '@/api/chain'
 import { downloadFile } from '@/api/paper'
 export default {
+
   data () {
+
     return {
-      error: false,
-      date: '',
-      title: '',
-      author: '',
-      projectNum: '',
-      publicTypeName: '',
-      name: "",
-      options: [
-        {
-          value: 1,
-          label: "trans"
-        },
-        {
-          value: 2,
-          label: "sci"
-        },
-      ],
-      tableData: [],//筛选过的file
       files: [//总的file
         /*  {
            title: 'Trustzone-based secure lightweight wallet for hyperlerdger fabric',
@@ -206,7 +197,27 @@ export default {
            id: 3,
            error: false
          } */
-      ]
+      ],
+      error: false,
+      date: '',
+      title: '',
+      author: '',
+      projectNum: '',
+      publicTypeName: '',
+      page: 1,
+      name: "",
+      options: [
+        {
+          value: 1,
+          label: "trans"
+        },
+        {
+          value: 2,
+          label: "sci"
+        },
+      ],
+      tableData: [],//筛选过的file
+
     }
   },
   methods: {
@@ -215,6 +226,82 @@ export default {
     },
     portin () {
 
+    },
+    getPaperByPage () {
+      //普通分页
+      if (this.title === '' && this.projectNum === '' && this.publicTypeName.length === 0 && this.name === '' && this.date.length < 2 && this.author === '' && this.error === false) {
+        getChainPapers(this.page - 1).then(res => {
+          console.log('list', res);
+          if (res.code === 200) {
+
+            this.tableData = res.data || []
+          } else {
+            this.$message({
+              type: 'error',
+              duration: 1000,
+              message: res.msg
+            })
+          }
+        })
+
+        return
+      }
+      //搜索分页
+      let queryData = {
+        title: this.title,
+        numOrFund: this.projectNum,
+        types: this.publicTypeName,
+        name: this.name,
+        startTime: this.date[0],
+        endTime: this.date[1],
+        authors: this.author,
+        hasException: this.error,
+        page: this.page - 1,
+        size: 8
+
+      }
+      findPapersByQuery(queryData).then(res => {
+        if (res.code === 200) {
+          this.tableData = res.data || []
+
+        } else {
+          this.$message({
+            type: 'error',
+            duration: 1000,
+            message: res.msg
+          })
+        }
+      })
+      // getChainPapers(this.page - 1).then(res => {
+      //   console.log('list', res);
+      //   if (res.code === 200) {
+
+      //     this.tableData = res.data
+      //   }
+      // })
+      // let res = await getChainPapers(this.page - 1)
+      // if (res.code === 200) {
+      //   this.tableData = res.data
+
+      // } else {
+      //   this.$message({
+      //     type: 'error',
+      //     duration: 1000,
+      //     message: res.msg
+      //   })
+      // }
+    },
+    handlePageChange (page) {
+      this.page = page
+      this.getPaperByPage()
+    },
+    handlePrev (page) {
+      this.page = page
+      this.getPaperByPage()
+    },
+    handleNext (page) {
+      this.page = page
+      this.getPaperByPage()
     },
     download (id) {
       downloadFile(id)
@@ -226,43 +313,34 @@ export default {
       return str.slice(0, index - 1)
     },
     search () {
-      this.tableData = this.files
-      if (this.title) {
 
-        this.tableData = this.tableData.filter(file => file.title.indexOf(this.title) > -1)
-      }
-      if (this.author) {
-        this.tableData = this.tableData.filter(file => file.authors.indexOf(this.author) > -1)
-      }
-      if (this.projectNum) {
-        this.tableData = this.tableData.filter(file => { return file.projectNum.indexOf(this.projectNum) > -1 || file.projectFund.indexOf(this.projectNum) > -1 })
-      }
-      if (this.publicTypeName.length !== 0) {
-        console.log('this.publicTypeName', this.publicTypeName);
+      this.page = 1
+      let queryData = {
+        title: this.title,
+        numOrFund: this.projectNum,
+        types: this.publicTypeName,
+        name: this.name,
+        startTime: this.date[0],
+        endTime: this.date[1],
+        authors: this.author,
+        hasException: this.error,
+        page: this.page - 1,
+        size: 8
 
-        this.tableData = this.tableData.filter(file => {
-          for (let i = 0; i < this.publicTypeName.length; i++) {
-            let item = this.publicTypeName[i]
-            if (file.publicTypeName.indexOf(item) > -1) {
-              return true
-            }
-          }
-          return false
+      }
+      findPapersByQuery(queryData).then(res => {
+        if (res.code === 200) {
+          this.tableData = res.data
 
-        })
-      }
-      if (this.name) {
-        this.tableData = this.tableData.filter(file => file.name.indexOf(this.name) > -1)
-      }
-      if (this.date) {
-        console.log('this.date', this.date);
-        this.tableData = this.tableData.filter(file => {
-          return file.uploadChainDate > this.date[0].getTime() && file.uploadChainDate < this.date[1].getTime()
-        })
-      }
-      if (this.error) {
-        this.tableData = this.tableData.filter(file => file.exception.length > 0)
-      }
+        } else {
+          this.$message({
+            type: 'error',
+            duration: 1000,
+            message: res.msg
+          })
+        }
+      })
+
     },
     getWidth (exception) {
       return `width:${450 - exception.length * 100}px`
@@ -318,13 +396,8 @@ export default {
   mounted () {
     /* this.tableData = this.files //files是整个文件 tableData是经过filter后的文件
  */
-    getChainPapers().then(res => {
-      console.log('list', res);
-      if (res.code === 200) {
-        this.files = res.data
-        this.tableData = this.files
-      }
-    })
+    this.getPaperByPage()
+
   }
 }
 </script>
@@ -333,6 +406,7 @@ export default {
 .inner-wrapper {
   background: white;
   width: 80%;
+  position: relative;
   margin: auto;
   height: 100%;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
@@ -398,6 +472,14 @@ export default {
         }
       }
     }
+  }
+  .el-pagination {
+    position: absolute;
+    bottom: 60px;
+    display: flex;
+    width: 100%;
+    padding: 0 !important;
+    justify-content: center;
   }
 }
 </style>

@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
+import { Message } from '_element-ui@2.15.1@element-ui'
 
 const request = axios.create({
-   // baseURL:"http://211.69.198.53:8090",
-     baseURL:"http://localhost:8090",
+   baseURL:"http://211.69.197.157:8090",
+    //  baseURL:"http://localhost:8090",
   timeout:50000
 })
 
@@ -30,7 +30,7 @@ request.interceptors.response.use(
     console.log('err',err);
     Message({
       type:'error',
-      duration:2000,
+      duration:1000,
       message:err.response  //err.response.data这个可以拿到报错的具体message
     })
     return Promise.reject(err)

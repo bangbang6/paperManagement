@@ -1,11 +1,11 @@
 import request from "../util/request";
 /**
- * 获取链上论文列表
+ * 获取链上论文列表  可以分页
  * @returns 
  */
-export function getChainPapers(){
+export function getChainPapers(page=0,size=8){
   return request({
-    url:"/paper/getUpChainPapers",
+    url:`/paper/getUpChainPapers?page=${page}&size=${size}`,
     method:"GET",
 
   })
@@ -51,5 +51,13 @@ export function  getExceptionListByTitle(title){
     url:`/paperException/getExceptionListByTitle?title=${title}`,
     method:"GET",
 
+  })
+}
+
+export function findPapersByQuery(queryData){
+  return request({
+    url:"/paper/findPapersByQueryCriteria",
+    method:"POST",
+    data:queryData,
   })
 }

@@ -111,7 +111,6 @@
  
 <script>
 import { updateUserInfo, getUserInfo, getAvatar, setAvatar } from '@/api/user'
-import { Message } from 'element-ui'
 import { Bus } from '../../main'
 export default {
   data () {
@@ -143,7 +142,7 @@ export default {
       setAvatar(formData).then(res => {
         console.log('res', res);
         if (res.code === 200) {
-          Message({
+          this.$message({
             message: res.msg,
             duration: 1000,
             type: 'success'
@@ -154,7 +153,7 @@ export default {
               this.imgSrc = `data:${res.data.type};base64,${res.data.data}`
               Bus.$emit('changeAvatual', this.imgSrc)
             } else {
-              Message({
+              this.$message({
                 message: res.msg,
                 duration: 1000,
                 type: 'error'
@@ -163,7 +162,7 @@ export default {
 
           })
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             duration: 1000,
             type: 'error'
@@ -217,7 +216,7 @@ export default {
         this.ofGroup = res.data.ofGroup
         this.englishName = res.data.englishName
       } else {
-        Message({
+        this.$message({
           message: res.msg,
           type: 'error',
           duration: 1000

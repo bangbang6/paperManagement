@@ -46,7 +46,6 @@
 </template>
  
 <script>
-import { Message } from 'element-ui'
 import { register, sendEmail } from '@/api/user'
 export default {
   data () {
@@ -80,7 +79,7 @@ export default {
      }, */
     submitChachar () {
       if (!this.email || !this.username) {
-        Message({
+        this.$message({
           message: '填写邮箱和用户名',
           type: 'error',
           duration: 1000
@@ -101,7 +100,7 @@ export default {
           }, 1000)
 
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
@@ -114,7 +113,7 @@ export default {
       register(this.email, this.username, this.password, this.capchar).then(res => {
         if (res.code === 200) {
           console.log('res', res);
-          Message({
+          this.$message({
             message: res.msg,
             duration: 1000,
             type: 'success'
@@ -123,7 +122,7 @@ export default {
 
 
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000

@@ -31,7 +31,6 @@
  
 <script>
 import { getHistory } from '@/api/chain'
-import { Message } from 'element-ui'
 export default {
   methods: {
     random () {
@@ -56,7 +55,7 @@ export default {
       if (res.code === 200) {
         this.historys = res.data
       } else {
-        Message({
+        this.$message({
           message: res.msg,
           status: 'error',
           duration: 1000

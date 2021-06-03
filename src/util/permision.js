@@ -1,5 +1,5 @@
 import router from '@/router/index'
-import { Message } from 'element-ui'
+import { Message } from '_element-ui@2.15.1@element-ui';
  
 
 

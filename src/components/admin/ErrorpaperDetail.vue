@@ -113,7 +113,6 @@
 </template>
  
 <script>
-import { Message } from 'element-ui';
 import { getErrorDetail, getHistory } from '@/api/chain'
 export default {
   props: {
@@ -200,9 +199,9 @@ export default {
             this.organization = res.uploaderOrganization
             this.chainDate = res.uploadChainDate
           } else {
-            Message({
+            this.$message({
               message: res.msg,
-              status: 'error',
+              type: 'error',
               duration: 1000
             })
           }
@@ -212,9 +211,9 @@ export default {
             console.log('history', res);
             this.histroys = res.data
           } else {
-            Message({
+            this.$message({
               message: res.msg,
-              status: 'error',
+              type: 'error',
               duration: 1000
             })
           }
@@ -230,12 +229,13 @@ export default {
   overflow-y: auto;
   width: 100%;
   height: 100%;
-    .el-table td, .el-table th.is-leaf{
-        color: black;
-    }
-    .el-tag.el-tag--info{
-        color: black;
-    }
+  .el-table td,
+  .el-table th.is-leaf {
+    color: black;
+  }
+  .el-tag.el-tag--info {
+    color: black;
+  }
   .detail-wrapper {
     padding: 5px 10px;
     padding-top: 20px;

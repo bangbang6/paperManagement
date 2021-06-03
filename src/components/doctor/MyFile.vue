@@ -65,7 +65,6 @@
  
 <script>
 import { getMyFilelist } from '@/api/user'
-import { Message } from 'element-ui';
 import { types } from '@/api/type'
 export default {
   data () {
@@ -169,7 +168,7 @@ export default {
         })
         console.log('this.paperData', this.paperData);
       } else {
-        Message({
+        this.$message({
           message: res.msg,
           type: 'error',
           duration: 1000

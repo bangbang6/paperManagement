@@ -63,7 +63,6 @@
 <script>
 import ErrorpaperDetail from './ErrorpaperDetail'
 import { getErrorList, getExceptionListByTitle } from '@/api/chain'
-import { Message } from 'element-ui'
 export default {
   components: { ErrorpaperDetail },
   data () {
@@ -334,7 +333,7 @@ export default {
 
           this.paperId = this.tableData[0].id
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
@@ -352,7 +351,7 @@ export default {
           this.search()
           this.paperId = this.tableData[0].id
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
