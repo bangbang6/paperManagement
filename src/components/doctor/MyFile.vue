@@ -65,7 +65,6 @@
  
 <script>
 import { getMyFilelist } from '@/api/user'
-import { types } from '@/api/type'
 export default {
   data () {
     return {
@@ -162,7 +161,7 @@ export default {
             children: item.map(item2 => ({
               ...item2,
               label: 2,
-              statusWord: types[item2.status]
+              /* statusWord: types[item2.status] */
             }))
           }
         })
@@ -182,7 +181,7 @@ export default {
         children: item.map(item2 => ({
           ...item2,
           level: 2,
-          statusWord: types[item2.status]
+          /*  statusWord: types[item2.status] */
         }))
       }
     })

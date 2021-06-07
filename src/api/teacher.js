@@ -11,6 +11,11 @@ export async function uploadFile(obj){
     
    })
 }
+/**
+ * 上传论文
+ * @param {*} obj 
+ * @returns 
+ */
 export async function uploadPaper(obj){
    return request({
      url:"/paper/upload",

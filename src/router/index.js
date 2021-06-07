@@ -7,11 +7,12 @@ import ChangePassword  from '../components/login/ChangePassword'
 // import newAdmin  from '../components/admin/newAdmin'
 import ErrorStatus  from '../components/admin/ErrorStatus'
 import MyFile  from '../components/doctor/MyFile'
+import PaperForm  from '../components/doctor/form/PaperForm'
+import PatentForm  from '../components/doctor/form/PatentForm'
 import Allfile  from '../components/doctor/Allfile'
 import AllPatentfile  from '../components/doctor/AllPatentfile'
 import PaperRequest  from '../components/admin/PaperRequest'
 import EditMeeting  from '../components/admin/EditMeeting'
-import fileManagement  from '../components/doctor/FileManagement'
 import patentManagement  from '../components/doctor/PatentManagement'
 import FindRepeat  from '../components/repeat/FindRepeat'
 import AdminMain  from '../pages/AdminMain'
@@ -67,6 +68,11 @@ const routes = [
             component:User
           },
           {
+            path:'/teacher/patentForm',
+            name:"patentForm",
+            component:PatentForm
+          },
+          {
             path:'/teacher/myfile',
             name:"myfile",
             component:MyFile
@@ -74,7 +80,7 @@ const routes = [
           {
             path:'/teacher/fileManagement',
             name:"fileManagement",
-            component:fileManagement
+            component:PaperForm
           },
             {
                 path:'/teacher/patentManagement',

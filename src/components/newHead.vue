@@ -16,10 +16,16 @@
           <i class="el-icon-arrow-down el-icon--right"></i>
           <el-dropdown-menu slot="dropdown">
             <div @click="navJump">
-              <el-dropdown-item data-item="21" v-if="role===0">上传论文</el-dropdown-item>
+              <el-dropdown-item data-item="21" v-if="role===0" index="2-1">上传论文</el-dropdown-item>
             </div>
             <div @click="navJump">
-              <el-dropdown-item data-item="22" v-if="role===0">上传专利</el-dropdown-item>
+              <el-dropdown-item data-item="22" v-if="role===0" index="2-2" class="patent">
+                上传专利
+                <div class="twoNav">
+                  <div class="item" data-item="51">国内专利</div>
+                  <div class="item" data-item="52">国外专利</div>
+                </div>
+              </el-dropdown-item>
             </div>
           </el-dropdown-menu>
         </div>
@@ -104,9 +110,9 @@ export default {
         } else if (e.target.dataset.item === '21') {
           this.$router.push('/teacher/fileManagement')
         }
-        else if (e.target.dataset.item === '22') {
-          this.$router.push('/teacher/patentManagement')
-        }
+        /*  else if (e.target.dataset.item === '22') {
+           this.$router.push('/teacher/patentManagement')
+         } */
         else if (e.target.dataset.item === '3') {
           console.log('e', e);
           this.$router.push('/teacher/myfile')
@@ -122,6 +128,26 @@ export default {
         }
         else if (e.target.dataset.item === '42') {
           this.$router.push('/teacher/allPatentfile')
+        }
+        else if (e.target.dataset.item === '51') {
+          console.log('e', e);
+          this.$router.push({
+            path: '/teacher/patentForm',
+            query: {
+              isUsa: false
+            }
+          })
+
+        }
+        else if (e.target.dataset.item === '52') {
+          console.log('e', e);
+          this.$router.push({
+            path: '/teacher/patentForm',
+            query: {
+              isUsa: true
+            }
+          })
+
         }
       } else {
         if (e.target.dataset.item === '0') {
@@ -267,6 +293,40 @@ export default {
       }
     }
   }
+}
+.patent {
+  position: relative;
+}
+.patent:hover > div {
+  display: block;
+}
+.item:hover {
+  background: #ecf5ff;
+  color: #66b1ff;
+}
+.twoNav {
+  box-sizing: border-box;
+  /* display: none; */
+  position: absolute;
+  left: 97px;
+  top: -5px;
+  width: 100px;
+  list-style: none;
+
+  line-height: 36px;
+  text-align: center;
+  margin: 0;
+  font-size: 14px;
+  color: #606266;
+  cursor: pointer;
+  outline: 0;
+  background: white;
+  display: none;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  padding: 10px 0;
+  margin: 5px 0;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
 </style>
 <style scoped>
