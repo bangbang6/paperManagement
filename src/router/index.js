@@ -20,9 +20,10 @@ import repeatMain  from '../pages/RepeatMain'
 import undoPaperdetail  from '../pages/UndoPaperdetail'
 import Main  from '../pages/Main'
 import Backforward  from '../pages/Backforward'
+import UndoPatentdetail  from '../pages/patent/UndoPatentdetail'
 import LoginMain  from '../pages/LoginMain'
 import PaperDetail  from '../pages/PaperDetail'
-import PatentDetail  from '../pages/PatentDetail'
+import PatentDetail  from '../pages/patent/PatentDetail'
 import DashBoard  from '../components/admin/dashboard/DashBoard'
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
@@ -188,6 +189,16 @@ const routes = [
         name:"undoPaperdetail",
         component:undoPaperdetail
       },
+      {
+        path:"/undoPatentDetail",
+        name:"undoPatentDetail",
+        component:UndoPatentdetail
+      },
+    /*   {
+        path:"/patentDetail",
+        name:"patentDetail",
+        component:Patentdetail
+      }, */
       {
         path:"/backforward",
         name:"backforward",

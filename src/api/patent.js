@@ -9,7 +9,11 @@ export function getUserPatents(page=0,size=8){
     method:'GET'
   })
 }
-
+/**
+ * 搜索我的专利
+ * @param {*} queryData 
+ * @returns 
+ */
 export function findPatentsByQuery(queryData){
   return request({
     url:`/patent/findUserPatentsByQueryCriteria?page=${queryData.page}&size=${queryData.size}`,
@@ -17,3 +21,28 @@ export function findPatentsByQuery(queryData){
     data:queryData,
   })
 }
+/**
+ * 搜索我的专利
+ * @param {*} queryData 
+ * @returns 
+ */
+export function getPatentVO(id){
+  return request({
+    url:`/patent/getPatentVO?id=${id}`,
+    method:"GET",
+    
+  })
+}
+/**
+ * 搜索我的专利
+ * @param {*} queryData 
+ * @returns 
+ */
+export function updatePatentVO(data){
+  return request({
+    url:`/patent/update`,
+    method:"POST",
+    data,
+  })
+}
+

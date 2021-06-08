@@ -1,11 +1,12 @@
 <template>
   <div class="paper-form">
-    <div class="title-wrapper">
-      <div class="line"></div>
-      <div class="title">上传专利</div>
+    <div class="title">
+      <el-button type="primary" size="mini" @click="$router.back()">返回</el-button>
+      <span>{{form.title}}</span>
+      <div></div>
     </div>
     <el-form ref="form" :model="form" label-width="120px" :rules="rules">
-      <el-form-item label="专利名称(中)" :style="{width:'400px'}" prop="relativeTitle" v-if="form.isUsa">
+      <el-form-item label="专利名称(中)" :style="{width:'400px'}" prop="relativeId" v-if="form.isUsa">
         <el-input v-model="form.relativeTitle"></el-input>
       </el-form-item>
       <el-form-item label="缴费时间" v-if="form.isUsa">
@@ -80,7 +81,7 @@
       </el-form-item>
 
       <el-form-item label="专利状态" prop="status">
-        <el-select v-model="form.status" placeholder="请选择">
+        <el-select v-model="form.status" placeholder="请选择" @change="handleChangeStatus">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -121,7 +122,7 @@
         <el-form-item label="代理单位" prop="agent">
           <el-input v-model="form.agent" :style="{width:'220px'}"></el-input>
         </el-form-item>
-        <el-form-item label="依托项目">
+        <el-form-item label="依托项目" prop="project">
           <el-input v-model="form.project" :style="{width:'220px'}"></el-input>
         </el-form-item>
         <el-form-item label="备注">
@@ -160,7 +161,7 @@
         <el-form-item label="代理单位" prop="agent">
           <el-input v-model="form.agent" :style="{width:'220px'}"></el-input>
         </el-form-item>
-        <el-form-item label="依托项目">
+        <el-form-item label="依托项目" prop="project">
           <el-input v-model="form.project" :style="{width:'220px'}"></el-input>
         </el-form-item>
         <el-form-item label="备注">
@@ -182,8 +183,8 @@
  
 <script>
 /* import MeetingForm from './MeetingForm' */
-import { uploadPatent } from '@/api/teacher.js'
 import { getUserByChineseName } from '@/api/paper'
+import { getPatentVO, updatePatentVO } from '@/api/patent'
 
 /* import QikanForm from './QikanForm.vue' */
 export default {
@@ -191,10 +192,10 @@ export default {
   data () {
 
     return {
+      status: 2,
       form: {
         title: "",
         status: "",
-        time: [],
         authorsList: [{
           chineseName: "",
           englishName: "",
@@ -209,9 +210,9 @@ export default {
         }],
         isRefuse: false,
         refuseReason: '',
-        relativeTitle: '',
-        ofGroup: "",
+        relativeId: '',
 
+        ofGroup: "",
         applyNum: "",
         patentNum: "",
         applyDate: "",
@@ -241,28 +242,45 @@ export default {
       rules: {
         title: { required: true, message: '请输入标题', trigger: 'blur' },
 
-        ofGroup: { required: true, message: '请输入组别', trigger: 'blur' },
-        status: { required: true, message: '请选择专利状态', trigger: 'change' },
+        ofGroup: [{ required: true, message: '请输入组别', trigger: 'blur' }],
+        status: [{ required: true, message: '请选择专利状态', trigger: 'change' }],
+
 
 
         applyDate: { required: true, message: '请输入专利申请日', trigger: 'change' },
+
         applyNum: { required: true, message: '请输入专利申请号', trigger: 'blur' },
+
         institution: { required: true, message: '请输入专利权人', trigger: 'blur' },
+
         agent: { required: true, message: '请输入代理单位', trigger: 'blur' },
+
         publishDate: { required: true, message: '请输入专利公告日', trigger: 'change' },
         patentNum: { required: true, message: '请输入专利号', trigger: 'blur' },
-        relativeTitle: { required: true, message: '请输入国内专利名', trigger: 'blur' },
+        relativeId: { required: true, message: '请输入国外专利号', trigger: 'blur' },
 
       }
     }
   },
 
   methods: {
+    handleChangeStatus (e) {
+      if (e <= this.status) {
+        this.$message({
+          type: 'error',
+          message: "禁止不合理修改状态",
+          duration: 1000
+        })
+        this.form.status = this.status
+
+      }
+    },
     addAuthor () {
       this.form.authorsList.push({
         chineseName: "",
         englishName: "",
-        email: ""
+        email: "",
+
       })
     },
     getUser (name, authorIndex) {
@@ -280,7 +298,7 @@ export default {
               organizations: res.data.organization ? res.data.organization.split('#').map(item => ({
                 label: item
 
-              })) : [{ label: '' }]
+              })) : [{ label: "" }]
             }
             this.form.authorsList.splice(authorIndex, 1, author)
 
@@ -306,17 +324,14 @@ export default {
     submit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          if (this.form.isUsa == 0) {
-            this.form.time = []
-            this.form.relativeId = ''
-          }
+
           let formData = {
             ...this.form,
-
             isRefuse: Number(this.form.isRefuse),
             isUsa: Number(this.form.isUsa),
-            payStarttime: this.form.time.length ? this.form.time[0] : '',
-            payEndtime: this.form.time.length ? this.form.time[1] : "",
+            id: this.id,
+            payStarttime: this.form.time[0],
+            payEndtime: this.form.time[1],
             authorsList: this.form.authorsList.map(author => {
               let org = author.organizations.map(org => org.label).join('#')
 
@@ -328,27 +343,22 @@ export default {
               }
             })
           }
-
-          uploadPatent(formData).then(res => {
+          updatePatentVO(formData).then(res => {
             console.log('res', res);
             if (res.code === 200) {
               this.$message({
-                message: "上传成功",
+                message: "修改成功",
                 type: 'success',
                 duration: 1000
               })
-              /* this.$refs.form.resetFields()
-              for (let i = 0; i < this.form.authorsList.length; i++) {
-                console.log('this.$refs.author0', this.$refs.author0);
-                this.$refs['author' + i].resetFields()
-              } */
-              this.$router.push('/teacher/userCenter')
             } else {
-              this.$message({
-                message: res.msg,
-                type: 'error',
-                duration: 1000
-              })
+              if (res.code === 200) {
+                this.$message({
+                  message: res.msg,
+                  type: 'error',
+                  duration: 1000
+                })
+              }
             }
           })
 
@@ -365,18 +375,30 @@ export default {
     }
   },
   mounted () {
-    console.log('', this.$route.query.isUsa);
-    console.log('isUsa', this.$route.query.isUsa);
-    this.form.isUsa = this.$route.query.isUsa == 1 ? true : false
-    console.log(this.form.isUsa)
+    this.id = this.$route.query.id
+    getPatentVO(this.id).then(res => {
+      console.log('res', res);
+      if (res.code === 200) {
+        this.status = res.data.status
+        this.form = {
+          ...res.data,
+          time: [res.data.payStarttime, res.data.payEndtime],
+          authorsList: res.data.authorsList.map(author => ({
+            ...author,
+            organizations: author.organization ? author.organization.split('#').map(item => ({ label: item })) : [{ label: "" }]
+          }))
+        }
+      } else {
+        this.$message({
+          message: res.msg,
+          duration: 1000,
+          type: 'error'
+        })
+      }
+    })
   },
   watch: {
-    '$route.query.isUsa': function (newV, oldV) {
-      console.log('newV', newV, oldV);
-      newV == 1 ? this.form.isUsa = true : this.form.isUsa = false
-      console.log(this.form.isUsa)
 
-    }
   }
 
 }
@@ -389,25 +411,24 @@ export default {
 
   background: white;
   padding: 20px;
-  box-sizing: border-box;
   /* height: calc(100% - 50px); */
   /*   overflow-y: auto; */
 
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 
-  .title-wrapper {
-    height: 50px;
+  .title {
     display: flex;
     align-items: center;
-    box-sizing: border-box;
-    padding-left: 5px;
-    .line {
-      background-color: rgb(64, 158, 255);
-      height: 20px;
-      width: 2px;
-    }
-    .title {
+    justify-content: space-between;
+    font-size: 24px;
+    align-items: center;
+    text-align: center;
+    .content {
+      flex: 1;
       margin-left: 5px;
+    }
+    .el-button {
+      width: 60px;
     }
   }
   .organizationWrapper {
@@ -433,18 +454,8 @@ export default {
     margin-left: 20px;
   }
 }
-::v-deep .el-icon-circle-check {
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  display: inline-block;
-}
-::v-deep .el-input__suffix-inner {
-  height: 30px;
-}
 ::v-deep .el-icon-arrow-up {
-  height: 30px;
-
+  height: 30px !important;
   line-height: 1 !important;
 }
 </style>
