@@ -134,7 +134,17 @@ export default {
           this.$router.push({
             path: '/teacher/patentForm',
             query: {
-              isUsa: false
+              isUsa: 0
+            }
+          })
+
+        }
+        else if (e.target.dataset.item === '22') {
+          console.log('e', e);
+          this.$router.push({
+            path: '/teacher/patentForm',
+            query: {
+              isUsa: 0
             }
           })
 
@@ -144,7 +154,7 @@ export default {
           this.$router.push({
             path: '/teacher/patentForm',
             query: {
-              isUsa: true
+              isUsa: 1
             }
           })
 
@@ -196,6 +206,7 @@ export default {
   watch: {
     $route: {
       handler: function (newV) {
+        console.log('newV', newV);
         if (newV.name === 'user' || newV.name === 'paperRequest') {
           this.navIndex = 1
         }
@@ -213,6 +224,13 @@ export default {
         else if (newV.name === 'errorStatus') {
           this.navIndex = 5
         }
+        else if (newV.name === 'fileManagement') {
+          this.navIndex = 2
+        }
+        else if (newV.name === 'patentForm') {
+          this.navIndex = 2
+        }
+
       },
       immediate: true
     }

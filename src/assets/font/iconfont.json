@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "474961",
+      "name": "laptop",
+      "font_class": "laptop",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "490077",
+      "name": "equalizer",
+      "font_class": "equalizer",
+      "unicode": "eb36",
+      "unicode_decimal": 60214
+    },
+    {
+      "icon_id": "5634923",
+      "name": "yelp",
+      "font_class": "yelp",
+      "unicode": "f273",
+      "unicode_decimal": 62067
+    },
+    {
+      "icon_id": "11398925",
+      "name": "gavel",
+      "font_class": "gavel",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "13660543",
+      "name": "Error - Outline",
+      "font_class": "Error-Outline",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
       "icon_id": "7550205",
       "name": "交易",
       "font_class": "jiaoyi",

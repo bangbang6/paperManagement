@@ -11,6 +11,18 @@ export function getChainPapers(page=0,size=8){
   })
 }
 /**
+ * 获取链上论文列表  可以分页
+ * @returns 
+ */
+export function getChainPatents(page=0,size=8){
+  return request({
+    url:`/patent/getUpChainPatents?page=${page}&size=${size}`,
+    method:"GET",
+   
+
+  })
+}
+/**
  * 获取异常论文列表
  * @returns 
  */
@@ -57,6 +69,13 @@ export function  getExceptionListByTitle(title){
 export function findPapersByQuery(queryData){
   return request({
     url:"/paper/findPapersByQueryCriteria",
+    method:"POST",
+    data:queryData,
+  })
+}
+export function findPatentsByQuery(queryData){
+  return request({
+    url:`/patent/findPatentsByQueryCriteria?page=${queryData.page}&size=${queryData.size}`,
     method:"POST",
     data:queryData,
   })

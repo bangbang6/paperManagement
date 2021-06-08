@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router'
 
-import User  from '../components/doctor/User'
+import NewUsercenter  from '../components/doctor/NewUsercenter'
 import Login  from '../components/login/Login'
 import Register  from '../components/login/Register'
 import ChangePassword  from '../components/login/ChangePassword'
@@ -62,10 +62,15 @@ const routes = [
         redirect:'/teacher/userCenter',
         component:Main,
         children:[
-          {
+       /*    {
             path:'/teacher/userCenter',
             name:"user",
             component:User
+          }, */
+          {
+            path:'/teacher/userCenter',
+            name:"user",
+            component:NewUsercenter
           },
           {
             path:'/teacher/patentForm',

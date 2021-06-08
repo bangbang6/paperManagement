@@ -21,7 +21,11 @@
           <el-card shadow="never">
             <div>
               <el-form-item label="中文名">
-                <el-input v-model="author.chineseName" :style="{width:'160px'}"></el-input>
+                <el-input
+                  v-model="author.chineseName"
+                  :style="{width:'160px'}"
+                  @change="name=>getUser(name,index)"
+                ></el-input>
               </el-form-item>
               <el-form-item label="英文名">
                 <el-input v-model="author.englishName" :style="{width:'160px'}"></el-input>
@@ -203,6 +207,8 @@
 /* import MeetingForm from './MeetingForm' */
 import { uploadPaper } from '@/api/teacher.js'
 import { getConfType, getJournalType2, getJournalType1 } from '@/api/type.js'
+import { getUserByChineseName } from '@/api/paper'
+
 /* import QikanForm from './QikanForm.vue' */
 export default {
 
@@ -269,42 +275,7 @@ export default {
           value: 2
         },
       ],
-      options2: [
-        {
-          value: 1,
-          label: 'CCFA'
-        },
-        {
-          value: 2,
-          label: 'CCFA'
-        },
-        {
-          value: 3,
-          label: 'CCFA'
-        },
-        {
-          value: 4,
-          label: 'CCFA'
-        },
-      ],
-      options3: [
-        {
-          value: 1,
-          label: 'CCFA'
-        },
-        {
-          value: 2,
-          label: 'CCFA'
-        },
-        {
-          value: 3,
-          label: 'CCFA'
-        },
-        {
-          value: 4,
-          label: 'CCFA'
-        },
-      ],
+
       rules: {
         title: { required: true, message: '请输入标题', trigger: 'blur' },
         confType: [{ required: true, message: '请输入会议类别', trigger: 'change' }],
@@ -327,6 +298,36 @@ export default {
         first: false
       })
     },
+    getUser (name, authorIndex) {
+      getUserByChineseName(name).then(res => {
+        if (res.code === 200) {
+          if (res.data) {
+            /*  authors: [
+             { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
+ 
+           ], */
+            let author = {
+              chineseName: res.data.chineseName,
+              englishName: res.data.englishName,
+              email: res.data.email,
+              organizations: res.data.organization.split('#').map(item => ({
+                label: item
+
+              }))
+            }
+            this.form.authors.splice(authorIndex, 1, author)
+
+
+          }
+        } else {
+          /*  Message({
+             type: 'error',
+             duration: 1000,
+             message: res.msg
+           }) */
+        }
+      })
+    },
     addOrganization (index1) {
       this.form.authors[index1].organizations.push({ label: '' })
     },
@@ -343,11 +344,22 @@ export default {
     submit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
+
           let formData = {
             ...this.form,
             firstPublish: Number(this.form.firstPublish),
             confIsTop80: Number(this.form.confIsTop80),
-            fullName: this.form.fullName !== '' ? this.form.fullName : this.form.fullName2
+            fullName: this.form.fullName !== '' ? this.form.fullName : this.form.fullName2,
+            authors: this.form.authors.map(author => {
+              let org = author.organizations.map(org => org.label).join('#')
+
+              return {
+                chineseName: author.chineseName,
+                englishName: author.englishName,
+                email: author.email,
+                organization: org
+              }
+            })
           }
           uploadPaper(formData).then(res => {
             console.log('res', res);

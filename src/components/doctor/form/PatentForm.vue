@@ -40,7 +40,11 @@
           <el-card shadow="never">
             <div>
               <el-form-item label="中文名">
-                <el-input v-model="author.chineseName" :style="{width:'160px'}"></el-input>
+                <el-input
+                  v-model="author.chineseName"
+                  :style="{width:'160px'}"
+                  @change="name=>getUser(name,index)"
+                ></el-input>
               </el-form-item>
               <el-form-item label="英文名">
                 <el-input v-model="author.englishName" :style="{width:'160px'}"></el-input>
@@ -48,12 +52,12 @@
               <el-form-item label="邮箱">
                 <el-input v-model="author.email" :style="{width:'160px'}"></el-input>
               </el-form-item>
-              <el-form-item label="通讯">
+              <!--  <el-form-item label="通讯">
                 <el-checkbox v-model="author.connect"></el-checkbox>
               </el-form-item>
               <el-form-item label="一作">
                 <el-checkbox v-model="author.first"></el-checkbox>
-              </el-form-item>
+              </el-form-item>-->
             </div>
             <el-form-item label="单位" class="organizationWrapper">
               <div v-for="(organization,index2) in author.organizations" :key="index2">
@@ -109,7 +113,12 @@
           <el-input v-model="form.applyNum1" :style="{width:'220px'}"></el-input>
         </el-form-item>
         <el-form-item label="专利申请日" prop="applyDate1">
-          <el-input v-model="form.applyDate1" :style="{width:'220px'}"></el-input>
+          <el-date-picker
+            v-model="form.applyDate1"
+            type="date"
+            :style="{width:'220px'}"
+            placeholder="选择日期"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="专利权人" prop="institution1">
           <el-input v-model="form.institution1" :style="{width:'220px'}"></el-input>
@@ -135,10 +144,20 @@
           <el-input v-model="form.patentNum2" :style="{width:'220px'}"></el-input>
         </el-form-item>
         <el-form-item label="专利申请日" prop="applyDate2">
-          <el-input v-model="form.applyDate2" :style="{width:'220px'}"></el-input>
+          <el-date-picker
+            v-model="form.applyDate2"
+            type="date"
+            :style="{width:'220px'}"
+            placeholder="选择日期"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="专利公告日" prop="publishDate2">
-          <el-input v-model="form.publishDate2" :style="{width:'220px'}"></el-input>
+          <el-date-picker
+            v-model="form.publishDate2"
+            type="date"
+            :style="{width:'220px'}"
+            placeholder="选择日期"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="专利权人" prop="institution2">
           <el-input v-model="form.institution2" :style="{width:'220px'}"></el-input>
@@ -163,7 +182,9 @@
  
 <script>
 /* import MeetingForm from './MeetingForm' */
-import { uploadPaper } from '@/api/teacher.js'
+import { uploadPatent } from '@/api/teacher.js'
+import { getUserByChineseName } from '@/api/paper'
+
 /* import QikanForm from './QikanForm.vue' */
 export default {
 
@@ -182,8 +203,8 @@ export default {
               label: ''
             }
           ],
-          connect: false,
-          first: false
+          /*  connect: false,
+           first: false */
         }],
         isRefuse: false,
         refuseReason: '',
@@ -234,16 +255,16 @@ export default {
         project1: { required: true, message: '请输入依托项目', trigger: 'blur' },
         project2: { required: true, message: '请输入依托项目', trigger: 'blur' },
 
-        applyDate1: { required: true, message: '请输入专利申请日', trigger: 'blur' },
-        applyDate2: { required: true, message: '请输入专利申请日', trigger: 'blur' },
+        applyDate1: { required: true, message: '请输入专利申请日', trigger: 'change' },
+        applyDate2: { required: true, message: '请输入专利申请日', trigger: 'change' },
         applyNum1: { required: true, message: '请输入专利申请号', trigger: 'blur' },
         applyNum2: { required: true, message: '请输入专利申请号', trigger: 'blur' },
         institution1: { required: true, message: '请输入专利权人', trigger: 'blur' },
         institution2: { required: true, message: '请输入专利权人', trigger: 'blur' },
         agent1: { required: true, message: '请输入代理单位', trigger: 'blur' },
         agent2: { required: true, message: '请输入代理单位', trigger: 'blur' },
-        publishDate1: { required: true, message: '请输入专利公告日', trigger: 'blur' },
-        publishDate2: { required: true, message: '请输入专利公告日', trigger: 'blur' },
+        publishDate1: { required: true, message: '请输入专利公告日', trigger: 'change' },
+        publishDate2: { required: true, message: '请输入专利公告日', trigger: 'change' },
         patentNum2: { required: true, message: '请输入专利号', trigger: 'blur' },
         relativeId: { required: true, message: '请输入国外专利号', trigger: 'blur' },
 
@@ -259,6 +280,36 @@ export default {
         email: "",
         connect: false,
         first: false
+      })
+    },
+    getUser (name, authorIndex) {
+      getUserByChineseName(name).then(res => {
+        if (res.code === 200) {
+          if (res.data) {
+            /*  authors: [
+             { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
+ 
+           ], */
+            let author = {
+              chineseName: res.data.chineseName,
+              englishName: res.data.englishName,
+              email: res.data.email,
+              organizations: res.data.organization.split('#').map(item => ({
+                label: item
+
+              }))
+            }
+            this.form.authorsList.splice(authorIndex, 1, author)
+
+
+          }
+        } else {
+          /*  Message({
+             type: 'error',
+             duration: 1000,
+             message: res.msg
+           }) */
+        }
       })
     },
     addOrganization (index1) {
@@ -282,10 +333,37 @@ export default {
           }
           let formData = {
             ...this.form,
-            ...statsProps
+            ...statsProps,
+            isRefuse: Number(this.form.isRefuse),
+            isUsa: Number(this.form.isUsa),
+            authorsList: this.form.authorsList.map(author => {
+              let org = author.organizations.map(org => org.label).join('#')
+
+              return {
+                chineseName: author.chineseName,
+                englishName: author.englishName,
+                email: author.email,
+                organization: org
+              }
+            })
           }
-          uploadPaper(formData).then(res => {
+          uploadPatent(formData).then(res => {
             console.log('res', res);
+            if (res.code === 200) {
+              this.$message({
+                message: "上传成功",
+                type: 'success',
+                duration: 1000
+              })
+            } else {
+              if (res.code === 200) {
+                this.$message({
+                  message: res.msg,
+                  type: 'error',
+                  duration: 1000
+                })
+              }
+            }
           })
 
 
@@ -302,9 +380,18 @@ export default {
   },
   mounted () {
     console.log('', this.$route.query.isUsa);
-    this.isUsa = this.$route.query.isUsa
-  }
+    console.log('isUsa', this.$route.query.isUsa);
+    this.form.isUsa = this.$route.query.isUsa == 1 ? true : false
+    console.log(this.form.isUsa)
+  },
+  watch: {
+    '$route.query.isUsa': function (newV, oldV) {
+      console.log('newV', newV, oldV);
+      newV == 1 ? this.form.isUsa = true : this.form.isUsa = false
+      console.log(this.form.isUsa)
 
+    }
+  }
 
 }
 </script>
@@ -360,8 +447,13 @@ export default {
     margin-left: 20px;
   }
 }
-::v-deep .el-icon-arrow-up {
-  height: 30px !important;
-  line-height: 1 !important;
+::v-deep .el-icon-circle-check {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  display: inline-block;
+}
+::v-deep .el-input__suffix-inner {
+  height: 30px;
 }
 </style>

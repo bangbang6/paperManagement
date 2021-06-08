@@ -25,5 +25,19 @@ export async function uploadPaper(obj){
     
    })
 }
+/**
+ * 上传专利
+ * @param {*} obj 
+ * @returns 
+ */
+export async function uploadPatent(obj){
+   return request({
+     url:"patent/upload",
+    method:'POST',
+  
+    data:obj
+    
+   })
+}
 
 
