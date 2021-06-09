@@ -31,6 +31,7 @@
  
 <script>
 import { getHistory } from '@/api/chain'
+import { backforward } from '@/api/patent'
 export default {
   methods: {
     random () {
@@ -50,18 +51,39 @@ export default {
     }
   },
   mounted () {
+
     this.title = this.$route.query.title + '溯源信息'
-    getHistory(this.$route.query.id).then(res => {
-      if (res.code === 200) {
-        this.historys = res.data
-      } else {
-        this.$message({
-          message: res.msg,
-          status: 'error',
-          duration: 1000
-        })
-      }
-    })
+    this.id = this.$route.query.id
+    this.category = this.$route.query.category
+    if (this.category == 1) {
+      //专利
+      backforward(this.id).then(res => {
+        console.log('res', res);
+        if (res.code === 200) {
+          this.historys = res.data
+
+        } else {
+          this.$message({
+            type: "error",
+            message: res.msg,
+            duration: 1000
+          })
+        }
+      })
+    } else if (this.category == 0) {
+      getHistory(this.id).then(res => {
+        if (res.code === 200) {
+          this.historys = res.data
+        } else {
+          this.$message({
+            message: res.msg,
+            status: 'error',
+            duration: 1000
+          })
+        }
+      })
+    }
+
 
   }
 }
@@ -73,7 +95,7 @@ export default {
   height: 100%;
   padding: 40px;
   box-sizing: border-box;
-    color: #222222;
+  color: #222222;
   .title {
     text-align: center;
     display: flex;
@@ -93,9 +115,9 @@ export default {
     cursor: pointer;
     text-align: center;
   }
-    .el-tag.el-tag--info{
-        color: #000000;
-    }
+  .el-tag.el-tag--info {
+    color: #000000;
+  }
 }
 </style>
 <style>

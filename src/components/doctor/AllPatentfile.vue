@@ -302,7 +302,12 @@ export default {
     handleRowClick (row) {
       console.log(row)
       localStorage.setItem('info', row)
-      this.$router.push('/patentdetail')
+      this.$router.push({
+        name:'patentDetail',
+        params:{
+          id:row.id
+        }
+      })
     },
     back (row) {
       this.$router.push({

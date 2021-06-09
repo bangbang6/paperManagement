@@ -34,10 +34,10 @@
                 <el-input v-model="author.email" :style="{width:'160px'}"></el-input>
               </el-form-item>
               <el-form-item label="通讯">
-                <el-checkbox v-model="author.connect"></el-checkbox>
+                <el-checkbox v-model="author.correspondAuthor"></el-checkbox>
               </el-form-item>
               <el-form-item label="一作">
-                <el-checkbox v-model="author.first"></el-checkbox>
+                <el-checkbox v-model="author.firstAuthor"></el-checkbox>
               </el-form-item>
             </div>
             <el-form-item label="单位" class="organizationWrapper">
@@ -148,11 +148,10 @@
               :value="item.label"
             ></el-option>
           </el-select>
-          <el-checkbox v-model="form.confIsTop80" :style="{marginLeft:'20px'}">是否为top80</el-checkbox>
         </el-form-item>
 
-        <el-form-item label="期刊全称" prop="fullName2">
-          <el-input v-model="form.fullName2" placeholder="期刊全称" :style="{width:'220px'}"></el-input>
+        <el-form-item label="期刊全称" prop="fullName">
+          <el-input v-model="form.fullName" placeholder="期刊全称" :style="{width:'220px'}"></el-input>
         </el-form-item>
         <el-form-item label="期刊缩写">
           <el-input v-model="form.shortName" placeholder="期刊缩写" :style="{width:'220px'}"></el-input>
@@ -228,8 +227,8 @@ export default {
               label: ''
             }
           ],
-          connect: false,
-          first: false
+          correspondAuthor: false,
+          firstAuthor: false
         }],
         projects: [
           {
@@ -252,7 +251,6 @@ export default {
         //qikan
         journalType1: '',
         journalType2: '',
-        fullName2: "",
         journalIssueNum: '',
         journalPageNumStart: '',
         journalPageNumEnd: '',
@@ -280,10 +278,9 @@ export default {
         title: { required: true, message: '请输入标题', trigger: 'blur' },
         confType: [{ required: true, message: '请输入会议类别', trigger: 'change' }],
         publicType: [{ required: true, message: '请输入发表类型', trigger: 'change' }],
-        journalType1: { required: true, message: '请输入会议全称', trigger: 'blur' },
+        journalType1: { required: true, message: '请输入期刊类型', trigger: 'blur' },
 
-        fullName: { required: true, message: '请输入会议全称', trigger: 'blur' },
-        fullName2: { required: true, message: '请输入期刊全称', trigger: 'blur' },
+        fullName: { required: true, message: '请输入全称', trigger: 'blur' },
       }
     }
   },
@@ -294,8 +291,8 @@ export default {
         chineseName: "",
         englishName: "",
         email: "",
-        connect: false,
-        first: false
+        correspondAuthor: false,
+        firstAuthor: false
       })
     },
     getUser (name, authorIndex) {
@@ -313,7 +310,9 @@ export default {
               organizations: res.data.organization.split('#').map(item => ({
                 label: item
 
-              }))
+              })),
+              correspondAuthor: false,
+              firstAuthor: false
             }
             this.form.authors.splice(authorIndex, 1, author)
 
@@ -349,13 +348,14 @@ export default {
             ...this.form,
             firstPublish: Number(this.form.firstPublish),
             confIsTop80: Number(this.form.confIsTop80),
-            fullName: this.form.fullName !== '' ? this.form.fullName : this.form.fullName2,
+            status: this.form.status === '录用' ? 0 : this.form.status === '发表' ? 1 : 2,
             authors: this.form.authors.map(author => {
               let org = author.organizations.map(org => org.label).join('#')
-
               return {
                 chineseName: author.chineseName,
                 englishName: author.englishName,
+                correspondAuthor: Number(author.correspondAuthor),
+                firstAuthor: Number(author.firstAuthor),
                 email: author.email,
                 organization: org
               }

@@ -194,11 +194,7 @@ const routes = [
         name:"undoPatentDetail",
         component:UndoPatentdetail
       },
-    /*   {
-        path:"/patentDetail",
-        name:"patentDetail",
-        component:Patentdetail
-      }, */
+   
       {
         path:"/backforward",
         name:"backforward",

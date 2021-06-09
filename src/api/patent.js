@@ -45,4 +45,15 @@ export function updatePatentVO(data){
     data,
   })
 }
+/**
+ * 专利溯源
+ * @param {*} queryData 
+ * @returns 
+ */
+export function backforward(id){
+  return request({
+    url:`/patent/getPatentHistory?id=${id}`,
+    method:"GET",
+  })
+}
 

@@ -376,6 +376,7 @@ export default {
   },
   mounted () {
     this.id = this.$route.query.id
+    console.log('this.id', this.id);
     getPatentVO(this.id).then(res => {
       console.log('res', res);
       if (res.code === 200) {

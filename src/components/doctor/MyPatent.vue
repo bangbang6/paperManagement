@@ -302,7 +302,7 @@ export default {
     handleRowClick (row) {
       console.log(row)
       this.$router.push({
-        path: '/UndoPatentdetail',
+        path: '/undoPatentdetail',
         query: {
           id: row.id
         }
@@ -313,7 +313,8 @@ export default {
         path: "/backforward",
         query: {
           id: row.id,
-          title: row.title
+          title: row.title,
+          category:1
         }
       })
     }
