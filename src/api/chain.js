@@ -5,13 +5,15 @@ import request from "../util/request";
  */
 export function getChainPapers(page=0,size=8){
   return request({
-    url:`/paper/getUpChainPapers?page=${page}&size=${size}`,
-    method:"GET",
-
+    url:`/paper/query?page=${page}&size=${size}`,
+    method:"POST",
+    data:{
+      
+    }
   })
 }
 /**
- * 获取链上论文列表  可以分页
+ * 获取链上专利列表  可以分页
  * @returns 
  */
 export function getChainPatents(page=0,size=8){
@@ -68,7 +70,7 @@ export function  getExceptionListByTitle(title){
 
 export function findPapersByQuery(queryData){
   return request({
-    url:"/paper/findPapersByQueryCriteria",
+    url:`/paper/query?page=${queryData.page}&size=${queryData.size}`,
     method:"POST",
     data:queryData,
   })

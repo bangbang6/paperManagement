@@ -32,6 +32,7 @@
 <script>
 import { getHistory } from '@/api/chain'
 import { backforward } from '@/api/patent'
+import { getSoftwareHistory } from '@/api/software'
 export default {
   methods: {
     random () {
@@ -72,6 +73,20 @@ export default {
       })
     } else if (this.category == 0) {
       getHistory(this.id).then(res => {
+        if (res.code === 200) {
+          this.historys = res.data
+        } else {
+          this.$message({
+            message: res.msg,
+            status: 'error',
+            duration: 1000
+          })
+        }
+      })
+    }
+    else if (this.category == 2) {
+      //软著
+      getSoftwareHistory(this.id).then(res => {
         if (res.code === 200) {
           this.historys = res.data
         } else {

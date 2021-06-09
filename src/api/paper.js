@@ -8,7 +8,7 @@ const downloadBaseUrl = 'http://localhost:8090'
  */
 export function getPaperDetail(id){
   return request({
-    url:`/paper/getPaperVO?id=${id}`,
+    url:`/paper/getPaperDetail?id=${id}`,
     method:'get',
     
   })

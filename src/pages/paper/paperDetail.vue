@@ -7,7 +7,7 @@
     </div>
     <el-form ref="form" :model="form" label-width="90px" :rules="rules">
       <el-form-item label="论文标题" :style="{width:'400px'}" prop="title">
-        <el-input v-model="form.title"></el-input>
+        <span>{{form.title}}</span>
       </el-form-item>
 
       <el-form-item label="作者">
@@ -22,88 +22,47 @@
           <el-card shadow="never">
             <div>
               <el-form-item label="中文名">
-                <el-input
-                  v-model="author.chineseName"
-                  :style="{width:'160px'}"
-                  @change="name=>getUser(name,index)"
-                ></el-input>
+                <span>{{form.chineseName}}</span>
               </el-form-item>
               <el-form-item label="英文名">
-                <el-input v-model="author.englishName" :style="{width:'160px'}"></el-input>
+                <span>{{form.englishName}}</span>
               </el-form-item>
               <el-form-item label="邮箱">
-                <el-input v-model="author.email" :style="{width:'160px'}"></el-input>
+                <span>{{form.email}}</span>
               </el-form-item>
-              <el-form-item label="通讯">
-                <el-checkbox v-model="author.correspondAuthor"></el-checkbox>
-              </el-form-item>
-              <el-form-item label="一作">
-                <el-checkbox v-model="author.firstAuthor"></el-checkbox>
-              </el-form-item>
+              <el-tag v-if="author.firstAuthor" :style="{marginRight:'5px'}">一作</el-tag>
+              <el-tag type="success" v-if="author.connectAuthor">通讯</el-tag>
             </div>
             <el-form-item label="单位" class="organizationWrapper">
               <div v-for="(organization,index2) in author.organizations" :key="index2">
-                <el-input v-model="organization.label" :style="{width:'740px'}"></el-input>
-                <el-button
-                  type="danger"
-                  size="mini"
-                  :style="{marginLeft:'20px'}"
-                  @click="deleteOrganization(index,index2)"
-                >删除</el-button>
+                <span>{{organization.label}}</span>
               </div>
-
-              <el-button
-                type="primary"
-                size="mini"
-                :style="{marginTop:'10px'}"
-                @click="addOrganization(index)"
-              >新增</el-button>
             </el-form-item>
           </el-card>
         </el-form>
-        <div class="add-icon-wrapper" @click="addAuthor">
-          <i class="el-icon-circle-plus-outline"></i>
-        </div>
       </el-form-item>
       <el-form-item label="论文状态">
-        <el-radio-group v-model="form.status" size="mini" @change="handleChangeStatus">
-          <el-radio-button label="录用"></el-radio-button>
-          <el-radio-button label="发表"></el-radio-button>
-          <el-radio-button label="收录"></el-radio-button>
-        </el-radio-group>
+        <span>{{form.status}}</span>
       </el-form-item>
       <el-form-item label="发表类型" prop="publicType">
-        <el-select v-model="form.publicType" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-        <el-checkbox v-model="form.confIsTop80" :style="{marginLeft:'20px'}">是否为top80</el-checkbox>
+        <span>{{form.publicType}}</span>
+
+        <!--  <el-checkbox v-model="form.confIsTop80" :style="{marginLeft:'20px'}">是否为top80</el-checkbox> -->
       </el-form-item>
 
       <div class="meeting" v-if="form.publicType === 1">
         <el-form-item label="会议类别" prop="confType">
-          <el-select v-model="form.confType" placeholder="请选择" @change="handleChangeType">
-            <el-option
-              v-for="item in options2"
-              :key="item.value"
-              :label="item.label"
-              :value="item.label"
-            ></el-option>
-          </el-select>
+          <span>{{form.confType}}</span>
         </el-form-item>
         <el-form-item label="会议全称" prop="fullName">
-          <el-input v-model="form.fullName" placeholder="会议全称" :style="{width:'220px'}"></el-input>
+          <span>{{form.fullName}}</span>
         </el-form-item>
         <el-form-item label="会议缩写">
-          <el-input v-model="form.shortName" placeholder="会议缩写" :style="{width:'220px'}"></el-input>
+          <span>{{form.shortName}}</span>
         </el-form-item>
 
         <el-form-item label="会议时间">
-          <el-date-picker
+          <!--  <el-date-picker
             v-model="form.time"
             type="daterange"
             size="small"
@@ -111,24 +70,30 @@
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
-          ></el-date-picker>
+          ></el-date-picker>-->
+          <span>{{formatDate(form.starTtime)}}</span>
+          <span :style="{display:'inline-block',width:'20px',textAlign:'center'}">一</span>
+          <span>{{formatDate(form.endTime)}}</span>
         </el-form-item>
         <el-form-item label="会议地点">
-          <el-input v-model="form.confPlace" :style="{width:'220px'}"></el-input>
+          <span>{{form.confPlace}}</span>
         </el-form-item>
         <el-form-item label="页码">
-          <el-input v-model="form.pageNumStart" :style="{width:'100px'}"></el-input>
+          <!-- <el-input v-model="form.pageNumStart" :style="{width:'100px'}"></el-input>
           <span :style="{display:'inline-block',width:'30px',textAlign:'center'}">一</span>
-          <el-input v-model="form.pageNumEnd" :style="{width:'100px'}"></el-input>
-          <el-checkbox v-model="form.confIsElectronic" :style="{marginLeft:'20px'}">电子版</el-checkbox>
+          <el-input v-model="form.pageNumEnd" :style="{width:'100px'}"></el-input>-->
+          <span>{{formatDate(form.pageNumStart)}}</span>
+          <span :style="{display:'inline-block',width:'20px',textAlign:'center'}">一</span>
+          <span>{{formatDate(form.pageNumEnd)}}</span>
+          <!--  <el-checkbox v-model="form.confIsElectronic" :style="{marginLeft:'20px'}">电子版</el-checkbox> -->
         </el-form-item>
         <el-form-item label="会议报告人">
-          <el-input v-model="form.confReporter" :style="{width:'220px'}"></el-input>
+          <span>{{form.confReporter}}</span>
         </el-form-item>
       </div>
       <div class="qikan" v-if="form.publicType === 2">
         <el-form-item label="期刊类别" prop="journalType1">
-          <el-select v-model="form.journalType1" placeholder="请选择" :style="{width:'220px'}">
+          <!--  <el-select v-model="form.journalType1" placeholder="请选择" :style="{width:'220px'}">
             <el-option
               v-for="item in options3"
               :key="item.value"
@@ -148,57 +113,56 @@
               :label="item.label"
               :value="item.label"
             ></el-option>
-          </el-select>
+          </el-select>-->
+          <span>{{form.journalType1}} {{form.journalType2}}</span>
         </el-form-item>
 
         <el-form-item label="期刊全称" prop="fullName">
-          <el-input v-model="form.fullName" placeholder="期刊全称" :style="{width:'220px'}"></el-input>
+          <span>{{form.fullName}}</span>
         </el-form-item>
         <el-form-item label="期刊缩写">
-          <el-input v-model="form.shortName" placeholder="期刊缩写" :style="{width:'220px'}"></el-input>
+          <span>{{form.shortName}}</span>
         </el-form-item>
         <el-form-item label="卷号">
-          <el-input v-model="form.journalVolumeNum" :style="{width:'220px'}"></el-input>
+          <span>{{form.journalVolumeNum}}</span>
         </el-form-item>
         <el-form-item label="期号">
-          <el-input v-model="form.journalIssueNum" :style="{width:'220px'}"></el-input>
+          <span>{{form.journalIssueNum}}</span>
         </el-form-item>
         <el-form-item label="页码">
-          <el-input v-model="form.journalPageNumStart" :style="{width:'100px'}"></el-input>
-          <span :style="{display:'inline-block',width:'30px',textAlign:'center'}">一</span>
-          <el-input v-model="form.journalPageNumEnd" :style="{width:'100px'}"></el-input>
+          <span>{{formatDate(form.pageNumStart)}}</span>
+          <span :style="{display:'inline-block',width:'20px',textAlign:'center'}">一</span>
+          <span>{{formatDate(form.pageNumEnd)}}</span>
         </el-form-item>
         <el-form-item label="发表日期">
-          <el-date-picker
-            v-model="form.journalPublishTime"
-            type="date"
-            placeholder="选择日期"
-            :style="{width:'220px'}"
-          ></el-date-picker>
-          <el-checkbox v-model="form.firstPublish" :style="{marginLeft:'20px'}">是否为首发</el-checkbox>
+          <span>{{form.journalPublishTime}}</span>
+
+          <!-- <el-checkbox v-model="form.firstPublish" :style="{marginLeft:'20px'}">是否为首发</el-checkbox> -->
         </el-form-item>
         <el-form-item label="ISSN/ISBN">
-          <el-input v-model="form.issn" :style="{width:'220px'}"></el-input>
+          <span>{{form.issn}}</span>
         </el-form-item>
         <el-form-item label="doi">
-          <el-input v-model="form.doi" :style="{width:'220px'}"></el-input>
+          <span>{{form.doi}}</span>
         </el-form-item>
       </div>
 
       <el-form-item label="项目信息">
         <div v-for="(project,index) in form.projects" :key="index">
-          <el-input v-model="project.projectNum" :style="{width:'220px'}" placeholder="项目号"></el-input>
+          <!--  <el-input v-model="project.projectNum" :style="{width:'220px'}" placeholder="项目号"></el-input>
           <el-input
             v-model="project.projectFund"
             :style="{width:'220px',marginLeft:'20px'}"
             placeholder="项目基金"
-          ></el-input>
-          <i class="el-icon-circle-plus-outline icon2" @click="addProject"></i>
+          ></el-input>-->
+          <span>{{project.project.projectNum}}</span>
+          <span>{{project.projectFund}}</span>
+          <!--   <i class="el-icon-circle-plus-outline icon2" @click="addProject"></i> -->
         </div>
       </el-form-item>
-      <el-form-item :style="{display:'flex',justifyContent:'flex-end'}">
+      <!--  <el-form-item :style="{display:'flex',justifyContent:'flex-end'}">
         <el-button type="primary" size="mini" @click="submit">提交</el-button>
-      </el-form-item>
+      </el-form-item>-->
     </el-form>
   </div>
 </template>
@@ -294,121 +258,13 @@ export default {
   },
 
   methods: {
-    handleChangeType (type) {
-      console.log('type', type);
-      this.$message({
-        type: 'error',
-        duration: 1000,
-        message: "禁止修改文章类型"
-      })
-      this.form.publicType = this.publicType
-    },
-    handleChangeStatus (status) {
-      let idx = -1
-      this.statusOptions.forEach((op, index) => {
-        if (status === op) {
-          idx = index
-        }
-      });
-      if (idx < this.status) {
-        this.$message({
-          type: 'error',
-          duration: 1000,
-          message: "禁止不合理修改状态"
-        })
-        this.form.status = this.statusOptions[this.status]
-      }
-    },
-    addAuthor () {
-      this.form.authorList.push({
-        chineseName: "",
-        englishName: "",
-        email: "",
-        correspondAuthor: false,
-        firstAuthor: false
-      })
-    },
-    getUser (name, authorIndex) {
-      getUserByChineseName(name).then(res => {
-        if (res.code === 200) {
-          if (res.data) {
-            /*  authors: [
-             { chineseName: { label: "", status: true }, engishName: { label: "", status: true }, email: { label: "", status: true }, organization: [{ label: "", status: true }], connect: false, first: false },
- 
-           ], */
-            let author = {
-              chineseName: res.data.chineseName,
-              englishName: res.data.englishName,
-              email: res.data.email,
-              organizations: res.data.organization.split('#').map(item => ({
-                label: item
 
-              })),
-              correspondAuthor: false,
-              firstAuthor: false
-            }
-            this.form.authorList.splice(authorIndex, 1, author)
-
-
-          }
-        } else {
-          /*  Message({
-             type: 'error',
-             duration: 1000,
-             message: res.msg
-           }) */
-        }
-      })
+    formatDate (date) {
+      let str = new Date(date).toLocaleString()
+      let index = new Date(date).toLocaleString().indexOf('午')
+      return str.slice(0, index - 1)
     },
-    addOrganization (index1) {
-      this.form.authorList[index1].organizations.push({ label: '' })
-    },
-    deleteOrganization (index1, index2) {
-      this.form.authorList[index1].organizations.splice(index2, 1)
 
-    },
-    addProject () {
-      this.form.projects.push({
-        projectNum: '',
-        projectFund: ''
-      })
-    },
-    submit () {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          //数据类型转换
-          let formData = {
-            ...this.form,
-            firstPublish: Number(this.form.firstPublish),
-            confIsTop80: Number(this.form.confIsTop80),
-            status: this.form.status === '录用' ? 0 : this.form.status === '发表' ? 1 : 2,
-            authorList: this.form.authorList.map(author => {
-              let org = author.organizations.map(org => org.label).join('#')
-              return {
-                chineseName: author.chineseName,
-                englishName: author.englishName,
-                correspondAuthor: Number(author.correspondAuthor),
-                firstAuthor: Number(author.firstAuthor),
-                email: author.email,
-                organization: org
-              }
-            })
-          }
-          uploadPaper(formData).then(res => {
-            console.log('res', res);
-          })
-
-
-        } else {
-          this.$message({
-            type: 'error',
-            message: '请填写必要信息',
-            duration: 1000
-          })
-        }
-      });
-
-    }
   },
   mounted () {
     Promise.all([getConfType(), getJournalType1(), getJournalType2()]).then(options => {
@@ -417,7 +273,7 @@ export default {
       this.options3 = options[1].data.map((item, index) => ({ value: index + 1, label: item }))
       this.options4 = options[2].data.map((item, index) => ({ value: index + 1, label: item }))
     })
-    this.id = this.$route.query.id || 42
+    this.id = this.$route.query.id || 89
     console.log('this.id', this.id);
     getPaperDetail(this.id).then(res => {
       console.log('res', res);

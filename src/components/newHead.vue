@@ -27,6 +27,9 @@
                 </div>
               </el-dropdown-item>
             </div>
+            <div @click="navJump">
+              <el-dropdown-item data-item="23" v-if="role===0" index="2-3">上传软著</el-dropdown-item>
+            </div>
           </el-dropdown-menu>
         </div>
       </el-dropdown>
@@ -149,6 +152,14 @@ export default {
           })
 
         }
+        else if (e.target.dataset.item === '23') {
+          console.log('e', e);
+          this.$router.push({
+            path: '/teacher/softwareForm',
+
+          })
+
+        }
         else if (e.target.dataset.item === '52') {
           console.log('e', e);
           this.$router.push({
@@ -228,6 +239,9 @@ export default {
           this.navIndex = 2
         }
         else if (newV.name === 'patentForm') {
+          this.navIndex = 2
+        }
+        else if (newV.name === 'softwareForm') {
           this.navIndex = 2
         }
 

@@ -11,7 +11,7 @@
 
       <el-form-item label="作者">
         <el-form
-          v-for="(author,index) in form.authorsList"
+          v-for="(author,index) in form.authorList"
           :model="author"
           :ref="'author'+index"
           :key="index"
@@ -218,7 +218,7 @@ export default {
         title: "",
         status: "",
         publicType: "",
-        authorsList: [{
+        authorList: [{
           chineseName: "",
           englishName: "",
           email: "",
@@ -287,7 +287,7 @@ export default {
 
   methods: {
     addAuthor () {
-      this.form.authorsList.push({
+      this.form.authorList.push({
         chineseName: "",
         englishName: "",
         email: "",
@@ -314,7 +314,7 @@ export default {
               correspondAuthor: false,
               firstAuthor: false
             }
-            this.form.authorsList.splice(authorIndex, 1, author)
+            this.form.authorList.splice(authorIndex, 1, author)
 
 
           }
@@ -328,10 +328,10 @@ export default {
       })
     },
     addOrganization (index1) {
-      this.form.authorsList[index1].organizations.push({ label: '' })
+      this.form.authorList[index1].organizations.push({ label: '' })
     },
     deleteOrganization (index1, index2) {
-      this.form.authorsList[index1].organizations.splice(index2, 1)
+      this.form.authorList[index1].organizations.splice(index2, 1)
 
     },
     addProject () {
@@ -349,7 +349,7 @@ export default {
             firstPublish: Number(this.form.firstPublish),
             confIsTop80: Number(this.form.confIsTop80),
             status: this.form.status === '录用' ? 0 : this.form.status === '发表' ? 1 : 2,
-            authorsList: this.form.authorsList.map(author => {
+            authorList: this.form.authorList.map(author => {
               let org = author.organizations.map(org => org.label).join('#')
               return {
                 chineseName: author.chineseName,
@@ -363,6 +363,25 @@ export default {
           }
           uploadPaper(formData).then(res => {
             console.log('res', res);
+            if (res.code === 200) {
+              this.$message({
+                message: "上传成功",
+                type: 'success',
+                duration: 1000
+              })
+              /* this.$refs.form.resetFields()
+              for (let i = 0; i < this.form.authorsList.length; i++) {
+                console.log('this.$refs.author0', this.$refs.author0);
+                this.$refs['author' + i].resetFields()
+              } */
+              this.$router.push('/teacher/userCenter')
+            } else {
+              this.$message({
+                message: res.msg,
+                type: 'error',
+                duration: 1000
+              })
+            }
           })
 
 

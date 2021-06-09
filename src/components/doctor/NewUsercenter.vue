@@ -103,9 +103,11 @@
         <el-radio-group v-model="myRadio" size="mini">
           <el-radio-button label="我的论文"></el-radio-button>
           <el-radio-button label="我的专利"></el-radio-button>
+          <el-radio-button label="我的软著"></el-radio-button>
         </el-radio-group>
         <my-paper v-if="myRadio === '我的论文'"></my-paper>
         <my-patent v-if="myRadio === '我的专利'"></my-patent>
+        <my-software v-if="myRadio === '我的软著'"></my-software>
       </el-card>
     </div>
     <el-dialog title="修改信息" :visible.sync="dialogVisible" width="30%">
@@ -163,11 +165,12 @@
 <script>
 import MyPaper from './MyPaper.vue'
 import MyPatent from './MyPatent.vue'
+import MySoftware from './MySoftware.vue'
 import { updateUserInfo, getUserInfo, getAvatar, setAvatar } from '@/api/user'
 
 import { Bus } from '../../main'
 export default {
-  components: { MyPaper, MyPatent },
+  components: { MyPaper, MyPatent, MySoftware },
   data () {
     return {
       myRadio: '我的论文',

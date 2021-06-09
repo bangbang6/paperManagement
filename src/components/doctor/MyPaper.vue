@@ -41,15 +41,15 @@
         <el-table-column prop="title" label="名称" width="450">
           <template slot-scope="scope">
             <span
-              :class="scope.row.exception.length>0?'exception':'normal'"
-              :style="scope.row.exception.length>0?getWidth(scope.row.exception):''"
+              :class="scope.row.exceptions.length>0?'exception':'normal'"
+              :style="scope.row.exceptions.length>0?getWidth(scope.row.exceptions):''"
             >{{scope.row.title}}</span>
             <el-tag
               @click="handleErrorClick(scope.row)"
               :type="item === '题目重复'?'danger':'warning'"
               size="mini"
               effect="dark"
-              v-for="item in scope.row.exception"
+              v-for="item in scope.row.exceptions"
               :style="{marginLeft:'10px'}"
               :key="item"
             >{{item}}</el-tag>
@@ -60,10 +60,10 @@
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="publicTypeName" label="发表类型"></el-table-column>
-        <el-table-column prop="name" label="具体名称">
+        <el-table-column prop="typeNames" label="发表类型"></el-table-column>
+        <el-table-column prop="shortName" label="名称缩写">
           <template slot-scope="scope">
-            <span class="overflow">{{scope.row.name}}</span>
+            <span class="overflow">{{scope.row.shortName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="projectNum" label="项目号">
@@ -114,7 +114,7 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :total="tableData.length+100"
+      :total="+totalElements+1"
       @current-change="handlePageChange"
       :current-page="page"
     >></el-pagination>
@@ -122,7 +122,7 @@
 </template>
  
 <script>
-import { findPapersByQuery, getChainPapers } from '@/api/chain'
+import { findPapersByQuery } from '@/api/chain'
 import { downloadFile } from '@/api/paper'
 export default {
 
@@ -200,6 +200,8 @@ export default {
       author: '',
       projectNum: '',
       publicTypeName: '',
+      totalElements: '',
+      totalPages: "",
       page: 1,
       name: "",
       options: [
@@ -224,24 +226,7 @@ export default {
 
     },
     getPaperByPage () {
-      //普通分页
-      if (this.title === '' && this.projectNum === '' && this.publicTypeName.length === 0 && this.name === '' && this.date.length < 2 && this.author === '' && this.error === false) {
-        getChainPapers(this.page - 1).then(res => {
-          console.log('list', res);
-          if (res.code === 200) {
 
-            this.tableData = res.data || []
-          } else {
-            this.$message({
-              type: 'error',
-              duration: 1000,
-              message: res.msg
-            })
-          }
-        })
-
-        return
-      }
       //搜索分页
       let queryData = {
         title: this.title,
@@ -258,8 +243,9 @@ export default {
       }
       findPapersByQuery(queryData).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data || []
-
+          this.tableData = res.data.content || []
+          this.totalElements = res.data.totalElements
+          this.totalPages = res.data.totalPages
         } else {
           this.$message({
             type: 'error',
@@ -326,7 +312,9 @@ export default {
       }
       findPapersByQuery(queryData).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data
+          this.tableData = res.data.content || []
+          this.totalElements = res.data.totalElements
+          this.totalPages = res.data.totalPages
 
         } else {
           this.$message({
@@ -338,8 +326,8 @@ export default {
       })
 
     },
-    getWidth (exception) {
-      return `width:${450 - exception.length * 100}px`
+    getWidth (exceptions) {
+      return `width:${450 - exceptions.length * 100}px`
     },
     handleErrorClick (row) {
       let title = row.title

@@ -9,6 +9,7 @@ import ErrorStatus  from '../components/admin/ErrorStatus'
 import MyFile  from '../components/doctor/MyFile'
 import PaperForm  from '../components/doctor/form/PaperForm'
 import PatentForm  from '../components/doctor/form/PatentForm'
+import SoftwareForm  from '../components/doctor/form/SoftwareForm'
 import Allfile  from '../components/doctor/Allfile'
 import AllPatentfile  from '../components/doctor/AllPatentfile'
 import PaperRequest  from '../components/admin/PaperRequest'
@@ -17,7 +18,7 @@ import patentManagement  from '../components/doctor/PatentManagement'
 import FindRepeat  from '../components/repeat/FindRepeat'
 import AdminMain  from '../pages/AdminMain'
 import repeatMain  from '../pages/RepeatMain'
-import undoPaperdetail  from '../pages/UndoPaperdetail'
+import UndoPaperdetail  from '../pages/paper/UndoPaperdetail'
 import Main  from '../pages/Main'
 import Backforward  from '../pages/Backforward'
 import UndoPatentdetail  from '../pages/patent/UndoPatentdetail'
@@ -87,6 +88,11 @@ const routes = [
             path:'/teacher/fileManagement',
             name:"fileManagement",
             component:PaperForm
+          },
+          {
+            path:'/teacher/softwareForm',
+            name:"softwareForm",
+            component:SoftwareForm
           },
             {
                 path:'/teacher/patentManagement',
@@ -187,7 +193,7 @@ const routes = [
       {
         path:"/undoPaperdetail",
         name:"undoPaperdetail",
-        component:undoPaperdetail
+        component:UndoPaperdetail
       },
       {
         path:"/undoPatentDetail",
