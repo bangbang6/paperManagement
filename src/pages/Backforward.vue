@@ -39,8 +39,8 @@ export default {
     },
     formatDate (date) {
       let str = new Date(date).toLocaleString()
-      let index = new Date(date).toLocaleString().indexOf('午')
-      return str.slice(0, index - 1)
+      /* let index = new Date(date).toLocaleString().indexOf('午') */
+      return str/* .slice(0, index - 1) */
     },
   },
   data () {

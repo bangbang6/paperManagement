@@ -6,7 +6,7 @@
     </div>
     <el-form ref="form" :model="form" label-width="120px" :rules="rules">
       <el-form-item label="专利名称(中)" :style="{width:'400px'}" prop="relativeTitle" v-if="form.isUsa">
-        <el-input v-model="form.relativeTitle"></el-input>
+        <el-input v-model="form.relativeTitle" @blur="checkRelative"></el-input>
       </el-form-item>
       <el-form-item label="缴费时间" v-if="form.isUsa">
         <el-date-picker
@@ -258,6 +258,9 @@ export default {
   },
 
   methods: {
+    checkRelative (e) {
+      console.log('e', e);
+    },
     addAuthor () {
       this.form.authorsList.push({
         chineseName: "",

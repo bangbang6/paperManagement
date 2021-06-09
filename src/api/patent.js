@@ -56,4 +56,18 @@ export function backforward(id){
     method:"GET",
   })
 }
+/**
+ * 专利 中文专利是否纯在
+ * @param {*} queryData 
+ * @returns 
+ */
+export function checkRelative(relativeTitle){
+  return request({
+    url:`/patent/checkUsa`,
+    method:"POST",
+    data:{
+      relativeTitle
+    }
+  })
+}
 

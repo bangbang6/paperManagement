@@ -11,7 +11,7 @@
 
       <el-form-item label="作者">
         <el-form
-          v-for="(author,index) in form.authorsList"
+          v-for="(author,index) in form.authors"
           :model="author"
           :ref="'author'+index"
           :key="index"
@@ -65,7 +65,7 @@
         </div>
       </el-form-item>
       <el-form-item label="论文状态">
-        <el-radio-group v-model="form.status" size="mini">
+        <el-radio-group v-model="form.status" size="mini" @change="handleChangeStatus">
           <el-radio-button label="录用"></el-radio-button>
           <el-radio-button label="发表"></el-radio-button>
           <el-radio-button label="收录"></el-radio-button>
@@ -85,7 +85,7 @@
 
       <div class="meeting" v-if="form.publicType === 1">
         <el-form-item label="会议类别" prop="confType">
-          <el-select v-model="form.confType" placeholder="请选择">
+          <el-select v-model="form.confType" placeholder="请选择" @change="handleChangeType">
             <el-option
               v-for="item in options2"
               :key="item.value"
@@ -113,7 +113,7 @@
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="会议地点">
-          <el-input v-model="form.confPlace" :style="{width:'220px'}"></el-input>
+          <el-input v-model="form.website" :style="{width:'220px'}"></el-input>
         </el-form-item>
         <el-form-item label="页码">
           <el-input v-model="form.pageNumStart" :style="{width:'100px'}"></el-input>
@@ -206,19 +206,26 @@
 /* import MeetingForm from './MeetingForm' */
 import { uploadPaper } from '@/api/teacher.js'
 import { getConfType, getJournalType2, getJournalType1 } from '@/api/type.js'
-import { getUserByChineseName } from '@/api/paper'
+import { getUserByChineseName, getPaperDetail } from '@/api/paper'
 
 /* import QikanForm from './QikanForm.vue' */
 export default {
 
   data () {
-
+    this.statusOptions = [
+      '录用',
+      '发表',
+      '收录'
+    ]
     return {
+      publicType: '',
+      status: '',
       form: {
+
         title: "",
         status: "",
         publicType: "",
-        authorsList: [{
+        authors: [{
           chineseName: "",
           englishName: "",
           email: "",
@@ -242,7 +249,7 @@ export default {
         fullName: "",
         shortName: "",
         time: "",
-        confPlace: "",
+        website: "",
         pageNumStart: "",
         pageNumEnd: "",
         confIsElectronic: "",
@@ -286,8 +293,33 @@ export default {
   },
 
   methods: {
+    handleChangeType (type) {
+      console.log('type', type);
+      this.$message({
+        type: 'error',
+        duration: 1000,
+        message: "禁止修改文章类型"
+      })
+      this.form.publicType = this.publicType
+    },
+    handleChangeStatus (status) {
+      let idx = -1
+      this.statusOptions.forEach((op, index) => {
+        if (status === op) {
+          idx = index
+        }
+      });
+      if (idx < this.status) {
+        this.$message({
+          type: 'error',
+          duration: 1000,
+          message: "禁止不合理修改状态"
+        })
+        this.form.status = this.statusOptions[this.status]
+      }
+    },
     addAuthor () {
-      this.form.authorsList.push({
+      this.form.authors.push({
         chineseName: "",
         englishName: "",
         email: "",
@@ -314,7 +346,7 @@ export default {
               correspondAuthor: false,
               firstAuthor: false
             }
-            this.form.authorsList.splice(authorIndex, 1, author)
+            this.form.authors.splice(authorIndex, 1, author)
 
 
           }
@@ -328,10 +360,10 @@ export default {
       })
     },
     addOrganization (index1) {
-      this.form.authorsList[index1].organizations.push({ label: '' })
+      this.form.authors[index1].organizations.push({ label: '' })
     },
     deleteOrganization (index1, index2) {
-      this.form.authorsList[index1].organizations.splice(index2, 1)
+      this.form.authors[index1].organizations.splice(index2, 1)
 
     },
     addProject () {
@@ -343,13 +375,13 @@ export default {
     submit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-
+          //数据类型转换
           let formData = {
             ...this.form,
             firstPublish: Number(this.form.firstPublish),
             confIsTop80: Number(this.form.confIsTop80),
             status: this.form.status === '录用' ? 0 : this.form.status === '发表' ? 1 : 2,
-            authorsList: this.form.authorsList.map(author => {
+            authors: this.form.authors.map(author => {
               let org = author.organizations.map(org => org.label).join('#')
               return {
                 chineseName: author.chineseName,
@@ -383,6 +415,35 @@ export default {
       this.options2 = options[0].data.map((item, index) => ({ value: index + 1, label: item }))
       this.options3 = options[1].data.map((item, index) => ({ value: index + 1, label: item }))
       this.options4 = options[2].data.map((item, index) => ({ value: index + 1, label: item }))
+    })
+    this.id = this.$route.query.id
+    console.log('this.id', this.id);
+    getPaperDetail(this.id).then(res => {
+      console.log('res', res);
+      if (res.code === 200) {
+        this.publicType = res.data.publicType
+
+        this.form = {
+          ...res.data,
+          time: [res.data.confStartTime, res.data.confEndTime],
+          firstPublish: Boolean(res.data.firstPublish),
+          confIsTop80: Boolean(res.data.confIsTop80),
+          status: res.data.status == 0 ? '录用' : res.data.status == 1 ? '发表' : "收录",
+          authorsList: res.data.authorsList.map(author => ({
+            ...author,
+            organizations: author.organization ? author.organization.split('#').map(item => ({ label: item })) : [{ label: "" }],
+            correspondAuthor: Boolean(author.correspondAuthor),
+            firstAuthor: Boolean(author.firstAuthor),
+          }))
+        }
+        this.status = this.form.status
+      } else {
+        this.$message({
+          message: res.msg,
+          duration: 1000,
+          type: 'error'
+        })
+      }
     })
   }
 
