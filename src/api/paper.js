@@ -14,12 +14,21 @@ export function getPaperDetail(id){
   })
 }
 
-//修改信息
-export function editPaper(obj){
+//修改论文信息
+export function updatePaper(obj){
   return request({
-    url:"",
+    url:"/paper/update",
     data:obj,
     method:"POST",
+   
+  })
+}
+//获取论文溯源信息
+export function getPaperHistory(id){
+  return request({
+    url:`/paper/getPaperHistory?id=${id}`,
+   
+    method:"get",
    
   })
 }

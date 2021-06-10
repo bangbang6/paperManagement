@@ -205,7 +205,7 @@
  
 <script>
 /* import MeetingForm from './MeetingForm' */
-import { uploadPaper } from '@/api/teacher.js'
+import { updatePaper } from '@/api/paper.js'
 import { getConfType, getJournalType2, getJournalType1 } from '@/api/type.js'
 import { getUserByChineseName, getPaperDetail } from '@/api/paper'
 
@@ -383,6 +383,8 @@ export default {
             ...this.form,
             firstPublish: Number(this.form.firstPublish),
             confIsTop80: Number(this.form.confIsTop80),
+            confStartTime: this.form.time[0],
+            confEndTime: this.form.time[1],
             status: this.form.status === '录用' ? 0 : this.form.status === '发表' ? 1 : 2,
             authorList: this.form.authorList.map(author => {
               let org = author.organizations.map(org => org.label).join('#')
@@ -396,8 +398,23 @@ export default {
               }
             })
           }
-          uploadPaper(formData).then(res => {
-            console.log('res', res);
+          updatePaper(formData).then(res => {
+            if (res.code === 200) {
+              this.$message({
+                message: "修改成功",
+                type: 'success',
+                duration: 1000
+              })
+            } else {
+              if (res.code === 200) {
+                this.$message({
+                  message: res.msg,
+                  type: 'error',
+                  duration: 1000
+                })
+              }
+            }
+
           })
 
 
@@ -485,8 +502,7 @@ export default {
     .el-button {
       width: 60px;
     }
-    margin-bottom:20px;
-
+    margin-bottom: 20px;
   }
   .title-wrapper {
     height: 50px;

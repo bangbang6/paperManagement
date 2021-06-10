@@ -30,7 +30,7 @@
 </template>
  
 <script>
-import { getHistory } from '@/api/chain'
+import { getPaperHistory } from '@/api/paper'
 import { backforward } from '@/api/patent'
 import { getSoftwareHistory } from '@/api/software'
 export default {
@@ -73,7 +73,7 @@ export default {
       })
     } else if (this.category == 0) {
       //论文
-      getHistory(this.id).then(res => {
+      getPaperHistory(this.id).then(res => {
         if (res.code === 200) {
           this.historys = res.data
         } else {
