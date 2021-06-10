@@ -140,7 +140,7 @@
 <script>
 
 import { downloadFile } from '@/api/paper'
-import { getMySoftware, searchMySoftware } from '@/api/software'
+import { getAllSoftware, searchAllSoftware } from '@/api/software'
 export default {
   data () {
     return {
@@ -151,6 +151,7 @@ export default {
       status: '',
       ofGroup: '',
       registerNum: "",
+      certificateNumber: "",
       date: '',
       page: 1,
       options: [
@@ -194,7 +195,7 @@ export default {
         size: 8
 
       }
-      searchMySoftware(queryData).then(res => {
+      searchAllSoftware(queryData).then(res => {
         if (res.code === 200) {
           this.tableData = res.data
 
@@ -217,7 +218,7 @@ export default {
     getPaperByPage () {
       //普通分页
       if (this.title === '' && this.authors === '' && this.status === '' && this.date.length < 2 && this.error === false && this.certificateNumber === '' && this.registerNum === '') {
-        getMySoftware(this.page - 1).then(res => {
+        getAllSoftware(this.page - 1).then(res => {
           console.log('list', res);
           if (res.code === 200) {
 
@@ -248,7 +249,7 @@ export default {
         size: 8
 
       }
-      searchMySoftware(queryData).then(res => {
+      searchAllSoftware(queryData).then(res => {
         if (res.code === 200) {
           this.tableData = res.data || []
 
@@ -300,13 +301,29 @@ export default {
 
     },
     handleRowClick (row) {
+      let role = localStorage.getItem('role')
+      console.log('row', row);
+      let currentUser = localStorage.getItem('chineseName')
       console.log(row)
-      this.$router.push({
-        path: '/undosoftwaredetail',
-        query: {
-          id: row.id
+      if (role === '1') {
+        this.$router.push({
+          url: "/softwareDetail",
+          query: {
+            id: row.id
+          }
+        })
+      } else if (role === '0') {
+        if (row.uploader === currentUser) {
+          localStorage.setItem('paperId', row.id)
+          this.$router.push({
+            url: '/undoSoftwareDetail',
+            query: {
+              id: row.id
+            }
+
+          })
         }
-      })
+      }
     },
     back (row) {
       this.$router.push({
@@ -331,7 +348,7 @@ export default {
          this.tableData = this.files
        }
      })*/
-    getMySoftware().then(res => {
+    getAllSoftware().then(res => {
       if (res.code === 200) {
         this.tableData = res.data
       } else {
@@ -349,14 +366,16 @@ export default {
 <style lang="scss" scoped>
 .inner-wrapper {
   background: white;
+  width: 80%;
   margin: auto;
-  height: 600px;
+  height: 100%;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 
   overflow-y: auto;
   position: relative;
-
   .inner {
-    padding-top: 10px;
+    padding-top: 50px;
+    padding-left: 50px;
     .select-items {
       display: flex;
       justify-content: space-between;

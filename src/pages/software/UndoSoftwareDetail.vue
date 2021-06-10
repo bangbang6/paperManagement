@@ -5,26 +5,13 @@
       <span>{{form.title}}</span>
       <div></div>
     </div>
-    <el-form ref="form" :model="form" label-width="120px" :rules="rules">
-      <el-form-item label="专利名称(中)" :style="{width:'400px'}" prop="relativeId" v-if="form.isUsa">
-        <el-input v-model="form.relativeTitle"></el-input>
-      </el-form-item>
-      <el-form-item label="缴费时间" v-if="form.isUsa">
-        <el-date-picker
-          v-model="form.time"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          size="small"
-          end-placeholder="结束日期"
-        ></el-date-picker>
-      </el-form-item>
 
-      <el-form-item :label="form.isUsa?'专利名称(外)':'专利名称'" :style="{width:'400px'}" prop="title">
+    <el-form ref="form" :model="form" label-width="120px" :rules="rules">
+      <el-form-item label="版权名称" :style="{width:'400px'}" prop="title">
         <el-input v-model="form.title"></el-input>
       </el-form-item>
 
-      <el-form-item label="发明人">
+      <el-form-item label="著作人">
         <el-form
           v-for="(author,index) in form.authorsList"
           :model="author"
@@ -80,8 +67,8 @@
         </div>
       </el-form-item>
 
-      <el-form-item label="专利状态" prop="status">
-        <el-select v-model="form.status" placeholder="请选择" @change="handleChangeStatus">
+      <el-form-item label="版权状态" prop="status">
+        <el-select v-model="form.status" placeholder="请选择" @change="handleStatusChange">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -91,9 +78,9 @@
         </el-select>
       </el-form-item>
       <div class="prepare" v-if="form.status === 0">
-        <el-form-item label="组别" prop="ofGroup">
+        <!-- <el-form-item label="组别" prop="ofGroup">
           <el-input v-model="form.ofGroup" :style="{width:'220px'}"></el-input>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="依托项目">
           <el-input v-model="form.project" :style="{width:'220px'}"></el-input>
         </el-form-item>
@@ -102,80 +89,37 @@
         </el-form-item>
       </div>
       <div class="meeting" v-if="form.status === 1">
-        <el-form-item label="组别" prop="ofGroup">
+        <!-- <el-form-item label="组别" prop="ofGroup">
           <el-input v-model="form.ofGroup" :style="{width:'220px'}"></el-input>
+        </el-form-item>-->
+        <el-form-item label="证书号" prop="certificateNumber">
+          <el-input v-model="form.certificateNumber" :style="{width:'220px'}"></el-input>
         </el-form-item>
-        <el-form-item label="专利申请号" prop="applyNum">
-          <el-input v-model="form.applyNum" :style="{width:'220px'}"></el-input>
+        <el-form-item label="登记号" prop="registerNum">
+          <el-input v-model="form.registerNum" :style="{width:'220px'}"></el-input>
         </el-form-item>
-        <el-form-item label="专利申请日" prop="applyDate">
+        <el-form-item label="登记日期" prop="registerDate">
           <el-date-picker
-            v-model="form.applyDate"
+            v-model="form.registerDate"
             type="date"
             :style="{width:'220px'}"
-            placeholder="选择日期"
+            placeholder="登记日期"
           ></el-date-picker>
         </el-form-item>
-        <el-form-item label="专利权人" prop="institution">
+        <el-form-item label="单位" prop="institution">
           <el-input v-model="form.institution" :style="{width:'220px'}"></el-input>
         </el-form-item>
-        <el-form-item label="代理单位" prop="agent">
-          <el-input v-model="form.agent" :style="{width:'220px'}"></el-input>
-        </el-form-item>
-        <el-form-item label="依托项目" prop="project">
+
+        <el-form-item label="依托项目">
           <el-input v-model="form.project" :style="{width:'220px'}"></el-input>
         </el-form-item>
         <el-form-item label="备注">
           <el-input v-model="form.remarks" :style="{width:'220px'}"></el-input>
         </el-form-item>
       </div>
-      <div class="qikan" v-if="form.status === 2">
-        <el-form-item label="组别" prop="ofGroup">
-          <el-input v-model="form.ofGroup" :style="{width:'220px'}"></el-input>
-        </el-form-item>
-        <el-form-item label="专利申请号" prop="applyNum">
-          <el-input v-model="form.applyNum" :style="{width:'220px'}"></el-input>
-        </el-form-item>
-        <el-form-item label="专利号" prop="patentNum">
-          <el-input v-model="form.patentNum" :style="{width:'220px'}"></el-input>
-        </el-form-item>
-        <el-form-item label="专利申请日" prop="applyDate">
-          <el-date-picker
-            v-model="form.applyDate"
-            type="date"
-            :style="{width:'220px'}"
-            placeholder="选择日期"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="专利公告日" prop="publishDate">
-          <el-date-picker
-            v-model="form.publishDate"
-            type="date"
-            :style="{width:'220px'}"
-            placeholder="选择日期"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="专利权人" prop="institution">
-          <el-input v-model="form.institution" :style="{width:'220px'}"></el-input>
-        </el-form-item>
-        <el-form-item label="代理单位" prop="agent">
-          <el-input v-model="form.agent" :style="{width:'220px'}"></el-input>
-        </el-form-item>
-        <el-form-item label="依托项目" prop="project">
-          <el-input v-model="form.project" :style="{width:'220px'}"></el-input>
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="form.remarks" :style="{width:'220px'}"></el-input>
-        </el-form-item>
-      </div>
-      <el-form-item label="驳回">
-        <el-checkbox v-model="form.isRefuse">是否被驳回</el-checkbox>
-      </el-form-item>
-      <el-form-item label="驳回原因" v-if="form.isRefuse" :style="{width:'400px'}">
-        <el-input v-model="form.refuseReason"></el-input>
-      </el-form-item>
+
       <el-form-item :style="{display:'flex',justifyContent:'flex-end'}">
-        <el-button type="primary" size="mini" @click="submit">提交</el-button>
+        <el-button type="primary" @click="submit">修改</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -183,19 +127,19 @@
  
 <script>
 /* import MeetingForm from './MeetingForm' */
+import { getSoftwareVO, updateSoftwareVO } from '@/api/software.js'
 import { getUserByChineseName } from '@/api/paper'
-import { getPatentVO, updatePatentVO } from '@/api/patent'
 
 /* import QikanForm from './QikanForm.vue' */
 export default {
 
   data () {
-
     return {
-      status: 2,
+      status: "",
       form: {
         title: "",
         status: "",
+
         authorsList: [{
           chineseName: "",
           englishName: "",
@@ -208,21 +152,13 @@ export default {
           /*  connect: false,
            first: false */
         }],
-        isRefuse: false,
-        refuseReason: '',
-        relativeId: '',
 
-        ofGroup: "",
-        applyNum: "",
-        patentNum: "",
-        applyDate: "",
-        publishDate: "",
-        agent: "",
         project: "",
         remarks: "",
-        isUsa: false
-
-
+        registerNum: "",
+        certificateNumber: "",
+        registerDate: "",
+        institution: "",
       },
       options: [
         {
@@ -230,41 +166,30 @@ export default {
           value: 0
         },
         {
-          label: '申请未授权',
+          label: '申请通过',
           value: 1
         },
-        {
-          label: '已授权',
-          value: 2
-        },
+
       ],
 
       rules: {
         title: { required: true, message: '请输入标题', trigger: 'blur' },
 
-        ofGroup: [{ required: true, message: '请输入组别', trigger: 'blur' }],
-        status: [{ required: true, message: '请选择专利状态', trigger: 'change' }],
+        certificateNumber: { required: true, message: '请输入证书号', trigger: 'blur' },
+        status: { required: true, message: '请选择专利状态', trigger: 'change' },
 
 
-
-        applyDate: { required: true, message: '请输入专利申请日', trigger: 'change' },
-
-        applyNum: { required: true, message: '请输入专利申请号', trigger: 'blur' },
-
-        institution: { required: true, message: '请输入专利权人', trigger: 'blur' },
-
-        agent: { required: true, message: '请输入代理单位', trigger: 'blur' },
-
-        publishDate: { required: true, message: '请输入专利公告日', trigger: 'change' },
-        patentNum: { required: true, message: '请输入专利号', trigger: 'blur' },
-        relativeId: { required: true, message: '请输入国外专利号', trigger: 'blur' },
+        registerNum: { required: true, message: '请输入登记号', trigger: 'change' },
+        registerDate: { required: true, message: '请输入登记日期', trigger: 'blur' },
+        institution: { required: true, message: '请输入单位', trigger: 'blur' },
 
       }
     }
   },
 
   methods: {
-    handleChangeStatus (e) {
+    handleStatusChange (e) {
+      console.log('e', e, this.status);
       if (e <= this.status) {
         this.$message({
           type: 'error',
@@ -279,8 +204,7 @@ export default {
       this.form.authorsList.push({
         chineseName: "",
         englishName: "",
-        email: "",
-
+        email: ""
       })
     },
     getUser (name, authorIndex) {
@@ -298,7 +222,7 @@ export default {
               organizations: res.data.organization ? res.data.organization.split('#').map(item => ({
                 label: item
 
-              })) : [{ label: "" }]
+              })) : [{ label: '' }]
             }
             this.form.authorsList.splice(authorIndex, 1, author)
 
@@ -324,14 +248,12 @@ export default {
     submit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-
+          console.log('this.form', this.form);
           let formData = {
             ...this.form,
-            isRefuse: Number(this.form.isRefuse),
-            isUsa: Number(this.form.isUsa),
-            id: this.id,
-            payStarttime: this.form.time[0],
-            payEndtime: this.form.time[1],
+
+
+
             authorsList: this.form.authorsList.map(author => {
               let org = author.organizations.map(org => org.label).join('#')
 
@@ -343,22 +265,27 @@ export default {
               }
             })
           }
-          updatePatentVO(formData).then(res => {
+
+          updateSoftwareVO(formData).then(res => {
             console.log('res', res);
             if (res.code === 200) {
               this.$message({
-                message: "修改成功",
+                message: "上传成功",
                 type: 'success',
                 duration: 1000
               })
+              /* this.$refs.form.resetFields()
+              for (let i = 0; i < this.form.authorsList.length; i++) {
+                console.log('this.$refs.author0', this.$refs.author0);
+                this.$refs['author' + i].resetFields()
+              } */
+              this.$router.push('/teacher/userCenter')
             } else {
-              if (res.code === 200) {
-                this.$message({
-                  message: res.msg,
-                  type: 'error',
-                  duration: 1000
-                })
-              }
+              this.$message({
+                message: res.msg,
+                type: 'error',
+                duration: 1000
+              })
             }
           })
 
@@ -372,18 +299,17 @@ export default {
         }
       });
 
-    }
+    },
+
   },
   mounted () {
     this.id = this.$route.query.id
-    console.log('this.id', this.id);
-    getPatentVO(this.id).then(res => {
+    getSoftwareVO(this.id).then(res => {
       console.log('res', res);
       if (res.code === 200) {
         this.status = res.data.status
         this.form = {
           ...res.data,
-          time: [res.data.payStarttime, res.data.payEndtime],
           authorsList: res.data.authorsList.map(author => ({
             ...author,
             organizations: author.organization ? author.organization.split('#').map(item => ({ label: item })) : [{ label: "" }]
@@ -397,10 +323,9 @@ export default {
         })
       }
     })
-  },
-  watch: {
-
   }
+
+
 
 }
 </script>
@@ -412,11 +337,11 @@ export default {
 
   background: white;
   padding: 20px;
+  box-sizing: border-box;
   /* height: calc(100% - 50px); */
   /*   overflow-y: auto; */
 
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-
   .title {
     display: flex;
     align-items: center;
@@ -424,6 +349,7 @@ export default {
     font-size: 24px;
     align-items: center;
     text-align: center;
+    margin-bottom: 20px;
     .content {
       flex: 1;
       margin-left: 5px;
@@ -431,8 +357,21 @@ export default {
     .el-button {
       width: 60px;
     }
-    margin-bottom:20px;
-
+  }
+  .title-wrapper {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding-left: 5px;
+    .line {
+      background-color: rgb(64, 158, 255);
+      height: 20px;
+      width: 2px;
+    }
+    .title {
+      margin-left: 5px;
+    }
   }
   .organizationWrapper {
     width: 100%;
@@ -457,8 +396,18 @@ export default {
     margin-left: 20px;
   }
 }
+::v-deep .el-icon-circle-check {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  display: inline-block;
+}
+::v-deep .el-input__suffix-inner {
+  height: 30px;
+}
 ::v-deep .el-icon-arrow-up {
-  height: 30px !important;
+  height: 30px;
+
   line-height: 1 !important;
 }
 </style>

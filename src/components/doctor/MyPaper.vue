@@ -13,7 +13,7 @@
             :value="item.label"
           ></el-option>
         </el-select>
-        <el-input placeholder="会议/期刊名" v-model="name" size="mini" clearable></el-input>
+        <el-input placeholder="会议/期刊名" v-model="fullName" size="mini" clearable></el-input>
         <div class="block">
           <el-date-picker
             v-model="date"
@@ -60,20 +60,20 @@
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="typeNames" label="发表类型"></el-table-column>
-        <el-table-column prop="shortName" label="名称缩写">
+        <el-table-column prop="typeNames" label="发表类型" width="140"></el-table-column>
+        <el-table-column prop="fullName" label="名称">
           <template slot-scope="scope">
-            <span class="overflow">{{scope.row.shortName}}</span>
+            <span class="overflow">{{scope.row.fullName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="projectNum" label="项目号">
           <template slot-scope="scope">
-            <span class="overflow">{{scope.row.projectNum}}</span>
+            <span class="overflow">{{getProjectNum(scope)}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="projectFund" label="项目基金">
           <template slot-scope="scope">
-            <span class="overflow">{{scope.row.projectFund}}</span>
+            <span class="overflow">{{getProjectFund(scope)}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="uploadChainDate" label="发表时间">
@@ -122,7 +122,7 @@
 </template>
  
 <script>
-import { findPapersByQuery } from '@/api/chain'
+import { findMyPapersByQuery } from '@/api/chain'
 import { downloadFile } from '@/api/paper'
 export default {
 
@@ -203,7 +203,7 @@ export default {
       totalElements: '',
       totalPages: "",
       page: 1,
-      name: "",
+      fullName: "",
       options: [
         {
           value: 1,
@@ -219,6 +219,17 @@ export default {
     }
   },
   methods: {
+    getProjectNum (scope) {
+      console.log('scope', scope);
+      if (!scope.row.projects) return ''
+      let arr = scope.row.projects.map(item => item.projectNum)
+      return arr.join(',')
+    },
+    getProjectFund (scope) {
+      if (!scope.row.projects) return ''
+      let arr = scope.row.projects.map(item => item.projectFund)
+      return arr.join(',')
+    },
     portout () {
 
     },
@@ -232,7 +243,7 @@ export default {
         title: this.title,
         numOrFund: this.projectNum,
         types: this.publicTypeName,
-        name: this.name,
+        fullName: this.fullName,
         startTime: this.date[0],
         endTime: this.date[1],
         authors: this.author,
@@ -241,7 +252,7 @@ export default {
         size: 8
 
       }
-      findPapersByQuery(queryData).then(res => {
+      findMyPapersByQuery(queryData).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.content || []
           this.totalElements = res.data.totalElements
@@ -301,7 +312,7 @@ export default {
         title: this.title,
         numOrFund: this.projectNum,
         types: this.publicTypeName,
-        name: this.name,
+        fullName: this.fullName,
         startTime: this.date[0],
         endTime: this.date[1],
         authors: this.author,
@@ -310,7 +321,7 @@ export default {
         size: 8
 
       }
-      findPapersByQuery(queryData).then(res => {
+      findMyPapersByQuery(queryData).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.content || []
           this.totalElements = res.data.totalElements
@@ -352,15 +363,19 @@ export default {
     handleRowClick (row) {
       let role = localStorage.getItem('role')
       console.log('row', row);
-      let currentUser = localStorage.getItem('chineseName')
+      /* let currentUser = localStorage.getItem('chineseName') */
       if (role === '1') {
         localStorage.setItem('paperId', row.id)
         this.$router.push('/paperdetail')
       } else if (role === '0') {
-        if (row.uploader === currentUser) {
-          localStorage.setItem('paperId', row.id)
-          this.$router.push('/undoPaperdetail')
-        }
+        localStorage.setItem('paperId', row.id)
+        this.$router.push({
+          path: '/undoPaperdetail',
+          query: {
+            id: row.id,
+
+          }
+        })
       }
 
 
@@ -370,7 +385,8 @@ export default {
         path: "/backforward",
         query: {
           id: row.id,
-          title: row.title
+          title: row.title,
+          category: 0
         }
       })
     }

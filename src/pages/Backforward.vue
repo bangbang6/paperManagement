@@ -72,6 +72,7 @@ export default {
         }
       })
     } else if (this.category == 0) {
+      //论文
       getHistory(this.id).then(res => {
         if (res.code === 200) {
           this.historys = res.data
@@ -83,6 +84,7 @@ export default {
           })
         }
       })
+      /*  this.historys = this.mockData */
     }
     else if (this.category == 2) {
       //软著

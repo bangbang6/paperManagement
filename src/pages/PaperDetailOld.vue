@@ -209,7 +209,7 @@
 </template>
  
 <script>
-import {  MessageBox } from 'element-ui'
+import { MessageBox } from 'element-ui'
 import { getPaperDetail, downloadFile } from '@/api/paper'
 
 import { uploadFile } from '@/api/teacher'
@@ -355,7 +355,7 @@ export default {
 
   },
   mounted () {
-    this.paperId = localStorage.getItem('paperId')
+    this.paperId = 97
 
     if (!this.paperId) {
       this.$message({

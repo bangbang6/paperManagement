@@ -356,6 +356,8 @@ export default {
     .el-button {
       width: 60px;
     }
+    margin-bottom:20px;
+
   }
   .organizationWrapper {
     width: 100%;

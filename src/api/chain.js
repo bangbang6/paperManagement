@@ -67,10 +67,26 @@ export function  getExceptionListByTitle(title){
 
   })
 }
-
+/**
+ * 链上论文搜索
+ * @param {*} queryData 
+ * @returns 
+ */
 export function findPapersByQuery(queryData){
   return request({
-    url:`/paper/query?page=${queryData.page}&size=${queryData.size}`,
+    url:`/paper/queryAll?page=${queryData.page}&size=${queryData.size}`,
+    method:"POST",
+    data:queryData,
+  })
+}
+/**
+ * 我的论文搜索
+ * @param {*} queryData 
+ * @returns 
+ */
+export function findMyPapersByQuery(queryData){
+  return request({
+    url:`/paper/querySelf?page=${queryData.page}&size=${queryData.size}`,
     method:"POST",
     data:queryData,
   })

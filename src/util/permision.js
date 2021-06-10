@@ -20,7 +20,6 @@ router.beforeEach(async(to, from, next) => {
       next({path:"/login"})
     }else{
       let role = localStorage.getItem('role')
-      
       if((to.path.indexOf('/teacher') > -1 && role === '0') ||(to.path.indexOf('/admin') > -1 && role === '1')||(to.path.indexOf('/repeat') > -1 && role === '2') || to.path.indexOf('etail')>-1|| to.path.indexOf('back')>-1||to.name === 'backforward' || to.name === 'undoPatentdetail') {
         next()
       }else{

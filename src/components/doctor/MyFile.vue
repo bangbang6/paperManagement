@@ -131,6 +131,7 @@ export default {
     }
   },
   methods: {
+    
     jumpToPaperDetail (id, status) {
       //这里专利做特殊处理
       if (typeof (id) === "undefined") {

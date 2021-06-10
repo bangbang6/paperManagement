@@ -34,7 +34,7 @@
         </div>
       </el-dropdown>
       <!--<div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-else>编辑会议</div>-->
-      <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的成果</div>
+      <!--  <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的成果</div> -->
       <el-dropdown style="color: white;" trigger="click" v-if="role===0">
         <div :class="['nav-item',navIndex === 4?'green':'']">
           链上成果
@@ -45,6 +45,9 @@
             </div>
             <div @click="navJump">
               <el-dropdown-item data-item="42" v-if="role===0">链上专利</el-dropdown-item>
+            </div>
+            <div @click="navJump">
+              <el-dropdown-item data-item="43" v-if="role===0">链上软著</el-dropdown-item>
             </div>
           </el-dropdown-menu>
         </div>
@@ -60,6 +63,9 @@
             </div>
             <div @click="navJump">
               <el-dropdown-item data-item="42" v-if="role===1">链上专利</el-dropdown-item>
+            </div>
+            <div @click="navJump">
+              <el-dropdown-item data-item="43" v-if="role===1">链上软著</el-dropdown-item>
             </div>
           </el-dropdown-menu>
         </div>
@@ -132,6 +138,9 @@ export default {
         else if (e.target.dataset.item === '42') {
           this.$router.push('/teacher/allPatentfile')
         }
+        else if (e.target.dataset.item === '43') {
+          this.$router.push('/teacher/allSoftware')
+        }
         else if (e.target.dataset.item === '51') {
           console.log('e', e);
           this.$router.push({
@@ -192,6 +201,9 @@ export default {
           this.$router.push('/admin/errorStatus')
 
         }
+        else if (e.target.dataset.item === '43') {
+          this.$router.push('/admin/allSoftware')
+        }
       }
     },
     handleCommand (command) {
@@ -243,6 +255,9 @@ export default {
         }
         else if (newV.name === 'softwareForm') {
           this.navIndex = 2
+        }
+        else if (newV.name === 'allSoftware') {
+          this.navIndex = 4
         }
 
       },

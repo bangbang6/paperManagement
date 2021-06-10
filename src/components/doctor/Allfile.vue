@@ -17,7 +17,7 @@
             :value="item.label"
           ></el-option>
         </el-select>
-        <el-input placeholder="会议/期刊名" v-model="name" size="mini" clearable></el-input>
+        <el-input placeholder="会议/期刊名" v-model="fullName" size="mini" clearable></el-input>
         <div class="block">
           <el-date-picker
             v-model="date"
@@ -59,25 +59,25 @@
             >{{item}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="authors" label="作者" width="100">
+        <el-table-column prop="authors" label="作者">
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="typeNames" label="发表类型"></el-table-column>
-        <el-table-column prop="fullName" label="名称缩写">
+        <el-table-column prop="typeNames" label="发表类型" width="140"></el-table-column>
+        <el-table-column prop="fullName" label="名称">
           <template slot-scope="scope">
-            <span class="overflow">{{scope.row.shortName}}</span>
+            <span class="overflow">{{scope.row.fullName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="projectNum" label="项目号">
           <template slot-scope="scope">
-            <span class="overflow">{{scope.row.projectNum}}</span>
+            <span class="overflow">{{getProjectNum(scope)}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="projectFund" label="项目基金">
           <template slot-scope="scope">
-            <span class="overflow">{{scope.row.projectFund}}</span>
+            <span class="overflow">{{getProjectFund(scope)}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="uploadChainDate" label="发表时间">
@@ -207,7 +207,7 @@ export default {
       projectNum: '',
       publicTypeName: '',
       page: 1,
-      name: "",
+      fullName: "",
       options: [
         {
           value: 1,
@@ -223,6 +223,17 @@ export default {
     }
   },
   methods: {
+    getProjectNum (scope) {
+      console.log('scope', scope);
+      if (!scope.row.projects) return ''
+      let arr = scope.row.projects.map(item => item.projectNum)
+      return arr.join(',')
+    },
+    getProjectFund (scope) {
+      if (!scope.row.projects) return ''
+      let arr = scope.row.projects.map(item => item.projectFund)
+      return arr.join(',')
+    },
     portout () {
 
     },
@@ -236,7 +247,7 @@ export default {
         title: this.title,
         numOrFund: this.projectNum,
         types: this.publicTypeName,
-        name: this.name,
+        fullName: this.fullName,
         startTime: this.date[0],
         endTime: this.date[1],
         authors: this.author,
@@ -248,6 +259,8 @@ export default {
       findPapersByQuery(queryData).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.content || []
+
+
           this.totalElements = res.data.totalElements
           this.totalPages = res.data.totalPages
         } else {
@@ -305,7 +318,7 @@ export default {
         title: this.title,
         numOrFund: this.projectNum,
         types: this.publicTypeName,
-        name: this.name,
+        fullName: this.fullName,
         startTime: this.date[0],
         endTime: this.date[1],
         authors: this.author,
@@ -354,15 +367,23 @@ export default {
     },
     handleRowClick (row) {
       let role = localStorage.getItem('role')
-      console.log('row', row);
+      console.log('role1', role);
       let currentUser = localStorage.getItem('chineseName')
       if (role === '1') {
-        localStorage.setItem('paperId', row.id)
-        this.$router.push('/paperdetail')
+        this.$router.push({
+          path: "/paperDetail",
+          query: {
+            id: row.id
+          }
+        })
       } else if (role === '0') {
         if (row.uploader === currentUser) {
-          localStorage.setItem('paperId', row.id)
-          this.$router.push('/undoPaperdetail')
+          this.$router.push({
+            path: "/undoPaperDetail",
+            query: {
+              id: row.id
+            }
+          })
         }
       }
 
@@ -380,6 +401,9 @@ export default {
 
 
   },
+  computed: {
+
+  },
   mounted () {
     /* this.tableData = this.files //files是整个文件 tableData是经过filter后的文件
  */
@@ -392,7 +416,7 @@ export default {
 <style lang="scss" scoped>
 .inner-wrapper {
   background: white;
-  width: 80%;
+  width: 90%;
   position: relative;
   margin: auto;
   height: 100%;

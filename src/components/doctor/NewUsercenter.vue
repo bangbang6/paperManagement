@@ -19,7 +19,7 @@
                 <!--   <span>{{organization}}</span> -->
                 <div class="wrapper1" :style="{marginLeft:'5px',flex:1 }">
                   <div
-                    v-for="(item) in organizations"
+                    v-for="(item) in organizations.slice(0,1)"
                     :key="item.label"
                     :style="{marginBottom:'5px'}"
                   >{{`${item.label}`}}</div>
@@ -367,6 +367,7 @@ export default {
       .el-card {
         width: 32%;
         margin-right: 8px;
+
         &:nth-child(1) {
           margin-bottom: 8px;
         }

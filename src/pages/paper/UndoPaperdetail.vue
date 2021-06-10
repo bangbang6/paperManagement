@@ -73,7 +73,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="发表类型" prop="publicType">
-        <el-select v-model="form.publicType" placeholder="请选择">
+        <el-select v-model="form.publicType" placeholder="请选择" @change="handleChangeType">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -86,7 +86,7 @@
 
       <div class="meeting" v-if="form.publicType === 1">
         <el-form-item label="会议类别" prop="confType">
-          <el-select v-model="form.confType" placeholder="请选择" @change="handleChangeType">
+          <el-select v-model="form.confType" placeholder="请选择">
             <el-option
               v-for="item in options2"
               :key="item.value"
@@ -197,7 +197,7 @@
         </div>
       </el-form-item>
       <el-form-item :style="{display:'flex',justifyContent:'flex-end'}">
-        <el-button type="primary" size="mini" @click="submit">提交</el-button>
+        <el-button type="primary" @click="submit">修改</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -310,6 +310,8 @@ export default {
           idx = index
         }
       });
+      console.log('idx', idx);
+      console.log('status', this.status);
       if (idx < this.status) {
         this.$message({
           type: 'error',
@@ -417,18 +419,24 @@ export default {
       this.options3 = options[1].data.map((item, index) => ({ value: index + 1, label: item }))
       this.options4 = options[2].data.map((item, index) => ({ value: index + 1, label: item }))
     })
-    this.id = this.$route.query.id || 42
+    this.id = this.$route.query.id || 97
     console.log('this.id', this.id);
     getPaperDetail(this.id).then(res => {
       console.log('res', res);
       if (res.code === 200) {
         this.publicType = res.data.publicType
-
+        this.status = res.data.status
         this.form = {
           ...res.data,
           time: [res.data.confStartTime, res.data.confEndTime],
           firstPublish: Boolean(res.data.firstPublish),
           confIsTop80: Boolean(res.data.confIsTop80),
+          projects: res.data.projects ? res.data.projects : [
+            {
+              projectNum: '',
+              projectFund: ''
+            }
+          ],
           status: res.data.status == 0 ? '录用' : res.data.status == 1 ? '发表' : "收录",
           authorList: res.data.authorList.map(author => ({
             ...author,
@@ -437,7 +445,7 @@ export default {
             firstAuthor: Boolean(author.firstAuthor),
           }))
         }
-        this.status = this.form.status
+
       } else {
         this.$message({
           message: res.msg,
@@ -477,6 +485,8 @@ export default {
     .el-button {
       width: 60px;
     }
+    margin-bottom:20px;
+
   }
   .title-wrapper {
     height: 50px;

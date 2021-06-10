@@ -46,3 +46,49 @@ export function getSoftwareHistory(id){
     method:'GET',
   })
 }
+/**
+ * 所有软著查询
+ * @param {*} data 
+ * @returns 
+ */
+export function getAllSoftware(page=0,size=8){
+  return request({
+    url:`/softwarecopyright/getUpChainSoftwareCopyright?page=${page}&size=${size}`,
+    method:'GET',
+  })
+}
+/**
+ * 所有软著搜索
+ * @param {*} data 
+ * @returns 
+ */
+export function searchAllSoftware(queryData){
+  return request({
+    url:`/softwarecopyright/findSoftwareCopyrightsByQueryCriteria?page=${queryData.page}&size=${queryData.size}`,
+    method:'POST',
+    data:queryData
+  })
+}
+/**
+ * 获取软著详细信息
+ * @param {*} data 
+ * @returns 
+ */
+export function getSoftwareVO(id){
+  return request({
+    url:`/softwarecopyright/getSoftwareCopyrightVO?id=${id}`,
+    method:'GET',
+  })
+}
+/**
+ * 修改软著详细信息
+ * @param {*} data 
+ * @returns 
+ */
+export function updateSoftwareVO(data){
+  return request({
+    url:`/softwarecopyright/update?`,
+    method:'POST',
+    data,
+  })
+}

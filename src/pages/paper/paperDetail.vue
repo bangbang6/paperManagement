@@ -7,7 +7,7 @@
     </div>
     <el-form ref="form" :model="form" label-width="90px" :rules="rules">
       <el-form-item label="论文标题" :style="{width:'400px'}" prop="title">
-        <span>{{form.title}}</span>
+        <span class="value">{{form.title}}</span>
       </el-form-item>
 
       <el-form-item label="作者">
@@ -22,19 +22,19 @@
           <el-card shadow="never">
             <div>
               <el-form-item label="中文名">
-                <span>{{form.chineseName}}</span>
+                <span class="value2">{{author.chineseName}}</span>
               </el-form-item>
               <el-form-item label="英文名">
-                <span>{{form.englishName}}</span>
+                <span class="value2">{{author.englishName}}</span>
               </el-form-item>
               <el-form-item label="邮箱">
-                <span>{{form.email}}</span>
+                <span class="value2">{{author.email}}</span>
               </el-form-item>
               <el-tag v-if="author.firstAuthor" :style="{marginRight:'5px'}">一作</el-tag>
               <el-tag type="success" v-if="author.connectAuthor">通讯</el-tag>
             </div>
             <el-form-item label="单位" class="organizationWrapper">
-              <div v-for="(organization,index2) in author.organizations" :key="index2">
+              <div v-for="(organization,index2) in author.organizations" :key="index2" :style="{width:'740px',marginBottom:'5px'}">
                 <span>{{organization.label}}</span>
               </div>
             </el-form-item>
@@ -45,9 +45,13 @@
         <span>{{form.status}}</span>
       </el-form-item>
       <el-form-item label="发表类型" prop="publicType">
-        <span>{{form.publicType}}</span>
-
-        <!--  <el-checkbox v-model="form.confIsTop80" :style="{marginLeft:'20px'}">是否为top80</el-checkbox> -->
+        <span>{{form.publicType == 0?'会议':"期刊"}}</span>
+         <el-tag
+            :style="{marginLeft:'20px'}"
+            v-if="form.confIsTop80"
+            effect="dark"
+            size="small"
+          >Top80</el-tag>
       </el-form-item>
 
       <div class="meeting" v-if="form.publicType === 1">
@@ -57,11 +61,11 @@
         <el-form-item label="会议全称" prop="fullName">
           <span>{{form.fullName}}</span>
         </el-form-item>
-        <el-form-item label="会议缩写">
+        <el-form-item label="会议缩写" v-if='form.shortName'>
           <span>{{form.shortName}}</span>
         </el-form-item>
 
-        <el-form-item label="会议时间">
+        <el-form-item label="会议时间" v-if='form.starTtime'>
           <!--  <el-date-picker
             v-model="form.time"
             type="daterange"
@@ -75,19 +79,19 @@
           <span :style="{display:'inline-block',width:'20px',textAlign:'center'}">一</span>
           <span>{{formatDate(form.endTime)}}</span>
         </el-form-item>
-        <el-form-item label="会议地点">
+        <el-form-item label="会议地点" v-if='form.confPlace'>
           <span>{{form.confPlace}}</span>
         </el-form-item>
-        <el-form-item label="页码">
+        <el-form-item label="页码" v-if='form.pageNumStart'>
           <!-- <el-input v-model="form.pageNumStart" :style="{width:'100px'}"></el-input>
           <span :style="{display:'inline-block',width:'30px',textAlign:'center'}">一</span>
           <el-input v-model="form.pageNumEnd" :style="{width:'100px'}"></el-input>-->
-          <span>{{formatDate(form.pageNumStart)}}</span>
+          <span>{{form.pageNumStart}}</span>
           <span :style="{display:'inline-block',width:'20px',textAlign:'center'}">一</span>
-          <span>{{formatDate(form.pageNumEnd)}}</span>
+          <span>{formatDate(form.pageNumEnd}}</span>
           <!--  <el-checkbox v-model="form.confIsElectronic" :style="{marginLeft:'20px'}">电子版</el-checkbox> -->
         </el-form-item>
-        <el-form-item label="会议报告人">
+        <el-form-item label="会议报告人" v-if='form.confReporter'>
           <span>{{form.confReporter}}</span>
         </el-form-item>
       </div>
@@ -120,34 +124,38 @@
         <el-form-item label="期刊全称" prop="fullName">
           <span>{{form.fullName}}</span>
         </el-form-item>
-        <el-form-item label="期刊缩写">
+        <el-form-item label="期刊缩写" v-if='form.shortName'>
           <span>{{form.shortName}}</span>
         </el-form-item>
-        <el-form-item label="卷号">
+        <el-form-item label="卷号" v-if='form.journalVolumeNum'>
           <span>{{form.journalVolumeNum}}</span>
         </el-form-item>
-        <el-form-item label="期号">
+        <el-form-item label="期号"  v-if='form.journalIssueNum'>
           <span>{{form.journalIssueNum}}</span>
         </el-form-item>
-        <el-form-item label="页码">
-          <span>{{formatDate(form.pageNumStart)}}</span>
+        <el-form-item label="页码" v-if="form.pageNumStart">
+          <span>{{form.pageNumStart}}</span>
           <span :style="{display:'inline-block',width:'20px',textAlign:'center'}">一</span>
-          <span>{{formatDate(form.pageNumEnd)}}</span>
+          <span>{{form.pageNumEnd}}</span>
         </el-form-item>
-        <el-form-item label="发表日期">
-          <span>{{form.journalPublishTime}}</span>
-
-          <!-- <el-checkbox v-model="form.firstPublish" :style="{marginLeft:'20px'}">是否为首发</el-checkbox> -->
+        <el-form-item label="发表日期" v-if='form.journalPublishTime'>
+          <span>{{formatDate(form.journalPublishTime)}}</span>
+          <el-tag
+            :style="{marginLeft:'20px'}"
+            v-if="form.firstPublish"
+            effect="dark"
+            size="small"
+          >首发</el-tag>
         </el-form-item>
-        <el-form-item label="ISSN/ISBN">
+        <el-form-item label="ISSN/ISBN" v-if='form.issn'>
           <span>{{form.issn}}</span>
         </el-form-item>
-        <el-form-item label="doi">
+        <el-form-item label="doi" v-if='form.doi'>
           <span>{{form.doi}}</span>
         </el-form-item>
       </div>
 
-      <el-form-item label="项目信息">
+      <el-form-item label="项目信息" v-if="form.projects">
         <div v-for="(project,index) in form.projects" :key="index">
           <!--  <el-input v-model="project.projectNum" :style="{width:'220px'}" placeholder="项目号"></el-input>
           <el-input
@@ -155,7 +163,7 @@
             :style="{width:'220px',marginLeft:'20px'}"
             placeholder="项目基金"
           ></el-input>-->
-          <span>{{project.project.projectNum}}</span>
+          <span>{{project.projectNum}}</span>
           <span>{{project.projectFund}}</span>
           <!--   <i class="el-icon-circle-plus-outline icon2" @click="addProject"></i> -->
         </div>
@@ -169,9 +177,8 @@
  
 <script>
 /* import MeetingForm from './MeetingForm' */
-import { uploadPaper } from '@/api/teacher.js'
 import { getConfType, getJournalType2, getJournalType1 } from '@/api/type.js'
-import { getUserByChineseName, getPaperDetail } from '@/api/paper'
+import { getPaperDetail } from '@/api/paper'
 
 /* import QikanForm from './QikanForm.vue' */
 export default {
@@ -273,7 +280,8 @@ export default {
       this.options3 = options[1].data.map((item, index) => ({ value: index + 1, label: item }))
       this.options4 = options[2].data.map((item, index) => ({ value: index + 1, label: item }))
     })
-    this.id = this.$route.query.id || 89
+    this.id = this.$route.query.id 
+    console.log('this.$route.query.id ',this.$route.query.id );
     console.log('this.id', this.id);
     getPaperDetail(this.id).then(res => {
       console.log('res', res);
@@ -333,6 +341,8 @@ export default {
     .el-button {
       width: 60px;
     }
+    margin-bottom:20px;
+
   }
   .title-wrapper {
     height: 50px;
@@ -372,8 +382,19 @@ export default {
     margin-left: 20px;
   }
 }
+.value {
+  display: inline-block;
+  width: 800px;
+}
+.value2 {
+  display: inline-block;
+  width: 160px;
+}
 ::v-deep .el-icon-arrow-up {
   height: 30px !important;
   line-height: 1 !important;
+}
+::v-deep .el-form-item__label {
+  font-weight: 600;
 }
 </style>
