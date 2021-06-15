@@ -1,22 +1,22 @@
 <template>
   <div class="time-number">
-    <div class="title">成果数量趋势
-        <el-radio-group v-model="radio" style="margin-left: 55%" size="mini">
-            <el-radio-button label="现在"></el-radio-button>
-            <el-radio-button label="一月前"></el-radio-button>
-            <el-radio-button label="一年前"></el-radio-button>
-        </el-radio-group>
+    <div class="title">
+      成果数量趋势
+      <el-radio-group v-model="radio" style="margin-left: 55%" size="mini">
+        <el-radio-button label="现在"></el-radio-button>
+        <el-radio-button label="一月前"></el-radio-button>
+        <el-radio-button label="一年前"></el-radio-button>
+      </el-radio-group>
     </div>
     <v-chart :options="getOption()"></v-chart>
   </div>
 </template>
  
 <script>
-
 export default {
   data () {
     return {
-        radio:"现在",
+      radio: "现在",
     }
   },
   methods: {
@@ -34,7 +34,7 @@ export default {
           }
         },
         yAxis: {
-            show:false
+          show: false
         },
         tooltip: {
           show: true,
@@ -71,17 +71,16 @@ export default {
       }
     }
   },
+
 }
 </script>
  
 <style lang="scss" scoped>
-
 .time-number {
-
   width: 100%;
   height: 100%;
   .title {
-      display: flex;
+    display: flex;
     padding-left: 10px;
     box-sizing: border-box;
     font-weight: 500;
@@ -89,19 +88,20 @@ export default {
     font-size: 18px;
   }
   .echarts {
-      background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
+    background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
       linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
       linear-gradient(to bottom, #74fbf5, #74fbf5) right top no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) left bottom no-repeat,
-      linear-gradient(to bottom,#74fbf5, #74fbf5) left bottom no-repeat,
+      linear-gradient(to bottom, #74fbf5, #74fbf5) left bottom no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat,
       linear-gradient(to left, #74fbf5, #74fbf5) right bottom no-repeat;
-      /*设置大小*/
+    /*设置大小*/
 
-      background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem, 0.9rem 0.15rem;
-      background-color: #60626621;
-      margin-top: 7px;
+    background-size: 0.15rem 0.9rem, 0.9rem 0.15rem, 0.15rem 0.9rem,
+      0.9rem 0.15rem;
+    background-color: #60626621;
+    margin-top: 7px;
     width: 100%;
     height: 80%;
   }

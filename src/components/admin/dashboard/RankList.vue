@@ -13,6 +13,7 @@
 </template>
  
 <script>
+import { getCountByGroup } from '@/api/dashboard'
 export default {
   data () {
 
@@ -82,6 +83,17 @@ export default {
       this.options.series.data = data
     },
     init () {
+      getCountByGroup().then(res1 => {
+        if (res1.code === 200) {
+          console.log('res1', res1);
+        } else {
+          this.$message({
+            message: res1.msg,
+            duration: 1000,
+            type: 'error'
+          })
+        }
+      })
       console.log('nowData', this.nowData);
       this.options.series.data = this.nowData
 
