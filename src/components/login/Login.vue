@@ -99,7 +99,7 @@ export default {
         login(this.email, this.password).then(res => {
           if (res.code === 200) {
             console.log('resInfo', res);
-            localStorage.setItem('chineseName', res.data.user.user.chineseName)
+            localStorage.setItem('userName', res.data.user.user.userName)
 
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '2')

@@ -8,7 +8,7 @@
         <el-radio-button label="近三月"></el-radio-button>
       </el-radio-group>
     </div>
-    <v-chart :options="getOption()"></v-chart>
+    <v-chart :options="option"></v-chart>
   </div>
 </template>
 
@@ -18,59 +18,66 @@
 import { getCountThread } from '@/api/dashboard'
 
 import * as echarts from 'echarts';
-var data = [Math.random() * 300];
-var base = + new Date();
-var oneMonth = 24 * 3600 * 1000 * 30;
-var date = [];
-for (var i = 1; i <= 12; i++) {
-  var now = new Date(base -= oneMonth);
-  date.push([now.getFullYear(), now.getMonth() + 1].join('/'));
-  data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
-}
-date.reverse();
-data.reverse();
+
 export default {
   data () {
     return {
       radio: "近一年",
-      date: date,
-      data: data
+      wholeDate: [],
+      wholeData: [],
+      date: [],
+      data: [],
+      option: {}
     }
   },
-  computed: {
-    radioMonth () {
-      return this.radio === '近一年' ? 12 : this.radio === '近三个月' ? 6 : 3
-    }
-  },
+
   methods: {
-    helper (value) {
-      var data = [Math.floor(21 * Math.random()) + 30];
-      var base = + new Date();
-      var oneMonth = 24 * 3600 * 1000 * 30;
-      var date = [];
-      var flag = 1;
-      for (var i = 1; i <= value; i++) {
-        var now = new Date(base -= oneMonth);
-        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-        data.push(Math.round(10 * Math.random() * flag + data[i - 1]));
-        flag = -1 * flag;
+    parseData (data) {
+      console.log('data', data);
+      let now = new Date()
+      let count = 0
+      let year = now.getFullYear() - 1
+      let month = now.getMonth() + 1
+      for (let i = 0; i < 13; i++) {
+        let str = year + '.' + month
+        if (str === data[count].doc) {
+
+          this.wholeDate.push(year + '/' + month)
+          this.wholeData.push(data[count].number)
+          count++
+        } else {
+          this.wholeDate.push(year + '/' + month)
+          this.wholeData.push(0)
+        }
+        month++
+        if (month > 12) {
+          month = 1
+          year = year + 1
+        }
       }
-      date.reverse();
-      data.reverse();
-      console.log(data);
-      this.date = date;
-      this.data = data;
-      this.getOption();
+
     },
+
     change (value) {
       if (value === '近三月') {
-        console.log(value)
-        this.helper(3);
+
+        this.date = this.wholeDate.slice(-3)
+        console.log('this.date', this.date);
+        this.data = this.wholeData.slice(-3)
+        this.option = this.getOption()
+
       } else if (value === '近半年') {
-        console.log(value)
-        this.helper(6);
+        this.date = this.wholeDate.slice(-6)
+        this.data = this.wholeData.slice(-6)
+        this.option = this.getOption()
+
+
       } else {
-        this.helper(12);
+        this.date = this.wholeDate
+        this.data = this.wholeData
+        this.option = this.getOption()
+
+
       }
     },
     getOption () {
@@ -144,9 +151,13 @@ export default {
     }
   },
   mounted () {
-    getCountThread(this.radioMonth).then(res1 => {
+    getCountThread().then(res1 => {
       if (res1.code === 200) {
-        console.log('res1', res1);
+        //获取到近一年的数据
+        this.parseData(res1.data)
+        this.date = this.wholeDate
+        this.data = this.wholeData
+        this.option = this.getOption()
       } else {
         this.$message({
           message: res1.msg,
@@ -156,21 +167,7 @@ export default {
       }
     })
   },
-  watch: {
-    radioMonth (newV) {
-      getCountThread(newV).then(res1 => {
-        if (res1.code === 200) {
-          console.log('res1', res1);
-        } else {
-          this.$message({
-            message: res1.msg,
-            duration: 1000,
-            type: 'error'
-          })
-        }
-      })
-    }
-  }
+
 }
 </script>
 <style lang="scss" scoped>

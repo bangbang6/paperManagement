@@ -4,7 +4,7 @@
       <div>各组成果</div>
       <el-radio-group v-model="radio" size="mini" @change="change">
         <el-radio-button label="1">现在</el-radio-button>
-        <el-radio-button label="12">近一年</el-radio-button>
+        <el-radio-button label="2">近一年</el-radio-button>
         <el-radio-button label="3">近三月</el-radio-button>
       </el-radio-group>
     </div>
@@ -19,14 +19,17 @@ export default {
 
     return {
       radio: "1",
-      nowData: [132, 85, 93, 116],
+      nowData: [],
+      yAxisData: [],
+      aYearBeforeData: [],
+      threeMonthsBeforeData: [],
       options: {
         xAxis: {
           max: 'dataMax',
         },
         yAxis: {
           type: 'category',
-          data: ['系统组', '分布式组', '安全组', '大数据组'],
+          data: this.yAxisData,
           inverse: true,
           animationDuration: 300,
           animationDurationUpdate: 300,
@@ -42,7 +45,7 @@ export default {
           realtimeSort: true,
           name: 'X',
           type: 'bar',
-          data: [],
+          data: this.nowData,
           label: {
             show: true,
             position: 'right',
@@ -63,10 +66,10 @@ export default {
           bottom: 0
         },
 
-        animationDuration: 0,
+        /* animationDuration: 0,
         animationDurationUpdate: 3000,
         animationEasing: 'linear',
-        animationEasingUpdate: 'linear'
+        animationEasingUpdate: 'linear' */
       }
     }
   },
@@ -75,26 +78,78 @@ export default {
   },
   methods: {
 
-    run (value) {
-      let data = [...this.options.series.data]
-      for (var i = 0; i < data.length; ++i) {
-        data[i] += +value;
+    run (data, index) {
+
+      for (var i = 0; i < data.length; i++) {
+
+        data[i] += index[i]
       }
+      console.log('data', data);
       this.options.series.data = data
     },
-    init () {
-      getCountByGroup().then(res1 => {
-        if (res1.code === 200) {
-          console.log('res1', res1);
-        } else {
-          this.$message({
-            message: res1.msg,
-            duration: 1000,
-            type: 'error'
-          })
+    async init () {
+
+      let res1 = await getCountByGroup(12)
+      console.log('res1', res1);
+      if (res1.code === 200) {
+        console.log('res1', res1);
+        let aYearBeforeData = res1.data[0]
+        let nowData = res1.data[1]
+        nowData.forEach(data => {
+          this.yAxisData.push(data.doc)
+          this.nowData.push(data.number)
+        });
+        for (let i = 0; i < this.yAxisData.length; i++) {
+          let flag = true
+          for (let j = 0; j < aYearBeforeData.length; j++) {
+            if (this.yAxisData[i] === aYearBeforeData[j].doc) {
+              flag = false
+              this.aYearBeforeData.push(aYearBeforeData[j].number)
+              break
+
+            }
+          }
+          flag && (this.aYearBeforeData.push(0))
         }
-      })
-      console.log('nowData', this.nowData);
+
+
+      } else {
+        this.$message({
+          message: res1.msg,
+          duration: 1000,
+          type: 'error'
+        })
+      }
+
+      let res2 = await getCountByGroup(3)
+      if (res2.code === 200) {
+        let threeMonthsBeforeData = res2.data[0]
+        for (let i = 0; i < this.yAxisData.length; i++) {
+          let flag = true
+          for (let j = 0; j < threeMonthsBeforeData.length; j++) {
+
+            if (this.yAxisData[i] === threeMonthsBeforeData[j].doc) {
+              flag = false
+              this.threeMonthsBeforeData.push(threeMonthsBeforeData[j].number)
+              break
+            }
+          }
+          flag && (this.threeMonthsBeforeData.push(0))
+        }
+      } else {
+        this.$message({
+          message: res2.msg,
+          duration: 1000,
+          type: 'error'
+        })
+      }
+
+      console.log('this.threeMonthsBeforeData', this.threeMonthsBeforeData);
+      console.log('this.threeMonthsBeforeData', this.nowData);
+      console.log('this.threeMonthsBeforeData', this.aYearBeforeData);
+      console.log('this.threeMonthsBeforeData', this.yAxisData);
+      console.log('this.options', this.options);
+      this.options.yAxis.data = this.yAxisData
       this.options.series.data = this.nowData
 
     },
@@ -102,16 +157,34 @@ export default {
       if (value === '1') {
         this.timer && clearInterval(this.timer)
         this.init()
-      } else {
-        let data = [...this.options.series.data]
-        for (var i = 0; i < data.length; ++i) {
-          data[i] -= 5 * +value;
+      } else if (value === '2') {
+        let data = this.aYearBeforeData
+        let index = []
+        for (let i = 0; i < data.length; i++) {
+
+          index[i] = (this.nowData[i] - data[i]) / 5
         }
         this.options.series.data = data
         let count = 0
+        this.timer && clearInterval(this.timer)
         this.timer = setInterval(() => {
           count++
-          this.run(value)
+          this.run(data, index)
+          if (count === 5) clearInterval(this.timer)
+        }, 1000)
+      } else if (value === '3') {
+        let data = this.threeMonthsBeforeData
+        this.options.series.data = data
+        let index = []
+        for (let i = 0; i < data.length; i++) {
+
+          index[i] = (this.nowData[i] - data[i]) / 5
+        }
+        let count = 0
+        this.timer && clearInterval(this.timer)
+        this.timer = setInterval(() => {
+          count++
+          this.run(data, index)
           if (count === 5) clearInterval(this.timer)
         }, 1000)
       }

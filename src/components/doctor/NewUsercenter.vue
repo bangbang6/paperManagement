@@ -34,7 +34,7 @@
           <div class="wrapper" :style="{color:'#00A885'}">
             <div class="card-left">
               <div class="title">我的成果</div>
-              <div class="number">460</div>
+              <div class="number">{{achvCount}}</div>
             </div>
             <div class="card-right">
               <i class="iconfont icon-gavel"></i>
@@ -44,8 +44,8 @@
         <el-card>
           <div class="wrapper" :style="{color:'#E64C65'}">
             <div class="card-left">
-              <div class="title">我的论文</div>
-              <div class="number">200</div>
+              <div class="title">我的会议</div>
+              <div class="number">{{huiyiCount}}</div>
             </div>
             <div class="card-right">
               <i class="iconfont icon-laptop"></i>
@@ -55,8 +55,8 @@
         <el-card>
           <div class="wrapper">
             <div class="card-left">
-              <div class="title">我的专利</div>
-              <div class="number">60</div>
+              <div class="title">我的期刊</div>
+              <div class="number">{{qikanCount}}</div>
             </div>
             <div class="card-right">
               <i class="iconfont icon-equalizer"></i>
@@ -67,7 +67,7 @@
           <div class="wrapper" :style="{color:'#E38C09'}">
             <div class="card-left">
               <div class="title">我的专利</div>
-              <div class="number">60</div>
+              <div class="number">{{patentCount}}</div>
             </div>
             <div class="card-right">
               <i class="iconfont icon-equalizer"></i>
@@ -78,7 +78,7 @@
           <div class="wrapper" :style="{color:'#909399'}">
             <div class="card-left">
               <div class="title">我的软著</div>
-              <div class="number">160</div>
+              <div class="number">{{softwareCount}}</div>
             </div>
             <div class="card-right">
               <i class="iconfont icon-yelp"></i>
@@ -89,7 +89,7 @@
           <div class="wrapper" :style="{color:'#FF3A30'}">
             <div class="card-left">
               <div class="title">异常</div>
-              <div class="number">10</div>
+              <div class="number">{{exceptionCount}}</div>
             </div>
             <div class="card-right">
               <i class="iconfont icon-Error-Outline"></i>
@@ -167,7 +167,7 @@ import MyPaper from './MyPaper.vue'
 import MyPatent from './MyPatent.vue'
 import MySoftware from './MySoftware.vue'
 import { updateUserInfo, getUserInfo, getAvatar, setAvatar } from '@/api/user'
-
+import { getMyDashboard } from '@/api/dashboard'
 import { Bus } from '../../main'
 export default {
   components: { MyPaper, MyPatent, MySoftware },
@@ -184,7 +184,13 @@ export default {
       ofGroup: "",
       dialogVisible: false,
       sex: "",
-      organization: ""
+      organization: "",
+      achvCount: 29,
+      exceptionCount: 6,
+      huiyiCount: 6,
+      patentCount: 1,
+      qikanCount: 4,
+      softwareCount: 2,
     }
   },
   methods: {
@@ -251,6 +257,21 @@ export default {
       }
       updateUserInfo(user).then(res => {
         console.log('res', res);
+        if (res.code === 200) {
+          this.achvCount = res.achvCount
+          this.exceptionCount = res.exceptionCount
+          this.huiyiCount = res.huiyiCount
+          this.patentCount = res.patentCount
+          this.qikanCount = res.qikanCount
+          this.softwareCount = res.softwareCount
+        } else {
+          this.$message({
+            message: res.msg,
+            type: 'error',
+            duration: 1000
+          })
+        }
+
       })
     },
   },
@@ -280,6 +301,9 @@ export default {
       if (res.code === 200) {
         this.imgSrc = `data:${res.data.type};base64,${res.data.data}`
       }
+    })
+    getMyDashboard().then(res => {
+      console.log('mydash', res);
     })
   }
 }

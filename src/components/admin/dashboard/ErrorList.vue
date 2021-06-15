@@ -4,8 +4,8 @@
     <div class="list">
       <div class="list-item gray" style="text-align: left">
         <div class="status" style="width: 15%">状态</div>
-        <div class="title" style="width: 60%">成果标题</div>
-        <div class="name" style="width: 10%;">发表人</div>
+        <div class="title" style="width: 40%">成果标题</div>
+        <div class="name" style="width: 20%;">发表人</div>
         <div class="name" style="width: 10%;">类型</div>
 
         <div class="date" style="width: 15%;">时间</div>
@@ -17,10 +17,16 @@
         @click="handleClick(index)"
       >
         <div class="status" style="width: 15%">
-          <el-tag :type="paper.type" size="mini" effect="dark">{{paper.status}}</el-tag>
+          <el-tag
+            v-for="ex in paper.exceptionTypes.slice(0,1)"
+            :key="ex"
+            :type="ex === '题目重复'?'primary':'danger'"
+            size="mini"
+            effect="dark"
+          >{{ex}}</el-tag>
         </div>
-        <div class="title overflow" style="width: 60%">{{paper.title}}</div>
-        <div class="name overflow" style="width: 10%">{{paper.authors}}</div>
+        <div class="title overflow" style="width: 40%">{{paper.title}}</div>
+        <div class="name overflow" style="width: 20%">{{paper.authors}}</div>
         <div class="name overflow" style="width: 10%">{{paper.type}}</div>
 
         <div class="date overflow" style="width: 15%">{{formatDate(paper.upChainTime)}}</div>
@@ -98,7 +104,7 @@ export default {
     background-color: #60626621;
     padding-left: 10px;
     height: 80%;
-    color: gray;
+    color: white;
     margin-top: 10px;
     .list-item {
       display: flex;
@@ -129,7 +135,7 @@ export default {
         background: white;
       } */
       &.gray {
-        color: gray;
+        color: white;
       }
     }
   }

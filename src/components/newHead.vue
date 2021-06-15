@@ -105,7 +105,7 @@ export default {
   },
   computed: {
     chineseName () {
-      return localStorage.getItem('chineseName') || 'admin'
+      return localStorage.getItem('userName') || 'admin'
     }
   },
   methods: {
