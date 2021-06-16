@@ -28,9 +28,21 @@ export function getChainPatents(page=0,size=8){
  * 获取异常论文列表
  * @returns 
  */
-export function getErrorList(){
+export function getErrorList(queryData){
   return request({
-    url:"/paperException/getExceptionList",
+    url:`/exception/queryAll?page=${queryData.page}&size=${queryData.size}`,
+    method:"POST",
+    data:queryData
+  })
+}
+/**
+ * 根据论文id获取论文异常详情
+ * @param {*} paperId 
+ * @returns 
+ */
+export function getErrorDetail(achvId,type){
+  return request({
+    url:`/exception/getExceptionDetail?achvId=${achvId}&type=${type}`,
     method:"GET",
 
   })
@@ -40,9 +52,9 @@ export function getErrorList(){
  * @param {*} paperId 
  * @returns 
  */
-export function getErrorDetail(paperId){
+export function getErrorHistory(achvId,type){
   return request({
-    url:`/paperException/info/${paperId}`,
+    url:`/history/getHistoryByAchvId/${type}/${achvId}`,
     method:"GET",
 
   })

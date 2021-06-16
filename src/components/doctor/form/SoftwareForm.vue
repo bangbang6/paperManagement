@@ -79,6 +79,9 @@
         <!-- <el-form-item label="组别" prop="ofGroup">
           <el-input v-model="form.ofGroup" :style="{width:'220px'}"></el-input>
         </el-form-item>-->
+        <el-form-item label="组别" prop="ofGroup">
+          <el-input v-model="form.ofGroup" :style="{width:'220px'}"></el-input>
+        </el-form-item>
         <el-form-item label="依托项目">
           <el-input v-model="form.project" :style="{width:'220px'}"></el-input>
         </el-form-item>
@@ -90,6 +93,9 @@
         <!-- <el-form-item label="组别" prop="ofGroup">
           <el-input v-model="form.ofGroup" :style="{width:'220px'}"></el-input>
         </el-form-item>-->
+        <el-form-item label="组别" prop="ofGroup">
+          <el-input v-model="form.ofGroup" :style="{width:'220px'}"></el-input>
+        </el-form-item>
         <el-form-item label="证书号" prop="certificateNumber">
           <el-input v-model="form.certificateNumber" :style="{width:'220px'}"></el-input>
         </el-form-item>
@@ -137,7 +143,7 @@ export default {
       form: {
         title: "",
         status: "",
-
+        ofGroup: "",
         authorsList: [{
           chineseName: "",
           englishName: "",
@@ -180,6 +186,7 @@ export default {
         registerNum: { required: true, message: '请输入登记号', trigger: 'change' },
         registerDate: { required: true, message: '请输入登记日期', trigger: 'blur' },
         institution: { required: true, message: '请输入单位', trigger: 'blur' },
+        ofGroup: { required: true, message: '请输入组别', trigger: 'blur' },
 
       }
     }

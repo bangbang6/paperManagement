@@ -13,36 +13,89 @@
             <span class="value">{{authors}}</span>
           </div>
           <div class="line">
-            <span class="key">发表类型</span>
-            <span class="value">{{publicTypeName}}</span>
+            <span class="key">成果类型</span>
+            <span class="value">{{achvType}}</span>
+          </div>
+          <div v-if="achvType==='会议论文'">
+            <div class="line">
+              <span class="key">会议类别</span>
+              <span class="value">{{paperType}}</span>
+            </div>
+            <div class="line">
+              <span class="key">会议全称</span>
+              <span class="value">{{fullName}}</span>
+            </div>
+            <div class="line">
+              <span class="key">会议时间</span>
+              <span class="value">{{confTime}}</span>
+            </div>
+          </div>
+          <div v-if="achvType==='期刊论文'">
+            <div class="line">
+              <span class="key">期刊类别</span>
+              <span class="value">{{paperType}}</span>
+            </div>
+            <div class="line">
+              <span class="key">期刊全称</span>
+              <span class="value">{{fullName}}</span>
+            </div>
+            <div class="line">
+              <span class="key">发表时间</span>
+              <span class="value">{{formatDate(journalPublicDate)}}</span>
+            </div>
+          </div>
+          <div v-if="achvType==='专利'">
+            <div class="line">
+              <span class="key">专利号</span>
+              <span class="value">{{patentNum}}</span>
+            </div>
+            <div class="line">
+              <span class="key">专利公告日</span>
+              <span class="value">{{formatDate(publishDate)}}</span>
+            </div>
+            <div class="line">
+              <span class="key">专利权人</span>
+              <span class="value">{{institution}}</span>
+            </div>
+            <div class="line">
+              <span class="key">代理单位</span>
+              <span class="value">{{agent}}</span>
+            </div>
+          </div>
+          <div v-if="achvType==='软件著作权'">
+            <div class="line">
+              <span class="key">证书号</span>
+              <span class="value">{{certificateNumber}}</span>
+            </div>
+            <div class="line">
+              <span class="key">登记号</span>
+              <span class="value">{{registerNum}}</span>
+            </div>
+            <div class="line">
+              <span class="key">登记日期</span>
+              <span class="value">{{formatDate(registerDate)}}</span>
+            </div>
+            <div class="line">
+              <span class="key">单位</span>
+              <span class="value">{{scInstitution}}</span>
+            </div>
           </div>
           <div class="line">
-            <span class="key">期刊名称</span>
-            <span class="value">{{name}}</span>
+            <span class="key">项目信息</span>
+            <span class="value">{{projectInfo}}</span>
           </div>
-          <div class="line">
-            <span class="key">发表时间</span>
-            <span class="value">{{formatDate(date)}}</span>
-          </div>
-          <div class="line">
-            <span class="key">项目号</span>
-            <span class="value">{{projectNum}}</span>
-          </div>
-          <div class="line">
-            <span class="key">项目基金</span>
-            <span class="value">{{projectFund}}</span>
-          </div>
+
           <div class="line">
             <span class="key">上传者</span>
             <span class="value">{{uploader}}</span>
           </div>
           <div class="line">
             <span class="key">上传单位</span>
-            <span class="value">{{organization}}</span>
+            <span class="value">{{uploadOgz}}</span>
           </div>
           <div class="line">
             <span class="key">上链时间</span>
-            <span class="value">{{formatDate(chainDate)}}</span>
+            <span class="value">{{formatDate(upChainTime)}}</span>
           </div>
         </div>
       </div>
@@ -52,16 +105,16 @@
         </div>
         <div class="op-detail">
           <div class="col-line">
-            <div class="con" v-for="(item,index) in histroys" :key="index">
+            <div class="con" v-for="(item,index) in opHisList" :key="index">
               <i :class="`dot dot${index}`" :style="{top:(index*68)+'px'}"></i>
               <div
                 :class="`bar bar${index}`"
                 :style="{top:(index*68)+8+'px'}"
-                v-if="index !== histroys.length-1"
+                v-if="index !== opHisList.length-1"
               ></div>
             </div>
             <div class="time">
-              <div class="con" v-for="(item,index) in histroys" :key="index">
+              <div class="con" v-for="(item,index) in opHisList" :key="index">
                 <span
                   :class="`time-item`"
                   :style="{top:(-3+index*68)+'px'}"
@@ -71,7 +124,7 @@
           </div>
 
           <div class="tags">
-            <div class="tag" v-for="(item,index) in histroys" :key="index">
+            <div class="tag" v-for="(item,index) in opHisList" :key="index">
               <el-tag
                 type="info"
                 :class="`tag-item`"
@@ -113,39 +166,40 @@
 </template>
  
 <script>
-import { getErrorDetail, getHistory } from '@/api/chain'
+import { getErrorDetail, getErrorHistory } from '@/api/chain'
 export default {
   props: {
-    paperId: Number
+    paperId: Number,
+    type: String
+  },
+  computed: {
+    typeNum () {
+      return this.type === '论文' ? 0 : this.type === '专利' ? 1 : 2
+    }
   },
   data () {
     return {
       title: '',
       authors: '',
-      publicTypeName: '',
-      projectNum: '',
-      projectFund: '',
-      uploader: '',
-      organization: '',
-      chainDate: new Date(),
-      date: new Date(),
-      name: '',
-      histroys: [
-        /* {
-          operation: "修改论文",
-          user: 'Adrain Hadopool',
-          date: new Date()
-        },
-        {
-          operation: "修改论文",
-          user: '学生',
-          date: new Date()
-        },
-        {
-          operation: "上传论文",
-          user: '代老师',
-          date: new Date()
-        }, */
+      achvType: '',
+      paperType: "",
+      fullName: "",
+      confTime: "",
+      projectInfo: [],
+      uploader: "",
+      uploadOgz: "",
+      upChainTime: "",
+      journalPublicDate: "",
+      patentNum: "",
+      publishDate: "",
+      institution: "",
+      agent: "",
+      certificateNumber: "",
+      registerNum: "",
+      registerDate: "",
+      scInstitution: "",
+      opHisList: [
+
       ]
     }
   },
@@ -157,17 +211,54 @@ export default {
     },
   },
   mounted () {
+    console.log('this.paperId', this.paperId);
+    console.log('this.type', this.type);
+    if (this.paperId === -1) return
+    getErrorDetail(this.paperId, this.typeNum).then(res => {
+      if (res.code === 200) {
 
-    /* this.title = 'Trustzone-based secure lightweight wallet for hyperlerdger fabric'
-    this.author = 'Weiqi Dai Qinyuan Zeli Wang Xiaobin Hai Jin'
-    this.publicTypeName = '期刊'
-    this.name = 'Journal of Parallel and Distributed Computing'
-    this.date = new Date()
-    this.projectNum = '0x0023104123'
-    this.projectFund = '国家xx项目xx基金'
-    this.uploader = '代老师'
-    this.organization = '华中科技大学计算机学院cgcl实验室'
-    this.chainDate = new Date() */
+        res = res.data
+        this.title = res.title
+        this.authors = res.authors
+        this.achvType = res.achvType
+        this.paperType = res.paperType
+        this.confTime = res.confTime
+        this.projectInfo = res.projectInfo
+        this.uploader = res.uploader
+        this.uploadOgz = res.uploadOgz
+        this.upChainTime = res.upChainTime
+        this.journalPublicDate = res.journalPublicDate
+        this.patentNum = res.patentNum
+        this.publishDate = res.publishDate
+        this.institution = res.institution
+        this.agent = res.agent
+        this.certificateNumber = res.certificateNumber
+        this.registerNum = res.certificregisterNumateNumber
+        this.registerDate = res.registerDate
+        this.scInstitution = res.scInstitution
+        this.uploadOgz = res.uploadOgz
+        this.fullName = res.fullName
+
+
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
+      }
+    })
+    getErrorHistory(this.paperId, this.typeNum).then(res => {
+      if (res.code === 200) {
+        this.opHisList = res.data
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
+      }
+    })
   },
   watch: {
     paperId: {
@@ -184,20 +275,31 @@ export default {
         this.organization = '华中科技大学计算机学院cgcl实验室'
         this.chainDate = newV.chainDate */
 
-        getErrorDetail(this.paperId).then(res => {
+
+        getErrorDetail(this.paperId, this.typeNum).then(res => {
           if (res.code === 200) {
 
             res = res.data
             this.title = res.title
-            this.authors = res.authors.join(',')
-            this.publicTypeName = res.publicTypeName
-            this.name = res.name
-            this.date = res.uploadDate
-            this.projectNum = res.projectNum
-            this.projectFund = res.projectFund
-            this.uploader = res.uploaderUsername
-            this.organization = res.uploaderOrganization
-            this.chainDate = res.uploadChainDate
+            this.fullName = res.fullName
+            this.authors = res.authors
+            this.achvType = res.achvType
+            this.paperType = res.paperType
+            this.confTime = res.confTime
+            this.projectInfo = res.projectInfo
+            this.uploader = res.uploader
+            this.uploadOgz = res.uploadOgz
+            this.upChainTime = res.upChainTime
+            this.journalPublicDate = res.journalPublicDate
+            this.patentNum = res.patentNum
+            this.publishDate = res.publishDate
+            this.institution = res.institution
+            this.agent = res.agent
+            this.certificateNumber = res.certificateNumber
+            this.registerNum = res.certificregisterNumateNumber
+            this.registerDate = res.registerDate
+            this.scInstitution = res.scInstitution
+            this.organization = res.organization
           } else {
             this.$message({
               message: res.msg,
@@ -206,10 +308,9 @@ export default {
             })
           }
         })
-        getHistory(this.paperId).then(res => {
+        getErrorHistory(this.paperId, this.typeNum).then(res => {
           if (res.code === 200) {
-            console.log('history', res);
-            this.histroys = res.data
+            this.opHisList = res.data
           } else {
             this.$message({
               message: res.msg,
@@ -219,6 +320,7 @@ export default {
           }
         })
       }
+
     }
   }
 }

@@ -4,8 +4,8 @@
       <div>各组成果</div>
       <el-radio-group v-model="radio" size="mini" @change="change">
         <el-radio-button label="1">现在</el-radio-button>
-        <el-radio-button label="2">近一年</el-radio-button>
-        <el-radio-button label="3">近三月</el-radio-button>
+        <el-radio-button label="2">一年前</el-radio-button>
+        <el-radio-button label="3">三个月前</el-radio-button>
       </el-radio-group>
     </div>
     <v-chart :options="options"></v-chart>
@@ -66,10 +66,10 @@ export default {
           bottom: 0
         },
 
-        /* animationDuration: 0,
+        animationDuration: 0,
         animationDurationUpdate: 3000,
         animationEasing: 'linear',
-        animationEasingUpdate: 'linear' */
+        animationEasingUpdate: 'linear'
       }
     }
   },
@@ -155,38 +155,39 @@ export default {
     },
     change (value) {
       if (value === '1') {
-        this.timer && clearInterval(this.timer)
-        this.init()
+        this.options.series.data = this.nowData
       } else if (value === '2') {
         let data = this.aYearBeforeData
-        let index = []
+        this.options.series.data = data
+
+        /* let index = []
         for (let i = 0; i < data.length; i++) {
 
           index[i] = (this.nowData[i] - data[i]) / 5
         }
         this.options.series.data = data
-        let count = 0
-        this.timer && clearInterval(this.timer)
-        this.timer = setInterval(() => {
-          count++
-          this.run(data, index)
-          if (count === 5) clearInterval(this.timer)
-        }, 1000)
+        let count = 0 */
+        /*  this.timer && clearInterval(this.timer)
+         this.timer = setInterval(() => {
+           count++
+           this.run(data, index)
+           if (count === 5) clearInterval(this.timer)
+         }, 1000) */
       } else if (value === '3') {
         let data = this.threeMonthsBeforeData
         this.options.series.data = data
-        let index = []
-        for (let i = 0; i < data.length; i++) {
+        /*   let index = [] */
+        /* for (let i = 0; i < data.length; i++) {
 
           index[i] = (this.nowData[i] - data[i]) / 5
-        }
-        let count = 0
+        } */
+        /* let count = 0
         this.timer && clearInterval(this.timer)
         this.timer = setInterval(() => {
           count++
           this.run(data, index)
           if (count === 5) clearInterval(this.timer)
-        }, 1000)
+        }, 1000) */
       }
     },
   }
