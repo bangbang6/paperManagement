@@ -17,7 +17,7 @@ export function getPaperDetail(id){
 //修改论文信息
 export function updatePaper(obj){
   return request({
-    url:"/paper/update",
+    url:`/paper/update?confirm=${obj.conform}`,
     data:obj,
     method:"POST",
    

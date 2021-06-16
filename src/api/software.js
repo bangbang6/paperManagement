@@ -6,7 +6,7 @@ import request from "../util/request";
  */
 export function upload(data){
   return request({
-    url:'/softwarecopyright/upload',
+    url:`/softwarecopyright/upload?confirm=${data.confirm}`,
     method:'POST',
     data
   })
@@ -87,7 +87,7 @@ export function getSoftwareVO(id){
  */
 export function updateSoftwareVO(data){
   return request({
-    url:`/softwarecopyright/update?`,
+    url:`/softwarecopyright/update?confirm=${data.confirm}`,
     method:'POST',
     data,
   })

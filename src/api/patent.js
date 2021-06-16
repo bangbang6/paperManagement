@@ -40,9 +40,9 @@ export function getPatentVO(id){
  */
 export function updatePatentVO(data){
   return request({
-    url:`/patent/update`,
+    url:`/patent/update?confirm=${data.confirm}`,
     method:"POST",
-    data,
+    data:data
   })
 }
 /**

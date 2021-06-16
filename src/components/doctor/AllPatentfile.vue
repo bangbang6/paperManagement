@@ -301,8 +301,8 @@ export default {
     },
     handleRowClick (row) {
       let role = localStorage.getItem('role')
+      let userId = localStorage.getItem('userId')
       console.log('row', row);
-      let currentUser = localStorage.getItem('chineseName')
       console.log(row)
       if (role === '1') {
         this.$router.push({
@@ -312,14 +312,19 @@ export default {
           }
         })
       } else if (role === '0') {
-        if (row.uploader === currentUser) {
-          localStorage.setItem('paperId', row.id)
+        if (row.createdBy == userId) {
           this.$router.push({
-            path: '/undoPatentDetail',
+            path: "/undoPatentDetail",
             query: {
               id: row.id
             }
-
+          })
+        } else {
+          this.$router.push({
+            path: "/patentDetail",
+            query: {
+              id: row.id
+            }
           })
         }
       }
@@ -330,7 +335,8 @@ export default {
         path: "/backforward",
         query: {
           id: row.id,
-          title: row.title
+          title: row.title,
+          category: 1
         }
       })
     }

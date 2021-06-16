@@ -62,8 +62,9 @@ export default {
             console.log('resInfo', res);
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '0')
+            localStorage.setItem('userId', res.data.user.user.id)
             this.$router.push('/teacher')
-            localStorage.setItem('chineseName', res.data.user.user.chineseName)
+            localStorage.setItem('userName', res.data.user.user.username)
           } else {
             this.$message({
               message: res.msg,
@@ -79,8 +80,8 @@ export default {
         login(this.email, this.password).then(res => {
           if (res.code === 200) {
             console.log('resInfo', res);
-            localStorage.setItem('chineseName', res.data.user.user.chineseName)
-
+            localStorage.setItem('userName', res.data.user.user.username)
+            localStorage.setItem('userId', res.data.user.user.id)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '1')
             this.$router.push('/admin')
@@ -99,7 +100,8 @@ export default {
         login(this.email, this.password).then(res => {
           if (res.code === 200) {
             console.log('resInfo', res);
-            localStorage.setItem('userName', res.data.user.user.userName)
+            localStorage.setItem('userName', res.data.user.user.username)
+            localStorage.setItem('userId', res.data.user.user.id)
 
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '2')

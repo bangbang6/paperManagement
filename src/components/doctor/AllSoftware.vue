@@ -303,7 +303,7 @@ export default {
     handleRowClick (row) {
       let role = localStorage.getItem('role')
       console.log('row', row);
-      let currentUser = localStorage.getItem('chineseName')
+      let userId = localStorage.getItem('userId')
       console.log(row)
       if (role === '1') {
         this.$router.push({
@@ -313,14 +313,19 @@ export default {
           }
         })
       } else if (role === '0') {
-        if (row.uploader === currentUser) {
-          localStorage.setItem('paperId', row.id)
+        if (row.createdBy == userId) {
           this.$router.push({
-            url: '/undoSoftwareDetail',
+            path: "/undoSoftwareDetail",
             query: {
               id: row.id
             }
-
+          })
+        } else {
+          this.$router.push({
+            path: "/softwareDetail",
+            query: {
+              id: row.id
+            }
           })
         }
       }

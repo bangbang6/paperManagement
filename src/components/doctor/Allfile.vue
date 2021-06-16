@@ -367,8 +367,8 @@ export default {
     },
     handleRowClick (row) {
       let role = localStorage.getItem('role')
+      let userId = localStorage.getItem('userId')
       console.log('role1', role);
-      let currentUser = localStorage.getItem('chineseName')
       if (role === '1') {
         this.$router.push({
           path: "/paperDetail",
@@ -377,9 +377,16 @@ export default {
           }
         })
       } else if (role === '0') {
-        if (row.uploader === currentUser) {
+        if (row.createdBy == userId) {
           this.$router.push({
             path: "/undoPaperDetail",
+            query: {
+              id: row.id
+            }
+          })
+        } else {
+          this.$router.push({
+            path: "/paperDetail",
             query: {
               id: row.id
             }
@@ -394,6 +401,7 @@ export default {
         path: "/backforward",
         query: {
           id: row.id,
+          category: 0,
           title: row.title
         }
       })

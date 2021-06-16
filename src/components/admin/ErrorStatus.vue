@@ -15,10 +15,20 @@
                 :value="item.value"
               ></el-option>
             </el-select>
-          </div>
+            <el-date-picker
+              v-model="date"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              size="mini"
+              end-placeholder="结束日期"
+              :style="{width:'240px'}"
+            ></el-date-picker>
 
-          <el-button size="mini" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+            <el-button size="mini" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+          </div>
         </div>
+
         <el-table
           :data="tableData"
           stripe
@@ -31,18 +41,18 @@
               <span class="overflow">{{scope.row.title}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="author" label="作者" width="90">
+          <el-table-column prop="author" label="作者" width="80">
             <template slot-scope="scope">
               <span class="overflow">{{scope.row.authors}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="type" label="类型" width="60"></el-table-column>
-          <el-table-column prop="uploader" label="组别" width="80">
+          <el-table-column prop="uploader" label="组别" width="70">
             <template slot-scope="scope">
               <span class="overflow">{{scope.row.group}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="chainDate" label="上链时间">
+          <el-table-column prop="chainDate" label="上链时间" width="100">
             <template slot-scope="scope">
               <span>{{formatDate(scope.row.upChainTime)}}</span>
             </template>
@@ -87,6 +97,7 @@ export default {
       totalElements: 0,
       page: 1,
       tableData: [],
+      date: [],
       paperId: -1,
       type: '论文',
       types: [],
@@ -120,7 +131,7 @@ export default {
     },
     handlePageChange (page) {
       this.page = page
-      getErrorList({ page: this.page - 1, size: 8, title: this.title, authors: this.authors, types: this.types }).then(res => {
+      getErrorList({ page: this.page - 1, size: 8, title: this.title, authors: this.authors, types: this.types, startTime: this.date ? this.date[0] : null, endTime: this.date ? this.date[1] : null }).then(res => {
         console.log('errorList', res);
         if (res.code === 200) {
           this.totalElements = res.data.totalElements
@@ -147,7 +158,7 @@ export default {
       return str.slice(0, index - 1)
     },
     search () {
-      getErrorList({ page: this.page - 1, size: 8, title: this.title, authors: this.authors, types: this.types }).then(res => {
+      getErrorList({ page: this.page - 1, size: 8, title: this.title, authors: this.authors, types: this.types, startTime: this.date ? this.date[0] : null, endTime: this.date ? this.date[1] : null }).then(res => {
         console.log('errorList', res);
         if (res.code === 200) {
           this.totalElements = res.data.totalElements
@@ -219,15 +230,27 @@ export default {
       padding-left: 20px;
       .selects {
         display: flex;
-        justify-content: space-between;
-        .el-input {
-          margin-right: 20px;
-          width: 120px;
-        }
-        .el-button {
-          margin-right: 10px;
+        align-content: space-between;
+        height: 80px;
+        width: 100%;
+        .input-wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          width: 100%;
+          .el-input {
+            margin-right: 10px;
+            width: 120px;
+          }
+          .el-select {
+            margin-right: 20px;
+          }
+          .el-date-editor {
+            margin-right: 10px;
+          }
         }
       }
+
       .el-table {
         margin-top: 20px;
         .overflow {
@@ -260,5 +283,8 @@ export default {
     height: calc(100% - 20px);
     /* height: 100%; */
   }
+}
+::v-deep .el-input__icon {
+  line-height: 1 !important;
 }
 </style>

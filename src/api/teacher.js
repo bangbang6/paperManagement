@@ -18,7 +18,7 @@ export async function uploadFile(obj){
  */
 export async function uploadPaper(obj){
    return request({
-     url:"/paper/upload",
+     url:`/paper/upload?confirm=${obj.confirm}`,
     method:'POST',
   
     data:obj
@@ -32,7 +32,7 @@ export async function uploadPaper(obj){
  */
 export async function uploadPatent(obj){
    return request({
-     url:"patent/upload",
+     url:`patent/upload?confirm=${obj.confirm}`,
     method:'POST',
   
     data:obj

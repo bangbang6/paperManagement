@@ -185,6 +185,7 @@
 /* import MeetingForm from './MeetingForm' */
 import { getUserByChineseName } from '@/api/paper'
 import { getPatentVO, updatePatentVO } from '@/api/patent'
+import { MessageBox } from 'element-ui'
 
 /* import QikanForm from './QikanForm.vue' */
 export default {
@@ -194,6 +195,7 @@ export default {
     return {
       status: 2,
       form: {
+        confirm: false,
         title: "",
         status: "",
         authorsList: [{
@@ -351,7 +353,38 @@ export default {
                 type: 'success',
                 duration: 1000
               })
-            } else {
+            } else if (res.code === 409) {
+              MessageBox.confirm('链上有同名文件会触发异常', '提示', {
+                confirmButtonText: '继续上传',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                formData.confirm = true
+                updatePatentVO(formData).then(res2 => {
+                  if (res2.code === 200) {
+                    this.$message({
+                      message: "上传成功",
+                      type: 'success',
+                      duration: 1000
+                    })
+                  } else {
+                    this.$message({
+                      message: res.msg,
+                      type: 'error',
+                      duration: 1000
+                    })
+                  }
+                })
+              }).catch(() => {
+
+                this.$message({
+                  message: '已取消',
+                  type: 'success',
+                  duration: 1000
+                })
+              })
+            }
+            else {
               if (res.code === 200) {
                 this.$message({
                   message: res.msg,
@@ -431,8 +464,7 @@ export default {
     .el-button {
       width: 60px;
     }
-    margin-bottom:20px;
-
+    margin-bottom: 20px;
   }
   .organizationWrapper {
     width: 100%;

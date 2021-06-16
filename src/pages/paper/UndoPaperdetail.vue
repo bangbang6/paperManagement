@@ -208,6 +208,7 @@
 import { updatePaper } from '@/api/paper.js'
 import { getConfType, getJournalType2, getJournalType1 } from '@/api/type.js'
 import { getUserByChineseName, getPaperDetail } from '@/api/paper'
+import { MessageBox } from 'element-ui'
 
 /* import QikanForm from './QikanForm.vue' */
 export default {
@@ -222,7 +223,7 @@ export default {
       publicType: '',
       status: '',
       form: {
-
+        confirm: false,
         title: "",
         status: "",
         publicType: "",
@@ -405,7 +406,39 @@ export default {
                 type: 'success',
                 duration: 1000
               })
-            } else {
+            }
+            else if (res.code === 409) {
+              MessageBox.confirm('链上有同名文件会触发异常', '提示', {
+                confirmButtonText: '继续上传',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                formData.confirm = true
+                updatePaper(formData).then(res2 => {
+                  if (res2.code === 200) {
+                    this.$message({
+                      message: "上传成功",
+                      type: 'success',
+                      duration: 1000
+                    })
+                  } else {
+                    this.$message({
+                      message: res.msg,
+                      type: 'error',
+                      duration: 1000
+                    })
+                  }
+                })
+              }).catch(() => {
+
+                this.$message({
+                  message: '已取消',
+                  type: 'success',
+                  duration: 1000
+                })
+              })
+            }
+            else {
               if (res.code === 200) {
                 this.$message({
                   message: res.msg,
