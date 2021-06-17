@@ -253,7 +253,7 @@ export default {
           let formData = {
             ...this.form,
 
-
+            confirm: false,
 
             authorsList: this.form.authorsList.map(author => {
               let org = author.organizations.map(org => org.label).join('#')
@@ -266,7 +266,7 @@ export default {
               }
             })
           }
-
+          console.log('formData', formData);
           updateSoftwareVO(formData).then(res => {
             console.log('res', res);
             if (res.code === 200) {
@@ -282,7 +282,7 @@ export default {
               } */
               this.$router.push('/teacher/userCenter')
             } else if (res.code === 409) {
-              MessageBox.confirm('链上有同名文件会触发异常', '提示', {
+              MessageBox.confirm('链上将触发异常' + res.msg, '提示', {
                 confirmButtonText: '继续上传',
                 cancelButtonText: '取消',
                 type: 'warning'

@@ -2,8 +2,9 @@
   <div class="inner-wrapper">
     <div class="error-status">
       <div class="content-wrapper">
+        <el-button size="mini" type="primary" @click="$router.back()" v-if="role==='0'">返回</el-button>
+
         <div class="selects">
-          <el-button size="mini" type="primary" @click="$router.back()" v-if="role==='0'">返回</el-button>
           <div class="input-wrapper" :style="{display:'flex'}">
             <el-input size="mini" v-model="title" placeholder="论文标题" clearable></el-input>
             <el-input size="mini" v-model="authors" placeholder="论文作者" clearable></el-input>
@@ -153,6 +154,8 @@ export default {
       })
     },
     formatDate (date) {
+      if (!date) return null
+
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')
       return str.slice(0, index - 1)

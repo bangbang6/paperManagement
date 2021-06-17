@@ -3,8 +3,8 @@ import { Message } from 'element-ui'
 
 const request = axios.create({
   //baseURL:"http://211.69.197.138:8090",//赵
-  //  baseURL:"http://211.69.197.157:8090",//卢
-     baseURL:"http://localhost:8090",//线
+    baseURL:"http://211.69.197.157:8090",//卢
+     //baseURL:"http://localhost:8090",//线
   timeout:50000
 })
 

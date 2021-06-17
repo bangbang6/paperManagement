@@ -45,7 +45,8 @@ export default {
   },
   methods: {
     formatDate (date) {
-      if (!date) return ''
+           if(!date) return null
+
       return date.toLocaleString().slice(0, 9)
     },
 

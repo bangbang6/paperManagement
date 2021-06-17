@@ -63,11 +63,9 @@ export function backforward(id){
  */
 export function checkRelative(relativeTitle){
   return request({
-    url:`/patent/checkUsa`,
-    method:"POST",
-    data:{
-      relativeTitle
-    }
+    url:`/patent/checkUsa?relativeTitle=${relativeTitle}`,
+    method:"GET",
+    
   })
 }
 

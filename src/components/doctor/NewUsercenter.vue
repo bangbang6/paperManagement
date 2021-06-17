@@ -258,12 +258,7 @@ export default {
       updateUserInfo(user).then(res => {
         console.log('res', res);
         if (res.code === 200) {
-          this.achvCount = res.achvCount
-          this.exceptionCount = res.exceptionCount
-          this.huiyiCount = res.huiyiCount
-          this.patentCount = res.patentCount
-          this.qikanCount = res.qikanCount
-          this.softwareCount = res.softwareCount
+          console.log('res', res);
         } else {
           this.$message({
             message: res.msg,
@@ -304,6 +299,21 @@ export default {
     })
     getMyDashboard().then(res => {
       console.log('mydash', res);
+      if (res.code === 200) {
+        res = res.data
+        this.achvCount = res.achvCount
+        this.exceptionCount = res.exceptionCount
+        this.huiyiCount = res.huiyiCount
+        this.patentCount = res.patentCount
+        this.qikanCount = res.qikanCount
+        this.softwareCount = res.softwareCount
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'error',
+          duration: 1000
+        })
+      }
     })
   }
 }

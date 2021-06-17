@@ -6,7 +6,7 @@
       <div></div>
     </div>
     <el-form ref="form" :model="form" label-width="120px" :rules="rules">
-      <el-form-item label="专利名称(中)" :style="{width:'400px'}" prop="relativeId" v-if="form.isUsa">
+      <el-form-item label="专利名称(中)" :style="{width:'400px'}" prop="relativeTitle" v-if="form.isUsa">
         <el-input v-model="form.relativeTitle"></el-input>
       </el-form-item>
       <el-form-item label="缴费时间" v-if="form.isUsa">
@@ -259,7 +259,7 @@ export default {
 
         publishDate: { required: true, message: '请输入专利公告日', trigger: 'change' },
         patentNum: { required: true, message: '请输入专利号', trigger: 'blur' },
-        relativeId: { required: true, message: '请输入国外专利号', trigger: 'blur' },
+        relativeTitle: { required: true, message: '请输入国外专利号', trigger: 'blur' },
 
       }
     }
@@ -329,6 +329,7 @@ export default {
 
           let formData = {
             ...this.form,
+            confirm: false,
             isRefuse: Number(this.form.isRefuse),
             isUsa: Number(this.form.isUsa),
             id: this.id,
@@ -354,7 +355,7 @@ export default {
                 duration: 1000
               })
             } else if (res.code === 409) {
-              MessageBox.confirm('链上有同名文件会触发异常', '提示', {
+              MessageBox.confirm('链上将触发异常' + res.msg, '提示', {
                 confirmButtonText: '继续上传',
                 cancelButtonText: '取消',
                 type: 'warning'

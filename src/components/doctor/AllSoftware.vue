@@ -71,7 +71,11 @@
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
         </el-table-column>-->
-        <el-table-column prop="certificateNumber" label="证书号" width="130"></el-table-column>
+        <el-table-column prop="certificateNumber" label="证书号" width="130">
+          <template slot-scope="scope">
+            <span class="overflow">{{scope.row.certificateNumber}}</span>
+          </template>
+        </el-table-column>
         <!--  <el-table-column prop="typeNum" label="分类号" width="150">
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.typeNum}}</span>
@@ -174,6 +178,8 @@ export default {
     },
 
     formatDate (date) {
+      if (!date) return null
+
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')
       return str.slice(0, index - 1)

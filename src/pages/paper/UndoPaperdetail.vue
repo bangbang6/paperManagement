@@ -382,6 +382,7 @@ export default {
           //数据类型转换
           let formData = {
             ...this.form,
+            confirm: false,
             firstPublish: Number(this.form.firstPublish),
             confIsTop80: Number(this.form.confIsTop80),
             confStartTime: this.form.time[0],
@@ -408,7 +409,7 @@ export default {
               })
             }
             else if (res.code === 409) {
-              MessageBox.confirm('链上有同名文件会触发异常', '提示', {
+              MessageBox.confirm('链上将触发异常' + res.msg, '提示', {
                 confirmButtonText: '继续上传',
                 cancelButtonText: '取消',
                 type: 'warning'
