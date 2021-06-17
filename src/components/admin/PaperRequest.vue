@@ -77,7 +77,6 @@
 </template>
  
 <script>
-import { Message } from 'element-ui';
 import { MessageBox } from 'element-ui';
 import { getToAcceptedReviewPapers, getToPublicReviewPapers, reviewToPublic, reviewToUpChain } from '@/api/admin'
 export default {
@@ -100,14 +99,14 @@ export default {
       reviewToPublic({ paperId: id, op: op }).then(res => {
         if (res.code === 200) {
 
-          Message({
-            message: '已发邮件通知用户文件审批完成',
+          this.$message({
+            message: res.msg,
             type: 'success',
-            duration: 2000
+            duration: 1000
           })
           this.getPublic()
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
@@ -124,14 +123,16 @@ export default {
         reviewToUpChain({ paperId: id, op: op }).then(res => {
           if (res.code === 200) {
             console.log('res', res);
-            Message({
+
+            this.$message({
               message: '已发邮件通知各作者文件已上链',
               type: 'success',
-              duration: 2000
+              duration: 1000
             })
             this.getReview()
           } else if (res.code === 409) {
-            Message({
+
+            this.$message({
               message: '链上有同名文件,将触发异常',
               type: 'warning',
               duration: 1000
@@ -139,7 +140,7 @@ export default {
             this.getReview()
 
           } else {
-            Message({
+            this.$message({
               message: res.msg,
               type: 'error',
               duration: 1000
@@ -147,7 +148,7 @@ export default {
           }
         })
       }).catch(() => {
-        Message({
+        this.$message({
           message: '已取消',
           type: 'success',
           duration: 1000
@@ -167,7 +168,7 @@ export default {
             }
           })
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
@@ -183,7 +184,7 @@ export default {
 
         } else {
           console.log('res', res);
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000

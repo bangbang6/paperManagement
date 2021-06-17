@@ -9,14 +9,14 @@
       <el-timeline>
         <el-timeline-item
           v-for="item in historys"
-          :timestamp="formatDate(item.updateTime)"
+          :timestamp="formatDate(item.updatedTime)"
           :key="item.id"
           placement="top"
         >
           <div>
-            <el-tag type="info overflow">{{item.updateUsername}}</el-tag>
-            <el-popover placement="top-start" trigger="hover" :content="item.updateUserOrg">
-              <el-tag type="info overflow" slot="reference">{{item.updateUserOrg}}</el-tag>
+            <el-tag type="info overflow">{{item.updatedUsername}}</el-tag>
+            <el-popover placement="top-start" trigger="hover" :content="item.updatedUserOrg">
+              <el-tag type="info overflow" slot="reference">{{item.updatedUserOrg}}</el-tag>
             </el-popover>
 
             <el-tag type="info overflow">{{item.op}}</el-tag>
@@ -30,8 +30,9 @@
 </template>
  
 <script>
-import { getHistory } from '@/api/chain'
-import { Message } from 'element-ui'
+import { getPaperHistory } from '@/api/paper'
+import { backforward } from '@/api/patent'
+import { getSoftwareHistory } from '@/api/software'
 export default {
   methods: {
     random () {
@@ -39,8 +40,8 @@ export default {
     },
     formatDate (date) {
       let str = new Date(date).toLocaleString()
-      let index = new Date(date).toLocaleString().indexOf('午')
-      return str.slice(0, index - 1)
+      /* let index = new Date(date).toLocaleString().indexOf('午') */
+      return str/* .slice(0, index - 1) */
     },
   },
   data () {
@@ -51,18 +52,55 @@ export default {
     }
   },
   mounted () {
+
     this.title = this.$route.query.title + '溯源信息'
-    getHistory(this.$route.query.id).then(res => {
-      if (res.code === 200) {
-        this.historys = res.data
-      } else {
-        Message({
-          message: res.msg,
-          status: 'error',
-          duration: 1000
-        })
-      }
-    })
+    this.id = this.$route.query.id
+    this.category = this.$route.query.category
+    if (this.category == 1) {
+      //专利
+      backforward(this.id).then(res => {
+        console.log('res', res);
+        if (res.code === 200) {
+          this.historys = res.data
+
+        } else {
+          this.$message({
+            type: "error",
+            message: res.msg,
+            duration: 1000
+          })
+        }
+      })
+    } else if (this.category == 0) {
+      //论文
+      getPaperHistory(this.id).then(res => {
+        if (res.code === 200) {
+          this.historys = res.data
+        } else {
+          this.$message({
+            message: res.msg,
+            status: 'error',
+            duration: 1000
+          })
+        }
+      })
+      /*  this.historys = this.mockData */
+    }
+    else if (this.category == 2) {
+      //软著
+      getSoftwareHistory(this.id).then(res => {
+        if (res.code === 200) {
+          this.historys = res.data
+        } else {
+          this.$message({
+            message: res.msg,
+            status: 'error',
+            duration: 1000
+          })
+        }
+      })
+    }
+
 
   }
 }
@@ -74,7 +112,7 @@ export default {
   height: 100%;
   padding: 40px;
   box-sizing: border-box;
-    color: #222222;
+  color: #222222;
   .title {
     text-align: center;
     display: flex;
@@ -94,9 +132,9 @@ export default {
     cursor: pointer;
     text-align: center;
   }
-    .el-tag.el-tag--info{
-        color: #000000;
-    }
+  .el-tag.el-tag--info {
+    color: #000000;
+  }
 }
 </style>
 <style>

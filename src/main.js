@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import './assets/css/main.scss'
+import './assets/font/iconfont.css'
 Vue.config.productionTip = false
 import 'element-ui/lib/theme-chalk/index.css'
 import VCharts from 'v-charts'

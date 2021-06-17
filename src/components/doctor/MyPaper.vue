@@ -1,10 +1,6 @@
 <template>
   <div class="inner-wrapper">
     <div class="inner">
-      <div class="header">
-        <el-button type="primary" size="mini" class="btn" @click="portout">导出</el-button>
-        <el-button type="primary" size="mini" class="btn" @click="portin">导入</el-button>
-      </div>
       <div class="select-items">
         <el-input placeholder="论文名" v-model="title" size="mini" clearable></el-input>
         <el-input placeholder="作者" v-model="author" size="mini" clearable></el-input>
@@ -59,7 +55,7 @@
             >{{item}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="authors" label="作者">
+        <el-table-column prop="authors" label="作者" width="100">
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
@@ -126,7 +122,7 @@
 </template>
  
 <script>
-import { findPapersByQuery } from '@/api/chain'
+import { findMyPapersByQuery } from '@/api/chain'
 import { downloadFile } from '@/api/paper'
 export default {
 
@@ -201,11 +197,11 @@ export default {
       error: false,
       date: '',
       title: '',
-      totalElements: "",
-      totalPages: "",
       author: '',
       projectNum: '',
       publicTypeName: '',
+      totalElements: '',
+      totalPages: "",
       page: 1,
       fullName: "",
       options: [
@@ -242,7 +238,7 @@ export default {
     },
     getPaperByPage () {
 
-
+      //搜索分页
       let queryData = {
         title: this.title,
         numOrFund: this.projectNum,
@@ -256,11 +252,9 @@ export default {
         size: 8
 
       }
-      findPapersByQuery(queryData).then(res => {
+      findMyPapersByQuery(queryData).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.content || []
-
-
           this.totalElements = res.data.totalElements
           this.totalPages = res.data.totalPages
         } else {
@@ -327,11 +321,12 @@ export default {
         size: 8
 
       }
-      findPapersByQuery(queryData).then(res => {
+      findMyPapersByQuery(queryData).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.content || []
           this.totalElements = res.data.totalElements
           this.totalPages = res.data.totalPages
+
         } else {
           this.$message({
             type: 'error',
@@ -342,8 +337,8 @@ export default {
       })
 
     },
-    getWidth (exception) {
-      return `width:${450 - exception.length * 100}px`
+    getWidth (exceptions) {
+      return `width:${450 - exceptions.length * 100}px`
     },
     handleErrorClick (row) {
       let title = row.title
@@ -367,31 +362,20 @@ export default {
     },
     handleRowClick (row) {
       let role = localStorage.getItem('role')
-      let userId = localStorage.getItem('userId')
-      console.log('role1', role);
+      console.log('row', row);
+      /* let currentUser = localStorage.getItem('chineseName') */
       if (role === '1') {
+        localStorage.setItem('paperId', row.id)
+        this.$router.push('/paperdetail')
+      } else if (role === '0') {
+        localStorage.setItem('paperId', row.id)
         this.$router.push({
-          path: "/paperDetail",
+          path: '/undoPaperdetail',
           query: {
-            id: row.id
+            id: row.id,
+
           }
         })
-      } else if (role === '0') {
-        if (row.createdBy == userId) {
-          this.$router.push({
-            path: "/undoPaperDetail",
-            query: {
-              id: row.id
-            }
-          })
-        } else {
-          this.$router.push({
-            path: "/paperDetail",
-            query: {
-              id: row.id
-            }
-          })
-        }
       }
 
 
@@ -401,15 +385,12 @@ export default {
         path: "/backforward",
         query: {
           id: row.id,
-          category: 0,
-          title: row.title
+          title: row.title,
+          category: 0
         }
       })
     }
 
-
-  },
-  computed: {
 
   },
   mounted () {
@@ -424,17 +405,16 @@ export default {
 <style lang="scss" scoped>
 .inner-wrapper {
   background: white;
-  width: 90%;
   position: relative;
   margin: auto;
-  height: 100%;
-  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  height: 600px;
 
+  /*  padding: 10px; */
+  box-sizing: border-box;
   overflow-y: auto;
 
   .inner {
-    padding-top: 50px;
-    padding-left: 50px;
+    padding-top: 10px;
     .header {
       display: flex;
       justify-content: flex-end;

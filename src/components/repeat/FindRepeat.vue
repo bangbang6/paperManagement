@@ -30,7 +30,6 @@
  
 <script>
 import { checkPaper } from '@/api/repeat'
-import { Message } from 'element-ui'
 export default {
   data () {
     return {
@@ -54,7 +53,7 @@ export default {
           conferenceDeadline: data.conferenceDeadline ? new Date(data.conferenceDeadline).toLocaleDateString() : ''
         }))
       } else {
-        Message({
+        this.$message({
           message: res.msg,
           type: 'error',
           duration: 1000
@@ -89,7 +88,7 @@ export default {
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
     height: 100%;
     .overflow {
-      width:100%;
+      width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       display: inline-block;

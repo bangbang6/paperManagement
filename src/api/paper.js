@@ -8,18 +8,27 @@ const downloadBaseUrl = 'http://localhost:8090'
  */
 export function getPaperDetail(id){
   return request({
-    url:`/paper/getPaperVO?id=${id}`,
+    url:`/paper/getPaperDetail?id=${id}`,
     method:'get',
     
   })
 }
 
-//修改信息
-export function editPaper(obj){
+//修改论文信息
+export function updatePaper(obj){
   return request({
-    url:"",
+    url:`/paper/update?confirm=${obj.conform}`,
     data:obj,
     method:"POST",
+   
+  })
+}
+//获取论文溯源信息
+export function getPaperHistory(id){
+  return request({
+    url:`/paper/getPaperHistory?id=${id}`,
+   
+    method:"get",
    
   })
 }

@@ -39,7 +39,6 @@
 import { uploadFile, uploadPaper } from '@/api/teacher'
 import { getTypeTree } from '@/api/meeting'
 import PatentMessage from './PatentMessage'
-import { Message } from 'element-ui';
 export default {
   data () {
     return {
@@ -111,14 +110,14 @@ export default {
         if (res.code === 200) {
           console.log(res);
           this.fileId = res.msg
-          Message({
+          this.$message({
             message: '文件上传成功',
             type: 'success',
             duration: 1000
           })
 
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
@@ -167,7 +166,7 @@ export default {
       /* let formData = new FormData() //通过formdata拼接数据 */
       console.log('this.patentMessage', this.patentMessage);
       if (!this.fileId || !this.patentMessage.paper.title || !this.patentMessage.meeting.website || !this.patentMessage.meeting.name || !this.patentMessage.meeting.publicTypeId) {
-        Message({
+        this.$message({
           message: "必要信息不能为空",
           type: 'error',
           duration: 1000
@@ -200,7 +199,7 @@ export default {
 
       uploadPaper(obj).then(res => {
         if (res.code === 200) {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'success',
             duration: 1000
@@ -209,7 +208,7 @@ export default {
             this.$router.push('/teacher/myfile')
           }, 1000)
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000

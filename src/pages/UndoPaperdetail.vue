@@ -174,7 +174,6 @@
 </template>
  
 <script>
-import { Message } from 'element-ui'
 import Meeting2 from '../components/doctor/Meeting2'
 import Qikan from '../components/doctor/Qikan'
 import { getPaperDetail, downloadFile } from '@/api/paper'
@@ -207,7 +206,7 @@ export default {
     console.log(' this.paperId', this.paperId);
     if (!this.paperId) {
 
-      Message({
+      this.$message({
         message: "论文id出错",
         type: 'error',
         duration: 1000
@@ -274,7 +273,7 @@ export default {
 
 
         } else {
-          Message({
+          this.$message({
             message: res2.msg,
             type: 'error',
             duration: 1000
@@ -310,7 +309,7 @@ export default {
         id: this.paperId
       }
       if (!obj.id || !obj.title || !obj.website || !obj.name || !obj.publicTypeId) {
-        Message({
+        this.$message({
           message: "必要信息不能为空",
           type: 'error',
           duration: 1000
@@ -319,14 +318,14 @@ export default {
       }
       updateFile(obj).then(res => {
         if (res.code === 200) {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'success',
             duration: 1000
           })
           console.log('res', res);
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000

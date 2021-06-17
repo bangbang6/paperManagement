@@ -44,7 +44,6 @@
 </template>
  
 <script>
-import { Message } from 'element-ui'
 import { toPassword, rePassword } from '@/api/user'
 export default {
   data () {
@@ -73,7 +72,7 @@ export default {
   methods: {
     submitChachar () {
       if (!this.email || !this.username) {
-        Message({
+        this.$message({
           message: '填写邮箱和用户名',
           type: 'error',
           duration: 1000
@@ -94,7 +93,7 @@ export default {
           }, 1000)
 
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
@@ -105,14 +104,14 @@ export default {
     handleClick () {
       rePassword(this.email, this.password, this.username, this.capchar).then(res => {
         if (res.code === 200) {
-          Message({
+          this.$message({
             type: "success",
             message: res.msg,
             duration: 1000
           })
           this.$router.push('/login')
         } else {
-          Message({
+          this.$message({
             type: "error",
             message: res.msg,
             duration: 1000

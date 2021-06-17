@@ -1,1 +1,25 @@
-export  let types = ['提交','待查重',"投稿待审核","投稿审核未通过","待收录","收录待审核","收录审核未通过","已上链","查重未通过","未收录"]
+import request from "../util/request";
+/**
+ * 获取会议类型
+ * @returns 
+ */
+export function getConfType(){
+  return request({
+    url:"/achievementType/getConfType",
+    method:'GET',
+  })
+}
+
+
+export function getJournalType1(){
+  return request({
+    url:"/achievementType/getJournalType1",
+    method:'GET',
+  })
+}
+export function getJournalType2(){
+  return request({
+    url:"/achievementType/getJournalType2",
+    method:'GET',
+  })
+}

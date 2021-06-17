@@ -19,7 +19,6 @@
 import { uploadFile, uploadPaper } from '@/api/teacher'
 import { getTypeTree } from '@/api/meeting'
 import FileMessage from './FileMessage'
-import { Message } from 'element-ui';
 export default {
   data () {
     return {
@@ -37,7 +36,7 @@ export default {
           publicTypeId2: "",
           publicTypeId3: "",
           firstPublish: true,
-          isTop:true
+          isTop: true
         },
         meeting2: {
 
@@ -100,14 +99,14 @@ export default {
         if (res.code === 200) {
           console.log(res);
           this.fileId = res.msg
-          Message({
+          this.$message({
             message: '文件上传成功',
             type: 'success',
             duration: 1000
           })
 
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000
@@ -156,7 +155,7 @@ export default {
       /* let formData = new FormData() //通过formdata拼接数据 */
       console.log('this.fileMessage', this.fileMessage);
       if (!this.fileId || !this.fileMessage.paper.title || !this.fileMessage.meeting.website || !this.fileMessage.meeting.name || !this.fileMessage.meeting.publicTypeId) {
-        Message({
+        this.$message({
           message: "必要信息不能为空",
           type: 'error',
           duration: 1000
@@ -189,7 +188,7 @@ export default {
 
       uploadPaper(obj).then(res => {
         if (res.code === 200) {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'success',
             duration: 1000
@@ -198,7 +197,7 @@ export default {
             this.$router.push('/teacher/myfile')
           }, 1000)
         } else {
-          Message({
+          this.$message({
             message: res.msg,
             type: 'error',
             duration: 1000

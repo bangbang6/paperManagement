@@ -1,27 +1,33 @@
 import VueRouter from 'vue-router'
 
-import User  from '../components/doctor/User'
+import NewUsercenter  from '../components/doctor/NewUsercenter'
 import Login  from '../components/login/Login'
 import Register  from '../components/login/Register'
 import ChangePassword  from '../components/login/ChangePassword'
 // import newAdmin  from '../components/admin/newAdmin'
 import ErrorStatus  from '../components/admin/ErrorStatus'
 import MyFile  from '../components/doctor/MyFile'
+import PaperForm  from '../components/doctor/form/PaperForm'
+import PatentForm  from '../components/doctor/form/PatentForm'
+import SoftwareForm  from '../components/doctor/form/SoftwareForm'
 import Allfile  from '../components/doctor/Allfile'
 import AllPatentfile  from '../components/doctor/AllPatentfile'
+import AllSoftware  from '../components/doctor/AllSoftware'
 import PaperRequest  from '../components/admin/PaperRequest'
 import EditMeeting  from '../components/admin/EditMeeting'
-import fileManagement  from '../components/doctor/FileManagement'
 import patentManagement  from '../components/doctor/PatentManagement'
 import FindRepeat  from '../components/repeat/FindRepeat'
 import AdminMain  from '../pages/AdminMain'
 import repeatMain  from '../pages/RepeatMain'
-import undoPaperdetail  from '../pages/UndoPaperdetail'
+import UndoPaperdetail  from '../pages/paper/UndoPaperdetail'
+import UndoSoftwareDetail  from '../pages/software/UndoSoftwareDetail'
+import SoftwareDetail  from '../pages/software/SoftwareDetail'
 import Main  from '../pages/Main'
 import Backforward  from '../pages/Backforward'
+import UndoPatentdetail  from '../pages/patent/UndoPatentdetail'
 import LoginMain  from '../pages/LoginMain'
-import PaperDetail  from '../pages/PaperDetail'
-import PatentDetail  from '../pages/PatentDetail'
+import PaperDetail  from '../pages/paper/PaperDetail'
+import PatentDetail  from '../pages/patent/PatentDetail'
 import DashBoard  from '../components/admin/dashboard/DashBoard'
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
@@ -61,10 +67,20 @@ const routes = [
         redirect:'/teacher/userCenter',
         component:Main,
         children:[
-          {
+       /*    {
             path:'/teacher/userCenter',
             name:"user",
             component:User
+          }, */
+          {
+            path:'/teacher/userCenter',
+            name:"user",
+            component:NewUsercenter
+          },
+          {
+            path:'/teacher/patentForm',
+            name:"patentForm",
+            component:PatentForm
           },
           {
             path:'/teacher/myfile',
@@ -74,7 +90,12 @@ const routes = [
           {
             path:'/teacher/fileManagement',
             name:"fileManagement",
-            component:fileManagement
+            component:PaperForm
+          },
+          {
+            path:'/teacher/softwareForm',
+            name:"softwareForm",
+            component:SoftwareForm
           },
             {
                 path:'/teacher/patentManagement',
@@ -90,6 +111,11 @@ const routes = [
                 path:'/teacher/allPatentfile',
                 name:"allPatentfile",
                 component:AllPatentfile
+            },
+            {
+                path:'/teacher/allSoftware',
+                name:"allSoftwarefile",
+                component:AllSoftware
             },
           {
             path:'/teacher/errorStatus',
@@ -141,6 +167,11 @@ const routes = [
                 name:"allPatentfile",
                 component:AllPatentfile
             },
+            {
+                path:'/admin/allSoftware',
+                name:"allSoftware",
+                component:AllSoftware
+            },
           // {
           //   path:"/admin/allfile",
           //   name:"allfile",
@@ -175,8 +206,25 @@ const routes = [
       {
         path:"/undoPaperdetail",
         name:"undoPaperdetail",
-        component:undoPaperdetail
+        component:UndoPaperdetail
       },
+      {
+        path:"/undoPatentDetail",
+        name:"undoPatentDetail",
+        component:UndoPatentdetail
+      },
+   
+      {
+        path:"/undoSoftwaredetail",
+        name:"undoSoftwareDetail",
+        component:UndoSoftwareDetail
+      },
+      {
+        path:"/softwaredetail",
+        name:"softwareDetail",
+        component:SoftwareDetail
+      },
+   
       {
         path:"/backforward",
         name:"backforward",

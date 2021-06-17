@@ -16,16 +16,25 @@
           <i class="el-icon-arrow-down el-icon--right"></i>
           <el-dropdown-menu slot="dropdown">
             <div @click="navJump">
-              <el-dropdown-item data-item="21" v-if="role===0">上传论文</el-dropdown-item>
+              <el-dropdown-item data-item="21" v-if="role===0" index="2-1">上传论文</el-dropdown-item>
             </div>
             <div @click="navJump">
-              <el-dropdown-item data-item="22" v-if="role===0">上传专利</el-dropdown-item>
+              <el-dropdown-item data-item="22" v-if="role===0" index="2-2" class="patent">
+                上传专利
+                <div class="twoNav">
+                  <div class="item" data-item="51">国内专利</div>
+                  <div class="item" data-item="52">国外专利</div>
+                </div>
+              </el-dropdown-item>
+            </div>
+            <div @click="navJump">
+              <el-dropdown-item data-item="23" v-if="role===0" index="2-3">上传软著</el-dropdown-item>
             </div>
           </el-dropdown-menu>
         </div>
       </el-dropdown>
       <!--<div :class="['nav-item',navIndex === 2?'green':'']" data-item="2" v-else>编辑会议</div>-->
-      <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的成果</div>
+      <!--  <div :class="['nav-item',navIndex === 3?'green':'']" data-item="3" v-if="role===0">我的成果</div> -->
       <el-dropdown style="color: white;" trigger="click" v-if="role===0">
         <div :class="['nav-item',navIndex === 4?'green':'']">
           链上成果
@@ -36,6 +45,9 @@
             </div>
             <div @click="navJump">
               <el-dropdown-item data-item="42" v-if="role===0">链上专利</el-dropdown-item>
+            </div>
+            <div @click="navJump">
+              <el-dropdown-item data-item="43" v-if="role===0">链上软著</el-dropdown-item>
             </div>
           </el-dropdown-menu>
         </div>
@@ -51,6 +63,9 @@
             </div>
             <div @click="navJump">
               <el-dropdown-item data-item="42" v-if="role===1">链上专利</el-dropdown-item>
+            </div>
+            <div @click="navJump">
+              <el-dropdown-item data-item="43" v-if="role===1">链上软著</el-dropdown-item>
             </div>
           </el-dropdown-menu>
         </div>
@@ -90,7 +105,7 @@ export default {
   },
   computed: {
     chineseName () {
-      return localStorage.getItem('chineseName') || 'admin'
+      return localStorage.getItem('userName') || 'admin'
     }
   },
   methods: {
@@ -104,9 +119,9 @@ export default {
         } else if (e.target.dataset.item === '21') {
           this.$router.push('/teacher/fileManagement')
         }
-        else if (e.target.dataset.item === '22') {
-          this.$router.push('/teacher/patentManagement')
-        }
+        /*  else if (e.target.dataset.item === '22') {
+           this.$router.push('/teacher/patentManagement')
+         } */
         else if (e.target.dataset.item === '3') {
           console.log('e', e);
           this.$router.push('/teacher/myfile')
@@ -122,6 +137,47 @@ export default {
         }
         else if (e.target.dataset.item === '42') {
           this.$router.push('/teacher/allPatentfile')
+        }
+        else if (e.target.dataset.item === '43') {
+          this.$router.push('/teacher/allSoftware')
+        }
+        else if (e.target.dataset.item === '51') {
+          console.log('e', e);
+          this.$router.push({
+            path: '/teacher/patentForm',
+            query: {
+              isUsa: 0
+            }
+          })
+
+        }
+        else if (e.target.dataset.item === '22') {
+          console.log('e', e);
+          this.$router.push({
+            path: '/teacher/patentForm',
+            query: {
+              isUsa: 0
+            }
+          })
+
+        }
+        else if (e.target.dataset.item === '23') {
+          console.log('e', e);
+          this.$router.push({
+            path: '/teacher/softwareForm',
+
+          })
+
+        }
+        else if (e.target.dataset.item === '52') {
+          console.log('e', e);
+          this.$router.push({
+            path: '/teacher/patentForm',
+            query: {
+              isUsa: 1
+            }
+          })
+
         }
       } else {
         if (e.target.dataset.item === '0') {
@@ -144,6 +200,9 @@ export default {
           console.log('e', e);
           this.$router.push('/admin/errorStatus')
 
+        }
+        else if (e.target.dataset.item === '43') {
+          this.$router.push('/admin/allSoftware')
         }
       }
     },
@@ -170,6 +229,7 @@ export default {
   watch: {
     $route: {
       handler: function (newV) {
+        console.log('newV', newV);
         if (newV.name === 'user' || newV.name === 'paperRequest') {
           this.navIndex = 1
         }
@@ -187,6 +247,19 @@ export default {
         else if (newV.name === 'errorStatus') {
           this.navIndex = 5
         }
+        else if (newV.name === 'fileManagement') {
+          this.navIndex = 2
+        }
+        else if (newV.name === 'patentForm') {
+          this.navIndex = 2
+        }
+        else if (newV.name === 'softwareForm') {
+          this.navIndex = 2
+        }
+        else if (newV.name === 'allSoftware') {
+          this.navIndex = 4
+        }
+
       },
       immediate: true
     }
@@ -267,6 +340,40 @@ export default {
       }
     }
   }
+}
+.patent {
+  position: relative;
+}
+.patent:hover > div {
+  display: block;
+}
+.item:hover {
+  background: #ecf5ff;
+  color: #66b1ff;
+}
+.twoNav {
+  box-sizing: border-box;
+  /* display: none; */
+  position: absolute;
+  left: 97px;
+  top: -5px;
+  width: 100px;
+  list-style: none;
+
+  line-height: 36px;
+  text-align: center;
+  margin: 0;
+  font-size: 14px;
+  color: #606266;
+  cursor: pointer;
+  outline: 0;
+  background: white;
+  display: none;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  padding: 10px 0;
+  margin: 5px 0;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
 </style>
 <style scoped>

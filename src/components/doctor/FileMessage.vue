@@ -143,7 +143,6 @@ import Meeting2 from './Meeting2'
 import Qikan from './Qikan'
 import { getUserByChineseName } from '@/api/paper'
 import { uploadFile } from '@/api/teacher'
-import { Message } from 'element-ui'
 export default {
   props: {
     fileMessage: Object
@@ -177,13 +176,13 @@ export default {
       uploadFile(formData).then(res => {
         if (res.code === 200) {
           this.paper.duplicateCheckResult.resultFileId = res.msg
-          Message({
+          this.$message({
             message: "查重文件上传成功",
             type: 'success',
             duration: 1000
           })
         } else {
-          Message({
+          this.$message({
             message: "查重文件上传失败",
             type: 'error',
             duration: 1000

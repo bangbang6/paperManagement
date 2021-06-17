@@ -65,8 +65,6 @@
  
 <script>
 import { getMyFilelist } from '@/api/user'
-import { Message } from 'element-ui';
-import { types } from '@/api/type'
 export default {
   data () {
     return {
@@ -133,6 +131,7 @@ export default {
     }
   },
   methods: {
+    
     jumpToPaperDetail (id, status) {
       //这里专利做特殊处理
       if (typeof (id) === "undefined") {
@@ -163,13 +162,13 @@ export default {
             children: item.map(item2 => ({
               ...item2,
               label: 2,
-              statusWord: types[item2.status]
+              /* statusWord: types[item2.status] */
             }))
           }
         })
         console.log('this.paperData', this.paperData);
       } else {
-        Message({
+        this.$message({
           message: res.msg,
           type: 'error',
           duration: 1000
@@ -183,7 +182,7 @@ export default {
         children: item.map(item2 => ({
           ...item2,
           level: 2,
-          statusWord: types[item2.status]
+          /*  statusWord: types[item2.status] */
         }))
       }
     })

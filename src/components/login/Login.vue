@@ -34,7 +34,6 @@
 </template>
  
 <script>
-import { Message } from 'element-ui'
 import { login } from '@/api/user'
 export default {
   data () {
@@ -63,10 +62,11 @@ export default {
             console.log('resInfo', res);
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '0')
+            localStorage.setItem('userId', res.data.user.user.id)
             this.$router.push('/teacher')
-            localStorage.setItem('chineseName', res.data.user.user.chineseName)
+            localStorage.setItem('userName', res.data.user.user.username)
           } else {
-            Message({
+            this.$message({
               message: res.msg,
               type: 'error',
               duration: 1000
@@ -80,15 +80,15 @@ export default {
         login(this.email, this.password).then(res => {
           if (res.code === 200) {
             console.log('resInfo', res);
-            localStorage.setItem('chineseName', res.data.user.user.chineseName)
-
+            localStorage.setItem('userName', res.data.user.user.username)
+            localStorage.setItem('userId', res.data.user.user.id)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '1')
             this.$router.push('/admin')
 
 
           } else {
-            Message({
+            this.$message({
               message: res.msg,
               type: 'error',
               duration: 1000
@@ -100,14 +100,15 @@ export default {
         login(this.email, this.password).then(res => {
           if (res.code === 200) {
             console.log('resInfo', res);
-            localStorage.setItem('chineseName', res.data.user.user.chineseName)
+            localStorage.setItem('userName', res.data.user.user.username)
+            localStorage.setItem('userId', res.data.user.user.id)
 
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('role', '2')
             this.$router.push('/repeat')
 
           } else {
-            Message({
+            this.$message({
               message: res.msg,
               type: 'error',
               duration: 1000
