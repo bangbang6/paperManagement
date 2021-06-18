@@ -114,7 +114,7 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :total="+totalElements+1"
+      :page-count = this.totalPages
       @current-change="handlePageChange"
       :current-page="page"
     >></el-pagination>
@@ -200,8 +200,8 @@ export default {
       author: '',
       projectNum: '',
       publicTypeName: '',
-      totalElements: '',
-      totalPages: "",
+      totalElements: 0,
+      totalPages: 0,
       page: 1,
       fullName: "",
       options: [
@@ -257,6 +257,7 @@ export default {
           this.tableData = res.data.content || []
           this.totalElements = res.data.totalElements
           this.totalPages = res.data.totalPages
+          // console.log(res.data.totalPages)
         } else {
           this.$message({
             type: 'error',

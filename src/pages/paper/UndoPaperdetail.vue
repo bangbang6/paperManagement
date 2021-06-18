@@ -408,7 +408,7 @@ export default {
                 duration: 1000
               })
             }
-            else if (res.code === 409) {
+            else if (res.code === 429) {
               MessageBox.confirm('链上将触发异常' + res.msg, '提示', {
                 confirmButtonText: '继续上传',
                 cancelButtonText: '取消',

@@ -130,7 +130,7 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :total="tableData ? tableData.length+100 : 0"
+      :page-count = this.totalPages
       @current-change="handlePageChange"
       :current-page="page"
     >></el-pagination>
@@ -144,6 +144,8 @@ import { getUserPatents, findPatentsByQuery } from '@/api/patent'
 export default {
   data () {
     return {
+      totalPages: 0,
+      totalElements:0,
       error: false,
       title: '',
       patentNum: '',
@@ -199,8 +201,9 @@ export default {
       }
       findPatentsByQuery(queryData).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data
-
+          this.tableData = res.data.content
+          this.totalElements = res.data.totalElements
+          this.totalPages = res.data.totalPages
         } else {
           this.$message({
             type: 'error',
