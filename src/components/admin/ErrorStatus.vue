@@ -47,7 +47,7 @@
               <span class="overflow">{{scope.row.authors}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="type" label="类型" width="60" ></el-table-column>
+          <el-table-column prop="type" label="类型" width="60"></el-table-column>
           <el-table-column prop="uploader" label="组别" width="70">
             <template slot-scope="scope">
               <span class="overflow">{{scope.row.group}}</span>
@@ -75,7 +75,8 @@
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="100"
+        :total="+totalElements"
+        :page-size="8"
         @current-change="handlePageChange"
         :current-page="page"
       >></el-pagination>

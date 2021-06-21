@@ -39,7 +39,7 @@
         size="mini"
         @row-click="handleRowClick"
       >
-        <el-table-column prop="title" label="版权名称">
+        <el-table-column prop="title" label="版权名称" width="450">
           <template slot-scope="scope">
             <span
               :class=" [scope.row.exceptions.length>0?'exception':'normal']"
@@ -134,7 +134,8 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :page-count = this.totalPages
+      :total="+totalElements"
+      :page-size="8"
       @current-change="handlePageChange"
       :current-page="page"
     >></el-pagination>
@@ -149,7 +150,7 @@ export default {
   data () {
     return {
       totalPages: 0,
-      totalElements:0,
+      totalElements: 0,
       error: false,
       title: '',
       patentNum: '',
@@ -194,8 +195,8 @@ export default {
         authors: this.authors,
         status: this.status !== '' ? (this.options.filter(op => op.value == this.status).map(op => op.value))[0] : null,
 
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime: this.date ? this.date[0] : null,
+        endTime: this.date ? this.date[1] : null,
         hasException: this.error,
         registerNum: this.registerNum,
         certificateNumber: this.certificateNumber,
@@ -218,7 +219,7 @@ export default {
       })
     },
     getWidth (exception) {
-      return `width:${300 - exception.length * 100}px`
+      return `width:${440 - exception.length * 80}px`
     },
     handlePageChange (page) {
       this.page = page
@@ -232,8 +233,8 @@ export default {
           if (res.code === 200) {
 
             this.tableData = res.data.content || []
-          this.totalElements = res.data.totalElements
-          this.totalPages = res.data.totalPages
+            this.totalElements = res.data.totalElements
+            this.totalPages = res.data.totalPages
           } else {
             this.$message({
               type: 'error',
@@ -253,8 +254,8 @@ export default {
 
         registerNum: this.registerNum,
         certificateNumber: this.certificateNumber,
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime: this.date ? this.date[0] : null,
+        endTime: this.date ? this.date[1] : null,
         hasException: this.error,
         page: this.page - 1,
         size: 8
@@ -262,7 +263,8 @@ export default {
       }
       searchMySoftware(queryData).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data || []
+          this.tableData = res.data.content || []
+          this.totalElements = res.data.totalElements
 
         } else {
           this.$message({
@@ -346,8 +348,8 @@ export default {
     getMySoftware().then(res => {
       if (res.code === 200) {
         this.tableData = res.data.content || []
-          this.totalElements = res.data.totalElements
-          this.totalPages = res.data.totalPages
+        this.totalElements = res.data.totalElements
+        this.totalPages = res.data.totalPages
       } else {
         this.$message({
           message: res.msg,

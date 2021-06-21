@@ -114,9 +114,10 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :page-count = this.totalPages
+      :total="+totalElements"
       @current-change="handlePageChange"
       :current-page="page"
+      :page-size="8"
     >></el-pagination>
   </div>
 </template>
@@ -198,6 +199,7 @@ export default {
       date: '',
       title: '',
       author: '',
+      
       projectNum: '',
       publicTypeName: '',
       totalElements: 0,
@@ -244,8 +246,8 @@ export default {
         numOrFund: this.projectNum,
         types: this.publicTypeName,
         fullName: this.fullName,
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime:  this.date?this.date[0]:null,
+        endTime:  this.date?this.date[1]:null,
         authors: this.author,
         hasException: this.error,
         page: this.page - 1,
@@ -302,7 +304,7 @@ export default {
     },
 
     formatDate (date) {
-      if(!date) return null
+      if (!date) return null
 
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')
@@ -316,8 +318,8 @@ export default {
         numOrFund: this.projectNum,
         types: this.publicTypeName,
         fullName: this.fullName,
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime: this.data ? this.date[0] : null,
+        endTime: this.data ? this.date[1] : null,
         authors: this.author,
         hasException: this.error,
         page: this.page - 1,
@@ -341,7 +343,7 @@ export default {
 
     },
     getWidth (exceptions) {
-      return `width:${450 - exceptions.length * 100}px`
+      return `width:${440 - exceptions.length * 80}px`
     },
     handleErrorClick (row) {
       let title = row.title

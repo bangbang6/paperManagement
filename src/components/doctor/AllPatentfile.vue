@@ -130,9 +130,10 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :total="tableData ? tableData.length+100 : 0"
+      :total="+totalElements"
       @current-change="handlePageChange"
       :current-page="page"
+      :page-size="8"
     >></el-pagination>
   </div>
 </template>
@@ -152,6 +153,7 @@ export default {
       ofGroup: '',
       date: '',
       page: 1,
+      totalElements: 0,
       options: [
         {
           label: '拟定申请',
@@ -175,7 +177,7 @@ export default {
     },
 
     formatDate (date) {
-      if(!date) return null
+      if (!date) return null
 
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')
@@ -190,8 +192,8 @@ export default {
         status: this.status !== '' ? (this.options.filter(op => op.value == this.status).map(op => op.value))[0] : null,
 
         ofGroup: this.ofGroup,
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime: this.date ? this.date[0] : null,
+        endTime: this.date ? this.date[1] : null,
         hasException: this.error,
         page: this.page - 1,
         size: 8
@@ -199,7 +201,8 @@ export default {
       }
       findPatentsByQuery(queryData).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data
+          this.tableData = res.data.content
+          this.totalElements = res.data.totalElements
 
         } else {
           this.$message({
@@ -211,7 +214,7 @@ export default {
       })
     },
     getWidth (exception) {
-      return `width:${300 - exception.length * 100}px`
+      return `width:${290 - exception.length * 80}px`
     },
     handlePageChange (page) {
       this.page = page
@@ -224,7 +227,9 @@ export default {
           console.log('list', res);
           if (res.code === 200) {
 
-            this.tableData = res.data || []
+            this.tableData = res.data.content || []
+            this.totalElements = res.data.totalElements
+
           } else {
             this.$message({
               type: 'error',
@@ -243,8 +248,8 @@ export default {
         status: this.status !== '' ? (this.options.filter(op => op.value == this.status).map(op => op.value))[0] : null,
 
         ofGroup: this.ofGroup,
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime: this.date ? this.date[0] : null,
+        endTime: this.date ? this.date[1] : null,
         hasException: this.error,
         page: this.page - 1,
         size: 8
@@ -252,7 +257,8 @@ export default {
       }
       findPatentsByQuery(queryData).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data || []
+          this.tableData = res.data.content || []
+          this.totalElements = res.data.totalElements
 
         } else {
           this.$message({
@@ -357,7 +363,9 @@ export default {
      })*/
     getChainPatents().then(res => {
       if (res.code === 200) {
-        this.tableData = res.data
+        this.tableData = res.data.content || []
+        this.totalElements = res.data.totalElements
+
       } else {
         this.$message({
           message: res.msg,

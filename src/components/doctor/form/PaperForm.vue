@@ -350,6 +350,8 @@ export default {
             firstPublish: Number(this.form.firstPublish),
             confIsTop80: Number(this.form.confIsTop80),
             status: this.form.status === '录用' ? 0 : this.form.status === '发表' ? 1 : 2,
+            confStartTime: this.form.time[0],
+            confEndTime: this.form.time[1],
             authorList: this.form.authorList.map(author => {
               let org = author.organizations.map(org => org.label).join('#')
               return {

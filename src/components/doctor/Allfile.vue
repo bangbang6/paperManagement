@@ -118,7 +118,8 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :total="+totalElements+1"
+      :total="+totalElements"
+      :page-size="8"
       @current-change="handlePageChange"
       :current-page="page"
     >></el-pagination>
@@ -248,8 +249,8 @@ export default {
         numOrFund: this.projectNum,
         types: this.publicTypeName,
         fullName: this.fullName,
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime: this.date ? this.date[0] : null,
+        endTime: this.date ? this.date[1] : null,
         authors: this.author,
         hasException: this.error,
         page: this.page - 1,
@@ -307,7 +308,7 @@ export default {
     },
 
     formatDate (date) {
-      if(!date) return null
+      if (!date) return null
 
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')
@@ -321,8 +322,8 @@ export default {
         numOrFund: this.projectNum,
         types: this.publicTypeName,
         fullName: this.fullName,
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime: this.date ? this.date[0] : null,
+        endTime: this.date ? this.date[1] : null,
         authors: this.author,
         hasException: this.error,
         page: this.page - 1,
@@ -345,7 +346,7 @@ export default {
 
     },
     getWidth (exception) {
-      return `width:${450 - exception.length * 100}px`
+      return `width:${440 - exception.length * 80}px`
     },
     handleErrorClick (row) {
       let title = row.title

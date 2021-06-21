@@ -134,8 +134,9 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :total="tableData ? tableData.length+100 : 0"
+      :total="+totalElements"
       @current-change="handlePageChange"
+      :page-size="8"
       :current-page="page"
     >></el-pagination>
   </div>
@@ -157,6 +158,7 @@ export default {
       registerNum: "",
       certificateNumber: "",
       date: '',
+      totalElements: 0,
       page: 1,
       options: [
         {
@@ -192,8 +194,8 @@ export default {
         authors: this.authors,
         status: this.status !== '' ? (this.options.filter(op => op.value == this.status).map(op => op.value))[0] : null,
 
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime: this.date ? this.date[0] : null,
+        endTime: this.date ? this.date[1] : null,
         hasException: this.error,
         registerNum: this.registerNum,
         certificateNumber: this.certificateNumber,
@@ -203,7 +205,8 @@ export default {
       }
       searchAllSoftware(queryData).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data
+          this.tableData = res.data.content || []
+          this.totalElements = res.data.totalElements
 
         } else {
           this.$message({
@@ -215,7 +218,7 @@ export default {
       })
     },
     getWidth (exception) {
-      return `width:${300 - exception.length * 100}px`
+      return `width:${290 - exception.length * 80}px`
     },
     handlePageChange (page) {
       this.page = page
@@ -228,7 +231,9 @@ export default {
           console.log('list', res);
           if (res.code === 200) {
 
-            this.tableData = res.data || []
+            this.tableData = res.data.content || []
+            this.totalElements = res.data.totalElements
+
           } else {
             this.$message({
               type: 'error',
@@ -248,8 +253,8 @@ export default {
 
         registerNum: this.registerNum,
         certificateNumber: this.certificateNumber,
-        startTime: this.date[0],
-        endTime: this.date[1],
+        startTime: this.date ? this.date[0] : null,
+        endTime: this.date ? this.date[1] : null,
         hasException: this.error,
         page: this.page - 1,
         size: 8
@@ -257,7 +262,8 @@ export default {
       }
       searchAllSoftware(queryData).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data || []
+          this.tableData = res.data.content || []
+          this.totalElements = res.data.totalElements
 
         } else {
           this.$message({
@@ -361,7 +367,9 @@ export default {
      })*/
     getAllSoftware().then(res => {
       if (res.code === 200) {
-        this.tableData = res.data
+        this.tableData = res.data.content || []
+        this.totalElements = res.data.totalElements
+
       } else {
         this.$message({
           message: res.msg,
