@@ -20,7 +20,7 @@
           <el-tag
             v-for="ex in paper.exceptionTypes.slice(0,1)"
             :key="ex"
-            :type="ex === '题目重复'?'primary':'danger'"
+            :type="ex === '题目重复'?'danger':'primary]'"
             size="mini"
             effect="dark"
           >{{ex}}</el-tag>
@@ -45,9 +45,11 @@ export default {
   },
   methods: {
     formatDate (date) {
-           if(!date) return null
+      if (!date) return null
 
-      return date.toLocaleString().slice(0, 9)
+      let str = new Date(date).toLocaleString()
+      let index = new Date(date).toLocaleString().indexOf('午')
+      return str.slice(0, index - 1)
     },
 
     handleClick (index) {
@@ -122,6 +124,8 @@ export default {
         /* padding: 0 5px; */
         /*  text-align: center; */
         font-size: 12px;
+        height: 18px;
+        padding: 0 5px;
       }
       .overflow {
         overflow: hidden;

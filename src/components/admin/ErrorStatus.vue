@@ -47,13 +47,13 @@
               <span class="overflow">{{scope.row.authors}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="type" label="类型" width="60"></el-table-column>
+          <el-table-column prop="type" label="类型" width="80"></el-table-column>
           <el-table-column prop="uploader" label="组别" width="70">
             <template slot-scope="scope">
               <span class="overflow">{{scope.row.group}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="chainDate" label="上链时间" width="100">
+          <el-table-column prop="chainDate" label="上链时间" width="80">
             <template slot-scope="scope">
               <span>{{formatDate(scope.row.upChainTime)}}</span>
             </template>
@@ -278,8 +278,8 @@ export default {
   .paper-detail {
     width: 40%;
     margin-left: 2%;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
     box-sizing: border-box;
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 

@@ -11,7 +11,7 @@
         <div class="list-item-name" style="width: 270px;">成果标题</div>
         <div class="list-item-name">时间</div>
       </div>
-      <div class="list-item" v-for="(item,index) in rankData" :key="item.title">
+      <div class="list-item" v-for="(item,index) in rankData" :key="index">
         <div class="list-item-name" style="width: 10px">{{index+1}}</div>
         <div class="list-item-name overflow" style="width: 75px">{{item.ofGroup}}</div>
         <div class="list-item-name overflow" style="width: 60px">{{item.authors}}</div>
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     formatDate (date) {
-      if(!date) return null
+      if (!date) return null
 
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')

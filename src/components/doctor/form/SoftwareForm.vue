@@ -143,7 +143,7 @@ export default {
     return {
       form: {
         title: "",
-        status: "",
+        status: 1,
         ofGroup: "",
         authorsList: [{
           chineseName: "",

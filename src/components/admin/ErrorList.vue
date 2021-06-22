@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     formatDate (date) {
-      if(!date) return null
+      if (!date) return null
       let str = new Date(date).toLocaleString()
       let index = new Date(date).toLocaleString().indexOf('午')
       return str.slice(0, index - 1)

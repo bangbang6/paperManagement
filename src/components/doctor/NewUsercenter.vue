@@ -44,7 +44,7 @@
         <el-card>
           <div class="wrapper" :style="{color:'#E64C65'}">
             <div class="card-left">
-              <div class="title">我的会议</div>
+              <div class="title">会议论文</div>
               <div class="number">{{huiyiCount}}</div>
             </div>
             <div class="card-right">
@@ -55,7 +55,7 @@
         <el-card>
           <div class="wrapper">
             <div class="card-left">
-              <div class="title">我的期刊</div>
+              <div class="title">期刊论文</div>
               <div class="number">{{qikanCount}}</div>
             </div>
             <div class="card-right">

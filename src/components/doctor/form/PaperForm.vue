@@ -218,7 +218,7 @@ export default {
       form: {
         title: "",
         status: "",
-        publicType: "",
+        publicType: 1,
         authorList: [{
           chineseName: "",
           englishName: "",

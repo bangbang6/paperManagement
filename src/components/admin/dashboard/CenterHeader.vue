@@ -93,6 +93,8 @@ export default {
     box-sizing: border-box;
     .center-header-item {
       margin-left: 10px;
+      /*  padding: 5px; */
+      /*      box-sizing: border-box;  */
       background: linear-gradient(to left, #74fbf5, #74fbf5) left top no-repeat,
         linear-gradient(to bottom, #74fbf5, #74fbf5) left top no-repeat,
         linear-gradient(to left, #74fbf5, #74fbf5) right top no-repeat,
