@@ -204,7 +204,7 @@ export default {
     return {
       form: {
         title: "",
-        status: 1,
+        status: 2,
         time: [],
         authorsList: [{
           chineseName: "",

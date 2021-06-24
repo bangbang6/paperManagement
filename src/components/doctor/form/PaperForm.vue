@@ -64,13 +64,13 @@
           <i class="el-icon-circle-plus-outline"></i>
         </div>
       </el-form-item>
-      <el-form-item label="论文状态">
+      <!-- <el-form-item label="论文状态">
         <el-radio-group v-model="form.status" size="mini">
           <el-radio-button label="录用"></el-radio-button>
           <el-radio-button label="发表"></el-radio-button>
           <el-radio-button label="收录"></el-radio-button>
         </el-radio-group>
-      </el-form-item>
+      </el-form-item>-->
       <el-form-item label="发表类型" prop="publicType">
         <el-select v-model="form.publicType" placeholder="请选择">
           <el-option
@@ -217,7 +217,7 @@ export default {
     return {
       form: {
         title: "",
-        status: "",
+        status: "录用",
         publicType: 1,
         authorList: [{
           chineseName: "",
@@ -260,8 +260,8 @@ export default {
 
         journalVolumeNum: '',
         issn: '',
-        doi: ''
-
+        doi: '',
+        options2: [],
 
       },
       options: [
@@ -344,12 +344,24 @@ export default {
     submit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
+          let status = 0
+          if (this.form.publicType == 1) {
+            status = 0
+          } else {
+            if (this.form.journalVolumeNum === '') {
+              status = 0
+
+            } else {
+              status = 1
+
+            }
+          }
 
           let formData = {
             ...this.form,
             firstPublish: Number(this.form.firstPublish),
             confIsTop80: Number(this.form.confIsTop80),
-            status: this.form.status === '录用' ? 0 : this.form.status === '发表' ? 1 : 2,
+            status: status,
             confStartTime: this.form.time[0],
             confEndTime: this.form.time[1],
             authorList: this.form.authorList.map(author => {

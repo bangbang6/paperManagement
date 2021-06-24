@@ -138,12 +138,12 @@ export default {
         if (res.code === 200) {
           this.totalElements = res.data.totalElements
 
-          this.tableData = res.data.content
+          this.tableData = res.data.content || []
           this.title = this.$route.query.title
 
 
-          this.paperId = this.tableData[0].achvId
-          this.type = this.tableData[0].type
+          this.paperId = this.tableData[0] ? this.tableData[0].achvId : -1
+          this.type = this.tableData[0] ? this.tableData[0].type : '论文'
 
         } else {
           this.$message({
@@ -162,6 +162,7 @@ export default {
       return str.slice(0, index - 1)
     },
     search () {
+      this.page = 1
       getErrorList({ page: this.page - 1, size: 8, title: this.title, authors: this.authors, types: this.types, startTime: this.date ? this.date[0] : null, endTime: this.date ? this.date[1] : null }).then(res => {
         console.log('errorList', res);
         if (res.code === 200) {
