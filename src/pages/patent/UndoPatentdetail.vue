@@ -198,7 +198,7 @@ export default {
   data () {
 
     return {
-      loading:false,
+      loading: false,
       status: 2,
       form: {
         confirm: false,
@@ -233,10 +233,7 @@ export default {
 
       },
       options: [
-        {
-          label: '拟定申请',
-          value: 0
-        },
+
         {
           label: '申请未授权',
           value: 1
@@ -354,7 +351,7 @@ export default {
             })
           }
           updatePatentVO(formData).then(res => {
-      this.loading = false
+            this.loading = false
 
             console.log('res', res);
             if (res.code === 200) {
@@ -370,8 +367,13 @@ export default {
                 type: 'warning'
               }).then(() => {
                 formData.confirm = true
+                this.loading = true
+
                 updatePatentVO(formData).then(res2 => {
+                  this.loading = false
+
                   if (res2.code === 200) {
+
                     this.$message({
                       message: "上传成功",
                       type: 'success',
@@ -395,22 +397,20 @@ export default {
               })
             }
             else {
-              if (res.code === 200) {
-                this.$message({
-                  message: res.msg,
-                  type: 'error',
-                  duration: 1000
-                })
-              }
+              this.$message({
+                message: res.msg,
+                type: 'error',
+                duration: 1000
+              })
             }
-          },()=>{
-      this.loading = false
+          }, () => {
+            this.loading = false
 
           })
 
 
         } else {
-            this.loading = false
+          this.loading = false
 
           this.$message({
             type: 'error',

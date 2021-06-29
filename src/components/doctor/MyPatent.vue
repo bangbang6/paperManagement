@@ -191,7 +191,7 @@ export default {
         title: this.title,
         authors: this.authors,
         status: this.status !== '' ? (this.options.filter(op => op.value == this.status).map(op => op.value))[0] : null,
-
+        patentNum: this.patentNum,
         ofGroup: this.ofGroup,
         startTime: this.date ? this.date[0] : null,
         endTime: this.date ? this.date[1] : null,
@@ -223,7 +223,7 @@ export default {
     },
     getPaperByPage () {
       //普通分页
-      if (this.title === '' && this.authors === '' && this.status === '' && this.date.length < 2 && this.error === false) {
+      if (this.title === '' && this.authors === '' && this.status === '' && this.date.length < 2 && this.error === false && this.patentNum === '' && this.ofGroup === '') {
         getUserPatents(this.page - 1).then(res => {
           console.log('list', res);
           if (res.code === 200) {
@@ -247,6 +247,7 @@ export default {
         title: this.title,
         authors: this.authors,
         status: this.status !== '' ? (this.options.filter(op => op.value == this.status).map(op => op.value))[0] : null,
+        patentNum: this.patentNum,
 
         ofGroup: this.ofGroup,
         startTime: this.date ? this.date[0] : null,

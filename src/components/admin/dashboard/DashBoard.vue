@@ -114,13 +114,13 @@ export default {
     }
   }
   .header {
-    height: 15%;
+    height: 16%;
     padding-top: 20px;
     box-sizing: border-box;
   }
   .content {
     box-sizing: border-box;
-    height: calc(85% - 40px);
+    height: calc(84% - 40px);
     display: flex;
     .left {
       padding-left: 40px;

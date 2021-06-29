@@ -74,7 +74,6 @@
         <el-radio-group v-model="form.status" size="mini" @change="handleChangeStatus">
           <el-radio-button label="录用"></el-radio-button>
           <el-radio-button label="发表"></el-radio-button>
-          <el-radio-button label="收录"></el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="发表类型" prop="publicType">
@@ -222,7 +221,7 @@ export default {
     this.statusOptions = [
       '录用',
       '发表',
-      '收录'
+
     ]
     return {
       publicType: '',
@@ -417,13 +416,19 @@ export default {
               })
             }
             else if (res.code === 429) {
+
+
               MessageBox.confirm('链上将触发异常' + res.msg, '提示', {
                 confirmButtonText: '继续上传',
                 cancelButtonText: '取消',
                 type: 'warning'
               }).then(() => {
+                this.loading = true
+
                 formData.confirm = true
                 updatePaper(formData).then(res2 => {
+                  this.loading = false
+
                   if (res2.code === 200) {
                     this.$message({
                       message: "上传成功",
@@ -448,13 +453,11 @@ export default {
               })
             }
             else {
-              if (res.code === 200) {
-                this.$message({
-                  message: res.msg,
-                  type: 'error',
-                  duration: 1000
-                })
-              }
+              this.$message({
+                message: res.msg,
+                type: 'error',
+                duration: 1000
+              })
             }
 
           }, () => {
@@ -464,7 +467,7 @@ export default {
 
 
         } else {
-            this.loading = false
+          this.loading = false
 
           this.$message({
             type: 'error',

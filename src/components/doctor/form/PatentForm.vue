@@ -242,10 +242,7 @@ export default {
 
       },
       options: [
-        {
-          label: '拟定申请',
-          value: 0
-        },
+
         {
           label: '申请未授权',
           value: 1
@@ -371,14 +368,19 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
               }).then(() => {
+                this.loading = true
                 formData.confirm = true
                 uploadPatent(formData).then(res2 => {
+                  this.loading = false
+
                   if (res2.code === 200) {
                     this.$message({
                       message: "上传成功",
                       type: 'success',
                       duration: 1000
                     })
+              this.$router.push('/teacher/userCenter')
+
                   } else {
                     this.$message({
                       message: res.msg,
@@ -397,7 +399,7 @@ export default {
               })
             }
             else {
-            this.loading = false
+              this.loading = false
 
               this.$message({
                 message: res.msg,

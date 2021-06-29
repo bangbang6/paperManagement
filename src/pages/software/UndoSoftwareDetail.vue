@@ -298,7 +298,11 @@ export default {
                 type: 'warning'
               }).then(() => {
                 formData.confirm = true
+                this.loading = true
+
                 updateSoftwareVO(formData).then(res2 => {
+                  this.loading = false
+
                   if (res2.code === 200) {
                     this.$message({
                       message: "上传成功",

@@ -295,14 +295,19 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
               }).then(() => {
+                this.loading = true
+
                 formData.confirm = true
                 upload(formData).then(res2 => {
+                  this.loading = false
                   if (res2.code === 200) {
                     this.$message({
                       message: "上传成功",
                       type: 'success',
                       duration: 1000
                     })
+              this.$router.push('/teacher/userCenter')
+
                   } else {
                     this.$message({
                       message: res.msg,

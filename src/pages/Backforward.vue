@@ -55,12 +55,13 @@ export default {
     return {
       title: '',
       color: '#1b60ec',
-      historys: []
+      historys: [],
+      error: false
     }
   },
   computed: {
     loading () {
-      return !this.historys.length
+      return !this.historys.length || this.error
     }
   },
   mounted () {
@@ -82,6 +83,7 @@ export default {
             message: res.msg,
             duration: 1000
           })
+          this.error = true
         }
       })
     } else if (this.category == 0) {
@@ -91,6 +93,7 @@ export default {
           this.historys = res.data
         } else {
           this.$router.back()
+          this.error = true
 
           this.$message({
             message: res.msg,
@@ -108,6 +111,7 @@ export default {
           this.historys = res.data
         } else {
           this.$router.back()
+          this.error = true
 
           this.$message({
             message: res.msg,
