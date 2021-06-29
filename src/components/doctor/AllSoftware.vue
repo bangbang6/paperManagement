@@ -38,6 +38,9 @@
         style="width: 100%;"
         size="mini"
         @row-click="handleRowClick"
+        v-loading.lock="loading"
+         element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
       >
         <el-table-column prop="title" label="版权名称" width="300">
           <template slot-scope="scope">
@@ -156,6 +159,7 @@ export default {
       status: '',
       ofGroup: '',
       registerNum: "",
+      loading: false,
       certificateNumber: "",
       date: '',
       totalElements: 0,
@@ -187,7 +191,7 @@ export default {
       return str.slice(0, index - 1)
     },
     search () {
-
+      this.loading = true
       this.page = 1
       let queryData = {
         title: this.title,
@@ -204,6 +208,7 @@ export default {
 
       }
       searchAllSoftware(queryData).then(res => {
+        this.loading = false
         if (res.code === 200) {
           this.tableData = res.data.content || []
           this.totalElements = res.data.totalElements

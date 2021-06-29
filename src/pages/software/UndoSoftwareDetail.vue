@@ -1,5 +1,10 @@
 <template>
-  <div class="paper-form">
+  <div
+    class="paper-form"
+    v-loading.fullScreen.lock="loading"
+    element-loading-text="正在修改"
+    element-loading-spinner="el-icon-loading"
+  >
     <div class="title">
       <el-button type="primary" size="mini" @click="$router.back()">返回</el-button>
       <span>{{form.title}}</span>
@@ -136,6 +141,7 @@ export default {
 
   data () {
     return {
+      loading: false,
       status: "",
       form: {
         title: "",
@@ -247,6 +253,8 @@ export default {
     },
 
     submit () {
+      this.loading = true
+
       this.$refs.form.validate((valid) => {
         if (valid) {
           console.log('this.form', this.form);
@@ -268,6 +276,8 @@ export default {
           }
           console.log('formData', formData);
           updateSoftwareVO(formData).then(res => {
+            this.loading = false
+
             console.log('res', res);
             if (res.code === 200) {
               this.$message({
@@ -319,10 +329,15 @@ export default {
                 duration: 1000
               })
             }
+          }, () => {
+            this.loading = false
+
           })
 
 
         } else {
+          this.loading = false
+
           this.$message({
             type: 'error',
             message: '请填写必要信息',

@@ -1,5 +1,10 @@
 <template>
-  <div class="paper-form">
+  <div
+    class="paper-form"
+    v-loading.fullScreen.lock="loading"
+    element-loading-text="正在上传"
+    element-loading-spinner="el-icon-loading"
+  >
     <div class="title-wrapper">
       <div class="line"></div>
       <div class="title">上传论文</div>
@@ -215,6 +220,7 @@ export default {
   data () {
 
     return {
+      loading: false,
       form: {
         title: "",
         status: "录用",
@@ -342,6 +348,7 @@ export default {
       })
     },
     submit () {
+      this.loading = true
       this.$refs.form.validate((valid) => {
         if (valid) {
           let status = 0
@@ -362,6 +369,8 @@ export default {
             firstPublish: Number(this.form.firstPublish),
             confIsTop80: Number(this.form.confIsTop80),
             status: status,
+            confIsElectronic: Number(this.form.confIsElectronic),
+
             confStartTime: this.form.time[0],
             confEndTime: this.form.time[1],
             authorList: this.form.authorList.map(author => {
@@ -377,6 +386,7 @@ export default {
             })
           }
           uploadPaper(formData).then(res => {
+            this.loading = false
             console.log('res', res);
             if (res.code === 200) {
               this.$message({
@@ -422,12 +432,17 @@ export default {
               })
             }
             else {
+            this.loading = false
+
               this.$message({
                 message: res.msg,
                 type: 'error',
                 duration: 1000
               })
             }
+          }, () => {
+            this.loading = false
+
           })
 
 

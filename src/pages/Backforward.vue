@@ -5,7 +5,12 @@
       <span>{{title}}</span>
       <span></span>
     </div>
-    <div class="time-line">
+    <div
+      class="time-line"
+      v-loading.fullscreen.lock="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+    >
       <el-timeline>
         <el-timeline-item
           v-for="item in historys"
@@ -53,6 +58,11 @@ export default {
       historys: []
     }
   },
+  computed: {
+    loading () {
+      return !this.historys.length
+    }
+  },
   mounted () {
 
     this.title = this.$route.query.title + '溯源信息'
@@ -66,6 +76,7 @@ export default {
           this.historys = res.data
 
         } else {
+          this.$router.back()
           this.$message({
             type: "error",
             message: res.msg,
@@ -79,6 +90,8 @@ export default {
         if (res.code === 200) {
           this.historys = res.data
         } else {
+          this.$router.back()
+
           this.$message({
             message: res.msg,
             status: 'error',
@@ -94,6 +107,8 @@ export default {
         if (res.code === 200) {
           this.historys = res.data
         } else {
+          this.$router.back()
+
           this.$message({
             message: res.msg,
             status: 'error',

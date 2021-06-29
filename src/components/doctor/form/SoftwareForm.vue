@@ -1,5 +1,10 @@
 <template>
-  <div class="paper-form">
+  <div
+    class="paper-form"
+    v-loading.fullScreen.lock="loading"
+    element-loading-text="正在上传"
+    element-loading-spinner="el-icon-loading"
+  >
     <div class="title-wrapper">
       <div class="line"></div>
       <div class="title">上传软件著作权</div>
@@ -141,10 +146,12 @@ export default {
   data () {
 
     return {
+      loading: false,
       form: {
         title: "",
         status: 1,
         ofGroup: "",
+        loading: false,
         authorsList: [{
           chineseName: "",
           englishName: "",
@@ -242,6 +249,7 @@ export default {
     },
 
     submit () {
+      this.loading = true
       this.$refs.form.validate((valid) => {
         if (valid) {
           if (this.form.isUsa == 0) {
@@ -266,6 +274,8 @@ export default {
           }
 
           upload(formData).then(res => {
+            this.loading = false
+
             console.log('res', res);
             if (res.code === 200) {
               this.$message({
@@ -311,12 +321,17 @@ export default {
               })
             }
             else {
+              this.loading = false
+
               this.$message({
                 message: res.msg,
                 type: 'error',
                 duration: 1000
               })
             }
+          }, () => {
+            this.loading = false
+
           })
 
 
