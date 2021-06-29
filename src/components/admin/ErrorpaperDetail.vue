@@ -1,5 +1,10 @@
 <template>
-  <div class="err-detail">
+  <div
+    class="err-detail"
+    v-loading.lock="loading"
+    element-loading-text="正在加载,请勿切换文件"
+    element-loading-spinner="el-icon-loading"
+  >
     <div class="detail-wrapper">
       <div class="detail">
         <div class="title">{{title}}</div>
@@ -189,6 +194,7 @@ export default {
       uploader: "",
       uploadOgz: "",
       upChainTime: "",
+      loading: false,
       journalPublicDate: "",
       patentNum: "",
       publishDate: "",
@@ -216,6 +222,8 @@ export default {
     console.log('this.paperId', this.paperId);
     console.log('this.type', this.type);
     if (this.paperId === -1) return
+    this.loading = true
+
     getErrorDetail(this.paperId, this.typeNum).then(res => {
       if (res.code === 200) {
 
@@ -251,6 +259,8 @@ export default {
       }
     })
     getErrorHistory(this.paperId, this.typeNum).then(res => {
+      this.loading = false
+
       if (res.code === 200) {
         this.opHisList = res.data
       } else {
@@ -277,8 +287,8 @@ export default {
         this.organization = '华中科技大学计算机学院cgcl实验室'
         this.chainDate = newV.chainDate */
 
-
         getErrorDetail(this.paperId, this.typeNum).then(res => {
+
           if (res.code === 200) {
 
             res = res.data
@@ -310,7 +320,11 @@ export default {
             })
           }
         })
+        this.loading = true
+
         getErrorHistory(this.paperId, this.typeNum).then(res => {
+          this.loading = false
+
           if (res.code === 200) {
             this.opHisList = res.data
           } else {
@@ -333,6 +347,8 @@ export default {
   overflow-y: auto;
   width: 100%;
   height: 100%;
+  padding-right: 6px;
+  box-sizing: border-box;
   .el-table td,
   .el-table th.is-leaf {
     color: black;

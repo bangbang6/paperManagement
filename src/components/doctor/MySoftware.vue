@@ -56,7 +56,7 @@
             >{{item}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="authors" label="著作人" width="200">
+        <el-table-column prop="authors" label="著作人" width="160" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
@@ -71,7 +71,7 @@
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
         </el-table-column>-->
-        <el-table-column prop="certificateNumber" label="证书号" width="130">
+        <el-table-column prop="certificateNumber" label="证书号" width="140" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.certificateNumber}}</span>
           </template>
@@ -91,7 +91,7 @@
             <span class="overflow">{{scope.row.dailiCon}}</span>
           </template>
         </el-table-column>-->
-        <el-table-column prop="registerNum" label="登记号" width="80">
+        <el-table-column prop="registerNum" label="登记号" width="120" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.registerNum}}</span>
           </template>

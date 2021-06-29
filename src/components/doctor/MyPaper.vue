@@ -55,7 +55,7 @@
             >{{item}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="authors" label="作者" width="100">
+        <el-table-column prop="authors" label="作者" width="100" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
@@ -66,12 +66,12 @@
             <span class="overflow">{{scope.row.fullName}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="projectNum" label="项目号">
+        <el-table-column prop="projectNum" label="项目号" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="overflow">{{getProjectNum(scope)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="projectFund" label="项目基金">
+        <el-table-column prop="projectFund" label="项目基金" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="overflow">{{getProjectFund(scope)}}</span>
           </template>
@@ -199,7 +199,7 @@ export default {
       date: '',
       title: '',
       author: '',
-      
+
       projectNum: '',
       publicTypeName: '',
       totalElements: 0,
@@ -246,8 +246,8 @@ export default {
         numOrFund: this.projectNum,
         types: this.publicTypeName,
         fullName: this.fullName,
-        startTime:  this.date?this.date[0]:null,
-        endTime:  this.date?this.date[1]:null,
+        startTime: this.date ? this.date[0] : null,
+        endTime: this.date ? this.date[1] : null,
         authors: this.author,
         hasException: this.error,
         page: this.page - 1,

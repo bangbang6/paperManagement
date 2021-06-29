@@ -37,7 +37,7 @@
           size="mini"
           @row-click="handleRowClick"
         >
-          <el-table-column prop="title" label="名称" width="100">
+          <el-table-column prop="title" label="名称" width="100" show-overflow-tooltip>
             <template slot-scope="scope">
               <span class="overflow">{{scope.row.title}}</span>
             </template>
@@ -67,6 +67,7 @@
                 effect="dark"
                 v-for="item in scope.row.exceptionTypes"
                 :key="item"
+                :style="{marginLeft:'4px'}"
               >{{item}}</el-tag>
             </template>
           </el-table-column>
@@ -280,7 +281,6 @@ export default {
     width: 40%;
     margin-left: 2%;
     padding-left: 10px;
-    padding-right: 10px;
     box-sizing: border-box;
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 

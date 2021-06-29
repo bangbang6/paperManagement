@@ -39,9 +39,8 @@
         size="mini"
         @row-click="handleRowClick"
         v-loading.lock="loading"
-         element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
       >
         <el-table-column prop="title" label="发明名称" width="300">
           <template slot-scope="scope">
@@ -60,7 +59,7 @@
             >{{item}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="authors" label="发明人" width="200">
+        <el-table-column prop="authors" label="发明人" width="150">
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
@@ -75,7 +74,7 @@
             <span class="overflow">{{scope.row.authors}}</span>
           </template>
         </el-table-column>-->
-        <el-table-column prop="patentNum" label="申请号" width="130"></el-table-column>
+        <el-table-column prop="patentNum" label="申请号" width="160" show-overflow-tooltip></el-table-column>
         <!--  <el-table-column prop="typeNum" label="分类号" width="150">
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.typeNum}}</span>
@@ -91,7 +90,7 @@
             <span class="overflow">{{scope.row.dailiCon}}</span>
           </template>
         </el-table-column>-->
-        <el-table-column prop="gongbuNum" label="组别" width="80">
+        <el-table-column prop="gongbuNum" label="组别" width="100">
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.ofGroup}}</span>
           </template>
@@ -155,7 +154,7 @@ export default {
       authors: '',
       status: '',
       ofGroup: '',
-      loading:false,
+      loading: false,
       date: '',
       page: 1,
       totalElements: 0,

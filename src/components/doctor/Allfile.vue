@@ -68,17 +68,17 @@
           </template>
         </el-table-column>
         <el-table-column prop="typeNames" label="发表类型" width="140"></el-table-column>
-        <el-table-column prop="fullName" label="名称">
+        <el-table-column prop="fullName" label="名称" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="overflow">{{scope.row.fullName}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="projectNum" label="项目号">
+        <el-table-column prop="projectNum" label="项目号" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="overflow">{{getProjectNum(scope)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="projectFund" label="项目基金">
+        <el-table-column prop="projectFund" label="项目基金" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="overflow">{{getProjectFund(scope)}}</span>
           </template>
