@@ -74,6 +74,10 @@
     </div>
     <div class="avaturl-wrapper">
       <div class="avaturl">
+        <div class="notify" @click="$router.push('/teacher/notify')">
+          <img src="@/assets/notify.svg" class="notifyImg" />
+          <div class="number" v-if="notifyNumber">{{notifyNumber}}</div>
+        </div>
         <el-dropdown trigger="click" @command="handleCommand">
           <div class="wrapper">
             <img :src="imgSrc" class="imgAvaturl" />
@@ -92,6 +96,7 @@
 <script>
 import { getAvatar } from '@/api/user'
 import { Bus } from '../main.js'
+import { getDblpDataCount } from '@/api/dblp'
 export default {
   props: {
     role: Number
@@ -100,7 +105,8 @@ export default {
     return {
       activeIndex: '0',
       navIndex: 0,
-      imgSrc: require("../../public/avatual.png")
+      imgSrc: require("../../public/avatual.png"),
+      notifyNumber: 0
     }
   },
   computed: {
@@ -206,6 +212,14 @@ export default {
         }
       }
     },
+    refresh () {
+      getDblpDataCount().then(res => {
+        if (res.code === 200) {
+
+          this.notifyNumber = res.data
+        }
+      })
+    },
     handleCommand (command) {
       console.log('xx');
       if (command === 'loginout') {
@@ -222,9 +236,19 @@ export default {
         this.imgSrc = `data:${res.data.type};base64,${res.data.data}`
       }
     })
+    getDblpDataCount().then(res => {
+      if (res.code === 200) {
+
+        this.notifyNumber = res.data
+      }
+    })
     Bus.$on('changeAvatual', (src) => {
       this.imgSrc = src
     })
+    Bus.$on('refresh', () => {
+      this.refresh()
+    })
+
   },
   watch: {
     $route: {
@@ -271,7 +295,7 @@ export default {
 <style lang="scss" scoped>
 .head {
   width: 100%;
-  height: 4%;
+  height: 6%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -321,6 +345,37 @@ export default {
     margin-right: 50px;
     color: #412c21;
     font-size: 12px;
+    .avaturl {
+      display: flex;
+      align-items: center;
+      .notify {
+        margin-right: 16px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        .number {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background-color: red;
+          position: absolute;
+          top: -6px;
+          right: -6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          transform: scale(0.6);
+          font-size: 12px;
+        }
+        .notifyImg {
+          color: white;
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
     .el-dropdown {
       .wrapper {
         cursor: pointer;

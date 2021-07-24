@@ -11,7 +11,7 @@
     </div>
     <el-form ref="form" :model="form" label-width="90px" :rules="rules">
       <el-form-item label="论文标题" :style="{width:'400px'}" prop="title">
-        <el-input v-model="form.title"></el-input>
+        <el-input v-model="form.title" @change="name=>getMessageBytitle(form.title)"></el-input>
       </el-form-item>
 
       <el-form-item label="作者">
@@ -213,7 +213,8 @@ import { uploadPaper } from '@/api/teacher.js'
 import { getConfType, getJournalType2, getJournalType1 } from '@/api/type.js'
 import { getUserByChineseName } from '@/api/paper'
 import { MessageBox } from 'element-ui'
-
+import { getDblpDataById, getUserByEnglishname, getUndoDblpByTitle } from '@/api/dblp'
+import { Bus } from '@/main.js'
 /* import QikanForm from './QikanForm.vue' */
 export default {
 
@@ -221,6 +222,7 @@ export default {
 
     return {
       loading: false,
+      id: '',
       form: {
         title: "",
         status: "录用",
@@ -347,6 +349,72 @@ export default {
         projectFund: ''
       })
     },
+    getMessageBytitle (title) {
+      getUndoDblpByTitle(title).then(res => {
+        this.render(res)
+      })
+
+    },
+    render (res) {
+      if (res.code === 200) {
+        let paperData = res.data
+        this.form.title = paperData.title
+        console.log('length', paperData.authors.split(','))
+        new Promise((reslove) => {
+          let authors = []
+          let count = 0
+          paperData.authors.split(',').forEach(async (name, i) => {
+            let user = await getUserByEnglishname(name)
+            console.log(user)
+            if (user.code === 200) {
+              count++
+              authors[i] = {
+                ...user.data, organizations: user.data.organization.split('#').map(item => ({ label: item })), correspondAuthor: false,
+                firstAuthor: false
+              }
+            } else {
+              count++
+              authors[i] = {
+                englishName: name, chineseName: "", email: "", organizations: [
+                  {
+                    label: ''
+                  }
+                ],
+                correspondAuthor: false,
+                firstAuthor: false
+              }
+            }
+            if (count === paperData.authors.split(',').length) {
+              console.log('authors', authors)
+              reslove(authors)
+            }
+          })
+
+
+        }).then(res => {
+
+          this.form.authorList = res
+        })
+
+
+
+        this.form.publicType = paperData.publicType
+        this.form.fullName = paperData.fullName
+        if (this.form.publicType === 1) {
+
+          paperData.pageNumStart && (this.form.pageNumStart = paperData.pageNumStart)
+          paperData.pageNumEnd && (this.form.pageNumEnd = paperData.pageNumEnd)
+
+        } else if (this.form.publicType === 2) {
+          paperData.issueNum && (this.form.journalIssueNum = paperData.issueNum)
+          paperData.volumeNum && (this.form.journalVolumeNum = paperData.volumeNum)
+          paperData.doi && (this.form.doi = paperData.doi)
+          paperData.pageNumStart && (this.form.journalPageNumStart = paperData.pageNumStart)
+          paperData.pageNumEnd && (this.form.journalPageNumEnd = paperData.pageNumEnd)
+        }
+
+      }
+    },
     submit () {
       this.loading = true
       this.$refs.form.validate((valid) => {
@@ -394,6 +462,7 @@ export default {
                 type: 'success',
                 duration: 1000
               })
+              Bus.$emit('refresh')
               /* this.$refs.form.resetFields()
               for (let i = 0; i < this.form.authorsList.length; i++) {
                 console.log('this.$refs.author0', this.$refs.author0);
@@ -418,6 +487,8 @@ export default {
                       type: 'success',
                       duration: 1000
                     })
+                    Bus.$emit('refresh')
+
                     this.$router.push('/teacher/userCenter')
 
                   } else {
@@ -472,6 +543,14 @@ export default {
       this.options3 = options[1].data.map((item, index) => ({ value: index + 1, label: item }))
       this.options4 = options[2].data.map((item, index) => ({ value: index + 1, label: item }))
     })
+    this.id = this.$route.query.id
+    if (this.id) {
+      getDblpDataById(this.id).then(async res => {
+
+        this.render(res)
+      })
+    }
+
   }
 
 }

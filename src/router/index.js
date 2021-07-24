@@ -29,6 +29,7 @@ import LoginMain  from '../pages/LoginMain'
 import PaperDetail  from '../pages/paper/PaperDetail'
 import PatentDetail  from '../pages/patent/PatentDetail'
 import DashBoard  from '../components/admin/dashboard/DashBoard'
+import Notify from '../components/doctor/Notify'
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -76,6 +77,11 @@ const routes = [
             path:'/teacher/userCenter',
             name:"user",
             component:NewUsercenter
+          },
+          {
+            path:'/teacher/notify',
+            name:"notify",
+            component:Notify
           },
           {
             path:'/teacher/patentForm',
